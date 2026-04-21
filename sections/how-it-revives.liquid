@@ -1,0 +1,133 @@
+<section class="hir">
+  <div class="container">
+    <div class="hir-head">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="display-lg">{{ section.settings.heading }}</h2>
+      {%- if section.settings.body != blank -%}
+        <p class="hir-body muted">{{ section.settings.body }}</p>
+      {%- endif -%}
+    </div>
+
+    <ul class="hir-grid">
+      {%- for block in section.blocks -%}
+        <li class="hir-card hir-card-{{ block.settings.visual }}" {{ block.shopify_attributes }}>
+          <div class="hir-visual hir-visual-{{ block.settings.visual }}" aria-hidden="true">
+            {%- case block.settings.visual -%}
+              {%- when 'blood' -%}
+                <svg viewBox="0 0 200 160" preserveAspectRatio="xMidYMid slice">
+                  <circle cx="40"  cy="50"  r="30" fill="rgba(255,255,255,.16)"/>
+                  <circle cx="95"  cy="80"  r="36" fill="rgba(255,255,255,.22)"/>
+                  <circle cx="155" cy="55"  r="26" fill="rgba(255,255,255,.18)"/>
+                  <circle cx="60"  cy="115" r="22" fill="rgba(255,255,255,.14)"/>
+                  <circle cx="135" cy="120" r="32" fill="rgba(255,255,255,.20)"/>
+                  <circle cx="180" cy="100" r="18" fill="rgba(255,255,255,.12)"/>
+                  <circle cx="20"  cy="90"  r="14" fill="rgba(255,255,255,.10)"/>
+                </svg>
+              {%- when 'follicles' -%}
+                <svg viewBox="0 0 200 160" preserveAspectRatio="xMidYMid slice">
+                  {%- assign cols = 12 -%}
+                  {%- for i in (1..cols) -%}
+                    {%- assign x = i | times: 16 | minus: 5 -%}
+                    {%- assign h = 60 | plus: i | modulo: 4 | times: 18 -%}
+                    <line x1="{{ x }}" y1="160" x2="{{ x }}" y2="{{ 160 | minus: h | minus: 50 }}" stroke="rgba(201,168,76,.65)" stroke-width="2" stroke-linecap="round"/>
+                  {%- endfor -%}
+                  <line x1="48"  y1="160" x2="48"  y2="60" stroke="rgba(201,168,76,.9)" stroke-width="2.5" stroke-linecap="round"/>
+                  <line x1="112" y1="160" x2="112" y2="40" stroke="rgba(201,168,76,.9)" stroke-width="2.5" stroke-linecap="round"/>
+                  <line x1="170" y1="160" x2="170" y2="55" stroke="rgba(201,168,76,.9)" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+              {%- when 'shaft' -%}
+                <svg viewBox="0 0 200 160" preserveAspectRatio="xMidYMid slice">
+                  <path d="M100 160 L 95 120 L 92 80 L 96 40 L 102 10" stroke="#0A0A0A" stroke-width="6" stroke-linecap="round" fill="none"/>
+                  <path d="M100 160 L 105 130 L 108 90 L 104 50 L 100 20" stroke="rgba(10,10,10,.4)" stroke-width="3" stroke-linecap="round" fill="none"/>
+                  <circle cx="100" cy="158" r="5" fill="#0A0A0A"/>
+                </svg>
+            {%- endcase -%}
+          </div>
+          <div class="hir-content">
+            <span class="hir-pill">STEP {{ forloop.index }}</span>
+            <h3 class="hir-title">{{ block.settings.title }}</h3>
+            <p class="hir-text muted">{{ block.settings.body }}</p>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    <div class="hir-cta">
+      <a href="{{ section.settings.cta_url | default: '/products/pro-red-light-hair-growth-cap' }}" class="btn btn-red btn-lg">
+        {{ section.settings.cta_label }} →
+      </a>
+      {%- if section.settings.cta_fine != blank -%}
+        <p class="hir-fine">{{ section.settings.cta_fine }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.hir { background: var(--cream); padding: 100px 0; }
+@media (max-width: 768px) { .hir { padding: 56px 0; } }
+.hir-head { text-align: center; max-width: 760px; margin: 0 auto 3rem; }
+.hir-body { max-width: 700px; margin: 1rem auto 0; line-height: 1.7; font-size: 1.0625rem; }
+
+.hir-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; list-style: none; padding: 0; margin: 0; }
+@media (min-width: 900px) { .hir-grid { grid-template-columns: repeat(3, 1fr); gap: 1.75rem; } }
+
+.hir-card { background: #fff; border: 0.5px solid rgba(10,10,10,.1); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: transform .25s ease, box-shadow .25s ease; }
+.hir-card:hover { transform: translateY(-4px); box-shadow: 0 24px 60px -22px rgba(10,10,10,.18); }
+
+.hir-visual { aspect-ratio: 5/4; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.hir-visual svg { width: 100%; height: 100%; display: block; }
+.hir-visual-blood    { background: linear-gradient(135deg, #C8102E 0%, #7A0A1F 100%); }
+.hir-visual-follicles { background: linear-gradient(135deg, #3D2418 0%, #1A0F08 100%); }
+.hir-visual-shaft    { background: linear-gradient(135deg, #C9A84C 0%, #F9F7F4 100%); }
+
+.hir-content { padding: 1.75rem; display: flex; flex-direction: column; gap: .65rem; flex: 1; }
+.hir-pill { display: inline-flex; align-self: flex-start; padding: .35rem .75rem; background: var(--cream); color: var(--ink); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; font-weight: 700; border-radius: 999px; border: 1px solid var(--line); }
+.hir-title { font-family: var(--display); font-size: 1.375rem; line-height: 1.25; margin: 0; }
+.hir-text { font-size: 15px; line-height: 1.65; margin: 0; }
+
+.hir-cta { text-align: center; margin-top: 3rem; }
+.hir-fine { margin-top: 1rem; font-size: 12px; letter-spacing: .04em; color: var(--mid); }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "How It Revives",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE PROCESS" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "How red light therapy revives hair growth." },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "Lumisca uses clinical-grade 660nm and 850nm wavelengths to stimulate blood flow, reawaken dormant follicles, and strengthen new growth." },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Start Your Hair Regrowth Journey" },
+    { "type": "url", "id": "cta_url", "label": "CTA link" },
+    { "type": "text", "id": "cta_fine", "label": "Fine print", "default": "✓ 60-day money-back guarantee" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "select", "id": "visual", "label": "Visual style", "options": [
+          { "value": "blood", "label": "Blood / red gradient" },
+          { "value": "follicles", "label": "Follicles / dark gradient" },
+          { "value": "shaft", "label": "Hair shaft / gold gradient" }
+        ], "default": "blood" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Restore Blood Flow" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Clinical-grade wavelengths penetrate the scalp, delivering oxygen and nutrients directly to hair follicles that have stopped functioning." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "How It Revives",
+      "blocks": [
+        { "type": "step", "settings": { "visual": "blood",     "title": "Restore Blood Flow",          "body": "Clinical-grade wavelengths penetrate the scalp, delivering oxygen and nutrients directly to hair follicles that have stopped functioning." } },
+        { "type": "step", "settings": { "visual": "follicles", "title": "Reactivate Dormant Follicles", "body": "660nm light triggers ATP production inside follicle cells, waking them from their resting cycle and restarting the growth phase." } },
+        { "type": "step", "settings": { "visual": "shaft",     "title": "Support Long-Term Growth",    "body": "Consistent 10-minute daily sessions strengthen each new hair shaft, building thicker, fuller, healthier hair over 12 weeks and beyond." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

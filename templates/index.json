@@ -3,22 +3,69 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
-        "m1": { "type": "message", "settings": { "text": "🎉 50% OFF EVERYTHING — Code LUMISCA10 at checkout" } },
-        "m2": { "type": "message", "settings": { "text": "🚚 Free UK shipping on all orders" } },
-        "m3": { "type": "message", "settings": { "text": "⭐ 10,000+ UK customers · 4.9/5 average rating" } },
-        "m4": { "type": "message", "settings": { "text": "✓ 60-day money-back guarantee on every device" } }
+        "m1": {
+          "type": "message",
+          "settings": {
+            "text": "🎉 50% OFF EVERYTHING — Code LUMISCA10 at checkout"
+          }
+        },
+        "m2": {
+          "type": "message",
+          "settings": {
+            "text": "🚚 Free UK shipping on all orders"
+          }
+        },
+        "m3": {
+          "type": "message",
+          "settings": {
+            "text": "⭐ 10,000+ UK customers · 4.9/5 average rating"
+          }
+        },
+        "m4": {
+          "type": "message",
+          "settings": {
+            "text": "✓ 60-day money-back guarantee on every device"
+          }
+        }
       },
-      "block_order": ["m1", "m2", "m3", "m4"],
+      "block_order": [
+        "m1",
+        "m2",
+        "m3",
+        "m4"
+      ],
       "settings": {}
     },
     "hero": {
       "type": "hero",
       "blocks": {
-        "stat1": { "type": "stat", "settings": { "value": "10,000+", "label": "Customers" } },
-        "stat2": { "type": "stat", "settings": { "value": "4.9 ★", "label": "Rated" } },
-        "stat3": { "type": "stat", "settings": { "value": "60-Day", "label": "Guarantee" } }
+        "stat1": {
+          "type": "stat",
+          "settings": {
+            "value": "10,000+",
+            "label": "Customers"
+          }
+        },
+        "stat2": {
+          "type": "stat",
+          "settings": {
+            "value": "4.9 ★",
+            "label": "Rated"
+          }
+        },
+        "stat3": {
+          "type": "stat",
+          "settings": {
+            "value": "60-Day",
+            "label": "Guarantee"
+          }
+        }
       },
-      "block_order": ["stat1", "stat2", "stat3"],
+      "block_order": [
+        "stat1",
+        "stat2",
+        "stat3"
+      ],
       "settings": {
         "cta1_url": "/collections/all",
         "cta2_url": "/pages/science"
@@ -27,36 +74,173 @@
     "press-bar": {
       "type": "press-bar",
       "blocks": {
-        "p1": { "type": "name", "settings": { "name": "VOGUE" } },
-        "p2": { "type": "name", "settings": { "name": "ELLE" } },
-        "p3": { "type": "name", "settings": { "name": "WOMEN'S HEALTH" } },
-        "p4": { "type": "name", "settings": { "name": "REFINERY29" } },
-        "p5": { "type": "name", "settings": { "name": "GRAZIA" } }
+        "p1": {
+          "type": "name",
+          "settings": {
+            "name": "VOGUE"
+          }
+        },
+        "p2": {
+          "type": "name",
+          "settings": {
+            "name": "ELLE"
+          }
+        },
+        "p3": {
+          "type": "name",
+          "settings": {
+            "name": "WOMEN'S HEALTH"
+          }
+        },
+        "p4": {
+          "type": "name",
+          "settings": {
+            "name": "REFINERY29"
+          }
+        },
+        "p5": {
+          "type": "name",
+          "settings": {
+            "name": "GRAZIA"
+          }
+        }
       },
-      "block_order": ["p1", "p2", "p3", "p4", "p5"],
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5"
+      ],
       "settings": {}
     },
     "trust-bar": {
       "type": "trust-bar",
       "blocks": {
-        "t1": { "type": "item", "settings": { "icon": "guarantee", "title": "60-Day Guarantee", "sub": "Money back, no questions" } },
-        "t2": { "type": "item", "settings": { "icon": "delivery",  "title": "Free UK Shipping", "sub": "On every order" } },
-        "t3": { "type": "item", "settings": { "icon": "science",   "title": "Clinic-Grade LEDs", "sub": "Medical-grade wavelengths" } },
-        "t4": { "type": "item", "settings": { "icon": "customers", "title": "10,000+ Customers", "sub": "Across the UK" } },
-        "t5": { "type": "item", "settings": { "icon": "secure",    "title": "As Seen On TikTok", "sub": "Trending UK wellness brand" } }
+        "t1": {
+          "type": "item",
+          "settings": {
+            "icon": "guarantee",
+            "title": "60-Day Guarantee",
+            "sub": "Money back, no questions"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "icon": "delivery",
+            "title": "Free UK Shipping",
+            "sub": "On every order"
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "icon": "science",
+            "title": "Clinic-Grade LEDs",
+            "sub": "Medical-grade wavelengths"
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
+            "icon": "customers",
+            "title": "10,000+ Customers",
+            "sub": "Across the UK"
+          }
+        },
+        "t5": {
+          "type": "item",
+          "settings": {
+            "icon": "secure",
+            "title": "As Seen On TikTok",
+            "sub": "Trending UK wellness brand"
+          }
+        }
       },
-      "block_order": ["t1", "t2", "t3", "t4", "t5"],
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5"
+      ],
       "settings": {}
     },
     "featured-products": {
       "type": "featured-products",
       "blocks": {
-        "c1": { "type": "card", "settings": { "image_filename": "product-cap-solo.png",      "title": "Pro Red Light Hair Growth Cap", "tagline": "Clinic-grade hair regrowth, built into a cap", "price": 6499,  "compare_at_price": 12999, "rating": "4.9", "review_count": "1,284 reviews", "url": "/products/pro-red-light-hair-growth-cap", "is_featured": false, "stock_left": "23", "social_proof": "47 bought in the last 24 hours" } },
-        "c2": { "type": "card", "settings": { "image_filename": "product-mask-solo.png",     "title": "Glow Red Light Face Mask",      "tagline": "Salon-grade skincare, 10 minutes a day",       "price": 5499,  "compare_at_price": 10999, "rating": "4.9", "review_count": "962 reviews",   "url": "/products/glow-red-light-face-mask",      "is_featured": false, "stock_left": "31", "social_proof": "38 bought in the last 24 hours" } },
-        "c3": { "type": "card", "settings": { "image_filename": "product-eye-mask-solo.png", "title": "Rest Heated Eye Mask",          "tagline": "Deeper sleep in 10 minutes",                   "price": 2999,  "compare_at_price": 5999,  "rating": "4.8", "review_count": "734 reviews",   "url": "/products/rest-heated-eye-mask",          "is_featured": false, "stock_left": "48", "social_proof": "29 bought in the last 24 hours" } },
-        "c4": { "type": "card", "settings": { "image_filename": "product-duo-side.png",      "title": "The Complete Lumisca Bundle",   "tagline": "All three devices — hair, skin, sleep",        "price": 12499, "compare_at_price": 29997, "rating": "4.9", "review_count": "2,847 reviews", "url": "/products/lumisca-complete-bundle",       "is_featured": true,  "stock_left": "12", "social_proof": "62 bought in the last 24 hours" } }
+        "c1": {
+          "type": "card",
+          "settings": {
+            "image_filename": "product-cap-solo.png",
+            "title": "Pro Red Light Hair Growth Cap",
+            "tagline": "Clinic-grade hair regrowth, built into a cap",
+            "price": 6499,
+            "compare_at_price": 12999,
+            "rating": "4.9",
+            "review_count": "1,284 reviews",
+            "url": "/products/pro-red-light-hair-growth-cap",
+            "is_featured": false,
+            "stock_left": "23",
+            "social_proof": "47 bought in the last 24 hours"
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "image_filename": "product-mask-solo.png",
+            "title": "Glow Red Light Face Mask",
+            "tagline": "Salon-grade skincare, 10 minutes a day",
+            "price": 5499,
+            "compare_at_price": 10999,
+            "rating": "4.9",
+            "review_count": "962 reviews",
+            "url": "/products/glow-red-light-face-mask",
+            "is_featured": false,
+            "stock_left": "31",
+            "social_proof": "38 bought in the last 24 hours"
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "image_filename": "product-eye-mask-solo.png",
+            "title": "Rest Heated Eye Mask",
+            "tagline": "Deeper sleep in 10 minutes",
+            "price": 2999,
+            "compare_at_price": 5999,
+            "rating": "4.8",
+            "review_count": "734 reviews",
+            "url": "/products/rest-heated-eye-mask",
+            "is_featured": false,
+            "stock_left": "48",
+            "social_proof": "29 bought in the last 24 hours"
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "image_filename": "product-duo-side.png",
+            "title": "The Complete Lumisca Bundle",
+            "tagline": "All three devices — hair, skin, sleep",
+            "price": 12499,
+            "compare_at_price": 29997,
+            "rating": "4.9",
+            "review_count": "2,847 reviews",
+            "url": "/products/lumisca-complete-bundle",
+            "is_featured": true,
+            "stock_left": "12",
+            "social_proof": "62 bought in the last 24 hours"
+          }
+        }
       },
-      "block_order": ["c1", "c2", "c3", "c4"],
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
       "settings": {
         "eyebrow": "The Lumisca Collection",
         "heading": "Clinic-grade devices, designed for your sofa.",
@@ -73,31 +257,105 @@
     "how-it-works": {
       "type": "how-it-works",
       "blocks": {
-        "s1": { "type": "step", "settings": { "title": "Unbox", "body": "Your Lumisca device arrives ready to use." } },
-        "s2": { "type": "step", "settings": { "title": "Treat", "body": "10 minutes a day, from your sofa." } },
-        "s3": { "type": "step", "settings": { "title": "Glow",  "body": "Visible results in 4-8 weeks." } }
+        "s1": {
+          "type": "step",
+          "settings": {
+            "title": "Unbox",
+            "body": "Your Lumisca device arrives ready to use."
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "title": "Treat",
+            "body": "10 minutes a day, from your sofa."
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "title": "Glow",
+            "body": "Visible results in 4-8 weeks."
+          }
+        }
       },
-      "block_order": ["s1", "s2", "s3"],
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
       "settings": {}
     },
     "video-demo": {
       "type": "video-demo",
       "blocks": {
-        "v1": { "type": "demo", "settings": { "video_filename": "demo-hair-cap.mp4", "poster": "product-cap-solo.png", "title": "The Hair Growth Cap", "body": "660nm + 850nm wavelengths, clinically proven for hair density." } },
-        "v2": { "type": "demo", "settings": { "video_filename": "demo-face-mask.mp4", "poster": "product-mask-solo.png", "title": "The Face Mask", "body": "4 wavelengths to tackle fine lines, acne and dullness in 10 minutes." } }
+        "v1": {
+          "type": "demo",
+          "settings": {
+            "video_filename": "demo-hair-cap.mp4",
+            "poster": "product-cap-solo.png",
+            "title": "The Hair Growth Cap",
+            "body": "660nm + 850nm wavelengths, clinically proven for hair density."
+          }
+        },
+        "v2": {
+          "type": "demo",
+          "settings": {
+            "video_filename": "demo-face-mask.mp4",
+            "poster": "product-mask-solo.png",
+            "title": "The Face Mask",
+            "body": "4 wavelengths to tackle fine lines, acne and dullness in 10 minutes."
+          }
+        }
       },
-      "block_order": ["v1", "v2"],
+      "block_order": [
+        "v1",
+        "v2"
+      ],
       "settings": {}
     },
     "unboxing": {
       "type": "unboxing",
       "blocks": {
-        "u1": { "type": "feature", "settings": { "icon": "package", "title": "Premium Device",    "body": "Clinic-grade LEDs, CE-certified" } },
-        "u2": { "type": "feature", "settings": { "icon": "plug",    "title": "Fast Charger",      "body": "2-hour charge, 2 weeks of use" } },
-        "u3": { "type": "feature", "settings": { "icon": "book",    "title": "Quick-Start Guide", "body": "Your 10-minute ritual, simplified" } },
-        "u4": { "type": "feature", "settings": { "icon": "shield",  "title": "60-Day Guarantee",  "body": "Love it or return it, no questions" } }
+        "u1": {
+          "type": "feature",
+          "settings": {
+            "icon": "package",
+            "title": "Premium Device",
+            "body": "Clinic-grade LEDs, CE-certified"
+          }
+        },
+        "u2": {
+          "type": "feature",
+          "settings": {
+            "icon": "plug",
+            "title": "Fast Charger",
+            "body": "2-hour charge, 2 weeks of use"
+          }
+        },
+        "u3": {
+          "type": "feature",
+          "settings": {
+            "icon": "book",
+            "title": "Quick-Start Guide",
+            "body": "Your 10-minute ritual, simplified"
+          }
+        },
+        "u4": {
+          "type": "feature",
+          "settings": {
+            "icon": "shield",
+            "title": "60-Day Guarantee",
+            "body": "Love it or return it, no questions"
+          }
+        }
       },
-      "block_order": ["u1", "u2", "u3", "u4"],
+      "block_order": [
+        "u1",
+        "u2",
+        "u3",
+        "u4"
+      ],
       "settings": {
         "eyebrow": "WHAT'S INCLUDED",
         "heading": "Ready from the moment it arrives.",
@@ -107,11 +365,33 @@
     "science-callout": {
       "type": "science-callout",
       "blocks": {
-        "s1": { "type": "stat", "settings": { "value": "660nm + 850nm", "label": "Clinical-grade wavelengths" } },
-        "s2": { "type": "stat", "settings": { "value": "CE-Certified", "label": "Medical device standard" } },
-        "s3": { "type": "stat", "settings": { "value": "3,000+", "label": "Peer-reviewed studies" } }
+        "s1": {
+          "type": "stat",
+          "settings": {
+            "value": "660nm + 850nm",
+            "label": "Clinical-grade wavelengths"
+          }
+        },
+        "s2": {
+          "type": "stat",
+          "settings": {
+            "value": "CE-Certified",
+            "label": "Medical device standard"
+          }
+        },
+        "s3": {
+          "type": "stat",
+          "settings": {
+            "value": "3,000+",
+            "label": "Peer-reviewed studies"
+          }
+        }
       },
-      "block_order": ["s1", "s2", "s3"],
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
       "settings": {
         "image_filename": "hero-hair-cap-dramatic.png",
         "cta_url": "/pages/science"
@@ -120,14 +400,75 @@
     "testimonials": {
       "type": "testimonials",
       "blocks": {
-        "r1": { "type": "review", "settings": { "name": "Sarah M.",  "location": "Manchester", "product": "Pro Hair Growth Cap", "thumb_filename": "product-cap-solo.png",      "body": "10 weeks with the Lumisca cap and I genuinely can't believe the difference. My hairdresser noticed before I even told her." } },
-        "r2": { "type": "review", "settings": { "name": "Claire B.", "location": "Edinburgh",  "product": "Glow Face Mask",      "thumb_filename": "product-mask-solo.png",     "body": "I was spending £80 a month on facials. This paid for itself in the first month. My skin looks brighter after 6 weeks." } },
-        "r3": { "type": "review", "settings": { "name": "James T.",  "location": "Birmingham", "product": "Rest Eye Mask",       "thumb_filename": "product-eye-mask-solo.png", "body": "15 minutes before bed and I sleep better than I have in years." } },
-        "r4": { "type": "review", "settings": { "name": "Emma R.",   "location": "Dublin",     "product": "Pro Hair Growth Cap", "thumb_filename": "product-cap-solo.png",      "body": "I was skeptical, but after 8 weeks my hair is visibly thicker. My hairdresser actually asked what I was doing differently." } },
-        "r5": { "type": "review", "settings": { "name": "Priya S.",  "location": "Manchester", "product": "Glow Face Mask",      "thumb_filename": "product-mask-solo.png",     "body": "I've tried every anti-aging cream on the market. Nothing comes close to this mask. My skin looks lit from within." } },
-        "r6": { "type": "review", "settings": { "name": "Rachel T.", "location": "Edinburgh",  "product": "Complete Bundle",     "thumb_filename": "product-duo-side.png",      "body": "I bought the bundle after my friend swore by it. Six weeks in, my skin is glowing, my hair feels fuller, and I sleep like a baby." } }
+        "r1": {
+          "type": "review",
+          "settings": {
+            "name": "Sarah M.",
+            "location": "Manchester",
+            "product": "Pro Hair Growth Cap",
+            "thumb_filename": "product-cap-solo.png",
+            "body": "10 weeks with the Lumisca cap and I genuinely can't believe the difference. My hairdresser noticed before I even told her."
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "name": "Claire B.",
+            "location": "Edinburgh",
+            "product": "Glow Face Mask",
+            "thumb_filename": "product-mask-solo.png",
+            "body": "I was spending £80 a month on facials. This paid for itself in the first month. My skin looks brighter after 6 weeks."
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "name": "James T.",
+            "location": "Birmingham",
+            "product": "Rest Eye Mask",
+            "thumb_filename": "product-eye-mask-solo.png",
+            "body": "15 minutes before bed and I sleep better than I have in years."
+          }
+        },
+        "r4": {
+          "type": "review",
+          "settings": {
+            "name": "Emma R.",
+            "location": "Dublin",
+            "product": "Pro Hair Growth Cap",
+            "thumb_filename": "product-cap-solo.png",
+            "body": "I was skeptical, but after 8 weeks my hair is visibly thicker. My hairdresser actually asked what I was doing differently."
+          }
+        },
+        "r5": {
+          "type": "review",
+          "settings": {
+            "name": "Priya S.",
+            "location": "Manchester",
+            "product": "Glow Face Mask",
+            "thumb_filename": "product-mask-solo.png",
+            "body": "I've tried every anti-aging cream on the market. Nothing comes close to this mask. My skin looks lit from within."
+          }
+        },
+        "r6": {
+          "type": "review",
+          "settings": {
+            "name": "Rachel T.",
+            "location": "Edinburgh",
+            "product": "Complete Bundle",
+            "thumb_filename": "product-duo-side.png",
+            "body": "I bought the bundle after my friend swore by it. Six weeks in, my skin is glowing, my hair feels fuller, and I sleep like a baby."
+          }
+        }
       },
-      "block_order": ["r1", "r2", "r3", "r4", "r5", "r6"],
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5",
+        "r6"
+      ],
       "settings": {
         "reviews_cta_label": "Read 2,847 verified reviews",
         "reviews_cta_url": "/pages/reviews"
@@ -136,37 +477,159 @@
     "comparison": {
       "type": "comparison",
       "blocks": {
-        "row1": { "type": "row", "settings": { "feature": "Cost",          "lumisca": "£64.99 one-time",      "salon": "£2,400+/year",        "other": "£30–200" } },
-        "row2": { "type": "row", "settings": { "feature": "Convenience",   "lumisca": "Anytime, at home",     "salon": "Weekly appointments", "other": "At home" } },
-        "row3": { "type": "row", "settings": { "feature": "Wavelengths",   "lumisca": "✓ 660nm + 850nm",      "salon": "Varies",              "other": "✗ Usually single" } },
-        "row4": { "type": "row", "settings": { "feature": "Certification", "lumisca": "✓ CE-certified",       "salon": "Varies",              "other": "✗ Often uncertified" } },
-        "row5": { "type": "row", "settings": { "feature": "Money-back",    "lumisca": "✓ 60 days",            "salon": "✗",                   "other": "Varies" } },
-        "row6": { "type": "row", "settings": { "feature": "Session time",  "lumisca": "10 minutes",           "salon": "45 minutes",          "other": "Varies" } },
-        "row7": { "type": "row", "settings": { "feature": "Ongoing cost",  "lumisca": "£0",                   "salon": "£200+/month",         "other": "Varies" } }
+        "row1": {
+          "type": "row",
+          "settings": {
+            "feature": "Cost",
+            "lumisca": "£64.99 one-time",
+            "salon": "£2,400+/year",
+            "other": "£30–200"
+          }
+        },
+        "row2": {
+          "type": "row",
+          "settings": {
+            "feature": "Convenience",
+            "lumisca": "Anytime, at home",
+            "salon": "Weekly appointments",
+            "other": "At home"
+          }
+        },
+        "row3": {
+          "type": "row",
+          "settings": {
+            "feature": "Wavelengths",
+            "lumisca": "✓ 660nm + 850nm",
+            "salon": "Varies",
+            "other": "✗ Usually single"
+          }
+        },
+        "row4": {
+          "type": "row",
+          "settings": {
+            "feature": "Certification",
+            "lumisca": "✓ CE-certified",
+            "salon": "Varies",
+            "other": "✗ Often uncertified"
+          }
+        },
+        "row5": {
+          "type": "row",
+          "settings": {
+            "feature": "Money-back",
+            "lumisca": "✓ 60 days",
+            "salon": "✗",
+            "other": "Varies"
+          }
+        },
+        "row6": {
+          "type": "row",
+          "settings": {
+            "feature": "Session time",
+            "lumisca": "10 minutes",
+            "salon": "45 minutes",
+            "other": "Varies"
+          }
+        },
+        "row7": {
+          "type": "row",
+          "settings": {
+            "feature": "Ongoing cost",
+            "lumisca": "£0",
+            "salon": "£200+/month",
+            "other": "Varies"
+          }
+        }
       },
-      "block_order": ["row1", "row2", "row3", "row4", "row5", "row6", "row7"],
+      "block_order": [
+        "row1",
+        "row2",
+        "row3",
+        "row4",
+        "row5",
+        "row6",
+        "row7"
+      ],
       "settings": {}
     },
     "faq-strip": {
       "type": "faq-strip",
       "blocks": {
-        "q1": { "type": "faq", "settings": { "question": "How long until I see results?", "answer": "<p>Sleep: from night one. Skin: from week 4. Hair regrowth: week 8-12. Consistency matters — 4-5 sessions per week.</p>" } },
-        "q2": { "type": "faq", "settings": { "question": "Is red light therapy safe?", "answer": "<p>Yes. Non-invasive, non-thermal, non-UV. Clinically studied in dermatology for over 20 years. Every Lumisca device is CE-certified.</p>" } },
-        "q3": { "type": "faq", "settings": { "question": "How often should I use it?", "answer": "<p>4-5 sessions per week is the clinical sweet spot. Each session is 15-25 minutes with auto-shutoff.</p>" } },
-        "q4": { "type": "faq", "settings": { "question": "What's in the box?", "answer": "<p>The device, USB-C charging cable, premium storage pouch and illustrated user guide. Bundles include a branded gift box and welcome card.</p>" } }
+        "q1": {
+          "type": "faq",
+          "settings": {
+            "question": "How long until I see results?",
+            "answer": "<p>Sleep: from night one. Skin: from week 4. Hair regrowth: week 8-12. Consistency matters — 4-5 sessions per week.</p>"
+          }
+        },
+        "q2": {
+          "type": "faq",
+          "settings": {
+            "question": "Is red light therapy safe?",
+            "answer": "<p>Yes. Non-invasive, non-thermal, non-UV. Clinically studied in dermatology for over 20 years. Every Lumisca device is CE-certified.</p>"
+          }
+        },
+        "q3": {
+          "type": "faq",
+          "settings": {
+            "question": "How often should I use it?",
+            "answer": "<p>4-5 sessions per week is the clinical sweet spot. Each session is 15-25 minutes with auto-shutoff.</p>"
+          }
+        },
+        "q4": {
+          "type": "faq",
+          "settings": {
+            "question": "What's in the box?",
+            "answer": "<p>The device, USB-C charging cable, premium storage pouch and illustrated user guide. Bundles include a branded gift box and welcome card.</p>"
+          }
+        }
       },
-      "block_order": ["q1", "q2", "q3", "q4"],
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
       "settings": {}
     },
     "guarantee-callout": {
       "type": "guarantee-callout",
       "blocks": {
-        "g1": { "type": "trust", "settings": { "icon": "truck",  "label": "Free UK shipping" } },
-        "g2": { "type": "trust", "settings": { "icon": "shield", "label": "60-day guarantee" } },
-        "g3": { "type": "trust", "settings": { "icon": "award",  "label": "1-year warranty" } },
-        "g4": { "type": "trust", "settings": { "icon": "phone",  "label": "24/7 support" } }
+        "g1": {
+          "type": "trust",
+          "settings": {
+            "icon": "truck",
+            "label": "Free UK shipping"
+          }
+        },
+        "g2": {
+          "type": "trust",
+          "settings": {
+            "icon": "shield",
+            "label": "60-day guarantee"
+          }
+        },
+        "g3": {
+          "type": "trust",
+          "settings": {
+            "icon": "award",
+            "label": "1-year warranty"
+          }
+        },
+        "g4": {
+          "type": "trust",
+          "settings": {
+            "icon": "phone",
+            "label": "24/7 support"
+          }
+        }
       },
-      "block_order": ["g1", "g2", "g3", "g4"],
+      "block_order": [
+        "g1",
+        "g2",
+        "g3",
+        "g4"
+      ],
       "settings": {}
     },
     "sticky-buy-bar": {
@@ -179,6 +642,66 @@
         "mobile_cta_label": "SHOP THE BUNDLE — £124.99 (50% OFF)",
         "cta_url": "/products/lumisca-complete-bundle"
       }
+    },
+    "how-it-revives": {
+      "type": "how-it-revives",
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "visual": "blood",
+            "title": "Restore Blood Flow",
+            "body": "Clinical-grade wavelengths penetrate the scalp, delivering oxygen and nutrients directly to hair follicles that have stopped functioning."
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "visual": "follicles",
+            "title": "Reactivate Dormant Follicles",
+            "body": "660nm light triggers ATP production inside follicle cells, waking them from their resting cycle and restarting the growth phase."
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "visual": "shaft",
+            "title": "Support Long-Term Growth",
+            "body": "Consistent 10-minute daily sessions strengthen each new hair shaft, building thicker, fuller, healthier hair over 12 weeks and beyond."
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "eyebrow": "THE PROCESS",
+        "heading": "How red light therapy revives hair growth.",
+        "body": "Lumisca uses clinical-grade 660nm and 850nm wavelengths to stimulate blood flow, reawaken dormant follicles, and strengthen new growth.",
+        "cta_label": "Start Your Hair Regrowth Journey",
+        "cta_url": "/products/pro-red-light-hair-growth-cap",
+        "cta_fine": "✓ 60-day money-back guarantee"
+      }
+    },
+    "clinical-proof": {
+      "type": "clinical-proof",
+      "settings": {
+        "eyebrow": "CLINICALLY PROVEN",
+        "heading": "Outperforms other at-home solutions.",
+        "body": "Independent comparison of hair density growth after 16 weeks of consistent use vs leading consumer LED competitors.",
+        "bar1_value": "46.6",
+        "bar1_label": "LUMISCA",
+        "bar2_value": "8.6",
+        "bar2_label": "Competitor A",
+        "bar3_value": "6.6",
+        "bar3_label": "Competitor B",
+        "disclaimer": "*Based on customer-reported results after 16 weeks of consistent daily use. Individual results may vary.",
+        "cta_label": "See The Lumisca Difference",
+        "cta_url": "/pages/science",
+        "image_filename": "lifestyle-face-mask.png"
+      }
     }
   },
   "order": [
@@ -189,11 +712,13 @@
     "featured-products",
     "lifestyle-editorial",
     "how-it-works",
+    "how-it-revives",
     "video-demo",
     "unboxing",
     "science-callout",
     "testimonials",
     "comparison",
+    "clinical-proof",
     "faq-strip",
     "guarantee-callout",
     "sticky-buy-bar"

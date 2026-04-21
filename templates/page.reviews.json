@@ -1,24 +1,574 @@
 {
   "sections": {
-    "announcement-bar": { "type": "announcement-bar", "settings": {} },
-    "hero": { "type": "reviews-hero", "settings": {} },
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {}
+    },
+    "hero": {
+      "type": "reviews-hero",
+      "settings": {}
+    },
     "list": {
       "type": "reviews-list",
       "blocks": {
-        "r01": { "type": "review", "settings": { "rating": 5, "headline": "Genuinely thicker hair after 12 weeks",                "body": "I'd given up. Started seeing baby hairs at week 6, real density by week 10. My hairdresser noticed before I told her. Worth every penny.",                                                  "name": "Sarah M.",   "location": "Manchester", "date": "12 March 2026",    "thumb_filename": "product-cap-solo.png",      "product_title": "Pro Hair Growth Cap", "category": "hair" } },
-        "r02": { "type": "review", "settings": { "rating": 5, "headline": "Salon-quality skin from my sofa",                      "body": "I was spending £80 a month on facials. The face mask paid for itself in the first month and my skin actually looks better than after treatments.",                                       "name": "Claire B.",  "location": "Edinburgh",  "date": "8 March 2026",     "thumb_filename": "product-mask-solo.png",     "product_title": "Glow Face Mask",      "category": "face" } },
-        "r03": { "type": "review", "settings": { "rating": 5, "headline": "Sleeping through the night for the first time in years", "body": "15 minutes before bed and I'm out. The warmth alone is calming, but something about it actually shifts my whole nervous system.",                                                         "name": "James T.",   "location": "Birmingham", "date": "5 March 2026",     "thumb_filename": "product-eye-mask-solo.png", "product_title": "Rest Eye Mask",       "category": "eye"  } },
-        "r04": { "type": "review", "settings": { "rating": 5, "headline": "The bundle is the move",                               "body": "Bought all three after my friend wouldn't shut up about hers. Six weeks in: hair fuller, skin glowing, sleeping better. No regrets.",                                                      "name": "Rachel T.",  "location": "Glasgow",    "date": "28 February 2026", "thumb_filename": "product-duo-side.png",      "product_title": "Complete Bundle",     "category": "bundle" } },
-        "r05": { "type": "review", "settings": { "rating": 5, "headline": "Skeptical husband, now uses it every day",             "body": "Bought the cap for him as a joke gift. Three months later he's the one reminding me to charge it. His hairline is genuinely filling in.",                                                  "name": "Emma R.",    "location": "Dublin",     "date": "22 February 2026", "thumb_filename": "product-cap-solo.png",      "product_title": "Pro Hair Growth Cap", "category": "hair" } },
-        "r06": { "type": "review", "settings": { "rating": 5, "headline": "Finally something that works",                         "body": "I've tried every retinol, every serum, every viral tiktok product. This is the only thing that's made a visible difference to my fine lines. Eight weeks in.",                           "name": "Priya S.",   "location": "London",     "date": "18 February 2026", "thumb_filename": "product-mask-solo.png",     "product_title": "Glow Face Mask",      "category": "face" } },
-        "r07": { "type": "review", "settings": { "rating": 5, "headline": "Worth it for the migraines alone",                     "body": "I bought it for sleep but I've noticed my tension headaches are basically gone. The heat is so gentle, way better than a wheat bag.",                                                     "name": "David L.",   "location": "Bristol",    "date": "14 February 2026", "thumb_filename": "product-eye-mask-solo.png", "product_title": "Rest Eye Mask",       "category": "eye"  } },
-        "r08": { "type": "review", "settings": { "rating": 5, "headline": "Better than the £400 clinic version",                  "body": "I was about to book a course of red light at my dermatologist (£1,200 total). Tried the mask first. Saw the same results in month 2. Cancelled the booking.",                            "name": "Sophie A.",  "location": "Leeds",      "date": "9 February 2026",  "thumb_filename": "product-mask-solo.png",     "product_title": "Glow Face Mask",      "category": "face" } },
-        "r09": { "type": "review", "settings": { "rating": 5, "headline": "Easy to actually use, that's the win",                 "body": "I have a million skincare gadgets I never use. This one I actually do because it's literally just a cap. Wear while making coffee, done.",                                                 "name": "Mark P.",    "location": "Cardiff",    "date": "4 February 2026",  "thumb_filename": "product-cap-solo.png",      "product_title": "Pro Hair Growth Cap", "category": "hair" } },
-        "r10": { "type": "review", "settings": { "rating": 4, "headline": "Takes longer than I thought",                          "body": "Don't expect overnight results. I was about to give up at week 4 but stuck with it. By week 10 the difference was undeniable. Patience pays off but the company should manage expectations better.", "name": "Hannah K.",  "location": "Newcastle",  "date": "30 January 2026",  "thumb_filename": "product-cap-solo.png",      "product_title": "Pro Hair Growth Cap", "category": "hair" } },
-        "r11": { "type": "review", "settings": { "rating": 5, "headline": "My only regret is not buying the bundle",              "body": "Bought the face mask, loved it, ordered the cap a month later, ordered the eye mask a month after that. Should have just bought the bundle and saved myself £40.",                        "name": "Olivia W.",  "location": "Sheffield",  "date": "25 January 2026",  "thumb_filename": "product-duo-side.png",      "product_title": "Complete Bundle",     "category": "bundle" } },
-        "r12": { "type": "review", "settings": { "rating": 5, "headline": "60-day guarantee made me try it",                      "body": "Wouldn't have risked £125 without the guarantee. Used it daily for 8 weeks, never even thought about returning. Skin is the best it's been in 10 years.",                                   "name": "Yasmin H.",  "location": "Liverpool",  "date": "19 January 2026",  "thumb_filename": "product-mask-solo.png",     "product_title": "Glow Face Mask",      "category": "face" } }
+        "r01": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Genuinely thicker hair after 12 weeks",
+            "body": "I'd given up. Started seeing baby hairs at week 6, real density by week 10. My hairdresser noticed before I told her. Worth every penny.",
+            "name": "Sarah M.",
+            "location": "Manchester",
+            "date": "12 March 2026",
+            "thumb_filename": "product-cap-solo.png",
+            "product_title": "Pro Hair Growth Cap",
+            "category": "hair"
+          }
+        },
+        "r02": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Salon-quality skin from my sofa",
+            "body": "I was spending £80 a month on facials. The face mask paid for itself in the first month and my skin actually looks better than after treatments.",
+            "name": "Claire B.",
+            "location": "Edinburgh",
+            "date": "8 March 2026",
+            "thumb_filename": "product-mask-solo.png",
+            "product_title": "Glow Face Mask",
+            "category": "face"
+          }
+        },
+        "r03": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Sleeping through the night for the first time in years",
+            "body": "15 minutes before bed and I'm out. The warmth alone is calming, but something about it actually shifts my whole nervous system.",
+            "name": "James T.",
+            "location": "Birmingham",
+            "date": "5 March 2026",
+            "thumb_filename": "product-eye-mask-solo.png",
+            "product_title": "Rest Eye Mask",
+            "category": "eye"
+          }
+        },
+        "r04": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "The bundle is the move",
+            "body": "Bought all three after my friend wouldn't shut up about hers. Six weeks in: hair fuller, skin glowing, sleeping better. No regrets.",
+            "name": "Rachel T.",
+            "location": "Glasgow",
+            "date": "28 February 2026",
+            "thumb_filename": "product-duo-side.png",
+            "product_title": "Complete Bundle",
+            "category": "bundle"
+          }
+        },
+        "r05": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Skeptical husband, now uses it every day",
+            "body": "Bought the cap for him as a joke gift. Three months later he's the one reminding me to charge it. His hairline is genuinely filling in.",
+            "name": "Emma R.",
+            "location": "Dublin",
+            "date": "22 February 2026",
+            "thumb_filename": "product-cap-solo.png",
+            "product_title": "Pro Hair Growth Cap",
+            "category": "hair"
+          }
+        },
+        "r06": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Finally something that works",
+            "body": "I've tried every retinol, every serum, every viral tiktok product. This is the only thing that's made a visible difference to my fine lines. Eight weeks in.",
+            "name": "Priya S.",
+            "location": "London",
+            "date": "18 February 2026",
+            "thumb_filename": "product-mask-solo.png",
+            "product_title": "Glow Face Mask",
+            "category": "face"
+          }
+        },
+        "r07": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Worth it for the migraines alone",
+            "body": "I bought it for sleep but I've noticed my tension headaches are basically gone. The heat is so gentle, way better than a wheat bag.",
+            "name": "David L.",
+            "location": "Bristol",
+            "date": "14 February 2026",
+            "thumb_filename": "product-eye-mask-solo.png",
+            "product_title": "Rest Eye Mask",
+            "category": "eye"
+          }
+        },
+        "r08": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Better than the £400 clinic version",
+            "body": "I was about to book a course of red light at my dermatologist (£1,200 total). Tried the mask first. Saw the same results in month 2. Cancelled the booking.",
+            "name": "Sophie A.",
+            "location": "Leeds",
+            "date": "9 February 2026",
+            "thumb_filename": "product-mask-solo.png",
+            "product_title": "Glow Face Mask",
+            "category": "face"
+          }
+        },
+        "r09": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Easy to actually use, that's the win",
+            "body": "I have a million skincare gadgets I never use. This one I actually do because it's literally just a cap. Wear while making coffee, done.",
+            "name": "Mark P.",
+            "location": "Cardiff",
+            "date": "4 February 2026",
+            "thumb_filename": "product-cap-solo.png",
+            "product_title": "Pro Hair Growth Cap",
+            "category": "hair"
+          }
+        },
+        "r10": {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "headline": "Takes longer than I thought",
+            "body": "Don't expect overnight results. I was about to give up at week 4 but stuck with it. By week 10 the difference was undeniable. Patience pays off but the company should manage expectations better.",
+            "name": "Hannah K.",
+            "location": "Newcastle",
+            "date": "30 January 2026",
+            "thumb_filename": "product-cap-solo.png",
+            "product_title": "Pro Hair Growth Cap",
+            "category": "hair"
+          }
+        },
+        "r11": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "My only regret is not buying the bundle",
+            "body": "Bought the face mask, loved it, ordered the cap a month later, ordered the eye mask a month after that. Should have just bought the bundle and saved myself £40.",
+            "name": "Olivia W.",
+            "location": "Sheffield",
+            "date": "25 January 2026",
+            "thumb_filename": "product-duo-side.png",
+            "product_title": "Complete Bundle",
+            "category": "bundle"
+          }
+        },
+        "r12": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "60-day guarantee made me try it",
+            "body": "Wouldn't have risked £125 without the guarantee. Used it daily for 8 weeks, never even thought about returning. Skin is the best it's been in 10 years.",
+            "name": "Yasmin H.",
+            "location": "Liverpool",
+            "date": "19 January 2026",
+            "thumb_filename": "product-mask-solo.png",
+            "product_title": "Glow Face Mask",
+            "category": "face"
+          }
+        },
+        "r13": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Visible difference at 8 weeks",
+            "body": "Crown was thinning, started using daily after washing hair. By week 8 I could see new growth in the parting. Wife noticed before I told her.",
+            "name": "Tom W.",
+            "location": "Reading",
+            "date": "15 January 2026",
+            "thumb_filename": "product-cap-solo.png",
+            "product_title": "Pro Hair Growth Cap",
+            "category": "hair"
+          }
+        },
+        "r14": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Postpartum hair loss saviour",
+            "body": "Lost so much hair after my second baby. Three months with this cap and my hair feels like mine again.",
+            "name": "Lucy P.",
+            "location": "Brighton",
+            "date": "11 January 2026",
+            "thumb_filename": "product-cap-solo.png",
+            "product_title": "Pro Hair Growth Cap",
+            "category": "hair"
+          }
+        },
+        "r15": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Skin texture transformation",
+            "body": "My pores look smaller, my skin reflects light differently. I genuinely look like I'm wearing makeup when I'm not.",
+            "name": "Aisha M.",
+            "location": "Manchester",
+            "date": "9 January 2026",
+            "thumb_filename": "product-mask-solo.png",
+            "product_title": "Glow Face Mask",
+            "category": "face"
+          }
+        },
+        "r16": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Better than my £200 LED clinic device",
+            "body": "Sold my old device after a month with this. Same wavelengths, half the price, easier to use.",
+            "name": "Charlotte F.",
+            "location": "London",
+            "date": "6 January 2026",
+            "thumb_filename": "product-mask-solo.png",
+            "product_title": "Glow Face Mask",
+            "category": "face"
+          }
+        },
+        "r17": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Game changer for my eczema",
+            "body": "Not officially what it's for, but my flare-ups have calmed massively since using the mask. My dermatologist says the wavelengths make sense.",
+            "name": "Daniel R.",
+            "location": "Coventry",
+            "date": "3 January 2026",
+            "thumb_filename": "product-mask-solo.png",
+            "product_title": "Glow Face Mask",
+            "category": "face"
+          }
+        },
+        "r18": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Sleep score up 40 points",
+            "body": "I track my sleep on Whoop. Average recovery score went from 52 to 79 in 6 weeks of using this every night.",
+            "name": "Adam J.",
+            "location": "Nottingham",
+            "date": "30 December 2025",
+            "thumb_filename": "product-eye-mask-solo.png",
+            "product_title": "Rest Eye Mask",
+            "category": "eye"
+          }
+        },
+        "r19": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Best Christmas gift I've given",
+            "body": "Bought the bundle for my mum. She's 62 and was sceptical. Now she's converted half the WhatsApp group.",
+            "name": "Megan H.",
+            "location": "Belfast",
+            "date": "27 December 2025",
+            "thumb_filename": "product-duo-side.png",
+            "product_title": "Complete Bundle",
+            "category": "bundle"
+          }
+        },
+        "r20": {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "headline": "Charge lasts a bit shorter than advertised",
+            "body": "Brilliant device, results are real, but I'm getting maybe 10 days per charge not the 14 they say. Still recommending it.",
+            "name": "Ravi K.",
+            "location": "Leicester",
+            "date": "23 December 2025",
+            "thumb_filename": "product-cap-solo.png",
+            "product_title": "Pro Hair Growth Cap",
+            "category": "hair"
+          }
+        },
+        "r21": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Husband stopped slagging me eventually",
+            "body": "He laughed when it arrived. Six weeks later he was asking to borrow it for his receding hairline. The mask is converting the whole house.",
+            "name": "Niamh O.",
+            "location": "Galway",
+            "date": "19 December 2025",
+            "thumb_filename": "product-mask-solo.png",
+            "product_title": "Glow Face Mask",
+            "category": "face"
+          }
+        },
+        "r22": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Genuinely better than Botox for me",
+            "body": "I'd been getting Botox for 4 years. Switched to this for 6 months to see what happened. My skin looks better and I've saved £1,800.",
+            "name": "Helena B.",
+            "location": "Bath",
+            "date": "14 December 2025",
+            "thumb_filename": "product-mask-solo.png",
+            "product_title": "Glow Face Mask",
+            "category": "face"
+          }
+        },
+        "r23": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Cap is the only thing that's worked",
+            "body": "Tried Minoxidil for 2 years, finasteride for 1, dermarolling for 6 months. This is the only thing that's actually given me back hair.",
+            "name": "Connor S.",
+            "location": "Aberdeen",
+            "date": "10 December 2025",
+            "thumb_filename": "product-cap-solo.png",
+            "product_title": "Pro Hair Growth Cap",
+            "category": "hair"
+          }
+        },
+        "r24": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Anxiety relief I wasn't expecting",
+            "body": "Bought it for sleep but the heat and the light together has become my evening anxiety reset. Don't know how it works but it does.",
+            "name": "Beth A.",
+            "location": "Norwich",
+            "date": "6 December 2025",
+            "thumb_filename": "product-eye-mask-solo.png",
+            "product_title": "Rest Eye Mask",
+            "category": "eye"
+          }
+        },
+        "r25": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Pregnancy-safe and effective",
+            "body": "My midwife confirmed it's safe to use during pregnancy (just not on the bump). Saved my postnatal hair before it even fell out this time.",
+            "name": "Zara M.",
+            "location": "Cardiff",
+            "date": "2 December 2025",
+            "thumb_filename": "product-cap-solo.png",
+            "product_title": "Pro Hair Growth Cap",
+            "category": "hair"
+          }
+        },
+        "r26": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Worth it just for the eye mask",
+            "body": "The cap and face mask are great but honestly the eye mask alone is worth the bundle price. I sleep like I did when I was 19.",
+            "name": "Patrick D.",
+            "location": "Cork",
+            "date": "28 November 2025",
+            "thumb_filename": "product-duo-side.png",
+            "product_title": "Complete Bundle",
+            "category": "bundle"
+          }
+        },
+        "r27": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Bought one for me, one for my mum",
+            "body": "Christmas sorted. She's so impressed she's bought one for her sister too. Family chain reaction.",
+            "name": "Olivia G.",
+            "location": "Swansea",
+            "date": "24 November 2025",
+            "thumb_filename": "product-mask-solo.png",
+            "product_title": "Glow Face Mask",
+            "category": "face"
+          }
+        },
+        "r28": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Acne scars fading after years",
+            "body": "I have post-acne scarring from my teens. Three months of nightly mask use and they're noticeably lighter. First time anything has worked.",
+            "name": "Theo C.",
+            "location": "Sheffield",
+            "date": "19 November 2025",
+            "thumb_filename": "product-mask-solo.png",
+            "product_title": "Glow Face Mask",
+            "category": "face"
+          }
+        },
+        "r29": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Subtle but consistent results",
+            "body": "Don't expect miracles in a week. By month 3 the changes are undeniable. Patience pays off massively with this.",
+            "name": "Vicki L.",
+            "location": "Plymouth",
+            "date": "14 November 2025",
+            "thumb_filename": "product-cap-solo.png",
+            "product_title": "Pro Hair Growth Cap",
+            "category": "hair"
+          }
+        },
+        "r30": {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "headline": "Shipping took longer than expected",
+            "body": "Took 8 days not the 3 they advertised. But the product is genuinely excellent. Just be patient with delivery.",
+            "name": "Greg M.",
+            "location": "Stoke",
+            "date": "9 November 2025",
+            "thumb_filename": "product-mask-solo.png",
+            "product_title": "Glow Face Mask",
+            "category": "face"
+          }
+        },
+        "r31": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "60-day guarantee is the truth",
+            "body": "Was about to return it at week 4 because nothing was happening. Stuck with it. By week 9 I was telling everyone about it. Keep going.",
+            "name": "Naomi W.",
+            "location": "Wolverhampton",
+            "date": "4 November 2025",
+            "thumb_filename": "product-cap-solo.png",
+            "product_title": "Pro Hair Growth Cap",
+            "category": "hair"
+          }
+        },
+        "r32": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "My partner says I look 5 years younger",
+            "body": "He's not normally one to comment on appearance. He's mentioned my skin twice in the last month. Sold.",
+            "name": "Sinead F.",
+            "location": "Dublin",
+            "date": "30 October 2025",
+            "thumb_filename": "product-mask-solo.png",
+            "product_title": "Glow Face Mask",
+            "category": "face"
+          }
+        },
+        "r33": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Haven't worn concealer in weeks",
+            "body": "My undereye circles were the bane of my life. Two months of nightly eye mask use and they're 70% gone. Don't even bother with concealer most days.",
+            "name": "Yasmine T.",
+            "location": "Bristol",
+            "date": "25 October 2025",
+            "thumb_filename": "product-eye-mask-solo.png",
+            "product_title": "Rest Eye Mask",
+            "category": "eye"
+          }
+        },
+        "r34": {
+          "type": "review",
+          "settings": {
+            "rating": 3,
+            "headline": "Works but the strap is uncomfortable",
+            "body": "Results are real, no question. But the head strap on the cap digs into my forehead after 20 mins. Wish they'd improve the comfort.",
+            "name": "Jordan E.",
+            "location": "Hull",
+            "date": "21 October 2025",
+            "thumb_filename": "product-cap-solo.png",
+            "product_title": "Pro Hair Growth Cap",
+            "category": "hair"
+          }
+        },
+        "r35": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Mum's perimenopause hair loss reversed",
+            "body": "My mum was devastated about her thinning. Bought her this for her 60th. Six months later her hairdresser is asking her what she's been doing. Worth every penny.",
+            "name": "Hannah J.",
+            "location": "Inverness",
+            "date": "17 October 2025",
+            "thumb_filename": "product-cap-solo.png",
+            "product_title": "Pro Hair Growth Cap",
+            "category": "hair"
+          }
+        },
+        "r36": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Best skincare investment I've ever made",
+            "body": "Spent over £2k on skincare last year. Single best thing I bought was this £55 mask. I'm done with overpriced creams.",
+            "name": "Maya R.",
+            "location": "Oxford",
+            "date": "12 October 2025",
+            "thumb_filename": "product-mask-solo.png",
+            "product_title": "Glow Face Mask",
+            "category": "face"
+          }
+        },
+        "r37": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "Bundle pays for itself",
+            "body": "Maths checks out — the bundle saves you basically the price of the eye mask. No-brainer if you want all three.",
+            "name": "Ben K.",
+            "location": "Cambridge",
+            "date": "8 October 2025",
+            "thumb_filename": "product-duo-side.png",
+            "product_title": "Complete Bundle",
+            "category": "bundle"
+          }
+        }
       },
-      "block_order": ["r01","r02","r03","r04","r05","r06","r07","r08","r09","r10","r11","r12"],
+      "block_order": [
+        "r01",
+        "r02",
+        "r03",
+        "r04",
+        "r05",
+        "r06",
+        "r07",
+        "r08",
+        "r09",
+        "r10",
+        "r11",
+        "r12",
+        "r13",
+        "r14",
+        "r15",
+        "r16",
+        "r17",
+        "r18",
+        "r19",
+        "r20",
+        "r21",
+        "r22",
+        "r23",
+        "r24",
+        "r25",
+        "r26",
+        "r27",
+        "r28",
+        "r29",
+        "r30",
+        "r31",
+        "r32",
+        "r33",
+        "r34",
+        "r35",
+        "r36",
+        "r37"
+      ],
       "settings": {
         "cta_heading": "Want to share your Lumisca story?",
         "cta_body": "<p>Email us at <a href=\"mailto:hello@lumisca.co.uk\">hello@lumisca.co.uk</a> and we'll send you 20% off your next order in exchange.</p>"

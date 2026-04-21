@@ -1,0 +1,129 @@
+{%- liquid
+  assign chart_max = 50.0
+  assign b1_pct = section.settings.bar1_value | times: 1.0
+  assign b2_pct = section.settings.bar2_value | times: 1.0
+  assign b3_pct = section.settings.bar3_value | times: 1.0
+  assign b1_h = b1_pct | times: 100 | divided_by: chart_max | round
+  assign b2_h = b2_pct | times: 100 | divided_by: chart_max | round
+  assign b3_h = b3_pct | times: 100 | divided_by: chart_max | round
+-%}
+
+<section class="cprf">
+  <div class="cprf-content">
+    <div class="cprf-content-inner">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="cprf-eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="cprf-heading">{{ section.settings.heading }}</h2>
+      {%- if section.settings.body != blank -%}
+        <p class="cprf-body">{{ section.settings.body }}</p>
+      {%- endif -%}
+
+      <div class="cprf-chart" role="img" aria-label="Bar chart comparing Lumisca {{ section.settings.bar1_value }}% hair growth vs Competitor A {{ section.settings.bar2_value }}% vs Competitor B {{ section.settings.bar3_value }}% over 16 weeks">
+        <ul class="cprf-y-axis" aria-hidden="true">
+          <li>50%</li>
+          <li>25%</li>
+          <li>0%</li>
+        </ul>
+
+        <div class="cprf-bars">
+          <div class="cprf-bar-col">
+            <div class="cprf-bar cprf-bar-brand" style="--h: {{ b1_h }}%;">
+              <span class="cprf-bar-value">{{ section.settings.bar1_value }}%</span>
+            </div>
+            <span class="cprf-bar-label cprf-bar-label-brand">{{ section.settings.bar1_label }}</span>
+          </div>
+          <div class="cprf-bar-col">
+            <div class="cprf-bar cprf-bar-comp" style="--h: {{ b2_h }}%;">
+              <span class="cprf-bar-value">{{ section.settings.bar2_value }}%</span>
+            </div>
+            <span class="cprf-bar-label">{{ section.settings.bar2_label }}</span>
+          </div>
+          <div class="cprf-bar-col">
+            <div class="cprf-bar cprf-bar-comp" style="--h: {{ b3_h }}%;">
+              <span class="cprf-bar-value">{{ section.settings.bar3_value }}%</span>
+            </div>
+            <span class="cprf-bar-label">{{ section.settings.bar3_label }}</span>
+          </div>
+        </div>
+      </div>
+
+      {%- if section.settings.disclaimer != blank -%}
+        <p class="cprf-disclaimer">{{ section.settings.disclaimer }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.cta_label != blank -%}
+        <a href="{{ section.settings.cta_url | default: '/pages/science' }}" class="cprf-cta">
+          {{ section.settings.cta_label }} →
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="cprf-media" role="img" aria-label="{{ section.settings.heading | escape }}" style="background-image: url('{{ section.settings.image_filename | asset_url }}');"></div>
+</section>
+
+{%- stylesheet -%}
+.cprf { display: grid; grid-template-columns: 1fr; background: var(--cream); }
+@media (min-width: 900px) { .cprf { grid-template-columns: 60% 40%; } }
+
+.cprf-content { display: flex; align-items: center; padding: 64px 1.25rem; }
+@media (min-width: 900px) { .cprf-content { padding: 80px; } }
+.cprf-content-inner { width: 100%; max-width: 640px; }
+
+.cprf-eyebrow { color: var(--red); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; font-weight: 700; margin: 0 0 1rem; }
+.cprf-heading { font-family: var(--display); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; letter-spacing: -0.015em; margin: 0 0 1.25rem; color: var(--ink); }
+.cprf-body { color: var(--mid); font-size: 1rem; line-height: 1.7; margin: 0 0 2rem; max-width: 540px; }
+
+/* Chart */
+.cprf-chart { display: grid; grid-template-columns: 36px 1fr; gap: 1.25rem; margin-bottom: 1rem; padding: 1.5rem 0 0; }
+.cprf-y-axis { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; justify-content: space-between; height: 280px; font-size: 11px; color: var(--mid); letter-spacing: .04em; text-align: right; }
+.cprf-y-axis li { line-height: 1; }
+.cprf-bars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; align-items: end; height: 280px; border-bottom: 1px solid var(--line); padding-bottom: 0; position: relative; }
+@media (min-width: 768px) { .cprf-bars { gap: 2rem; } }
+.cprf-bars::before, .cprf-bars::after { content: ""; position: absolute; left: 0; right: 0; height: 1px; background: rgba(10,10,10,.06); pointer-events: none; }
+.cprf-bars::before { top: 50%; }
+.cprf-bars::after { top: 0; }
+
+.cprf-bar-col { display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
+.cprf-bar { width: 100%; max-width: 100px; height: var(--h, 0%); position: relative; display: flex; align-items: flex-start; justify-content: center; padding-top: 12px; border-radius: 4px 4px 0 0; transition: height .8s cubic-bezier(.2,.7,.2,1); min-height: 28px; }
+.cprf-bar-brand { background: var(--red); }
+.cprf-bar-comp  { background: #B8B5AC; }
+.cprf-bar-value { color: #fff; font-family: var(--display); font-weight: 700; font-size: clamp(0.9rem, 2vw, 1.05rem); letter-spacing: -0.01em; white-space: nowrap; }
+.cprf-bar-label { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--mid); margin-top: .75rem; text-align: center; line-height: 1.25; }
+.cprf-bar-label-brand { color: var(--red); }
+
+.cprf-disclaimer { font-size: 11px; color: var(--mid); font-style: italic; margin: 1.25rem 0 1.75rem; line-height: 1.5; max-width: 520px; }
+
+.cprf-cta { display: inline-flex; align-items: center; gap: .35rem; height: 48px; padding: 0 1.5rem; border: 1px solid var(--red); color: var(--red); background: transparent; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; border-radius: 4px; transition: background .15s, color .15s; text-decoration: none; }
+.cprf-cta:hover { background: var(--red); color: #fff; }
+
+/* Media */
+.cprf-media { background-color: #141414; background-size: cover; background-position: center; min-height: 320px; order: -1; }
+@media (min-width: 900px) { .cprf-media { min-height: 500px; order: 0; } }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Clinical Proof",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "CLINICALLY PROVEN" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Outperforms other at-home solutions." },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "Independent comparison of hair density growth after 16 weeks of consistent use vs leading consumer LED competitors." },
+    { "type": "header", "content": "Bars" },
+    { "type": "text", "id": "bar1_value", "label": "Bar 1 value (Lumisca, %)", "default": "46.6" },
+    { "type": "text", "id": "bar1_label", "label": "Bar 1 label", "default": "LUMISCA" },
+    { "type": "text", "id": "bar2_value", "label": "Bar 2 value (Competitor A, %)", "default": "8.6" },
+    { "type": "text", "id": "bar2_label", "label": "Bar 2 label", "default": "Competitor A" },
+    { "type": "text", "id": "bar3_value", "label": "Bar 3 value (Competitor B, %)", "default": "6.6" },
+    { "type": "text", "id": "bar3_label", "label": "Bar 3 label", "default": "Competitor B" },
+    { "type": "header", "content": "Footer" },
+    { "type": "textarea", "id": "disclaimer", "label": "Disclaimer", "default": "*Based on customer-reported results after 16 weeks of consistent daily use. Individual results may vary." },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "See The Lumisca Difference" },
+    { "type": "url", "id": "cta_url", "label": "CTA link" },
+    { "type": "header", "content": "Media" },
+    { "type": "text", "id": "image_filename", "label": "Image asset filename", "default": "lifestyle-face-mask.png" }
+  ],
+  "presets": [ { "name": "Clinical Proof" } ]
+}
+{% endschema %}
