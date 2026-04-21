@@ -1,0 +1,109 @@
+{%- liquid
+  assign bundle = all_products[section.settings.bundle_product]
+  assign bundle_price = bundle.price | default: 12499
+  assign bundle_compare = bundle.compare_at_price | default: 29997
+  assign saved = bundle_compare | minus: bundle_price
+  assign saved_pct = saved | times: 100.0 | divided_by: bundle_compare | round
+-%}
+<section class="section-lg section-dark bundle">
+  <div class="hero-glow"></div>
+  <div class="container" style="position:relative;">
+    <div class="bundle-grid">
+      <div>
+        <span class="badge badge-gold" style="margin-bottom:1.5rem;">Best Value · Save {{ saved_pct }}%</span>
+        <h2 class="display-lg" style="margin-bottom:1rem;">
+          Get Everything.<br>
+          Save <span style="color:var(--red);">{{ saved | money }}</span>.
+        </h2>
+        <p class="muted" style="font-size:1.125rem; line-height:1.7; max-width:30rem; margin-bottom:2rem;">{{ section.settings.lead }}</p>
+
+        <ul class="bundle-list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'component' -%}
+              {%- assign p = all_products[block.settings.product] -%}
+              <li {{ block.shopify_attributes }}>
+                <span>{{ p.title | default: block.settings.fallback_title }}</span>
+                <span class="bundle-list-price">{{ p.compare_at_price | default: block.settings.fallback_price | money }}</span>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+          <li class="bundle-list-total">
+            <span style="font-family:var(--display); font-size: 1.25rem;">Complete Bundle</span>
+            <span style="font-family:var(--display); font-size: 1.875rem; color: var(--red);">{{ bundle_price | money }}</span>
+          </li>
+        </ul>
+
+        <div class="bundle-countdown">
+          <p class="eyebrow" style="color: rgba(249,247,244,.6); margin-bottom: .75rem;">Offer resets in:</p>
+          <div class="countdown" data-countdown="daily">
+            <div class="countdown-box"><span class="countdown-n" data-cd-h>00</span><span class="countdown-l">Hrs</span></div>
+            <span class="countdown-sep">:</span>
+            <div class="countdown-box"><span class="countdown-n" data-cd-m>00</span><span class="countdown-l">Min</span></div>
+            <span class="countdown-sep">:</span>
+            <div class="countdown-box"><span class="countdown-n" data-cd-s>00</span><span class="countdown-l">Sec</span></div>
+          </div>
+        </div>
+
+        <a href="{{ bundle.url | default: '/products/' | append: settings.bundle_product_handle }}" class="btn btn-red btn-xl" style="margin-top: 2rem;">
+          Shop The Bundle {% render 'icon-arrow-right' %}
+        </a>
+      </div>
+
+      <div class="bundle-media">
+        {%- if section.settings.image != blank -%}
+          <img src="{{ section.settings.image | image_url: width: 900 }}" alt="{{ section.settings.image.alt | escape }}" loading="lazy" width="900" height="1125">
+        {%- else -%}
+          <div class="ph ph-dark aspect-45"><span class="ph-label">Complete Bundle Gift Box</span></div>
+        {%- endif -%}
+        <div class="bundle-saved-tag">
+          <div style="font-size: 10px; letter-spacing: .2em; text-transform: uppercase;">You Save</div>
+          <div style="font-family: var(--display); font-size: 1.5rem;">{{ saved | money_without_trailing_zeros }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.bundle-grid { display: grid; gap: 3rem; align-items: center; }
+@media (min-width: 1024px) { .bundle-grid { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+.bundle-list { display: flex; flex-direction: column; margin-bottom: 2rem; }
+.bundle-list li { display: flex; justify-content: space-between; align-items: center; padding: .75rem 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+.bundle-list-price { color: rgba(249,247,244,.6); text-decoration: line-through; font-size: 14px; }
+.bundle-list-total { padding: 1rem 0 !important; border-bottom: 1px solid var(--red) !important; }
+.bundle-countdown { margin-bottom: 2rem; }
+.bundle-media { position: relative; }
+.bundle-media img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+.bundle-saved-tag { position: absolute; top: 1rem; right: 1rem; background: var(--red); color: #fff; padding: 1rem; text-align: center; box-shadow: 0 30px 80px -20px rgba(10,10,10,.35); }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Bundle Highlight",
+  "settings": [
+    { "type": "text", "id": "bundle_product", "label": "Bundle product handle", "default": "lumisca-complete-bundle" },
+    { "type": "textarea", "id": "lead", "label": "Lead text", "default": "The Lumisca Complete Bundle gives you all three devices — hair, skin and sleep — in one beautifully packaged box. The single best way to start your at-home light therapy routine." },
+    { "type": "image_picker", "id": "image", "label": "Bundle image" }
+  ],
+  "blocks": [
+    {
+      "type": "component",
+      "name": "Component",
+      "settings": [
+        { "type": "text", "id": "product", "label": "Product handle" },
+        { "type": "text", "id": "fallback_title", "label": "Fallback title", "default": "Pro Hair Growth Cap" },
+        { "type": "number", "id": "fallback_price", "label": "Fallback RRP (pence)", "default": 12999 }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "default": {
+    "blocks": [
+      { "type": "component", "settings": { "product": "lumisca-pro-hair-growth-cap", "fallback_title": "Pro Hair Growth Cap", "fallback_price": 12999 } },
+      { "type": "component", "settings": { "product": "lumisca-glow-face-mask", "fallback_title": "Glow Face Mask", "fallback_price": 10999 } },
+      { "type": "component", "settings": { "product": "lumisca-rest-eye-mask", "fallback_title": "Rest Heated Eye Mask", "fallback_price": 5999 } }
+    ]
+  },
+  "presets": [ { "name": "Bundle Highlight" } ]
+}
+{% endschema %}

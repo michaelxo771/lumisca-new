@@ -1,0 +1,63 @@
+<section class="section-lg section-dark science-callout">
+  <div class="hero-glow"></div>
+  <div class="container" style="position:relative;">
+    <div style="max-width: 48rem;">
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="display-lg" style="margin-bottom:1.5rem;">{{ section.settings.heading }}</h2>
+      <p class="muted" style="font-size: 1.125rem; line-height: 1.75; max-width: 40rem;">{{ section.settings.body }}</p>
+    </div>
+
+    <div class="grid grid-md-3 science-stats">
+      {%- for block in section.blocks -%}
+        <div class="science-stat" {{ block.shopify_attributes }}>
+          <div class="science-stat-n">{{ block.settings.value }}</div>
+          <p class="muted">{{ block.settings.label }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.cta_label != blank -%}
+      <a href="{{ section.settings.cta_url }}" class="btn btn-outline-light btn-lg" style="margin-top:3rem;">
+        {{ section.settings.cta_label }} {% render 'icon-arrow-right' %}
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{%- stylesheet -%}
+.science-stats { margin-top: 3.5rem; }
+.science-stat { background: rgba(255,255,255,.05); border: 1px solid rgba(201,168,76,.3); padding: 2rem; }
+.science-stat-n { font-family: var(--display); font-size: clamp(2.5rem, 5vw, 3.75rem); color: var(--gold); line-height: 1; margin-bottom: 1rem; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Science Callout",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Science" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The Science Behind Lumisca" },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Red and near-infrared light (630-850nm) have been used in dermatology clinics for over 20 years. Every Lumisca device calibrates those same wavelengths to clinical intensity, in a form you can use at home.</p>" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Read The Full Science" },
+    { "type": "url", "id": "cta_url", "label": "CTA link" }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Value", "default": "650nm" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Peak absorption wavelength for hair follicles and skin collagen" }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "default": {
+    "blocks": [
+      { "type": "stat", "settings": { "value": "650nm", "label": "Peak absorption wavelength for hair follicles and skin collagen" } },
+      { "type": "stat", "settings": { "value": "31%", "label": "Average increase in hair count in clinical trials" } },
+      { "type": "stat", "settings": { "value": "92%", "label": "Of Lumisca users report visible results by week 12" } }
+    ]
+  },
+  "presets": [ { "name": "Science Callout" } ]
+}
+{% endschema %}

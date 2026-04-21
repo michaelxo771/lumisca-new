@@ -1,0 +1,75 @@
+<section class="trust-bar">
+  <div class="container">
+    <ul class="trust-list">
+      {%- for block in section.blocks -%}
+        <li {{ block.shopify_attributes }}>
+          <span class="trust-icon">
+            {%- case block.settings.icon -%}
+              {%- when 'delivery' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="7" width="14" height="10" rx="1"/><path d="M16 11h4l2 3v3h-6V11z"/><circle cx="6.5" cy="18.5" r="1.5"/><circle cx="17.5" cy="18.5" r="1.5"/></svg>
+              {%- when 'guarantee' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              {%- when 'science' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 20c3-4 7-4 10 0 3-4 6-4 6 0"/><circle cx="12" cy="8" r="3"/><path d="M6 10v-3M18 10v-3" stroke-linecap="round"/></svg>
+              {%- when 'customers' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="10" r="2.5"/><path d="M3 19c1-3.5 3.5-5 6-5s5 1.5 6 5M15 19c.6-2.2 2-3 3.5-3s2.5.8 2.5 3" stroke-linecap="round"/></svg>
+              {%- else -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
+            {%- endcase -%}
+          </span>
+          <div>
+            <p class="trust-title">{{ block.settings.title }}</p>
+            <p class="trust-sub muted">{{ block.settings.sub }}</p>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.trust-bar { background: var(--cream); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 1.5rem 0; }
+@media (min-width: 768px) { .trust-bar { padding: 2rem 0; } }
+.trust-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem 1rem; }
+@media (min-width: 768px) { .trust-list { grid-template-columns: repeat(5, 1fr); gap: 1.5rem 2rem; } }
+.trust-list li { display: flex; align-items: center; gap: .75rem; min-width: 0; }
+.trust-icon { flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: var(--cream); display: inline-flex; align-items: center; justify-content: center; }
+.trust-icon svg { width: 22px; height: 22px; }
+.trust-title { font-size: 14px; font-weight: 600; line-height: 1.2; }
+.trust-sub { font-size: 12px; line-height: 1.2; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Trust Bar",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Trust item",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "delivery", "label": "Delivery" },
+          { "value": "guarantee", "label": "Guarantee" },
+          { "value": "science", "label": "Science" },
+          { "value": "customers", "label": "Customers" },
+          { "value": "secure", "label": "Secure" }
+        ], "default": "delivery" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Free UK Delivery" },
+        { "type": "text", "id": "sub", "label": "Subtitle", "default": "On every order" }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "default": {
+    "blocks": [
+      { "type": "item", "settings": { "icon": "delivery", "title": "Free UK Delivery", "sub": "On every order" } },
+      { "type": "item", "settings": { "icon": "guarantee", "title": "60-Day Money Back", "sub": "No questions asked" } },
+      { "type": "item", "settings": { "icon": "science", "title": "Clinically Studied", "sub": "Wavelengths backed by research" } },
+      { "type": "item", "settings": { "icon": "customers", "title": "10,000+ Customers", "sub": "Across the UK and Ireland" } },
+      { "type": "item", "settings": { "icon": "secure", "title": "Secure Checkout", "sub": "SSL & Klarna supported" } }
+    ]
+  },
+  "presets": [ { "name": "Trust Bar" } ]
+}
+{% endschema %}
