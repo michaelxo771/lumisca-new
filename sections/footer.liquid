@@ -4,14 +4,11 @@
       <a href="/" class="footer-wordmark">{{ shop.name | upcase }}</a>
       <p class="footer-tagline">{{ section.settings.tagline }}</p>
       <div class="footer-socials">
-        {%- if settings.social_tiktok != blank -%}
-          <a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener noreferrer" aria-label="TikTok">{% render 'icon-tiktok' %}</a>
-        {%- endif -%}
         {%- if settings.social_instagram != blank -%}
           <a href="{{ settings.social_instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">{% render 'icon-instagram' %}</a>
         {%- endif -%}
-        {%- if section.settings.youtube_url != blank -%}
-          <a href="{{ section.settings.youtube_url }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube">{% render 'icon-youtube' %}</a>
+        {%- if settings.social_tiktok != blank -%}
+          <a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener noreferrer" aria-label="TikTok">{% render 'icon-tiktok' %}</a>
         {%- endif -%}
       </div>
     </div>
@@ -116,7 +113,6 @@
   "name": "Footer",
   "settings": [
     { "type": "textarea", "id": "tagline", "label": "Brand tagline", "default": "Clinic-grade light therapy, delivered to your door." },
-    { "type": "url", "id": "youtube_url", "label": "YouTube URL" },
     { "type": "text", "id": "newsletter_heading", "label": "Newsletter heading", "default": "Join 10,000+ customers. Get 10% off your first order." },
     { "type": "text", "id": "email_placeholder", "label": "Email placeholder", "default": "Your email address" },
     { "type": "text", "id": "newsletter_fine", "label": "Newsletter fine print", "default": "We'll never spam you. Unsubscribe anytime." },
