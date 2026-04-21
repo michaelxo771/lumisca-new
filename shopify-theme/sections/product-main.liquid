@@ -1,0 +1,286 @@
+{%- liquid
+  assign rating = product.metafields.reviews.rating | default: 4.9
+  assign review_count = product.metafields.reviews.count | default: 0
+  assign stock = product.metafields.custom.stock | default: 23
+  assign sold_24h = product.metafields.custom.sold_24h | default: 47
+  assign viewing_now = product.metafields.custom.viewing_now | default: 12
+  assign current_variant = product.selected_or_first_available_variant
+  assign is_bundle = false
+  if product.handle == settings.bundle_product_handle
+    assign is_bundle = true
+  endif
+-%}
+<section class="section product-section">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span>/</span>
+      <a href="/collections/all">Shop</a>
+      <span>/</span>
+      <span class="muted">{{ product.title | truncate: 40 }}</span>
+    </nav>
+
+    <div class="product-grid">
+      {%- comment -%} Gallery {%- endcomment -%}
+      <div class="product-gallery" data-gallery>
+        <div class="product-thumbs no-scrollbar">
+          {%- for img in product.images -%}
+            <button type="button" class="product-thumb{% if forloop.first %} is-active{% endif %}" data-gallery-thumb="{{ img | image_url: width: 1200 }}" data-gallery-label="{{ img.alt | escape }}" aria-label="View image {{ forloop.index }}">
+              <img src="{{ img | image_url: width: 200 }}" alt="{{ img.alt | escape }}" loading="lazy" width="80" height="80">
+            </button>
+          {%- endfor -%}
+          {%- if product.images.size == 0 -%}
+            {%- for label in "Front,Interior,Lifestyle,Detail" | split: ',' -%}
+              <button type="button" class="product-thumb{% if forloop.first %} is-active{% endif %}" data-gallery-thumb="" data-gallery-label="{{ product.title }} — {{ label }}">
+                <div class="ph aspect-square"><span class="ph-label">{{ label }}</span></div>
+              </button>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+        <div class="product-main-img" data-gallery-main>
+          {%- if product.featured_image -%}
+            <img src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.featured_image.alt | escape }}" loading="eager" width="1200" height="1500">
+          {%- else -%}
+            <div class="ph aspect-45"><span class="ph-label">{{ product.title }}</span></div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%} Info {%- endcomment -%}
+      <div class="product-info">
+        <div class="product-rating">
+          {% render 'star-rating', rating: rating, size: 'md' %}
+          <span class="muted" style="font-size:14px;">{{ rating }} {% if review_count > 0 %}({{ review_count | times: 1 | default: 1248 }} reviews){% endif %}</span>
+        </div>
+
+        <h1 class="product-title">{{ product.title }}</h1>
+        <p class="muted product-desc">{{ product.description | strip_html | truncatewords: 40 }}</p>
+
+        <div class="product-price">
+          <span class="product-price-now">{{ product.price | money }}</span>
+          {%- if product.compare_at_price > product.price -%}
+            <span class="product-price-was">{{ product.compare_at_price | money }}</span>
+            {%- assign saved = product.compare_at_price | minus: product.price -%}
+            {%- assign saved_pct = saved | times: 100.0 | divided_by: product.compare_at_price | round -%}
+            <span class="badge badge-red">Save {{ saved_pct }}% · {{ saved | money }}</span>
+          {%- endif -%}
+        </div>
+
+        {%- if is_bundle -%}
+          <div class="product-bundle-cd">
+            <div>
+              <p class="eyebrow" style="color: var(--gold);">Offer ends in</p>
+              <p class="muted" style="font-size:12px; margin-top: .25rem;">Price increases at midnight</p>
+            </div>
+            <div class="countdown" data-countdown="daily">
+              <div class="countdown-box"><span class="countdown-n" data-cd-h>00</span></div>
+              <span class="countdown-sep">:</span>
+              <div class="countdown-box"><span class="countdown-n" data-cd-m>00</span></div>
+              <span class="countdown-sep">:</span>
+              <div class="countdown-box"><span class="countdown-n" data-cd-s>00</span></div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="product-trust">
+          <span>Free UK Delivery</span><span>·</span>
+          <span>60-Day Money Back</span><span>·</span>
+          <span class="product-trust-hi">In Stock — Ships Today</span>
+        </div>
+
+        <ul class="product-scarcity">
+          <li class="product-scarcity-red">⚠️ Only {{ stock }} units remaining</li>
+          <li>🔥 <strong>{{ sold_24h }} people</strong> bought this in the last 24 hours</li>
+          <li class="muted">👁 <strong style="color:var(--ink);">{{ viewing_now }} people</strong> viewing this right now</li>
+          <li data-dispatch-text></li>
+        </ul>
+
+        <form data-product-form method="post" action="{{ routes.cart_add_url }}">
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+
+          <div class="product-qty-row" data-qty>
+            <span class="eyebrow" style="color: var(--mid);">{{ 'product.quantity' | t }}</span>
+            <div class="product-qty">
+              <button type="button" data-qty-step="-1" aria-label="Decrease">−</button>
+              <input type="number" name="quantity" value="1" min="1" inputmode="numeric">
+              <button type="button" data-qty-step="1" aria-label="Increase">+</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-red btn-xl btn-block product-atc" data-atc-btn data-main-atc>
+            {% if current_variant.available %}{{ 'product.add_to_cart' | t }} · {{ product.price | money }}{% else %}{{ 'product.sold_out' | t }}{% endif %}
+            {% render 'icon-arrow-right' %}
+          </button>
+        </form>
+
+        <div class="product-pay">
+          {%- for pay in 'Apple Pay,Google Pay,Klarna' | split: ',' -%}
+            <span class="product-pay-badge">{{ pay }}</span>
+          {%- endfor -%}
+        </div>
+
+        <div class="product-badges">
+          <span>🚚 Free UK Delivery</span>
+          <span>🛡 60-Day Guarantee</span>
+          <span>🔒 Secure Checkout</span>
+          <span>✅ 2-Year Warranty</span>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} Tabs {%- endcomment -%}
+    <div class="product-tabs" data-tabs>
+      <div class="product-tabs-nav no-scrollbar">
+        {%- assign tabs = 'description,how-to-use,in-the-box,specs,shipping' | split: ',' -%}
+        {%- assign tab_labels = 'Description,How To Use,In The Box,Specs,Shipping' | split: ',' -%}
+        {%- for t in tabs -%}
+          <button type="button" class="product-tab{% if forloop.first %} is-active{% endif %}" data-tab="{{ t }}">{{ tab_labels[forloop.index0] }}</button>
+        {%- endfor -%}
+      </div>
+      <div class="product-tab-body">
+        <div data-tab-panel="description" class="product-panel is-active">
+          <div class="product-long">{{ product.description }}</div>
+          {%- assign benefits = product.metafields.custom.benefits.value -%}
+          {%- if benefits -%}
+            <ul class="product-benefit-list">
+              {%- for b in benefits -%}
+                <li>{% render 'icon-check' %} {{ b }}</li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+        <div data-tab-panel="how-to-use" class="product-panel">
+          {%- assign steps = product.metafields.custom.how_to_use.value -%}
+          {%- if steps -%}
+            <ol class="product-howto">
+              {%- for step in steps -%}<li><span class="product-howto-n">{{ forloop.index }}</span><span>{{ step }}</span></li>{%- endfor -%}
+            </ol>
+          {%- else -%}
+            <p class="muted">Follow the quick-start guide in the box. Use 4-5 times per week for best results.</p>
+          {%- endif -%}
+        </div>
+        <div data-tab-panel="in-the-box" class="product-panel">
+          {%- assign box = product.metafields.custom.in_the_box.value -%}
+          {%- if box -%}
+            <ul class="product-box">
+              {%- for item in box -%}<li><span class="product-box-dot"></span> {{ item }}</li>{%- endfor -%}
+            </ul>
+          {%- else -%}
+            <ul class="product-box">
+              <li><span class="product-box-dot"></span> {{ product.title }}</li>
+              <li><span class="product-box-dot"></span> USB-C charging cable</li>
+              <li><span class="product-box-dot"></span> Premium storage pouch</li>
+              <li><span class="product-box-dot"></span> Illustrated user guide</li>
+            </ul>
+          {%- endif -%}
+        </div>
+        <div data-tab-panel="specs" class="product-panel">
+          {%- assign specs = product.metafields.custom.specs.value -%}
+          {%- if specs -%}
+            <dl class="product-specs">
+              {%- for s in specs -%}
+                <div><dt>{{ s.label }}</dt><dd>{{ s.value }}</dd></div>
+              {%- endfor -%}
+            </dl>
+          {%- else -%}
+            <p class="muted">Full specs listed on the packaging and included user guide.</p>
+          {%- endif -%}
+        </div>
+        <div data-tab-panel="shipping" class="product-panel">
+          <p class="muted"><strong style="color:var(--ink);">Free UK delivery on every order.</strong> Tracked courier, 3-5 working days. Order before 3pm Monday-Friday for same-day dispatch.</p>
+          <p class="muted" style="margin-top:1rem;">We also ship to Ireland, Jersey, Guernsey and the Isle of Man. 60-day returns, no questions asked.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} Sticky ATC (mobile) — hidden by default, JS toggles .is-open {%- endcomment -%}
+<div class="sticky-atc" data-sticky-atc>
+  <div class="sticky-atc-inner">
+    <div class="sticky-atc-info">
+      <p class="muted" style="font-size:12px;">{{ product.title | truncate: 28 }}</p>
+      <p class="sticky-atc-price">{{ product.price | money }}</p>
+    </div>
+    <button type="button" class="btn btn-red" onclick="document.querySelector('[data-product-form]').requestSubmit()">
+      {{ 'product.add_to_cart' | t }}
+    </button>
+  </div>
+</div>
+
+{%- stylesheet -%}
+.product-section { padding-top: 1.5rem; }
+.breadcrumb { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); padding: 1rem 0; }
+.breadcrumb a:hover { color: var(--ink); }
+.breadcrumb span { margin: 0 .5rem; }
+.product-grid { display: grid; gap: 2.5rem; padding: 2rem 0; }
+@media (min-width: 1024px) { .product-grid { grid-template-columns: 1fr 1fr; gap: 3.5rem; padding: 3rem 0; } }
+.product-gallery { display: flex; flex-direction: column-reverse; gap: .75rem; }
+@media (min-width: 768px) { .product-gallery { flex-direction: row; } }
+.product-thumbs { display: flex; gap: .75rem; overflow-x: auto; }
+@media (min-width: 768px) { .product-thumbs { flex-direction: column; width: 80px; overflow: visible; } }
+.product-thumb { flex-shrink: 0; width: 80px; border: 2px solid var(--line); transition: border-color .2s; }
+.product-thumb.is-active { border-color: var(--red); }
+.product-thumb img { width: 80px; height: 80px; object-fit: cover; display: block; }
+.product-main-img { flex: 1; position: relative; }
+.product-main-img img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; }
+.product-info { display: flex; flex-direction: column; gap: 1.25rem; }
+.product-rating { display: flex; align-items: center; gap: .5rem; }
+.product-title { font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.2; }
+.product-desc { font-size: 15px; line-height: 1.65; }
+.product-price { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; }
+.product-price-now { font-family: var(--display); font-size: 2.25rem; }
+.product-price-was { color: var(--mid); text-decoration: line-through; font-size: 1.125rem; }
+.product-bundle-cd { background: var(--ink); color: var(--cream); padding: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.product-bundle-cd .countdown-box { min-width: 52px; padding: .5rem .75rem; }
+.product-bundle-cd .countdown-n { font-size: 24px; }
+.product-trust { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); display: flex; flex-wrap: wrap; gap: .25rem .75rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 1rem 0; }
+.product-trust-hi { color: var(--red); font-weight: 600; }
+.product-scarcity { display: flex; flex-direction: column; gap: .5rem; font-size: 14px; }
+.product-scarcity-red { color: var(--red); font-weight: 500; }
+.product-qty-row { padding-top: .5rem; display: flex; flex-direction: column; gap: .75rem; }
+.product-qty { display: inline-flex; border: 1px solid var(--line); width: fit-content; }
+.product-qty button { width: 48px; height: 48px; font-size: 20px; }
+.product-qty input { width: 56px; height: 48px; border: 0; text-align: center; font-variant-numeric: tabular-nums; background: transparent; }
+.product-atc { justify-content: center; gap: .5rem; }
+.product-pay { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
+.product-pay-badge { display: inline-flex; align-items: center; justify-content: center; height: 44px; border: 1px solid var(--line); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; }
+.product-badges { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; padding-top: .5rem; font-size: 12px; color: var(--mid); }
+@media (min-width: 640px) { .product-badges { grid-template-columns: repeat(4, 1fr); } }
+.product-tabs { margin-top: 3rem; }
+.product-tabs-nav { display: flex; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow-x: auto; }
+.product-tab { padding: 0 1.25rem; height: 56px; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; font-weight: 500; color: var(--mid); border-bottom: 2px solid transparent; white-space: nowrap; }
+@media (min-width: 768px) { .product-tab { padding: 0 1.75rem; } }
+.product-tab.is-active { color: var(--ink); border-bottom-color: var(--red); }
+.product-tab-body { padding: 2.5rem 0; max-width: 48rem; }
+.product-panel { display: none; }
+.product-panel.is-active { display: block; }
+.product-panel p { color: var(--mid); line-height: 1.7; }
+.product-panel p + p { margin-top: 1rem; }
+.product-benefit-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: .75rem; }
+.product-benefit-list li { display: flex; gap: .75rem; color: var(--ink); }
+.product-benefit-list svg { color: var(--red); flex-shrink: 0; margin-top: 2px; }
+.product-howto { display: flex; flex-direction: column; gap: 1.25rem; }
+.product-howto li { display: flex; gap: 1rem; line-height: 1.7; }
+.product-howto-n { width: 40px; height: 40px; border-radius: 50%; background: var(--red); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-family: var(--display); flex-shrink: 0; }
+.product-box { display: flex; flex-direction: column; gap: .75rem; }
+.product-box li { display: flex; align-items: center; gap: .75rem; }
+.product-box-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
+.product-specs { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.product-specs > div { display: grid; grid-template-columns: 180px 1fr; gap: 1rem; padding: 1rem 0; border-top: 1px solid var(--line); }
+.product-specs > div:first-child { border-top: 0; }
+.product-specs dt { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--mid); }
+.sticky-atc { position: fixed; bottom: 0; left: 0; right: 0; z-index: 30; background: var(--cream); border-top: 1px solid var(--line); box-shadow: 0 30px 80px -20px rgba(10,10,10,.35); display: none; }
+.sticky-atc.is-open { display: block; }
+@media (min-width: 768px) { .sticky-atc.is-open { display: none; } }
+.sticky-atc-inner { max-width: 480px; margin: 0 auto; padding: .75rem 1rem; display: flex; align-items: center; gap: .75rem; }
+.sticky-atc-info { flex: 1; min-width: 0; }
+.sticky-atc-price { font-family: var(--display); font-size: 18px; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Product Main",
+  "settings": []
+}
+{% endschema %}

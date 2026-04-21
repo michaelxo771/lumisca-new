@@ -1,0 +1,63 @@
+<section class="section product-timeline">
+  <div class="container">
+    <div class="center" style="max-width: 36rem; margin: 0 auto 2.5rem;">
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="display-md">{{ section.settings.heading }}</h2>
+    </div>
+    <div class="timeline-grid grid grid-md-4">
+      {%- for block in section.blocks -%}
+        <div class="tl-card" {{ block.shopify_attributes }}>
+          <div class="tl-num">{{ forloop.index }}</div>
+          <p class="eyebrow">{{ block.settings.week }}</p>
+          <h3 class="tl-title">{{ block.settings.title }}</h3>
+          <p class="muted">{{ block.settings.body }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.timeline-grid { position: relative; }
+@media (min-width: 768px) {
+  .timeline-grid::before { content: ""; position: absolute; top: 32px; left: 32px; right: 32px; height: 1px; background: var(--line); }
+}
+.tl-card { position: relative; }
+@media (min-width: 768px) { .tl-card { text-align: center; } }
+.tl-num { width: 64px; height: 64px; border-radius: 50%; background: var(--red); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 18px; position: relative; z-index: 1; box-shadow: 0 30px 80px -20px rgba(10,10,10,.35); }
+@media (min-width: 768px) { .tl-num { display: flex; margin: 0 auto; } }
+.tl-title { font-family: var(--display); font-size: 1.25rem; margin: .25rem 0 .5rem; }
+.tl-card p.muted { max-width: 260px; margin: 0 auto; line-height: 1.6; font-size: 14px; }
+.tl-card p.eyebrow { margin-top: 1rem; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Product Timeline",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Your Timeline" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What to expect, when." }
+  ],
+  "blocks": [
+    {
+      "type": "phase",
+      "name": "Phase",
+      "settings": [
+        { "type": "text", "id": "week", "label": "Week label", "default": "Week 1" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Begin Your Routine" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Scalp feels healthier. No visible changes yet — this is normal." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "default": {
+    "blocks": [
+      { "type": "phase", "settings": { "week": "Week 1", "title": "Begin Your Routine", "body": "Scalp feels healthier. No visible changes yet — this is normal." } },
+      { "type": "phase", "settings": { "week": "Week 4", "title": "Reduced Shedding", "body": "Most customers report noticeably less hair in the shower and brush." } },
+      { "type": "phase", "settings": { "week": "Week 8", "title": "Baby Hairs Emerge", "body": "Fine new growth appears at hairline and thinning patches." } },
+      { "type": "phase", "settings": { "week": "Week 12+", "title": "Visible Thickness", "body": "Density, coverage and thickness have all measurably improved." } }
+    ]
+  },
+  "presets": [ { "name": "Product Timeline" } ]
+}
+{% endschema %}

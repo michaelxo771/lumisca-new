@@ -1,0 +1,40 @@
+<section class="section product-upsell" style="border-top: 1px solid var(--line);">
+  <div class="container">
+    <div class="upsell-head">
+      <div>
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+        <h2 class="display-md">{{ section.settings.heading }}</h2>
+      </div>
+      <p class="muted" style="max-width: 22rem;">{{ section.settings.lead }}</p>
+    </div>
+    <div class="grid grid-sm-2 grid-lg-3">
+      {%- for block in section.blocks -%}
+        {%- assign p = all_products[block.settings.product] -%}
+        {%- if p != blank and p.handle != product.handle -%}
+          <div {{ block.shopify_attributes }}>{% render 'product-card', product: p %}</div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.upsell-head { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
+@media (min-width: 768px) { .upsell-head { flex-direction: row; align-items: flex-end; justify-content: space-between; } }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Product Upsell",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Better Together" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Complete Your Lumisca Routine" },
+    { "type": "textarea", "id": "lead", "label": "Lead", "default": "Customers who get the best results use all three devices. Bundle them and save over £174." }
+  ],
+  "blocks": [
+    { "type": "product", "name": "Product", "settings": [ { "type": "product", "id": "product", "label": "Product" } ] }
+  ],
+  "max_blocks": 6,
+  "presets": [ { "name": "Product Upsell" } ]
+}
+{% endschema %}
