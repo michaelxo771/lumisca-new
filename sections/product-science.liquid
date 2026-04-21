@@ -34,26 +34,61 @@
 {
   "name": "Product Science",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Science" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Clinically studied. Engineered for you." },
-    { "type": "textarea", "id": "body", "label": "Body", "default": "Calibrated to the same clinical parameters shown in peer-reviewed studies to drive measurable outcomes." },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Read The Research" },
-    { "type": "url", "id": "cta_url", "label": "CTA link" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The Science"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Clinically studied. Engineered for you."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Calibrated to the same clinical parameters shown in peer-reviewed studies to drive measurable outcomes."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Read The Research"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA link"
+    }
   ],
   "blocks": [
-    { "type": "stat", "name": "Stat", "settings": [
-      { "type": "text", "id": "value", "label": "Value", "default": "650nm" },
-      { "type": "text", "id": "label", "label": "Label", "default": "Peak absorption for hair follicles" }
-    ] }
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "650nm"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Peak absorption for hair follicles"
+        }
+      ]
+    }
   ],
   "max_blocks": 3,
-  "default": {
-    "blocks": [
-      { "type": "stat", "settings": { "value": "650nm", "label": "Peak absorption for hair follicles" } },
-      { "type": "stat", "settings": { "value": "31%", "label": "Average increase in hair count (clinical studies)" } },
-      { "type": "stat", "settings": { "value": "92%", "label": "Of users see results by week 12" } }
-    ]
-  },
-  "presets": [ { "name": "Product Science" } ]
+  "presets": [
+    {
+      "name": "Product Science"
+    }
+  ]
 }
 {% endschema %}

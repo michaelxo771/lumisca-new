@@ -26,24 +26,47 @@
 {
   "name": "Science Studies",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "References" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Peer-reviewed studies we stand on." }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "References"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Peer-reviewed studies we stand on."
+    }
   ],
   "blocks": [
-    { "type": "study", "name": "Study", "settings": [
-      { "type": "text", "id": "journal", "label": "Journal" },
-      { "type": "text", "id": "title", "label": "Study title" },
-      { "type": "textarea", "id": "takeaway", "label": "Takeaway" }
-    ] }
+    {
+      "type": "study",
+      "name": "Study",
+      "settings": [
+        {
+          "type": "text",
+          "id": "journal",
+          "label": "Journal"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Study title"
+        },
+        {
+          "type": "textarea",
+          "id": "takeaway",
+          "label": "Takeaway"
+        }
+      ]
+    }
   ],
   "max_blocks": 6,
-  "default": {
-    "blocks": [
-      { "type": "study", "settings": { "journal": "Journal of Cosmetic and Laser Therapy", "title": "Avram & Rogers (2009) — Low-Level Laser Therapy for Hair Regrowth", "takeaway": "12-month randomised controlled trial of 110 patients with androgenetic alopecia. Active LLLT group saw a 39% increase in terminal hair count vs. 0.75% in the sham group." } },
-      { "type": "study", "settings": { "journal": "Seminars in Cutaneous Medicine and Surgery", "title": "Barolet (2009) — Light-Emitting Diodes in Dermatology", "takeaway": "Comprehensive review of clinical applications. Red light in the 630-660nm range demonstrated significant effects on collagen synthesis, wound healing and reduction of inflammation." } },
-      { "type": "study", "settings": { "journal": "BBA Clinical", "title": "Hamblin (2016) — Shining Light on the Head: Photobiomodulation for Brain Disorders", "takeaway": "Review of transcranial photobiomodulation. 810-850nm near-infrared light penetrates deeply, increases mitochondrial ATP production, and has measurable effects on neurological and cellular function." } }
-    ]
-  },
-  "presets": [ { "name": "Science Studies" } ]
+  "presets": [
+    {
+      "name": "Science Studies"
+    }
+  ]
 }
 {% endschema %}

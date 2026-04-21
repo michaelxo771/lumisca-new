@@ -28,27 +28,44 @@
 {
   "name": "How It Works",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How It Works" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Results In 3 Simple Steps" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "How It Works"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Results In 3 Simple Steps"
+    }
   ],
   "blocks": [
     {
       "type": "step",
       "name": "Step",
       "settings": [
-        { "type": "text", "id": "title", "label": "Title", "default": "Choose Your Device" },
-        { "type": "textarea", "id": "body", "label": "Body", "default": "Hair, skin, sleep — or the Complete Bundle and save £174. Ships free across the UK." }
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Choose Your Device"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "Hair, skin, sleep — or the Complete Bundle and save £174. Ships free across the UK."
+        }
       ]
     }
   ],
   "max_blocks": 3,
-  "default": {
-    "blocks": [
-      { "type": "step", "settings": { "title": "Choose Your Device", "body": "Hair, skin, sleep — or the Complete Bundle and save £174. Ships free across the UK." } },
-      { "type": "step", "settings": { "title": "Use Daily 20-25 Mins", "body": "Hands-free sessions you fit around life — while you work, watch or wind down." } },
-      { "type": "step", "settings": { "title": "See Visible Results", "body": "Sleep from night one. Skin from week 4. Hair regrowth from week 8-12. Backed by our 60-day guarantee." } }
-    ]
-  },
-  "presets": [ { "name": "How It Works" } ]
+  "presets": [
+    {
+      "name": "How It Works"
+    }
+  ]
 }
 {% endschema %}

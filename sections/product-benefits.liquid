@@ -28,31 +28,50 @@
 {
   "name": "Product Benefits",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why It Works" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Engineered for real results." }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Why It Works"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Engineered for real results."
+    }
   ],
   "blocks": [
     {
       "type": "benefit",
       "name": "Benefit",
       "settings": [
-        { "type": "text", "id": "icon", "label": "Emoji icon", "default": "⚡" },
-        { "type": "text", "id": "title", "label": "Title", "default": "Clinical Wavelengths" },
-        { "type": "textarea", "id": "body", "label": "Body", "default": "Dual 650nm + 850nm light — the exact wavelengths used in Harley Street clinics." }
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Emoji icon",
+          "default": "⚡"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Clinical Wavelengths"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "Dual 650nm + 850nm light — the exact wavelengths used in Harley Street clinics."
+        }
       ]
     }
   ],
   "max_blocks": 6,
-  "default": {
-    "blocks": [
-      { "type": "benefit", "settings": { "icon": "⚡", "title": "272 Medical LEDs", "body": "Clinic-grade coverage across entire scalp." } },
-      { "type": "benefit", "settings": { "icon": "🔬", "title": "Dual Wavelength", "body": "650nm surface + 850nm deep penetration." } },
-      { "type": "benefit", "settings": { "icon": "🙌", "title": "Hands-Free", "body": "Wear while you work, cook or watch TV." } },
-      { "type": "benefit", "settings": { "icon": "⏱", "title": "Auto-Shutoff Timer", "body": "Clinically optimal session length every time." } },
-      { "type": "benefit", "settings": { "icon": "🔋", "title": "USB-C Charging", "body": "Cordless freedom between sessions." } },
-      { "type": "benefit", "settings": { "icon": "🛡", "title": "60-Day Guarantee", "body": "Love it or full refund — no questions asked." } }
-    ]
-  },
-  "presets": [ { "name": "Product Benefits" } ]
+  "presets": [
+    {
+      "name": "Product Benefits"
+    }
+  ]
 }
 {% endschema %}

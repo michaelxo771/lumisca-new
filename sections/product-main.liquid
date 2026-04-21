@@ -30,7 +30,8 @@
             </button>
           {%- endfor -%}
           {%- if product.images.size == 0 -%}
-            {%- for label in "Front,Interior,Lifestyle,Detail" | split: ',' -%}
+            {%- assign labels = "Front,Interior,Lifestyle,Detail" | split: ',' -%}
+            {%- for label in labels -%}
               <button type="button" class="product-thumb{% if forloop.first %} is-active{% endif %}" data-gallery-thumb="" data-gallery-label="{{ product.title }} — {{ label }}">
                 <div class="ph aspect-square"><span class="ph-label">{{ label }}</span></div>
               </button>

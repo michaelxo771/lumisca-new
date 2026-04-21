@@ -44,33 +44,60 @@
 {
   "name": "UGC Strip",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Community" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Join The Lumisca Community" },
-    { "type": "textarea", "id": "lead", "label": "Lead text", "default": "Tag @lumisca for a chance to feature — and see real Lumisca routines from real UK customers." },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Follow @lumisca On TikTok" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Community"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Join The Lumisca Community"
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Lead text",
+      "default": "Tag @lumisca for a chance to feature — and see real Lumisca routines from real UK customers."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Follow @lumisca On TikTok"
+    }
   ],
   "blocks": [
     {
       "type": "tile",
       "name": "Tile",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Image" },
-        { "type": "text", "id": "caption", "label": "Caption", "default": "@lucyskin — 10 weeks of Glow" },
-        { "type": "url", "id": "link", "label": "Link" }
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption",
+          "default": "@lucyskin — 10 weeks of Glow"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
       ]
     }
   ],
   "max_blocks": 10,
-  "default": {
-    "blocks": [
-      { "type": "tile", "settings": { "caption": "@lucyskin — 10 weeks of Glow" } },
-      { "type": "tile", "settings": { "caption": "@jamesruns — Hair regrowth week 12" } },
-      { "type": "tile", "settings": { "caption": "@thewellnessedit — Morning routine" } },
-      { "type": "tile", "settings": { "caption": "@hollowayhair — Before / After" } },
-      { "type": "tile", "settings": { "caption": "@olivialondon — Glow check" } },
-      { "type": "tile", "settings": { "caption": "@restfulryan — Sleep kit" } }
-    ]
-  },
-  "presets": [ { "name": "UGC Strip" } ]
+  "presets": [
+    {
+      "name": "UGC Strip"
+    }
+  ]
 }
 {% endschema %}

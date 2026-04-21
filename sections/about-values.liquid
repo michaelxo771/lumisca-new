@@ -27,24 +27,50 @@
 {
   "name": "About Values",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "What We Stand For" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Three values. Every decision." }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "What We Stand For"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Three values. Every decision."
+    }
   ],
   "blocks": [
-    { "type": "value", "name": "Value", "settings": [
-      { "type": "text", "id": "icon", "label": "Emoji", "default": "🔬" },
-      { "type": "text", "id": "title", "label": "Title", "default": "Science-Backed" },
-      { "type": "textarea", "id": "body", "label": "Body", "default": "Every wavelength, intensity and session length is calibrated to peer-reviewed research." }
-    ] }
+    {
+      "type": "value",
+      "name": "Value",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Emoji",
+          "default": "🔬"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Science-Backed"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "Every wavelength, intensity and session length is calibrated to peer-reviewed research."
+        }
+      ]
+    }
   ],
   "max_blocks": 3,
-  "default": {
-    "blocks": [
-      { "type": "value", "settings": { "icon": "🔬", "title": "Science-Backed", "body": "Every wavelength, intensity and session length is calibrated to peer-reviewed research. No magic — just clinically validated light." } },
-      { "type": "value", "settings": { "icon": "🤲", "title": "Accessible", "body": "We believe a £150 clinic session should not be a privilege. Lumisca devices deliver the same wavelengths for a one-time price." } },
-      { "type": "value", "settings": { "icon": "✨", "title": "Quality You Can Trust", "body": "Medical-grade LEDs. 2-year warranties. 60-day guarantee. If you don't see results, you don't pay — simple as that." } }
-    ]
-  },
-  "presets": [ { "name": "About Values" } ]
+  "presets": [
+    {
+      "name": "About Values"
+    }
+  ]
 }
 {% endschema %}

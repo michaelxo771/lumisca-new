@@ -84,30 +84,53 @@
       "type": "menu",
       "name": "Menu column",
       "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Shop" },
-        { "type": "link_list", "id": "menu", "label": "Menu" }
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Shop"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        }
       ]
     },
     {
       "type": "support",
       "name": "Support column",
       "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Support" },
-        { "type": "link_list", "id": "menu", "label": "Menu" },
-        { "type": "text", "id": "email", "label": "Support email", "default": "support@lumisca.com" },
-        { "type": "text", "id": "hours", "label": "Support hours", "default": "Mon-Fri, 9am-6pm GMT" }
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Support"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        },
+        {
+          "type": "text",
+          "id": "email",
+          "label": "Support email",
+          "default": "support@lumisca.com"
+        },
+        {
+          "type": "text",
+          "id": "hours",
+          "label": "Support hours",
+          "default": "Mon-Fri, 9am-6pm GMT"
+        }
       ]
     }
   ],
-  "default": {
-    "blocks": [
-      { "type": "menu", "settings": { "heading": "Shop", "menu": "footer-shop" } },
-      { "type": "menu", "settings": { "heading": "Info", "menu": "footer-info" } },
-      { "type": "support", "settings": { "heading": "Support", "menu": "footer-support", "email": "support@lumisca.com", "hours": "Mon-Fri, 9am-6pm GMT" } }
-    ]
-  },
   "presets": [
-    { "name": "Footer" }
+    {
+      "name": "Footer"
+    }
   ]
 }
 {% endschema %}

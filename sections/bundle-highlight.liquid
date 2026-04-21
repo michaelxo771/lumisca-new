@@ -81,29 +81,54 @@
 {
   "name": "Bundle Highlight",
   "settings": [
-    { "type": "text", "id": "bundle_product", "label": "Bundle product handle", "default": "lumisca-complete-bundle" },
-    { "type": "textarea", "id": "lead", "label": "Lead text", "default": "The Lumisca Complete Bundle gives you all three devices — hair, skin and sleep — in one beautifully packaged box. The single best way to start your at-home light therapy routine." },
-    { "type": "image_picker", "id": "image", "label": "Bundle image" }
+    {
+      "type": "text",
+      "id": "bundle_product",
+      "label": "Bundle product handle",
+      "default": "lumisca-complete-bundle"
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Lead text",
+      "default": "The Lumisca Complete Bundle gives you all three devices — hair, skin and sleep — in one beautifully packaged box. The single best way to start your at-home light therapy routine."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Bundle image"
+    }
   ],
   "blocks": [
     {
       "type": "component",
       "name": "Component",
       "settings": [
-        { "type": "text", "id": "product", "label": "Product handle" },
-        { "type": "text", "id": "fallback_title", "label": "Fallback title", "default": "Pro Hair Growth Cap" },
-        { "type": "number", "id": "fallback_price", "label": "Fallback RRP (pence)", "default": 12999 }
+        {
+          "type": "text",
+          "id": "product",
+          "label": "Product handle"
+        },
+        {
+          "type": "text",
+          "id": "fallback_title",
+          "label": "Fallback title",
+          "default": "Pro Hair Growth Cap"
+        },
+        {
+          "type": "number",
+          "id": "fallback_price",
+          "label": "Fallback RRP (pence)",
+          "default": 12999
+        }
       ]
     }
   ],
   "max_blocks": 4,
-  "default": {
-    "blocks": [
-      { "type": "component", "settings": { "product": "lumisca-pro-hair-growth-cap", "fallback_title": "Pro Hair Growth Cap", "fallback_price": 12999 } },
-      { "type": "component", "settings": { "product": "lumisca-glow-face-mask", "fallback_title": "Glow Face Mask", "fallback_price": 10999 } },
-      { "type": "component", "settings": { "product": "lumisca-rest-eye-mask", "fallback_title": "Rest Heated Eye Mask", "fallback_price": 5999 } }
-    ]
-  },
-  "presets": [ { "name": "Bundle Highlight" } ]
+  "presets": [
+    {
+      "name": "Bundle Highlight"
+    }
+  ]
 }
 {% endschema %}

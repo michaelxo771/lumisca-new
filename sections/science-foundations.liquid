@@ -46,30 +46,84 @@
 {
   "name": "Science Foundations",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Foundations" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "What is red light therapy?" },
-    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Red light therapy — also called low-level light therapy (LLLT) and photobiomodulation (PBM) — is the therapeutic use of specific wavelengths of red (630-660nm) and near-infrared (810-850nm) light.</p><p>It's been used in dermatology and sports medicine for over two decades. It does not produce heat. It is not UV. It is not a laser.</p><p>At the cellular level, these wavelengths are absorbed by cytochrome c oxidase in the mitochondria, triggering a measurable increase in ATP production.</p>" },
-    { "type": "text", "id": "band1_eyebrow", "label": "Band 1 eyebrow", "default": "Visible Red" },
-    { "type": "text", "id": "band1_value", "label": "Band 1 value", "default": "650nm" },
-    { "type": "textarea", "id": "band1_body", "label": "Band 1 body", "default": "Penetrates 1-5mm into skin and scalp. Primary wavelength for hair follicle stimulation and surface-level skin outcomes: collagen, elastin, pigmentation." },
-    { "type": "text", "id": "band2_eyebrow", "label": "Band 2 eyebrow", "default": "Near-Infrared" },
-    { "type": "text", "id": "band2_value", "label": "Band 2 value", "default": "850nm" },
-    { "type": "textarea", "id": "band2_body", "label": "Band 2 body", "default": "Penetrates 5-20mm — deep tissue. Ideal for inflammation, cellular repair and reaching follicles below the skin surface." }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Foundations"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What is red light therapy?"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Red light therapy — also called low-level light therapy (LLLT) and photobiomodulation (PBM) — is the therapeutic use of specific wavelengths of red (630-660nm) and near-infrared (810-850nm) light.</p><p>It's been used in dermatology and sports medicine for over two decades. It does not produce heat. It is not UV. It is not a laser.</p><p>At the cellular level, these wavelengths are absorbed by cytochrome c oxidase in the mitochondria, triggering a measurable increase in ATP production.</p>"
+    },
+    {
+      "type": "text",
+      "id": "band1_eyebrow",
+      "label": "Band 1 eyebrow",
+      "default": "Visible Red"
+    },
+    {
+      "type": "text",
+      "id": "band1_value",
+      "label": "Band 1 value",
+      "default": "650nm"
+    },
+    {
+      "type": "textarea",
+      "id": "band1_body",
+      "label": "Band 1 body",
+      "default": "Penetrates 1-5mm into skin and scalp. Primary wavelength for hair follicle stimulation and surface-level skin outcomes: collagen, elastin, pigmentation."
+    },
+    {
+      "type": "text",
+      "id": "band2_eyebrow",
+      "label": "Band 2 eyebrow",
+      "default": "Near-Infrared"
+    },
+    {
+      "type": "text",
+      "id": "band2_value",
+      "label": "Band 2 value",
+      "default": "850nm"
+    },
+    {
+      "type": "textarea",
+      "id": "band2_body",
+      "label": "Band 2 body",
+      "default": "Penetrates 5-20mm — deep tissue. Ideal for inflammation, cellular repair and reaching follicles below the skin surface."
+    }
   ],
   "blocks": [
-    { "type": "section", "name": "Deep dive", "settings": [
-      { "type": "text", "id": "title", "label": "Title" },
-      { "type": "textarea", "id": "body", "label": "Body" }
-    ] }
+    {
+      "type": "section",
+      "name": "Deep dive",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body"
+        }
+      ]
+    }
   ],
   "max_blocks": 5,
-  "default": {
-    "blocks": [
-      { "type": "section", "settings": { "title": "Hair", "body": "LLLT has been FDA-cleared for the treatment of androgenetic alopecia in both men and women since 2007. Clinical trials demonstrate an average hair count increase of 31-39% after 12-26 weeks of consistent use." } },
-      { "type": "section", "settings": { "title": "Skin", "body": "Red light stimulates fibroblasts — the cells that produce collagen and elastin. After 12 weeks of 3-5 sessions per week, studies have shown a 35% increase in collagen density and a measurable reduction in fine lines, pigmentation and erythema." } },
-      { "type": "section", "settings": { "title": "Sleep", "body": "Warm compress therapy at 42°C for 10-15 minutes is the gold standard in ophthalmology for meibomian gland dysfunction. It also downregulates sympathetic nervous activity — warmth on the eyes signals to the nervous system that it's safe to rest." } }
-    ]
-  },
-  "presets": [ { "name": "Science Foundations" } ]
+  "presets": [
+    {
+      "name": "Science Foundations"
+    }
+  ]
 }
 {% endschema %}

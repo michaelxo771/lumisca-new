@@ -48,28 +48,54 @@
       "type": "item",
       "name": "Trust item",
       "settings": [
-        { "type": "select", "id": "icon", "label": "Icon", "options": [
-          { "value": "delivery", "label": "Delivery" },
-          { "value": "guarantee", "label": "Guarantee" },
-          { "value": "science", "label": "Science" },
-          { "value": "customers", "label": "Customers" },
-          { "value": "secure", "label": "Secure" }
-        ], "default": "delivery" },
-        { "type": "text", "id": "title", "label": "Title", "default": "Free UK Delivery" },
-        { "type": "text", "id": "sub", "label": "Subtitle", "default": "On every order" }
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "delivery",
+              "label": "Delivery"
+            },
+            {
+              "value": "guarantee",
+              "label": "Guarantee"
+            },
+            {
+              "value": "science",
+              "label": "Science"
+            },
+            {
+              "value": "customers",
+              "label": "Customers"
+            },
+            {
+              "value": "secure",
+              "label": "Secure"
+            }
+          ],
+          "default": "delivery"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Free UK Delivery"
+        },
+        {
+          "type": "text",
+          "id": "sub",
+          "label": "Subtitle",
+          "default": "On every order"
+        }
       ]
     }
   ],
   "max_blocks": 5,
-  "default": {
-    "blocks": [
-      { "type": "item", "settings": { "icon": "delivery", "title": "Free UK Delivery", "sub": "On every order" } },
-      { "type": "item", "settings": { "icon": "guarantee", "title": "60-Day Money Back", "sub": "No questions asked" } },
-      { "type": "item", "settings": { "icon": "science", "title": "Clinically Studied", "sub": "Wavelengths backed by research" } },
-      { "type": "item", "settings": { "icon": "customers", "title": "10,000+ Customers", "sub": "Across the UK and Ireland" } },
-      { "type": "item", "settings": { "icon": "secure", "title": "Secure Checkout", "sub": "SSL & Klarna supported" } }
-    ]
-  },
-  "presets": [ { "name": "Trust Bar" } ]
+  "presets": [
+    {
+      "name": "Trust Bar"
+    }
+  ]
 }
 {% endschema %}

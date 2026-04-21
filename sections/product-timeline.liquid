@@ -35,29 +35,50 @@
 {
   "name": "Product Timeline",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Your Timeline" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "What to expect, when." }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Your Timeline"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What to expect, when."
+    }
   ],
   "blocks": [
     {
       "type": "phase",
       "name": "Phase",
       "settings": [
-        { "type": "text", "id": "week", "label": "Week label", "default": "Week 1" },
-        { "type": "text", "id": "title", "label": "Title", "default": "Begin Your Routine" },
-        { "type": "textarea", "id": "body", "label": "Body", "default": "Scalp feels healthier. No visible changes yet — this is normal." }
+        {
+          "type": "text",
+          "id": "week",
+          "label": "Week label",
+          "default": "Week 1"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Begin Your Routine"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "Scalp feels healthier. No visible changes yet — this is normal."
+        }
       ]
     }
   ],
   "max_blocks": 4,
-  "default": {
-    "blocks": [
-      { "type": "phase", "settings": { "week": "Week 1", "title": "Begin Your Routine", "body": "Scalp feels healthier. No visible changes yet — this is normal." } },
-      { "type": "phase", "settings": { "week": "Week 4", "title": "Reduced Shedding", "body": "Most customers report noticeably less hair in the shower and brush." } },
-      { "type": "phase", "settings": { "week": "Week 8", "title": "Baby Hairs Emerge", "body": "Fine new growth appears at hairline and thinning patches." } },
-      { "type": "phase", "settings": { "week": "Week 12+", "title": "Visible Thickness", "body": "Density, coverage and thickness have all measurably improved." } }
-    ]
-  },
-  "presets": [ { "name": "Product Timeline" } ]
+  "presets": [
+    {
+      "name": "Product Timeline"
+    }
+  ]
 }
 {% endschema %}
