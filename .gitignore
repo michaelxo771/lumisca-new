@@ -29,3 +29,7 @@ yarn-error.log*
 # Vercel
 .vercel
 nextjs/.vercel
+
+# Shopify theme build artefacts
+lumisca-theme.zip
+*.zip
