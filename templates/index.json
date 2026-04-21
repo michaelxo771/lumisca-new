@@ -1,1 +1,41 @@
-{"sections":{"announcement-bar":{"type":"announcement-bar","settings":{}},"hero":{"type":"hero","settings":{}},"trust-bar":{"type":"trust-bar","settings":{}},"featured-products":{"type":"featured-products","settings":{}},"how-it-works":{"type":"how-it-works","settings":{}},"testimonials":{"type":"testimonials","settings":{}},"faq-strip":{"type":"faq-strip","settings":{}},"footer":{"type":"footer","settings":{}}},"order":["announcement-bar","hero","trust-bar","featured-products","how-it-works","testimonials","faq-strip","footer"]}
+{
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {}
+    },
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "trust-bar": {
+      "type": "trust-bar",
+      "settings": {}
+    },
+    "featured-products": {
+      "type": "featured-products",
+      "settings": {}
+    },
+    "how-it-works": {
+      "type": "how-it-works",
+      "settings": {}
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {}
+    },
+    "faq-strip": {
+      "type": "faq-strip",
+      "settings": {}
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "hero",
+    "trust-bar",
+    "featured-products",
+    "how-it-works",
+    "testimonials",
+    "faq-strip"
+  ]
+}

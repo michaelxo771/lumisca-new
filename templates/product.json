@@ -46,9 +46,6 @@
     "reviews": {
       "type": "product-reviews"
     },
-    "footer": {
-      "type": "footer"
-    },
     "announcement-bar": {
       "type": "announcement-bar",
       "settings": {}
@@ -61,7 +58,6 @@
     "timeline",
     "science",
     "upsell",
-    "reviews",
-    "footer"
+    "reviews"
   ]
 }

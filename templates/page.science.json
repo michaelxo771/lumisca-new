@@ -17,9 +17,6 @@
         "cta_url": "/pages/faq"
       }
     },
-    "footer": {
-      "type": "footer"
-    },
     "announcement-bar": {
       "type": "announcement-bar",
       "settings": {}
@@ -30,7 +27,6 @@
     "hero",
     "foundations",
     "studies",
-    "faq",
-    "footer"
+    "faq"
   ]
 }

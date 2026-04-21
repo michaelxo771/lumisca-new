@@ -15,9 +15,6 @@
         "cta_url": "/collections/all"
       }
     },
-    "footer": {
-      "type": "footer"
-    },
     "announcement-bar": {
       "type": "announcement-bar",
       "settings": {}
@@ -28,7 +25,6 @@
     "hero",
     "mission",
     "values",
-    "guarantee",
-    "footer"
+    "guarantee"
   ]
 }

@@ -11,9 +11,6 @@
     "main": {
       "type": "faq-page"
     },
-    "footer": {
-      "type": "footer"
-    },
     "announcement-bar": {
       "type": "announcement-bar",
       "settings": {}
@@ -22,7 +19,6 @@
   "order": [
     "announcement-bar",
     "hero",
-    "main",
-    "footer"
+    "main"
   ]
 }

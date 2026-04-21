@@ -11,9 +11,6 @@
     "form": {
       "type": "contact-form"
     },
-    "footer": {
-      "type": "footer"
-    },
     "announcement-bar": {
       "type": "announcement-bar",
       "settings": {}
@@ -22,7 +19,6 @@
   "order": [
     "announcement-bar",
     "hero",
-    "form",
-    "footer"
+    "form"
   ]
 }

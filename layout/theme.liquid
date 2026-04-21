@@ -62,9 +62,10 @@
     </main>
 
     {%- comment -%}
-      Footer lives in the JSON templates — NEVER in theme.liquid. This keeps
-      section rendering consistent and lets pages own their final strip.
+      Footer rendered globally from the layout. Templates must NOT
+      include a 'footer' section or it will render twice.
     {%- endcomment -%}
+    {% section 'footer' %}
 
     {%- render 'cart-drawer' -%}
     {%- render 'mobile-nav' -%}
