@@ -1,93 +1,85 @@
-<section class="section-lg section-dark science-callout">
-  <div class="hero-glow"></div>
-  <div class="container" style="position:relative;">
-    <div style="max-width: 48rem;">
-      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
-      <h2 class="display-lg" style="margin-bottom:1.5rem;">{{ section.settings.heading }}</h2>
-      <p class="muted" style="font-size: 1.125rem; line-height: 1.75; max-width: 40rem;">{{ section.settings.body }}</p>
+<section class="science-callout-v2">
+  <div class="container science-callout-v2-grid">
+    <div class="science-callout-v2-media">
+      <img
+        src="{{ section.settings.image_filename | asset_url }}"
+        alt="{{ section.settings.heading | escape }}"
+        loading="lazy"
+      >
     </div>
+    <div class="science-callout-v2-copy">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="science-callout-v2-eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="science-callout-v2-heading">{{ section.settings.heading }}</h2>
+      <p class="science-callout-v2-body">{{ section.settings.body }}</p>
 
-    <div class="grid grid-md-3 science-stats">
-      {%- for block in section.blocks -%}
-        <div class="science-stat" {{ block.shopify_attributes }}>
-          <div class="science-stat-n">{{ block.settings.value }}</div>
-          <p class="muted">{{ block.settings.label }}</p>
-        </div>
-      {%- endfor -%}
+      <ul class="science-callout-v2-stats">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'stat' -%}
+            <li {{ block.shopify_attributes }}>
+              <span class="science-callout-v2-stat-n">{{ block.settings.value }}</span>
+              <span class="science-callout-v2-stat-l">{{ block.settings.label }}</span>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+
+      {%- if section.settings.cta_label != blank -%}
+        <a href="{{ section.settings.cta_url | default: '/pages/science' }}" class="btn btn-outline-light btn-lg">
+          {{ section.settings.cta_label }}
+        </a>
+      {%- endif -%}
     </div>
-
-    {%- if section.settings.cta_label != blank -%}
-      <a href="{{ section.settings.cta_url }}" class="btn btn-outline-light btn-lg" style="margin-top:3rem;">
-        {{ section.settings.cta_label }} {% render 'icon-arrow-right' %}
-      </a>
-    {%- endif -%}
   </div>
 </section>
 
 {%- stylesheet -%}
-.science-stats { margin-top: 3.5rem; }
-.science-stat { background: rgba(255,255,255,.05); border: 1px solid rgba(201,168,76,.3); padding: 2rem; }
-.science-stat-n { font-family: var(--display); font-size: clamp(2.5rem, 5vw, 3.75rem); color: var(--gold); line-height: 1; margin-bottom: 1rem; }
+.science-callout-v2 { background: var(--ink); color: var(--cream); padding: 120px 0; }
+@media (max-width: 768px) { .science-callout-v2 { padding: 64px 0; } }
+.science-callout-v2-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: center; }
+@media (min-width: 900px) { .science-callout-v2-grid { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+.science-callout-v2-media img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 12px; display: block; background: #141414; }
+.science-callout-v2-eyebrow { color: var(--red); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; font-weight: 600; margin: 0 0 1rem; }
+.science-callout-v2-heading { font-family: var(--display); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; letter-spacing: -0.01em; margin: 0 0 1.25rem; color: var(--cream); }
+.science-callout-v2-body { color: rgba(249,247,244,.72); font-size: 1rem; line-height: 1.7; margin: 0 0 2rem; max-width: 500px; }
+.science-callout-v2-stats { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 2rem; list-style: none; padding: 0; }
+@media (min-width: 560px) { .science-callout-v2-stats { grid-template-columns: repeat(3, 1fr); } }
+.science-callout-v2-stats li { padding: 1.25rem; border: 1px solid rgba(201,168,76,.35); background: rgba(255,255,255,.03); }
+.science-callout-v2-stat-n { display: block; font-family: var(--display); font-size: 1.5rem; color: var(--gold); line-height: 1.15; margin-bottom: .4rem; }
+.science-callout-v2-stat-l { display: block; color: rgba(249,247,244,.7); font-size: 13px; line-height: 1.45; }
 {%- endstylesheet -%}
 
 {% schema %}
 {
   "name": "Science Callout",
   "settings": [
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow",
-      "default": "The Science"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "The Science Behind Lumisca"
-    },
-    {
-      "type": "richtext",
-      "id": "body",
-      "label": "Body",
-      "default": "<p>Red and near-infrared light (630-850nm) have been used in dermatology clinics for over 20 years. Every Lumisca device calibrates those same wavelengths to clinical intensity, in a form you can use at home.</p>"
-    },
-    {
-      "type": "text",
-      "id": "cta_label",
-      "label": "CTA label",
-      "default": "Read The Full Science"
-    },
-    {
-      "type": "url",
-      "id": "cta_url",
-      "label": "CTA link"
-    }
+    { "type": "text", "id": "image_filename", "label": "Image asset filename", "default": "hero-hair-cap-dramatic.png" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "CLINICALLY BACKED" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The same wavelengths. The same science. Delivered home." },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "Lumisca uses the exact 660nm red and 850nm near-infrared wavelengths backed by 3,000+ peer-reviewed clinical studies. Each device is CE-certified to medical-device standard." },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Read The Science" },
+    { "type": "url", "id": "cta_url", "label": "CTA link" }
   ],
   "blocks": [
     {
       "type": "stat",
       "name": "Stat",
       "settings": [
-        {
-          "type": "text",
-          "id": "value",
-          "label": "Value",
-          "default": "650nm"
-        },
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Label",
-          "default": "Peak absorption wavelength for hair follicles and skin collagen"
-        }
+        { "type": "text", "id": "value", "label": "Value", "default": "660nm + 850nm" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Clinical-grade wavelengths" }
       ]
     }
   ],
   "max_blocks": 3,
   "presets": [
     {
-      "name": "Science Callout"
+      "name": "Science Callout",
+      "blocks": [
+        { "type": "stat", "settings": { "value": "660nm + 850nm", "label": "Clinical-grade wavelengths" } },
+        { "type": "stat", "settings": { "value": "CE-Certified", "label": "Medical device standard" } },
+        { "type": "stat", "settings": { "value": "3,000+", "label": "Peer-reviewed studies" } }
+      ]
     }
   ]
 }

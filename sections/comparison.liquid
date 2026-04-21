@@ -1,0 +1,96 @@
+<section class="comparison" data-fade-up>
+  <div class="container">
+    <div class="comparison-head">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="display-lg">{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="comparison-table" role="table" aria-label="Lumisca comparison">
+      <div class="comparison-row comparison-header" role="row">
+        <div class="comparison-cell comparison-cell-label" role="columnheader"></div>
+        <div class="comparison-cell comparison-cell-lumisca" role="columnheader">
+          <span class="comparison-brand">LUMISCA</span>
+        </div>
+        <div class="comparison-cell" role="columnheader">Salon Visit</div>
+        <div class="comparison-cell" role="columnheader">Other At-Home</div>
+      </div>
+
+      {%- for block in section.blocks -%}
+        <div class="comparison-row" role="row" {{ block.shopify_attributes }}>
+          <div class="comparison-cell comparison-cell-label" role="cell" data-label="Feature">{{ block.settings.feature }}</div>
+          <div class="comparison-cell comparison-cell-lumisca" role="cell" data-label="LUMISCA">{{ block.settings.lumisca }}</div>
+          <div class="comparison-cell" role="cell" data-label="Salon">{{ block.settings.salon }}</div>
+          <div class="comparison-cell" role="cell" data-label="Other">{{ block.settings.other }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.comparison { background: var(--cream); padding: 120px 0; }
+@media (max-width: 768px) { .comparison { padding: 64px 0; } }
+.comparison-head { text-align: center; max-width: 640px; margin: 0 auto 3rem; }
+.comparison-table { max-width: 1000px; margin: 0 auto; background: #fff; }
+.comparison-row { display: grid; grid-template-columns: 1.4fr 1.2fr 1fr 1fr; border-top: 1px solid var(--line); }
+.comparison-row:first-child { border-top: 0; }
+.comparison-header { background: #fff; }
+.comparison-header .comparison-cell { font-family: var(--display); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; padding-top: 1.5rem; padding-bottom: 1.5rem; }
+.comparison-brand { color: var(--ink); font-size: 15px; }
+.comparison-cell { padding: 1.25rem 1rem; font-size: 15px; color: var(--mid); }
+.comparison-cell-label { color: var(--ink); font-weight: 500; }
+.comparison-cell-lumisca { color: var(--ink); background: color-mix(in srgb, var(--cream) 85%, var(--gold) 15%); border-left: 2px solid var(--gold); border-right: 2px solid var(--gold); font-weight: 500; }
+.comparison-header .comparison-cell-lumisca { border-top: 2px solid var(--gold); }
+.comparison-row:last-child .comparison-cell-lumisca { border-bottom: 2px solid var(--gold); }
+
+@media (max-width: 800px) {
+  .comparison-table { background: transparent; display: grid; gap: 1.25rem; }
+  .comparison-row { display: block; background: #fff; border: 1px solid var(--line); padding: 1.25rem; border-top: 1px solid var(--line); }
+  .comparison-header { display: none; }
+  .comparison-cell { display: flex; justify-content: space-between; gap: 1rem; padding: .6rem 0; border-top: 1px solid var(--line); }
+  .comparison-cell:first-child { border-top: 0; }
+  .comparison-cell::before { content: attr(data-label); font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--mid); font-weight: 500; flex-shrink: 0; }
+  .comparison-cell-lumisca { border-left: 0; border-right: 0; background: transparent; color: var(--ink); }
+  .comparison-cell-lumisca::before { color: var(--red); font-weight: 600; }
+  .comparison-row { border-left: 4px solid var(--gold); }
+}
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Comparison Table",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "WHY LUMISCA" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "10,000+ UK customers didn't choose us by accident." }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        { "type": "text", "id": "feature", "label": "Feature", "default": "Cost" },
+        { "type": "text", "id": "lumisca", "label": "LUMISCA", "default": "£64.99 one-time" },
+        { "type": "text", "id": "salon",   "label": "Salon Visit", "default": "£2,400+/year" },
+        { "type": "text", "id": "other",   "label": "Other At-Home", "default": "£30–200" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Comparison Table",
+      "blocks": [
+        { "type": "row", "settings": { "feature": "Cost",          "lumisca": "£64.99 one-time",      "salon": "£2,400+/year",         "other": "£30–200" } },
+        { "type": "row", "settings": { "feature": "Convenience",   "lumisca": "Anytime, at home",     "salon": "Weekly appointments",  "other": "At home" } },
+        { "type": "row", "settings": { "feature": "Wavelengths",   "lumisca": "✓ 660nm + 850nm",      "salon": "Varies",               "other": "✗ Usually single" } },
+        { "type": "row", "settings": { "feature": "Certification", "lumisca": "✓ CE-certified",       "salon": "Varies",               "other": "✗ Often uncertified" } },
+        { "type": "row", "settings": { "feature": "Money-back",    "lumisca": "✓ 60 days",            "salon": "✗",                    "other": "Varies" } },
+        { "type": "row", "settings": { "feature": "Session time",  "lumisca": "10 minutes",           "salon": "45 minutes",           "other": "Varies" } },
+        { "type": "row", "settings": { "feature": "Ongoing cost",  "lumisca": "£0",                   "salon": "£200+/month",          "other": "Varies" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

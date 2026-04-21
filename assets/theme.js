@@ -427,6 +427,39 @@
     check();
   })();
 
+  /* Fade-up on scroll */
+  (function fadeUp() {
+    var items = $$("[data-fade-up]");
+    if (items.length === 0) return;
+    if (!("IntersectionObserver" in window)) { items.forEach(function (el) { el.classList.add("is-visible"); }); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("is-visible"); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    items.forEach(function (el) { io.observe(el); });
+  })();
+
+  /* Video-demo: autoplay on mobile, play-on-hover on desktop */
+  (function videoDemo() {
+    var vids = $$(".video-demo-video");
+    if (vids.length === 0) return;
+    var mobile = window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
+    vids.forEach(function (v) {
+      if (mobile && v.hasAttribute("data-autoplay-mobile")) {
+        var p = v.play();
+        if (p && typeof p.catch === "function") p.catch(function () {});
+        return;
+      }
+      var card = v.closest(".video-demo-card") || v;
+      card.addEventListener("mouseenter", function () {
+        var p = v.play();
+        if (p && typeof p.catch === "function") p.catch(function () {});
+      });
+      card.addEventListener("mouseleave", function () { v.pause(); v.currentTime = 0; });
+    });
+  })();
+
   /* Initial cart load to sync count */
   Cart.fetch().then(Cart.render).catch(function () {});
 })();

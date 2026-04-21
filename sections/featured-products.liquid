@@ -1,103 +1,105 @@
-<section class="section-lg featured">
+<section class="section-lg featured-v2">
   <div class="container">
-    <div class="featured-head">
+    <div class="featured-v2-head">
       <div>
         <p class="eyebrow">{{ section.settings.eyebrow }}</p>
         <h2 class="display-lg">{{ section.settings.heading }}</h2>
       </div>
-      <p class="muted featured-lead">{{ section.settings.lead }}</p>
+      {%- if section.settings.lead != blank -%}
+        <p class="muted featured-v2-lead">{{ section.settings.lead }}</p>
+      {%- endif -%}
     </div>
-    {%- liquid
-      assign rendered_count = 0
-      assign collection_handle = section.settings.collection | default: 'all'
-      assign fallback = collections[collection_handle]
-      if fallback == blank or fallback.products.size == 0
-        assign fallback = collections.all
-      endif
-    -%}
 
-    <div class="grid grid-sm-2 grid-lg-4">
+    <div class="featured-v2-grid">
       {%- for block in section.blocks -%}
-        {%- assign product = all_products[block.settings.product] -%}
-        {%- if product != blank and product != empty -%}
-          <div {{ block.shopify_attributes }}>
-            {% render 'product-card', product: product %}
-          </div>
-          {%- assign rendered_count = rendered_count | plus: 1 -%}
-        {%- endif -%}
-      {%- endfor -%}
-
-      {%- if rendered_count == 0 and fallback.products.size > 0 -%}
-        {%- for product in fallback.products limit: 4 -%}
-          {% render 'product-card', product: product %}
-          {%- assign rendered_count = rendered_count | plus: 1 -%}
-        {%- endfor -%}
-      {%- endif -%}
-
-      {%- if rendered_count == 0 -%}
-        {%- for i in (1..3) -%}
-          <article class="card card-placeholder">
-            <div class="card-media card-media-ph">
+        {%- liquid
+          assign img = block.settings.image_filename | default: ''
+          assign href = block.settings.url | default: '#'
+          assign is_featured = block.settings.is_featured
+          assign saved = 0
+          if block.settings.compare_at_price > 0 and block.settings.compare_at_price > block.settings.price
+            assign saved = block.settings.compare_at_price | minus: block.settings.price
+          endif
+        -%}
+        <a href="{{ href }}" class="featured-v2-card{% if is_featured %} featured-v2-card-gold{% endif %}" {{ block.shopify_attributes }}>
+          <div class="featured-v2-media">
+            {%- if img != blank -%}
+              <img src="{{ img | asset_url }}" alt="{{ block.settings.title | escape }}" loading="lazy" width="720" height="900">
+            {%- else -%}
               {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+            {%- if is_featured and saved > 0 -%}
+              <span class="featured-v2-badge">SAVE £{{ saved | divided_by: 100.0 }}</span>
+            {%- endif -%}
+          </div>
+          <div class="featured-v2-body">
+            <div class="featured-v2-rating">
+              {% render 'star-rating', rating: 5, size: 'sm' %}
+              <span class="muted">{{ block.settings.rating | default: '4.9' }} ({{ block.settings.review_count | default: '1,284' }})</span>
             </div>
-            <div class="card-body">
-              <h3 class="card-title">Lumisca device {{ i }}</h3>
-              <p class="card-tagline muted">Add products to your store to populate this grid automatically.</p>
-              <a href="/collections/all" class="btn btn-dark btn-block card-cta">Shop Now</a>
+            <h3 class="featured-v2-title">{{ block.settings.title }}</h3>
+            <p class="featured-v2-sub muted">{{ block.settings.tagline }}</p>
+            <div class="featured-v2-price">
+              <span class="price-now">£{{ block.settings.price | divided_by: 100.0 }}</span>
+              {%- if block.settings.compare_at_price > 0 and block.settings.compare_at_price > block.settings.price -%}
+                <span class="price-was">£{{ block.settings.compare_at_price | divided_by: 100.0 }}</span>
+              {%- endif -%}
             </div>
-          </article>
-        {%- endfor -%}
-      {%- endif -%}
+            <span class="btn btn-dark btn-block featured-v2-cta">Shop Now {% render 'icon-arrow-right' %}</span>
+          </div>
+        </a>
+      {%- endfor -%}
     </div>
   </div>
 </section>
 
 {%- stylesheet -%}
-.featured-head { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
-@media (min-width: 768px) { .featured-head { flex-direction: row; align-items: flex-end; justify-content: space-between; margin-bottom: 3.5rem; } }
-.featured-lead { max-width: 26rem; line-height: 1.65; }
-.card-media-ph { aspect-ratio: 4/5; background: var(--line); display: flex; align-items: center; justify-content: center; }
-.card-media-ph svg { width: 70%; height: 70%; fill: rgba(10,10,10,.18); }
+.featured-v2 { background: var(--cream); }
+.featured-v2-head { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 3rem; }
+@media (min-width: 768px) { .featured-v2-head { flex-direction: row; align-items: flex-end; justify-content: space-between; } }
+.featured-v2-lead { max-width: 26rem; line-height: 1.65; }
+.featured-v2-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+@media (min-width: 768px) { .featured-v2-grid { grid-template-columns: 1fr 1fr; gap: 2rem; } }
+.featured-v2-card { display: flex; flex-direction: column; background: #fff; border: .5px solid rgba(10,10,10,.1); transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; color: inherit; }
+.featured-v2-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px -20px rgba(10,10,10,.18); }
+.featured-v2-card-gold { border: 2px solid var(--gold); background: color-mix(in srgb, var(--cream) 85%, var(--gold) 15%); }
+.featured-v2-media { position: relative; aspect-ratio: 4/5; overflow: hidden; background: #fafafa; }
+.featured-v2-media img, .featured-v2-media svg { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
+.featured-v2-card:hover .featured-v2-media img { transform: scale(1.03); }
+.featured-v2-badge { position: absolute; top: 1rem; right: 1rem; background: var(--gold); color: var(--ink); font-size: 11px; letter-spacing: .15em; text-transform: uppercase; font-weight: 700; padding: .4rem .75rem; }
+.featured-v2-body { padding: 1.5rem; display: flex; flex-direction: column; gap: .5rem; }
+@media (min-width: 768px) { .featured-v2-body { padding: 2rem; } }
+.featured-v2-rating { display: flex; align-items: center; gap: .5rem; font-size: 13px; }
+.featured-v2-title { font-family: var(--display); font-size: clamp(1.25rem, 2.2vw, 1.5rem); line-height: 1.25; }
+.featured-v2-sub { font-size: 14px; line-height: 1.5; }
+.featured-v2-price { display: flex; align-items: baseline; gap: .75rem; margin: .25rem 0 .5rem; }
+.featured-v2-price .price-now { font-family: var(--display); font-size: 1.75rem; }
+.featured-v2-price .price-was { color: var(--mid); text-decoration: line-through; font-size: 1rem; }
+.featured-v2-cta { margin-top: .75rem; }
 {%- endstylesheet -%}
 
 {% schema %}
 {
   "name": "Featured Products",
   "settings": [
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow",
-      "default": "The Lumisca Collection"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Clinic-grade devices, designed for your sofa."
-    },
-    {
-      "type": "textarea",
-      "id": "lead",
-      "label": "Lead text",
-      "default": "Three devices that cover hair, skin and sleep — or bundle them together and save over £174."
-    },
-    {
-      "type": "collection",
-      "id": "collection",
-      "label": "Fallback collection"
-    }
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Lumisca Collection" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Clinic-grade devices, designed for your sofa." },
+    { "type": "textarea", "id": "lead", "label": "Lead", "default": "Three devices that cover hair, skin and sleep — or bundle them together and save over £24." }
   ],
   "blocks": [
     {
-      "type": "product",
-      "name": "Product",
+      "type": "card",
+      "name": "Product card",
       "settings": [
-        {
-          "type": "product",
-          "id": "product",
-          "label": "Product"
-        }
+        { "type": "text", "id": "image_filename", "label": "Asset filename", "default": "product-cap-solo.png" },
+        { "type": "text", "id": "title", "label": "Product title", "default": "Pro Red Light Hair Growth Cap" },
+        { "type": "text", "id": "tagline", "label": "Tagline", "default": "Clinic-grade hair regrowth, built into a cap" },
+        { "type": "number", "id": "price", "label": "Price in pence", "default": 6499 },
+        { "type": "number", "id": "compare_at_price", "label": "Compare-at price in pence", "default": 0 },
+        { "type": "text", "id": "rating", "label": "Rating", "default": "4.9" },
+        { "type": "text", "id": "review_count", "label": "Review count", "default": "1,284 reviews" },
+        { "type": "url", "id": "url", "label": "Product URL" },
+        { "type": "checkbox", "id": "is_featured", "label": "Featured (gold border)", "default": false }
       ]
     }
   ],
@@ -106,9 +108,12 @@
     {
       "name": "Featured Products",
       "category": "Products",
-      "settings": {
-        "collection": "all"
-      }
+      "blocks": [
+        { "type": "card", "settings": { "image_filename": "product-cap-solo.png", "title": "Pro Red Light Hair Growth Cap", "tagline": "Clinic-grade hair regrowth, built into a cap", "price": 6499, "compare_at_price": 0, "rating": "4.9", "review_count": "1,284 reviews", "is_featured": false } },
+        { "type": "card", "settings": { "image_filename": "product-mask-solo.png", "title": "Glow Red Light Face Mask", "tagline": "Salon-grade skincare, 10 minutes a day", "price": 5499, "compare_at_price": 0, "rating": "4.9", "review_count": "962 reviews", "is_featured": false } },
+        { "type": "card", "settings": { "image_filename": "product-eye-mask-solo.png", "title": "Rest Heated Eye Mask", "tagline": "Deeper sleep in 10 minutes", "price": 2999, "compare_at_price": 0, "rating": "4.8", "review_count": "734 reviews", "is_featured": false } },
+        { "type": "card", "settings": { "image_filename": "product-duo-side.png", "title": "The Complete Lumisca Bundle", "tagline": "All three devices — hair, skin, sleep", "price": 12499, "compare_at_price": 14997, "rating": "4.9", "review_count": "2,847 reviews", "is_featured": true } }
+      ]
     }
   ]
 }

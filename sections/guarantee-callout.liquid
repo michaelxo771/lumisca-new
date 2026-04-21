@@ -1,33 +1,87 @@
-<section class="section-lg section-dark guarantee" style="position:relative; overflow:hidden;">
-  <div class="hero-glow" style="opacity:.6;"></div>
-  <div class="container center" style="position:relative; max-width: 48rem;">
-    <div class="guarantee-icon">
-      <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-        <path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z"/>
-        <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-    <h2 class="display-lg" style="margin-bottom:1rem;">{{ section.settings.heading }}</h2>
-    <p class="muted" style="font-size:1.125rem; line-height:1.7; margin-bottom: 2rem;">{{ section.settings.body }}</p>
-    {%- if section.settings.cta_label != blank -%}
-      <a href="{{ section.settings.cta_url }}" class="btn btn-red btn-lg">{{ section.settings.cta_label }}</a>
+<section class="guarantee">
+  <div class="container guarantee-inner">
+    <div class="guarantee-big">60</div>
+    <p class="guarantee-tag">{{ section.settings.tag }}</p>
+    <h2 class="guarantee-heading">{{ section.settings.heading }}</h2>
+    {%- if section.settings.body != blank -%}
+      <p class="guarantee-body">{{ section.settings.body }}</p>
     {%- endif -%}
+
+    <ul class="guarantee-row">
+      {%- for block in section.blocks -%}
+        <li class="guarantee-item" {{ block.shopify_attributes }}>
+          <span class="guarantee-icon">
+            {%- case block.settings.icon -%}
+              {%- when 'truck' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+              {%- when 'shield' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+              {%- when 'award' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M8.5 14l-1.5 7 5-3 5 3-1.5-7"/></svg>
+              {%- when 'phone' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v2.7a2 2 0 01-2.2 2A19 19 0 013 4.2 2 2 0 015 2h2.7a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.5 2.1L8.6 9.7a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.5c.8.3 1.7.5 2.6.6a2 2 0 011.7 2z"/></svg>
+              {%- else -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/></svg>
+            {%- endcase -%}
+          </span>
+          <span class="guarantee-item-label">{{ block.settings.label }}</span>
+        </li>
+      {%- endfor -%}
+    </ul>
   </div>
 </section>
 
 {%- stylesheet -%}
-.guarantee-icon { display: inline-flex; align-items: center; justify-content: center; width: 80px; height: 80px; border-radius: 50%; background: var(--red); color: #fff; margin-bottom: 1.5rem; }
+.guarantee { background: var(--red); color: var(--cream); padding: 100px 0; text-align: center; }
+@media (max-width: 768px) { .guarantee { padding: 64px 0; } }
+.guarantee-inner { max-width: 880px; margin: 0 auto; }
+.guarantee-big { font-family: var(--display); font-size: 120px; line-height: 1; color: var(--gold); font-weight: 700; margin-bottom: .25rem; }
+@media (max-width: 768px) { .guarantee-big { font-size: 88px; } }
+.guarantee-tag { color: var(--gold); font-size: 13px; letter-spacing: .3em; text-transform: uppercase; font-weight: 700; margin-bottom: 1.5rem; }
+.guarantee-heading { font-family: var(--display); font-size: clamp(1.75rem, 3.4vw, 2.5rem); color: var(--cream); line-height: 1.2; margin-bottom: 1rem; }
+.guarantee-body { max-width: 620px; margin: 0 auto 2.5rem; color: rgba(249,247,244,.85); line-height: 1.65; font-size: 1rem; }
+.guarantee-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; list-style: none; padding: 0; margin: 0; border-top: 1px solid rgba(249,247,244,.2); padding-top: 2.25rem; }
+@media (min-width: 640px) { .guarantee-row { grid-template-columns: repeat(4, 1fr); } }
+.guarantee-item { display: flex; flex-direction: column; align-items: center; gap: .6rem; font-size: 14px; }
+.guarantee-icon { width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,.12); color: #fff; }
+.guarantee-icon svg { width: 20px; height: 20px; }
+.guarantee-item-label { color: var(--cream); }
 {%- endstylesheet -%}
 
 {% schema %}
 {
   "name": "Guarantee Callout",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "60-Day Money-Back Guarantee" },
-    { "type": "textarea", "id": "body", "label": "Body", "default": "Try any Lumisca device for 60 days. If you don't see results — or simply don't love it — we'll refund you in full, no questions asked." },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop The Collection" },
-    { "type": "url", "id": "cta_url", "label": "CTA link" }
+    { "type": "text", "id": "tag", "label": "Tag", "default": "DAY MONEY-BACK GUARANTEE" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Try Lumisca risk-free. If you don't see results, we'll refund you." },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "No returns fee. No small print. No questions asked. Just visible results — or your money back." }
   ],
-  "presets": [ { "name": "Guarantee Callout" } ]
+  "blocks": [
+    {
+      "type": "trust",
+      "name": "Trust item",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "truck", "label": "Truck" },
+          { "value": "shield", "label": "Shield" },
+          { "value": "award", "label": "Award" },
+          { "value": "phone", "label": "Phone" }
+        ], "default": "truck" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Free UK shipping" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Guarantee Callout",
+      "blocks": [
+        { "type": "trust", "settings": { "icon": "truck",  "label": "Free UK shipping" } },
+        { "type": "trust", "settings": { "icon": "shield", "label": "60-day guarantee" } },
+        { "type": "trust", "settings": { "icon": "award",  "label": "1-year warranty" } },
+        { "type": "trust", "settings": { "icon": "phone",  "label": "24/7 support" } }
+      ]
+    }
+  ]
 }
 {% endschema %}

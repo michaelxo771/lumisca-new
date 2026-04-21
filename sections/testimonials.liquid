@@ -15,10 +15,17 @@
           {% render 'star-rating', rating: 5, size: 'sm' %}
           <p class="t-body">“{{ block.settings.body }}”</p>
           <div class="t-meta">
-            <p class="t-name">{{ block.settings.name }}</p>
-            <p class="muted" style="font-size:13px;">
-              {{ block.settings.location }} · <span style="color:var(--red);">{{ block.settings.product }}</span>
-            </p>
+            {%- if block.settings.thumb_filename != blank -%}
+              <img class="t-thumb" src="{{ block.settings.thumb_filename | asset_url }}" alt="{{ block.settings.product | escape }}" loading="lazy" width="60" height="60">
+            {%- else -%}
+              <div class="t-thumb t-thumb-placeholder"></div>
+            {%- endif -%}
+            <div class="t-meta-body">
+              <p class="t-name">{{ block.settings.name }}</p>
+              <p class="muted t-sub">
+                {{ block.settings.location }} · <span style="color:var(--red);">{{ block.settings.product }}</span>
+              </p>
+            </div>
           </div>
         </article>
       {%- endfor -%}
@@ -32,62 +39,32 @@
 .t-card { background: #fff; border: 1px solid var(--line); padding: 1.5rem; display: flex; flex-direction: column; }
 @media (min-width: 768px) { .t-card { padding: 2rem; } }
 .t-body { margin-top: 1rem; line-height: 1.7; flex: 1; color: rgba(10,10,10,.9); }
-.t-meta { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.t-meta { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display: flex; align-items: center; gap: .875rem; }
+.t-thumb { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; flex-shrink: 0; background: var(--line); }
+.t-thumb-placeholder { background: var(--line); }
+.t-meta-body { min-width: 0; flex: 1; }
 .t-name { font-weight: 600; }
+.t-sub { font-size: 13px; }
 {%- endstylesheet -%}
 
 {% schema %}
 {
   "name": "Testimonials",
   "settings": [
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow",
-      "default": "Reviews"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "What Our Customers Are Saying"
-    },
-    {
-      "type": "text",
-      "id": "review_count",
-      "label": "Review count text",
-      "default": "2,847"
-    }
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Reviews" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What Our Customers Are Saying" },
+    { "type": "text", "id": "review_count", "label": "Review count text", "default": "2,847" }
   ],
   "blocks": [
     {
       "type": "review",
       "name": "Review",
       "settings": [
-        {
-          "type": "text",
-          "id": "name",
-          "label": "Name",
-          "default": "Sarah M."
-        },
-        {
-          "type": "text",
-          "id": "location",
-          "label": "Location",
-          "default": "Manchester"
-        },
-        {
-          "type": "text",
-          "id": "product",
-          "label": "Product",
-          "default": "Pro Hair Growth Cap"
-        },
-        {
-          "type": "textarea",
-          "id": "body",
-          "label": "Review body",
-          "default": "10 weeks with the Lumisca cap and I genuinely can't believe the difference."
-        }
+        { "type": "text", "id": "name", "label": "Name", "default": "Sarah M." },
+        { "type": "text", "id": "location", "label": "Location", "default": "Manchester" },
+        { "type": "text", "id": "product", "label": "Product", "default": "Pro Hair Growth Cap" },
+        { "type": "text", "id": "thumb_filename", "label": "Product thumb asset filename", "default": "product-cap-solo.png" },
+        { "type": "textarea", "id": "body", "label": "Review body", "default": "10 weeks with the Lumisca cap and I genuinely can't believe the difference." }
       ]
     }
   ],
@@ -96,33 +73,9 @@
     {
       "name": "Testimonials",
       "blocks": [
-        {
-          "type": "review",
-          "settings": {
-            "name": "Sarah M.",
-            "location": "Manchester",
-            "product": "Pro Hair Growth Cap",
-            "body": "10 weeks with the Lumisca cap and I genuinely can't believe the difference. My hairdresser noticed before I even told her."
-          }
-        },
-        {
-          "type": "review",
-          "settings": {
-            "name": "Claire B.",
-            "location": "Edinburgh",
-            "product": "Glow Face Mask",
-            "body": "I was spending £80 a month on facials. This paid for itself in the first month. My skin looks brighter after 6 weeks."
-          }
-        },
-        {
-          "type": "review",
-          "settings": {
-            "name": "James T.",
-            "location": "Birmingham",
-            "product": "Rest Eye Mask",
-            "body": "15 minutes before bed and I sleep better than I have in years."
-          }
-        }
+        { "type": "review", "settings": { "name": "Sarah M.",  "location": "Manchester",  "product": "Pro Hair Growth Cap", "thumb_filename": "product-cap-solo.png",      "body": "10 weeks with the Lumisca cap and I genuinely can't believe the difference. My hairdresser noticed before I even told her." } },
+        { "type": "review", "settings": { "name": "Claire B.", "location": "Edinburgh",   "product": "Glow Face Mask",      "thumb_filename": "product-mask-solo.png",     "body": "I was spending £80 a month on facials. This paid for itself in the first month. My skin looks brighter after 6 weeks." } },
+        { "type": "review", "settings": { "name": "James T.",  "location": "Birmingham",  "product": "Rest Eye Mask",       "thumb_filename": "product-eye-mask-solo.png", "body": "15 minutes before bed and I sleep better than I have in years." } }
       ]
     }
   ]

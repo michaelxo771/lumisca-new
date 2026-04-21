@@ -1,0 +1,52 @@
+<section class="press-bar">
+  <div class="container press-bar-inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="press-bar-eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    <ul class="press-bar-names">
+      {%- for block in section.blocks -%}
+        <li class="press-bar-name" {{ block.shopify_attributes }}>{{ block.settings.name }}</li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.press-bar { background: var(--cream); padding: 40px 0; text-align: center; }
+.press-bar-eyebrow { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: #888; margin: 0 0 1rem; font-weight: 500; }
+.press-bar-names { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .75rem 1.5rem; list-style: none; padding: 0; margin: 0; }
+.press-bar-name { font-family: var(--display); font-size: 18px; font-weight: 500; color: #555; position: relative; letter-spacing: .04em; }
+.press-bar-name + .press-bar-name::before { content: "·"; position: absolute; left: -1rem; color: #aaa; }
+@media (max-width: 640px) {
+  .press-bar-names { gap: .5rem 1rem; }
+  .press-bar-name { font-size: 15px; }
+  .press-bar-name + .press-bar-name::before { left: -.6rem; }
+}
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Press Bar",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "AS FEATURED IN" }
+  ],
+  "blocks": [
+    { "type": "name", "name": "Publication", "settings": [
+      { "type": "text", "id": "name", "label": "Name", "default": "VOGUE" }
+    ] }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Press Bar",
+      "blocks": [
+        { "type": "name", "settings": { "name": "VOGUE" } },
+        { "type": "name", "settings": { "name": "ELLE" } },
+        { "type": "name", "settings": { "name": "WOMEN'S HEALTH" } },
+        { "type": "name", "settings": { "name": "REFINERY29" } },
+        { "type": "name", "settings": { "name": "GRAZIA" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

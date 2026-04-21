@@ -1,0 +1,46 @@
+<section class="lifestyle" data-fade-up>
+  <div class="lifestyle-media" role="img" aria-label="{{ section.settings.heading | escape }}" style="background-image: url('{{ section.settings.image_filename | asset_url }}');"></div>
+  <div class="lifestyle-copy">
+    <div class="lifestyle-copy-inner">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="lifestyle-eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="lifestyle-heading">{{ section.settings.heading }}</h2>
+      <p class="lifestyle-body">{{ section.settings.body }}</p>
+      {%- if section.settings.cta_label != blank -%}
+        <a href="{{ section.settings.cta_url | default: '/pages/science' }}" class="btn btn-outline-light btn-lg lifestyle-cta">
+          {{ section.settings.cta_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.lifestyle { display: grid; grid-template-columns: 1fr; background: var(--ink); color: var(--cream); }
+@media (min-width: 900px) { .lifestyle { grid-template-columns: 1fr 1fr; } }
+.lifestyle-media { background-size: cover; background-position: center; background-color: #141414; min-height: 400px; }
+@media (min-width: 900px) { .lifestyle-media { min-height: 600px; } }
+.lifestyle-copy { display: flex; align-items: center; padding: 4rem 1.5rem; }
+@media (min-width: 900px) { .lifestyle-copy { padding: 80px; } }
+.lifestyle-copy-inner { max-width: 520px; }
+.lifestyle-eyebrow { color: var(--red); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; font-weight: 600; margin: 0 0 1rem; }
+.lifestyle-heading { font-family: var(--display); color: var(--cream); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; letter-spacing: -0.01em; margin: 0 0 1.25rem; }
+.lifestyle-body { color: rgba(249,247,244,.72); font-size: 1rem; line-height: 1.7; margin: 0 0 2rem; max-width: 480px; }
+.lifestyle-cta { text-decoration: none; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Lifestyle Editorial",
+  "settings": [
+    { "type": "text", "id": "image_filename", "label": "Image asset filename", "default": "lifestyle-face-mask.png" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE LUMISCA EXPERIENCE" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Clinical-grade results. Salon-level ritual. Your home." },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "Each Lumisca device delivers the exact red and near-infrared wavelengths used in top dermatology clinics — at a fraction of the cost. No appointments, no travel, no commitment. Just 10 minutes a day, from your sofa." },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Discover The Science" },
+    { "type": "url", "id": "cta_url", "label": "CTA link" }
+  ],
+  "presets": [ { "name": "Lifestyle Editorial" } ]
+}
+{% endschema %}
