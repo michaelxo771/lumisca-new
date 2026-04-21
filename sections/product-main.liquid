@@ -115,7 +115,8 @@
         </form>
 
         <div class="product-pay">
-          {%- for pay in 'Apple Pay,Google Pay,Klarna' | split: ',' -%}
+          {%- assign pay_methods = 'Apple Pay,Google Pay,Klarna' | split: ',' -%}
+          {%- for pay in pay_methods -%}
             <span class="product-pay-badge">{{ pay }}</span>
           {%- endfor -%}
         </div>
