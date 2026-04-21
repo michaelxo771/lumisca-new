@@ -1,35 +1,31 @@
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# Next.js build / dev files (live in nextjs/)
+nextjs/node_modules
+nextjs/.next/
+nextjs/out/
+nextjs/build
+nextjs/.pnp
+nextjs/.pnp.js
+nextjs/coverage
 
-# testing
-/coverage
+# TypeScript
+*.tsbuildinfo
 
-# next.js
-/.next/
-/out/
+# Env
+.env
+.env*.local
+nextjs/.env
+nextjs/.env*.local
 
-# production
-/build
-
-# misc
+# Misc
 .DS_Store
 *.pem
 
-# debug
+# Debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# local env files
-.env*.local
-.env
-
-# vercel
+# Vercel
 .vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts.backup
+nextjs/.vercel
