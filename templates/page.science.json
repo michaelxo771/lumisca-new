@@ -1,8 +1,14 @@
 {
   "sections": {
-    "hero": { "type": "science-hero" },
-    "foundations": { "type": "science-foundations" },
-    "studies": { "type": "science-studies" },
+    "hero": {
+      "type": "science-hero"
+    },
+    "foundations": {
+      "type": "science-foundations"
+    },
+    "studies": {
+      "type": "science-studies"
+    },
     "faq": {
       "type": "faq-strip",
       "settings": {
@@ -11,7 +17,20 @@
         "cta_url": "/pages/faq"
       }
     },
-    "footer": { "type": "footer" }
+    "footer": {
+      "type": "footer"
+    },
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {}
+    }
   },
-  "order": ["hero", "foundations", "studies", "faq", "footer"]
+  "order": [
+    "announcement-bar",
+    "hero",
+    "foundations",
+    "studies",
+    "faq",
+    "footer"
+  ]
 }

@@ -1,13 +1,34 @@
 {
   "sections": {
-    "hero": { "type": "about-hero" },
-    "mission": { "type": "about-mission" },
-    "values": { "type": "about-values" },
+    "hero": {
+      "type": "about-hero"
+    },
+    "mission": {
+      "type": "about-mission"
+    },
+    "values": {
+      "type": "about-values"
+    },
     "guarantee": {
       "type": "guarantee-callout",
-      "settings": { "cta_url": "/collections/all" }
+      "settings": {
+        "cta_url": "/collections/all"
+      }
     },
-    "footer": { "type": "footer" }
+    "footer": {
+      "type": "footer"
+    },
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {}
+    }
   },
-  "order": ["hero", "mission", "values", "guarantee", "footer"]
+  "order": [
+    "announcement-bar",
+    "hero",
+    "mission",
+    "values",
+    "guarantee",
+    "footer"
+  ]
 }

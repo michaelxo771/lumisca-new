@@ -1,8 +1,23 @@
 {
   "sections": {
-    "main": { "type": "collection-main" },
-    "trust": { "type": "trust-bar" },
-    "footer": { "type": "footer" }
+    "main": {
+      "type": "collection-main"
+    },
+    "trust": {
+      "type": "trust-bar"
+    },
+    "footer": {
+      "type": "footer"
+    },
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {}
+    }
   },
-  "order": ["main", "trust", "footer"]
+  "order": [
+    "announcement-bar",
+    "main",
+    "trust",
+    "footer"
+  ]
 }

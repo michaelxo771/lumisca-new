@@ -1,23 +1,67 @@
 {
   "sections": {
-    "main": { "type": "product-main" },
-    "benefits": { "type": "product-benefits" },
-    "timeline": { "type": "product-timeline" },
+    "main": {
+      "type": "product-main"
+    },
+    "benefits": {
+      "type": "product-benefits"
+    },
+    "timeline": {
+      "type": "product-timeline"
+    },
     "science": {
       "type": "product-science",
-      "settings": { "cta_url": "/pages/science" }
+      "settings": {
+        "cta_url": "/pages/science"
+      }
     },
     "upsell": {
       "type": "product-upsell",
       "blocks": {
-        "u1": { "type": "product", "settings": { "product": "lumisca-complete-bundle" } },
-        "u2": { "type": "product", "settings": { "product": "lumisca-glow-face-mask" } },
-        "u3": { "type": "product", "settings": { "product": "lumisca-rest-eye-mask" } }
+        "u1": {
+          "type": "product",
+          "settings": {
+            "product": "lumisca-complete-bundle"
+          }
+        },
+        "u2": {
+          "type": "product",
+          "settings": {
+            "product": "lumisca-glow-face-mask"
+          }
+        },
+        "u3": {
+          "type": "product",
+          "settings": {
+            "product": "lumisca-rest-eye-mask"
+          }
+        }
       },
-      "block_order": ["u1", "u2", "u3"]
+      "block_order": [
+        "u1",
+        "u2",
+        "u3"
+      ]
     },
-    "reviews": { "type": "product-reviews" },
-    "footer": { "type": "footer" }
+    "reviews": {
+      "type": "product-reviews"
+    },
+    "footer": {
+      "type": "footer"
+    },
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {}
+    }
   },
-  "order": ["main", "benefits", "timeline", "science", "upsell", "reviews", "footer"]
+  "order": [
+    "announcement-bar",
+    "main",
+    "benefits",
+    "timeline",
+    "science",
+    "upsell",
+    "reviews",
+    "footer"
+  ]
 }

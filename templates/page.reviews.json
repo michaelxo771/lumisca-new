@@ -1,11 +1,26 @@
 {
   "sections": {
-    "hero": { "type": "reviews-hero" },
+    "hero": {
+      "type": "reviews-hero"
+    },
     "list": {
       "type": "reviews-list",
-      "settings": { "cta_url": "/collections/all" }
+      "settings": {
+        "cta_url": "/collections/all"
+      }
     },
-    "footer": { "type": "footer" }
+    "footer": {
+      "type": "footer"
+    },
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {}
+    }
   },
-  "order": ["hero", "list", "footer"]
+  "order": [
+    "announcement-bar",
+    "hero",
+    "list",
+    "footer"
+  ]
 }

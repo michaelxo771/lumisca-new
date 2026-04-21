@@ -1,7 +1,19 @@
 {
   "sections": {
-    "main": { "type": "search-main" },
-    "footer": { "type": "footer" }
+    "main": {
+      "type": "search-main"
+    },
+    "footer": {
+      "type": "footer"
+    },
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {}
+    }
   },
-  "order": ["main", "footer"]
+  "order": [
+    "announcement-bar",
+    "main",
+    "footer"
+  ]
 }

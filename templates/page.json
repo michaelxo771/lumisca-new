@@ -6,8 +6,21 @@
         "heading": "Page title"
       }
     },
-    "content": { "type": "page-content" },
-    "footer": { "type": "footer" }
+    "content": {
+      "type": "page-content"
+    },
+    "footer": {
+      "type": "footer"
+    },
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {}
+    }
   },
-  "order": ["hero", "content", "footer"]
+  "order": [
+    "announcement-bar",
+    "hero",
+    "content",
+    "footer"
+  ]
 }
