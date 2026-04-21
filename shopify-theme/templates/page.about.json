@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "hero": { "type": "about-hero" },
+    "mission": { "type": "about-mission" },
+    "values": { "type": "about-values" },
+    "guarantee": {
+      "type": "guarantee-callout",
+      "settings": { "cta_url": "/collections/all" }
+    },
+    "footer": { "type": "footer" }
+  },
+  "order": ["hero", "mission", "values", "guarantee", "footer"]
+}

@@ -1,0 +1,24 @@
+<section class="section page-content">
+  <div class="container" style="max-width: 56rem;">
+    <div class="prose">
+      {{ page.content }}
+    </div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.page-content .prose { color: var(--ink); line-height: 1.75; font-size: 17px; }
+.page-content .prose h2 { font-family: var(--display); font-size: clamp(1.5rem, 3vw, 2.25rem); margin: 2.5rem 0 1rem; }
+.page-content .prose h3 { font-family: var(--display); font-size: clamp(1.25rem, 2.4vw, 1.75rem); margin: 2rem 0 .75rem; }
+.page-content .prose p { color: var(--mid); }
+.page-content .prose p + p { margin-top: 1.25rem; }
+.page-content .prose a { color: var(--red); text-decoration: underline; text-underline-offset: 4px; }
+.page-content .prose ul, .page-content .prose ol { margin: 1rem 0 1.25rem 1.25rem; color: var(--mid); display: flex; flex-direction: column; gap: .5rem; }
+.page-content .prose li { list-style: disc; }
+.page-content .prose ol li { list-style: decimal; }
+.page-content .prose strong { color: var(--ink); }
+{%- endstylesheet -%}
+
+{% schema %}
+{ "name": "Page Content", "settings": [] }
+{% endschema %}

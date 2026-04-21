@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "hero": {
+      "type": "page-hero",
+      "settings": {
+        "eyebrow": "Contact",
+        "heading": "We're here to help.",
+        "body": "<p>Email us at <a href=\"mailto:support@lumisca.com\">support@lumisca.com</a> — our UK team typically responds within 24 hours.</p>"
+      }
+    },
+    "form": { "type": "contact-form" },
+    "footer": { "type": "footer" }
+  },
+  "order": ["hero", "form", "footer"]
+}

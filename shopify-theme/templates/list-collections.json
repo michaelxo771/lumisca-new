@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "hero": {
+      "type": "page-hero",
+      "settings": {
+        "eyebrow": "Shop",
+        "heading": "The Lumisca Collection",
+        "body": "<p>Four devices. Three routines. One complete at-home light therapy clinic.</p>"
+      }
+    },
+    "collections": { "type": "collection-list" },
+    "footer": { "type": "footer" }
+  },
+  "order": ["hero", "collections", "footer"]
+}

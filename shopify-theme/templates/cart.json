@@ -1,0 +1,7 @@
+{
+  "sections": {
+    "main": { "type": "cart-main" },
+    "footer": { "type": "footer" }
+  },
+  "order": ["main", "footer"]
+}

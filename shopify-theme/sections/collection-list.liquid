@@ -1,0 +1,33 @@
+<section class="section collection-list">
+  <div class="container">
+    <div class="grid grid-sm-2 grid-lg-3">
+      {%- for collection in collections -%}
+        {%- unless collection.handle == 'frontpage' -%}
+          <a href="{{ collection.url }}" class="coll-card">
+            {%- if collection.image -%}
+              <img src="{{ collection.image | image_url: width: 700 }}" alt="{{ collection.title | escape }}" loading="lazy" width="700" height="500">
+            {%- else -%}
+              <div class="ph aspect-45"><span class="ph-label">{{ collection.title }}</span></div>
+            {%- endif -%}
+            <div class="coll-body">
+              <h3 class="coll-title">{{ collection.title }}</h3>
+              <p class="muted" style="font-size: 14px;">{{ collection.products_count }} products</p>
+            </div>
+          </a>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.coll-card { display: block; background: var(--cream); border: 1px solid var(--line); }
+.coll-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+.coll-body { padding: 1.25rem; }
+.coll-title { font-family: var(--display); font-size: 1.25rem; margin-bottom: .25rem; }
+.coll-card:hover .coll-title { color: var(--red); }
+{%- endstylesheet -%}
+
+{% schema %}
+{ "name": "Collection List", "settings": [] }
+{% endschema %}

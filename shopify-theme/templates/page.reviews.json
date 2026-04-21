@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "hero": { "type": "reviews-hero" },
+    "list": {
+      "type": "reviews-list",
+      "settings": { "cta_url": "/collections/all" }
+    },
+    "footer": { "type": "footer" }
+  },
+  "order": ["hero", "list", "footer"]
+}

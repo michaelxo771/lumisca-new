@@ -1,0 +1,40 @@
+<section class="section search-main">
+  <div class="container" style="max-width: 64rem;">
+    <h1 class="display-lg" style="margin-bottom: 2rem;">Search</h1>
+
+    <form action="{{ routes.search_url }}" method="get" class="search-form">
+      <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search products, science, FAQ…" autofocus>
+      <button type="submit" class="btn btn-dark">Search</button>
+    </form>
+
+    {%- if search.performed -%}
+      {%- if search.results_count > 0 -%}
+        <p class="muted" style="margin: 1rem 0 2rem;">{{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %} for "{{ search.terms | escape }}"</p>
+        <div class="grid grid-sm-2 grid-lg-4">
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              {% render 'product-card', product: item %}
+            {%- else -%}
+              <article class="card">
+                <a href="{{ item.url }}" class="card-title" style="font-family: var(--display); font-size: 1.125rem;">{{ item.title }}</a>
+                <p class="muted" style="font-size: 14px; margin-top: .5rem;">{{ item.content | strip_html | truncatewords: 20 }}</p>
+              </article>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <p class="muted" style="margin-top: 2rem;">No results for "{{ search.terms | escape }}". Try a different keyword, or <a href="/collections/all" style="color: var(--red); text-decoration: underline; text-underline-offset: 4px;">browse the collection</a>.</p>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{%- stylesheet -%}
+.search-form { display: flex; gap: .75rem; max-width: 36rem; }
+.search-form input { flex: 1; height: 48px; padding: 0 1rem; border: 1px solid var(--line); background: var(--cream); font-size: 15px; }
+.search-form input:focus { border-color: var(--red); outline: none; }
+{%- endstylesheet -%}
+
+{% schema %}
+{ "name": "Search", "settings": [] }
+{% endschema %}

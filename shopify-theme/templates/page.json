@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "hero": {
+      "type": "page-hero",
+      "settings": {
+        "heading": "Page title"
+      }
+    },
+    "content": { "type": "page-content" },
+    "footer": { "type": "footer" }
+  },
+  "order": ["hero", "content", "footer"]
+}

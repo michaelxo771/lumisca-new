@@ -1,0 +1,7 @@
+{
+  "sections": {
+    "main": { "type": "search-main" },
+    "footer": { "type": "footer" }
+  },
+  "order": ["main", "footer"]
+}

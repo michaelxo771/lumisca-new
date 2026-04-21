@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "hero": { "type": "science-hero" },
+    "foundations": { "type": "science-foundations" },
+    "studies": { "type": "science-studies" },
+    "faq": {
+      "type": "faq-strip",
+      "settings": {
+        "eyebrow": "FAQ",
+        "heading": "The Science, Questions Answered",
+        "cta_url": "/pages/faq"
+      }
+    },
+    "footer": { "type": "footer" }
+  },
+  "order": ["hero", "foundations", "studies", "faq", "footer"]
+}

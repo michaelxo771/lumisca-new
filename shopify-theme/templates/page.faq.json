@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "hero": {
+      "type": "page-hero",
+      "settings": {
+        "eyebrow": "FAQ",
+        "heading": "Everything you want to know.",
+        "body": "<p>If your question isn't answered below, our UK team is at <a href=\"mailto:support@lumisca.com\">support@lumisca.com</a> — typical reply within 24 hours.</p>"
+      }
+    },
+    "main": { "type": "faq-page" },
+    "footer": { "type": "footer" }
+  },
+  "order": ["hero", "main", "footer"]
+}
