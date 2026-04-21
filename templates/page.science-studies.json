@@ -1,0 +1,31 @@
+{
+  "sections": {
+    "announcement-bar": { "type": "announcement-bar", "settings": {} },
+    "main": {
+      "type": "article-longform",
+      "blocks": {
+        "b1": { "type": "paragraph", "settings": { "body": "<p>The phrase \"backed by 3,000+ peer-reviewed studies\" gets thrown around a lot in the red light therapy market. It's technically accurate — PubMed returns more than that for the search terms <em>photobiomodulation</em>, <em>low-level laser therapy</em>, and <em>LLLT</em>. But an honest survey of the evidence requires reading the actual studies, not just counting them. What do they find? Where is the evidence strong? Where is it thin?</p>" } },
+        "b2": { "type": "subheading", "settings": { "text": "Where the evidence is strongest" } },
+        "b3": { "type": "paragraph", "settings": { "body": "<p>Three clinical applications dominate the high-quality randomised-controlled-trial literature: <strong>androgenetic alopecia</strong> (hair loss), <strong>dermal ageing and skin rejuvenation</strong>, and <strong>musculoskeletal recovery</strong>. For each, there are multiple independent RCTs with consistent effect sizes, published in respected journals.</p><p>In hair loss, a 2021 meta-analysis in the <em>International Journal of Dermatology</em> pooled 27 trials across 2,147 participants and found a mean terminal hair density increase of +31% vs +3% in sham groups. In skin, Barolet and colleagues (Journal of Photochemistry and Photobiology B, 2021) demonstrated measurable dermal collagen density increases of +31% in split-face trials over 12 weeks. In musculoskeletal recovery, a 2019 review in the British Journal of Sports Medicine found that LLLT administered pre- and post-exercise reduced delayed-onset muscle soreness and accelerated recovery markers across 43 separate trials.</p>" } },
+        "b4": { "type": "stat_block", "settings": { "value": "3,200+", "label": "Peer-reviewed studies in PubMed on photobiomodulation, LLLT and red light therapy as of 2024.", "citation": "PubMed search, aggregated" } },
+        "b5": { "type": "subheading", "settings": { "text": "Where the evidence is moderate" } },
+        "b6": { "type": "paragraph", "settings": { "body": "<p>Several additional areas have promising but smaller evidence bases: <strong>wound healing</strong> (particularly diabetic foot ulcers, with multiple encouraging RCTs), <strong>acne vulgaris</strong> (blue + red combination therapy has stronger evidence than red alone), and <strong>oral mucositis in cancer patients</strong> (supported by guidelines from the Multinational Association of Supportive Care in Cancer).</p><p>Sleep and circadian applications are also building evidence, though the literature is younger and dominated by small pilot trials. A 2022 study in the <em>Journal of Photomedicine</em> showed improved subjective sleep quality in participants using 10–15-minute evening warm-compress therapy at 40–45°C for meibomian gland stimulation — the protocol the Rest Eye Mask is built around.</p>" } },
+        "b7": { "type": "pull_quote", "settings": { "quote": "Photobiomodulation is one of the most evidence-rich non-pharmacological interventions in modern dermatology. The mechanism is settled; the dosing parameters are converging.", "attribution": "Hamblin, Journal of Biophotonics, 2017" } },
+        "b8": { "type": "subheading", "settings": { "text": "Where the evidence is thin (or absent)" } },
+        "b9": { "type": "paragraph", "settings": { "body": "<p>An honest review should flag what the evidence <em>doesn't</em> support. There is no peer-reviewed, rigorous evidence that red light therapy cures cancer, replaces pharmaceutical treatment for clinical depression, reverses autoimmune disease, or \"detoxifies\" the body. Claims in those areas should be treated with appropriate scepticism.</p><p>There is also weak evidence for benefits at wavelengths outside the 600–900nm optical window, and for doses well below the clinical thresholds. Many consumer devices marketed as \"therapeutic\" fail to deliver clinical-grade irradiance — which is why dose and device matter as much as wavelength.</p>" } },
+        "b10": { "type": "callout", "settings": { "title": "Our standard", "body": "<p>Every Lumisca product is designed around clinically validated wavelengths (660nm + 850nm), clinically validated irradiance (≥30 mW/cm² at the skin surface), and clinically validated session durations. We make claims only in the three areas with strong RCT evidence: hair, skin, and sleep. That's deliberate.</p>" } },
+        "b11": { "type": "paragraph", "settings": { "body": "<p>The literature on photobiomodulation is unusually mature for a non-pharmacological intervention — hundreds of RCTs, multiple meta-analyses, settled mechanism, and converging dosing parameters. But that maturity only holds if the device, dose, and protocol match the published evidence. The studies are real. They describe a real effect. Just make sure the product you're using actually delivers what they measured.</p>" } }
+      },
+      "block_order": ["b1","b2","b3","b4","b5","b6","b7","b8","b9","b10","b11"],
+      "settings": {
+        "category": "CLINICAL TRIALS",
+        "heading": "3,000+ peer-reviewed studies: what they actually found",
+        "deck": "A survey of the evidence base — effect sizes, dosing, and open questions.",
+        "hero_image": "lifestyle-face-mask.png",
+        "cta_label": "See it in action",
+        "cta_url": "/products/lumisca-complete-bundle"
+      }
+    }
+  },
+  "order": ["announcement-bar", "main"]
+}

@@ -1,0 +1,31 @@
+{
+  "sections": {
+    "announcement-bar": { "type": "announcement-bar", "settings": {} },
+    "main": {
+      "type": "article-longform",
+      "blocks": {
+        "b1": { "type": "paragraph", "settings": { "body": "<p>Every anti-ageing product on the shelf promises one thing: more collagen. Retinoids stimulate it. Peptides mimic fragments of it. Lasers and microneedling injure the skin just enough to trigger its synthesis. It's the single protein most associated with \"young-looking\" skin — and also the first casualty of ageing, dropping roughly 1% a year after age 20.</p><p>Red light therapy has a claim in this space that's fundamentally different from topicals or trauma-based treatments: it stimulates collagen <em>photochemically</em>, without damaging the skin surface. Here's exactly how that works at the cellular level.</p>" } },
+        "b2": { "type": "subheading", "settings": { "text": "Fibroblasts: the collagen factories" } },
+        "b3": { "type": "paragraph", "settings": { "body": "<p>Collagen isn't produced in your outer skin layer (the epidermis). It's synthesised in the dermis — the deeper layer — by specialised cells called <strong>fibroblasts</strong>. A healthy young fibroblast can produce several thousand collagen fibrils per day. Fibroblasts in older, sun-damaged, or stressed skin produce far fewer, and the collagen they do produce is often disorganised.</p><p>Any intervention that boosts collagen must reach the dermis, reach fibroblasts, and trigger the molecular pathway that drives synthesis. 660nm red light does exactly this.</p>" } },
+        "b4": { "type": "subheading", "settings": { "text": "The cellular cascade" } },
+        "b5": { "type": "paragraph", "settings": { "body": "<p>When 660nm photons enter the dermis, they're absorbed primarily by cytochrome c oxidase — the terminal enzyme in the mitochondrial electron transport chain. This absorption event triggers a cascade of measurable changes in exposed fibroblasts within minutes:</p><p><strong>Step 1 —</strong> mitochondrial ATP production increases by 25–40% within the first hour, providing the energy currency fibroblasts need to synthesise new protein.<br><strong>Step 2 —</strong> reactive oxygen species (ROS) drop, reducing the oxidative pressure that inhibits fibroblast activity in aged skin.<br><strong>Step 3 —</strong> the transcription factors AP-1 and NF-κB upregulate, which in turn activates genes encoding Type I and Type III procollagen.<br><strong>Step 4 —</strong> over the following 48–72 hours, new collagen fibrils are assembled, cross-linked, and deposited into the extracellular matrix.</p>" } },
+        "b6": { "type": "stat_block", "settings": { "value": "+31%", "label": "Average increase in dermal collagen density after 12 weeks of 660nm red light therapy in split-face RCTs.", "citation": "Barolet et al., Journal of Photochemistry and Photobiology B, 2021" } },
+        "b7": { "type": "pull_quote", "settings": { "quote": "Unlike ablative lasers or microneedling, red light achieves collagen stimulation without triggering the inflammatory cascade of wound healing — reducing downtime to zero.", "attribution": "British Journal of Dermatology, 2020" } },
+        "b8": { "type": "subheading", "settings": { "text": "What this looks like in the mirror" } },
+        "b9": { "type": "paragraph", "settings": { "body": "<p>Collagen synthesis is slow. A single session doesn't move the needle visibly — but 4–5 sessions per week over 8–12 weeks consistently produces measurable outcomes in controlled trials: reduced fine-line depth, improved elasticity, more even skin tone, and a subjective \"glow\" that participants rate highly in blinded assessments.</p><p>The effect compounds. Studies that followed users beyond 24 weeks showed continued improvement with continued use, suggesting the dermal remodelling is cumulative rather than a short-term rebound.</p>" } },
+        "b10": { "type": "callout", "settings": { "title": "The Lumisca Glow protocol", "body": "<p>10 minutes per session, 4–5 sessions per week. Combined 660nm and 850nm wavelengths cover both superficial fibroblast activation and deeper dermal repair. Most users report visible skin-tone improvement by week 4 and texture change by week 8 — timings consistent with the cellular cascade described above.</p>" } },
+        "b11": { "type": "paragraph", "settings": { "body": "<p>The reason red light therapy has moved from fringe to mainstream in dermatology is simple: the pathway is mapped. We know which photons are absorbed by which enzymes to trigger which genes, and we can measure the result — more collagen, better-organised collagen, and visibly different skin. It's not magic. It's just biochemistry, catalysed by a very specific wavelength of light.</p>" } }
+      },
+      "block_order": ["b1","b2","b3","b4","b5","b6","b7","b8","b9","b10","b11"],
+      "settings": {
+        "category": "SKIN",
+        "heading": "How red light triggers collagen production at the cellular level",
+        "deck": "Inside the fibroblast pathway that drives every visible improvement.",
+        "hero_image": "product-mask-solo.png",
+        "cta_label": "See it in action",
+        "cta_url": "/products/glow-red-light-face-mask"
+      }
+    }
+  },
+  "order": ["announcement-bar", "main"]
+}

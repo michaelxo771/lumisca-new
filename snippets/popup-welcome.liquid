@@ -1,42 +1,122 @@
-<div class="popup popup-welcome" data-popup="welcome" data-popup-key="lumisca.welcome" role="dialog" aria-label="Welcome offer" aria-hidden="true">
-  <div class="popup-backdrop"></div>
-  <div class="popup-dialog popup-split">
-    <button type="button" class="popup-close" data-popup-close aria-label="Close">{% render 'icon-close' %}</button>
-    <div class="popup-media ph ph-dark aspect-square"><span class="ph-label">Lumisca Welcome</span></div>
-    <div class="popup-body">
-      <p class="eyebrow" style="color: var(--gold);">Welcome to Lumisca</p>
-      <div data-popup-main>
-        <h2 class="display-md" style="margin-bottom: 1rem; line-height: 1.2;">Get <span style="color: var(--red);">10% off</span> your first order.</h2>
-        <p class="muted" style="line-height: 1.65; margin-bottom: 1.5rem;">Join 10,000+ UK customers. We'll email your discount code, plus early access to new devices.</p>
-        <form data-popup-form style="display:flex; flex-direction:column; gap:.75rem;">
-          <label>
-            <span class="sr-only">Email address</span>
-            <input type="email" required placeholder="Your email address" class="popup-input">
-          </label>
-          <button type="submit" class="btn btn-red btn-block">Send My 10% Off Code</button>
-        </form>
-        <p style="font-size: 11px; color: rgba(249,247,244,.5); margin-top: 1rem; line-height: 1.6;">
-          Code: <span style="color: var(--gold); font-weight: 600;">{{ settings.welcome_discount_code }}</span> · Unsubscribe anytime.
-        </p>
+<div class="welcome-modal" data-welcome-modal hidden role="dialog" aria-label="Welcome offer" aria-hidden="true">
+  <div class="welcome-modal-backdrop" data-welcome-dismiss></div>
+
+  <div class="welcome-modal-card" role="document">
+    <button class="welcome-modal-close" type="button" aria-label="Close" data-welcome-dismiss>{% render 'icon-close' %}</button>
+
+    <span class="welcome-modal-pill">LIMITED TIME</span>
+
+    <div data-welcome-form-wrap>
+      <h2 class="welcome-modal-heading">Welcome To Lumisca ✨</h2>
+      <p class="welcome-modal-sub">Join 10,000+ customers and get <strong>10% off</strong> your first order.</p>
+
+      <ul class="welcome-modal-thumbs" aria-hidden="true">
+        <li><img src="{{ 'product-cap-solo.png' | asset_url }}" alt="" loading="lazy" width="60" height="60"></li>
+        <li><img src="{{ 'product-mask-solo.png' | asset_url }}" alt="" loading="lazy" width="60" height="60"></li>
+        <li><img src="{{ 'product-eye-mask-solo.png' | asset_url }}" alt="" loading="lazy" width="60" height="60"></li>
+      </ul>
+
+      {%- form 'customer', id: 'welcome-popup-form', class: 'welcome-modal-form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter,welcome-popup">
+        <label>
+          <span class="sr-only">Email</span>
+          <input type="email" name="contact[email]" placeholder="Your email address" required>
+        </label>
+        <button type="submit" class="btn btn-red btn-block">Claim My 10% Off</button>
+      {%- endform -%}
+
+      <button type="button" class="welcome-modal-decline" data-welcome-dismiss>No thanks, I'll pay full price</button>
+    </div>
+
+    <div class="welcome-modal-success" data-welcome-success hidden>
+      <div class="welcome-modal-check" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
       </div>
-      <div data-popup-success class="hidden">
-        <h2 class="display-md" style="margin-bottom: 1rem; line-height: 1.2;">Check your inbox.</h2>
-        <p class="muted" style="line-height: 1.65;">Your <strong style="color: var(--gold);">10% off code</strong> is on its way. Welcome to the Lumisca family.</p>
-      </div>
+      <p class="welcome-modal-success-label">Your code</p>
+      <p class="welcome-modal-code" data-welcome-code>LUMISCA10</p>
+      <button type="button" class="btn btn-red welcome-modal-copy" data-welcome-copy>Copy code</button>
+      <p class="welcome-modal-autoclose muted">Closing automatically…</p>
     </div>
   </div>
 </div>
 
 {%- stylesheet -%}
-.popup-split { display: grid; grid-template-columns: 1fr; max-width: 720px; width: 100%; }
-@media (min-width: 768px) { .popup-split { grid-template-columns: 1fr 1fr; } }
-.popup-media { aspect-ratio: 1/1; display: none; }
-@media (min-width: 768px) { .popup-media { display: flex; aspect-ratio: auto; min-height: 420px; } }
-.popup-body { padding: 1.75rem; }
-@media (min-width: 768px) { .popup-body { padding: 2.25rem; } }
-.popup-close { position: absolute; top: .75rem; right: .75rem; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; color: rgba(255,255,255,.7); z-index: 10; }
-.popup-close:hover { color: #fff; }
-.popup-input { width: 100%; height: 48px; padding: 0 1rem; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15); color: #fff; outline: none; }
-.popup-input::placeholder { color: rgba(255,255,255,.5); }
-.popup-input:focus { border-color: var(--red); }
+.welcome-modal { position: fixed; inset: 0; z-index: 90; display: none; align-items: center; justify-content: center; padding: 1rem; }
+.welcome-modal.is-open { display: flex; }
+.welcome-modal-backdrop { position: absolute; inset: 0; background: rgba(10,10,10,.72); backdrop-filter: blur(8px); }
+.welcome-modal-card { position: relative; background: #0A0A0A; color: var(--cream); border-radius: 16px; padding: 48px 32px; width: 100%; max-width: 480px; text-align: center; box-shadow: 0 40px 100px -20px rgba(0,0,0,.6); }
+@media (min-width: 640px) { .welcome-modal-card { padding: 48px; } }
+.welcome-modal-close { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; color: rgba(249,247,244,.6); border-radius: 50%; transition: color .15s, background .15s; background: none; border: 0; cursor: pointer; }
+.welcome-modal-close:hover { color: var(--cream); background: rgba(255,255,255,.08); }
+.welcome-modal-pill { display: inline-block; padding: .35rem .85rem; background: var(--red); color: #fff; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; font-weight: 700; border-radius: 999px; margin-bottom: 1.25rem; }
+.welcome-modal-heading { font-family: var(--display); font-size: 32px; line-height: 1.15; color: var(--cream); margin: 0 0 .75rem; }
+.welcome-modal-sub { color: rgba(249,247,244,.72); line-height: 1.65; margin: 0 0 1.5rem; }
+.welcome-modal-sub strong { color: var(--gold); }
+.welcome-modal-thumbs { display: flex; justify-content: center; gap: .75rem; list-style: none; padding: 0; margin: 0 0 1.5rem; }
+.welcome-modal-thumbs img { width: 60px; height: 60px; object-fit: cover; border-radius: 50%; border: 2px solid rgba(255,255,255,.1); background: #141414; }
+.welcome-modal-form { display: flex; flex-direction: column; gap: .75rem; }
+.welcome-modal-form input { width: 100%; height: 48px; background: transparent; border: 1px solid var(--cream); color: var(--cream); padding: 0 1rem; outline: none; border-radius: 6px; }
+.welcome-modal-form input::placeholder { color: rgba(249,247,244,.5); }
+.welcome-modal-form input:focus { border-color: var(--gold); }
+.welcome-modal-form .btn { border-radius: 6px; }
+.welcome-modal-decline { margin-top: 1rem; font-size: 12px; color: rgba(249,247,244,.5); text-decoration: underline; text-underline-offset: 4px; background: none; border: 0; cursor: pointer; }
+.welcome-modal-decline:hover { color: rgba(249,247,244,.75); }
+.welcome-modal-check { display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; background: rgba(35,165,90,.15); color: #2ea96f; margin-bottom: 1rem; }
+.welcome-modal-success-label { color: rgba(249,247,244,.65); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; margin: 0 0 .4rem; }
+.welcome-modal-code { font-family: var(--display); font-size: 36px; letter-spacing: .1em; color: var(--gold); margin: 0 0 1rem; font-weight: 700; }
+.welcome-modal-copy { border-radius: 6px; min-width: 160px; }
+.welcome-modal-autoclose { font-size: 11px; margin-top: 1rem; }
 {%- endstylesheet -%}
+
+<script>
+(function () {
+  var modal = document.querySelector('[data-welcome-modal]');
+  if (!modal) return;
+  var COOKIE = 'lumisca_welcome_seen';
+  function setCookie(v, days) {
+    var d = new Date(); d.setTime(d.getTime() + days * 864e5);
+    document.cookie = COOKIE + '=' + v + '; expires=' + d.toUTCString() + '; path=/; SameSite=Lax';
+  }
+  function hasCookie() { return document.cookie.indexOf(COOKIE + '=') !== -1; }
+  function openModal() { modal.hidden = false; modal.classList.add('is-open'); modal.setAttribute('aria-hidden', 'false'); }
+  function closeModal() { modal.classList.remove('is-open'); modal.hidden = true; modal.setAttribute('aria-hidden', 'true'); setCookie('1', 30); }
+
+  if (!hasCookie()) { setTimeout(openModal, 8000); }
+
+  modal.addEventListener('click', function (e) {
+    if (e.target.closest('[data-welcome-dismiss]')) closeModal();
+  });
+
+  var form = modal.querySelector('#welcome-popup-form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var data = new FormData(form);
+      fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
+        .catch(function () {})
+        .finally(function () {
+          var wrap = modal.querySelector('[data-welcome-form-wrap]');
+          var success = modal.querySelector('[data-welcome-success]');
+          if (wrap) wrap.hidden = true;
+          if (success) success.hidden = false;
+          setCookie('1', 30);
+          setTimeout(closeModal, 8000);
+        });
+    });
+  }
+
+  var copyBtn = modal.querySelector('[data-welcome-copy]');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      var code = (modal.querySelector('[data-welcome-code]') || {}).textContent || '';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(function () { copyBtn.textContent = 'Copied'; }).catch(function () { copyBtn.textContent = 'Copy failed'; });
+      } else {
+        var tmp = document.createElement('textarea'); tmp.value = code; document.body.appendChild(tmp);
+        tmp.select(); try { document.execCommand('copy'); copyBtn.textContent = 'Copied'; } catch (_) {}
+        document.body.removeChild(tmp);
+      }
+    });
+  }
+})();
+</script>

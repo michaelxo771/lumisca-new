@@ -16,10 +16,17 @@
           assign img = block.settings.image_filename | default: ''
           assign href = block.settings.url | default: '#'
           assign is_featured = block.settings.is_featured
-          assign saved = 0
-          if block.settings.compare_at_price > 0 and block.settings.compare_at_price > block.settings.price
-            assign saved = block.settings.compare_at_price | minus: block.settings.price
+          assign price_p = block.settings.price | default: 0
+          assign compare_p = block.settings.compare_at_price | default: 0
+          assign saved_pence = 0
+          assign saved_pct = 0
+          if compare_p > price_p
+            assign saved_pence = compare_p | minus: price_p
+            assign saved_pct = saved_pence | times: 100 | divided_by: compare_p
           endif
+          assign price_gbp = price_p | divided_by: 100.0
+          assign compare_gbp = compare_p | divided_by: 100.0
+          assign saved_gbp = saved_pence | divided_by: 100.0
         -%}
         <a href="{{ href }}" class="featured-v2-card{% if is_featured %} featured-v2-card-gold{% endif %}" {{ block.shopify_attributes }}>
           <div class="featured-v2-media">
@@ -28,8 +35,13 @@
             {%- else -%}
               {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
             {%- endif -%}
-            {%- if is_featured and saved > 0 -%}
-              <span class="featured-v2-badge">SAVE £{{ saved | divided_by: 100.0 }}</span>
+
+            {%- if saved_pct > 0 -%}
+              {%- if is_featured -%}
+                <span class="featured-v2-badge-bundle">SAVE £{{ saved_gbp | money_without_currency | remove: '.00' }}</span>
+              {%- else -%}
+                <span class="featured-v2-badge">{{ saved_pct }}% OFF</span>
+              {%- endif -%}
             {%- endif -%}
           </div>
           <div class="featured-v2-body">
@@ -39,12 +51,27 @@
             </div>
             <h3 class="featured-v2-title">{{ block.settings.title }}</h3>
             <p class="featured-v2-sub muted">{{ block.settings.tagline }}</p>
+
             <div class="featured-v2-price">
-              <span class="price-now">£{{ block.settings.price | divided_by: 100.0 }}</span>
-              {%- if block.settings.compare_at_price > 0 and block.settings.compare_at_price > block.settings.price -%}
-                <span class="price-was">£{{ block.settings.compare_at_price | divided_by: 100.0 }}</span>
+              <span class="price-now">£{{ price_gbp }}</span>
+              {%- if compare_p > price_p -%}
+                <span class="price-was">£{{ compare_gbp }}</span>
               {%- endif -%}
             </div>
+
+            <p class="featured-v2-klarna">
+              <span class="klarna-dot"></span>
+              Or 3 interest-free payments with Klarna
+            </p>
+
+            {%- if block.settings.stock_left != blank -%}
+              <p class="featured-v2-scarcity">⚠ Only {{ block.settings.stock_left }} left in stock</p>
+            {%- endif -%}
+
+            {%- if block.settings.social_proof != blank -%}
+              <p class="featured-v2-social muted">🔥 {{ block.settings.social_proof }}</p>
+            {%- endif -%}
+
             <span class="btn btn-dark btn-block featured-v2-cta">Shop Now {% render 'icon-arrow-right' %}</span>
           </div>
         </a>
@@ -66,16 +93,21 @@
 .featured-v2-media { position: relative; aspect-ratio: 4/5; overflow: hidden; background: #fafafa; }
 .featured-v2-media img, .featured-v2-media svg { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
 .featured-v2-card:hover .featured-v2-media img { transform: scale(1.03); }
-.featured-v2-badge { position: absolute; top: 1rem; right: 1rem; background: var(--gold); color: var(--ink); font-size: 11px; letter-spacing: .15em; text-transform: uppercase; font-weight: 700; padding: .4rem .75rem; }
+.featured-v2-badge { position: absolute; top: 1rem; left: 1rem; background: var(--gold); color: var(--ink); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; padding: .35rem .7rem; border-radius: 999px; }
+.featured-v2-badge-bundle { position: absolute; top: 1rem; left: 1rem; background: var(--gold); color: var(--ink); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; font-weight: 800; padding: .5rem .9rem; }
 .featured-v2-body { padding: 1.5rem; display: flex; flex-direction: column; gap: .5rem; }
 @media (min-width: 768px) { .featured-v2-body { padding: 2rem; } }
 .featured-v2-rating { display: flex; align-items: center; gap: .5rem; font-size: 13px; }
 .featured-v2-title { font-family: var(--display); font-size: clamp(1.25rem, 2.2vw, 1.5rem); line-height: 1.25; }
 .featured-v2-sub { font-size: 14px; line-height: 1.5; }
-.featured-v2-price { display: flex; align-items: baseline; gap: .75rem; margin: .25rem 0 .5rem; }
-.featured-v2-price .price-now { font-family: var(--display); font-size: 1.75rem; }
-.featured-v2-price .price-was { color: var(--mid); text-decoration: line-through; font-size: 1rem; }
-.featured-v2-cta { margin-top: .75rem; }
+.featured-v2-price { display: flex; align-items: baseline; gap: .75rem; margin: .25rem 0 .25rem; }
+.featured-v2-price .price-now { font-family: var(--display); font-size: 2rem; color: var(--red); font-weight: 700; }
+.featured-v2-price .price-was { color: #999; text-decoration: line-through; font-size: 1rem; font-weight: 400; }
+.featured-v2-klarna { font-size: 12px; color: #7a7a7a; display: inline-flex; align-items: center; gap: .35rem; margin: 0; }
+.klarna-dot { width: 6px; height: 6px; border-radius: 50%; background: #ffa8cd; }
+.featured-v2-scarcity { font-size: 12px; color: #B38600; font-weight: 600; margin: .25rem 0 0; letter-spacing: .02em; }
+.featured-v2-social { font-size: 12px; margin: 0; }
+.featured-v2-cta { margin-top: 1rem; }
 {%- endstylesheet -%}
 
 {% schema %}
@@ -84,7 +116,7 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Lumisca Collection" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Clinic-grade devices, designed for your sofa." },
-    { "type": "textarea", "id": "lead", "label": "Lead", "default": "Three devices that cover hair, skin and sleep — or bundle them together and save over £24." }
+    { "type": "textarea", "id": "lead", "label": "Lead", "default": "Three devices that cover hair, skin and sleep — or bundle them together and save over £175." }
   ],
   "blocks": [
     {
@@ -94,12 +126,14 @@
         { "type": "text", "id": "image_filename", "label": "Asset filename", "default": "product-cap-solo.png" },
         { "type": "text", "id": "title", "label": "Product title", "default": "Pro Red Light Hair Growth Cap" },
         { "type": "text", "id": "tagline", "label": "Tagline", "default": "Clinic-grade hair regrowth, built into a cap" },
-        { "type": "number", "id": "price", "label": "Price in pence", "default": 6499 },
-        { "type": "number", "id": "compare_at_price", "label": "Compare-at price in pence", "default": 0 },
+        { "type": "number", "id": "price", "label": "Now price in pence", "default": 6499 },
+        { "type": "number", "id": "compare_at_price", "label": "Was price in pence", "default": 12999 },
         { "type": "text", "id": "rating", "label": "Rating", "default": "4.9" },
         { "type": "text", "id": "review_count", "label": "Review count", "default": "1,284 reviews" },
         { "type": "url", "id": "url", "label": "Product URL" },
-        { "type": "checkbox", "id": "is_featured", "label": "Featured (gold border)", "default": false }
+        { "type": "checkbox", "id": "is_featured", "label": "Featured (gold border + bundle badge)", "default": false },
+        { "type": "text", "id": "stock_left", "label": "Stock left (scarcity)", "default": "23" },
+        { "type": "text", "id": "social_proof", "label": "Social proof line", "default": "47 bought in the last 24 hours" }
       ]
     }
   ],
@@ -109,10 +143,10 @@
       "name": "Featured Products",
       "category": "Products",
       "blocks": [
-        { "type": "card", "settings": { "image_filename": "product-cap-solo.png", "title": "Pro Red Light Hair Growth Cap", "tagline": "Clinic-grade hair regrowth, built into a cap", "price": 6499, "compare_at_price": 0, "rating": "4.9", "review_count": "1,284 reviews", "is_featured": false } },
-        { "type": "card", "settings": { "image_filename": "product-mask-solo.png", "title": "Glow Red Light Face Mask", "tagline": "Salon-grade skincare, 10 minutes a day", "price": 5499, "compare_at_price": 0, "rating": "4.9", "review_count": "962 reviews", "is_featured": false } },
-        { "type": "card", "settings": { "image_filename": "product-eye-mask-solo.png", "title": "Rest Heated Eye Mask", "tagline": "Deeper sleep in 10 minutes", "price": 2999, "compare_at_price": 0, "rating": "4.8", "review_count": "734 reviews", "is_featured": false } },
-        { "type": "card", "settings": { "image_filename": "product-duo-side.png", "title": "The Complete Lumisca Bundle", "tagline": "All three devices — hair, skin, sleep", "price": 12499, "compare_at_price": 14997, "rating": "4.9", "review_count": "2,847 reviews", "is_featured": true } }
+        { "type": "card", "settings": { "image_filename": "product-cap-solo.png",      "title": "Pro Red Light Hair Growth Cap", "tagline": "Clinic-grade hair regrowth, built into a cap", "price": 6499,  "compare_at_price": 12999, "rating": "4.9", "review_count": "1,284 reviews", "url": "/products/pro-red-light-hair-growth-cap", "is_featured": false, "stock_left": "23", "social_proof": "47 bought in the last 24 hours" } },
+        { "type": "card", "settings": { "image_filename": "product-mask-solo.png",     "title": "Glow Red Light Face Mask",       "tagline": "Salon-grade skincare, 10 minutes a day",       "price": 5499,  "compare_at_price": 10999, "rating": "4.9", "review_count": "962 reviews",   "url": "/products/glow-red-light-face-mask",       "is_featured": false, "stock_left": "31", "social_proof": "38 bought in the last 24 hours" } },
+        { "type": "card", "settings": { "image_filename": "product-eye-mask-solo.png", "title": "Rest Heated Eye Mask",           "tagline": "Deeper sleep in 10 minutes",                  "price": 2999,  "compare_at_price": 5999,  "rating": "4.8", "review_count": "734 reviews",   "url": "/products/rest-heated-eye-mask",           "is_featured": false, "stock_left": "48", "social_proof": "29 bought in the last 24 hours" } },
+        { "type": "card", "settings": { "image_filename": "product-duo-side.png",      "title": "The Complete Lumisca Bundle",    "tagline": "All three devices — hair, skin, sleep",       "price": 12499, "compare_at_price": 29997, "rating": "4.9", "review_count": "2,847 reviews", "url": "/products/lumisca-complete-bundle",        "is_featured": true,  "stock_left": "12", "social_proof": "62 bought in the last 24 hours" } }
       ]
     }
   ]

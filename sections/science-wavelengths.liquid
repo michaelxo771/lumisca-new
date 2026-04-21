@@ -1,0 +1,72 @@
+<section class="sci-wave">
+  <div class="container sci-wave-grid">
+    <div class="sci-wave-copy">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="display-md">{{ section.settings.heading }}</h2>
+      <div class="sci-wave-body">{{ section.settings.body }}</div>
+    </div>
+    <div class="sci-wave-stats">
+      {%- for block in section.blocks -%}
+        <div class="sci-wave-stat" {{ block.shopify_attributes }}>
+          <div class="sci-wave-stat-n">{{ block.settings.value }}</div>
+          <p class="sci-wave-stat-label">{{ block.settings.label }}</p>
+          <div class="sci-wave-stat-bar" aria-hidden="true">
+            <div class="sci-wave-stat-fill" style="width: {{ block.settings.depth_pct | default: 50 }}%;"></div>
+          </div>
+          <p class="sci-wave-stat-depth muted">{{ block.settings.depth }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.sci-wave { background: var(--cream); padding: 80px 0; border-top: 1px solid var(--line); }
+@media (max-width: 768px) { .sci-wave { padding: 48px 0; } }
+.sci-wave-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: center; }
+@media (min-width: 900px) { .sci-wave-grid { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+.sci-wave-body { color: var(--mid); line-height: 1.75; font-size: 17px; margin-top: 1.25rem; max-width: 540px; }
+.sci-wave-body p + p { margin-top: 1rem; }
+.sci-wave-stats { display: flex; flex-direction: column; gap: 1.25rem; }
+.sci-wave-stat { padding: 1.5rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; }
+.sci-wave-stat-n { font-family: var(--display); font-size: 2rem; color: var(--red); font-weight: 700; margin-bottom: .25rem; }
+.sci-wave-stat-label { font-weight: 600; color: var(--ink); margin: 0 0 .75rem; }
+.sci-wave-stat-bar { height: 8px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.sci-wave-stat-fill { height: 100%; background: linear-gradient(90deg, var(--red), var(--gold)); }
+.sci-wave-stat-depth { font-size: 13px; margin-top: .5rem; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Science Wavelengths Explainer",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "WAVELENGTHS" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Why 660nm + 850nm matter." },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>660nm (visible red) penetrates the upper layers of skin — the dermis and follicular regions — stimulating fibroblasts to produce collagen and activating hair follicles.</p><p>850nm (near-infrared) goes deeper into muscle, joint, and tissue, supporting inflammation reduction, mitochondrial ATP production, and systemic recovery. Used together, they deliver the full spectrum of therapeutic effects.</p>" }
+  ],
+  "blocks": [
+    {
+      "type": "wavelength",
+      "name": "Wavelength",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Value", "default": "660nm" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Visible red — surface stimulation" },
+        { "type": "text", "id": "depth", "label": "Depth description", "default": "Skin depth ~2mm" },
+        { "type": "number", "id": "depth_pct", "label": "Depth bar (% of max)", "default": 40 }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Science Wavelengths Explainer",
+      "blocks": [
+        { "type": "wavelength", "settings": { "value": "660nm", "label": "Visible red — surface stimulation", "depth": "Skin depth ~2mm", "depth_pct": 40 } },
+        { "type": "wavelength", "settings": { "value": "850nm", "label": "Near-infrared — deep tissue",        "depth": "Tissue depth ~5mm", "depth_pct": 100 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

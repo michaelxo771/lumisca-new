@@ -30,6 +30,14 @@
         </article>
       {%- endfor -%}
     </div>
+
+    {%- if section.settings.reviews_cta_label != blank -%}
+      <div class="center testimonials-cta">
+        <a href="{{ section.settings.reviews_cta_url | default: '/pages/reviews' }}" class="testimonials-cta-link">
+          {{ section.settings.reviews_cta_label }} →
+        </a>
+      </div>
+    {%- endif -%}
   </div>
 </section>
 
@@ -45,6 +53,9 @@
 .t-meta-body { min-width: 0; flex: 1; }
 .t-name { font-weight: 600; }
 .t-sub { font-size: 13px; }
+.testimonials-cta { margin-top: 2.5rem; }
+.testimonials-cta-link { display: inline-flex; align-items: center; gap: .5rem; font-size: 14px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ink); border-bottom: 1px solid var(--ink); padding-bottom: .25rem; transition: color .2s, border-color .2s; }
+.testimonials-cta-link:hover { color: var(--red); border-bottom-color: var(--red); }
 {%- endstylesheet -%}
 
 {% schema %}
@@ -53,7 +64,9 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Reviews" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "What Our Customers Are Saying" },
-    { "type": "text", "id": "review_count", "label": "Review count text", "default": "2,847" }
+    { "type": "text", "id": "review_count", "label": "Review count text", "default": "2,847" },
+    { "type": "text", "id": "reviews_cta_label", "label": "Reviews CTA label", "default": "Read 2,847 verified reviews" },
+    { "type": "url", "id": "reviews_cta_url", "label": "Reviews CTA URL" }
   ],
   "blocks": [
     {
@@ -75,7 +88,10 @@
       "blocks": [
         { "type": "review", "settings": { "name": "Sarah M.",  "location": "Manchester",  "product": "Pro Hair Growth Cap", "thumb_filename": "product-cap-solo.png",      "body": "10 weeks with the Lumisca cap and I genuinely can't believe the difference. My hairdresser noticed before I even told her." } },
         { "type": "review", "settings": { "name": "Claire B.", "location": "Edinburgh",   "product": "Glow Face Mask",      "thumb_filename": "product-mask-solo.png",     "body": "I was spending £80 a month on facials. This paid for itself in the first month. My skin looks brighter after 6 weeks." } },
-        { "type": "review", "settings": { "name": "James T.",  "location": "Birmingham",  "product": "Rest Eye Mask",       "thumb_filename": "product-eye-mask-solo.png", "body": "15 minutes before bed and I sleep better than I have in years." } }
+        { "type": "review", "settings": { "name": "James T.",  "location": "Birmingham",  "product": "Rest Eye Mask",       "thumb_filename": "product-eye-mask-solo.png", "body": "15 minutes before bed and I sleep better than I have in years." } },
+        { "type": "review", "settings": { "name": "Emma R.",   "location": "Dublin",      "product": "Pro Hair Growth Cap", "thumb_filename": "product-cap-solo.png",      "body": "I was skeptical, but after 8 weeks my hair is visibly thicker. My hairdresser actually asked what I was doing differently." } },
+        { "type": "review", "settings": { "name": "Priya S.",  "location": "Manchester",  "product": "Glow Face Mask",      "thumb_filename": "product-mask-solo.png",     "body": "I've tried every anti-aging cream on the market. Nothing comes close to this mask. My skin looks lit from within." } },
+        { "type": "review", "settings": { "name": "Rachel T.", "location": "Edinburgh",   "product": "Complete Bundle",     "thumb_filename": "product-duo-side.png",      "body": "I bought the bundle after my friend swore by it. Six weeks in, my skin is glowing, my hair feels fuller, and I sleep like a baby." } }
       ]
     }
   ]

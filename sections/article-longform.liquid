@@ -1,0 +1,122 @@
+<article class="longform">
+  <header class="longform-header">
+    <div class="container" style="max-width: 840px;">
+      {%- if section.settings.category != blank -%}
+        <p class="longform-category">{{ section.settings.category }}</p>
+      {%- endif -%}
+      <h1 class="display-lg longform-title">{{ section.settings.heading }}</h1>
+      {%- if section.settings.deck != blank -%}
+        <p class="longform-deck">{{ section.settings.deck }}</p>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.hero_image != blank -%}
+      <div class="longform-hero">
+        <img src="{{ section.settings.hero_image | asset_url }}" alt="{{ section.settings.heading | escape }}" loading="eager">
+      </div>
+    {%- endif -%}
+  </header>
+
+  <div class="container longform-body" style="max-width: 680px;">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'paragraph' -%}
+          <div class="lf-paragraph" {{ block.shopify_attributes }}>{{ block.settings.body }}</div>
+        {%- when 'subheading' -%}
+          <h2 class="lf-subheading" {{ block.shopify_attributes }}>{{ block.settings.text }}</h2>
+        {%- when 'pull_quote' -%}
+          <blockquote class="lf-pullquote" {{ block.shopify_attributes }}>
+            <p>{{ block.settings.quote }}</p>
+            {%- if block.settings.attribution != blank -%}
+              <cite>— {{ block.settings.attribution }}</cite>
+            {%- endif -%}
+          </blockquote>
+        {%- when 'stat_block' -%}
+          <div class="lf-stat" {{ block.shopify_attributes }}>
+            <div class="lf-stat-n">{{ block.settings.value }}</div>
+            <div class="lf-stat-label">{{ block.settings.label }}</div>
+            {%- if block.settings.citation != blank -%}
+              <p class="lf-stat-citation muted">{{ block.settings.citation }}</p>
+            {%- endif -%}
+          </div>
+        {%- when 'callout' -%}
+          <aside class="lf-callout" {{ block.shopify_attributes }}>
+            {%- if block.settings.title != blank -%}<p class="lf-callout-title">{{ block.settings.title }}</p>{%- endif -%}
+            <div>{{ block.settings.body }}</div>
+          </aside>
+      {%- endcase -%}
+    {%- endfor -%}
+
+    {%- if section.settings.cta_label != blank -%}
+      <div class="lf-cta">
+        <a href="{{ section.settings.cta_url | default: '/collections/all' }}" class="btn btn-red btn-lg">
+          {{ section.settings.cta_label }} →
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</article>
+
+{%- stylesheet -%}
+.longform { background: var(--cream); padding: 80px 0 120px; }
+@media (max-width: 768px) { .longform { padding: 48px 0 72px; } }
+.longform-header { text-align: left; }
+.longform-category { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--red); font-weight: 700; margin: 0 0 1rem; }
+.longform-title { margin: 0 0 1.25rem; letter-spacing: -0.015em; }
+.longform-deck { color: var(--mid); font-size: 1.125rem; line-height: 1.7; max-width: 680px; margin: 0; }
+.longform-hero { margin-top: 3rem; max-width: 1200px; margin-left: auto; margin-right: auto; border-radius: 12px; overflow: hidden; }
+.longform-hero img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+.longform-body { font-size: 17px; line-height: 1.8; color: var(--ink); margin-top: 3rem; }
+.lf-paragraph { color: var(--mid); margin-bottom: 1.5rem; }
+.lf-paragraph p { margin: 0 0 1rem; }
+.lf-paragraph p:last-child { margin-bottom: 0; }
+.lf-paragraph strong { color: var(--ink); }
+.lf-paragraph em { color: var(--ink); font-style: italic; }
+.lf-subheading { font-family: var(--display); font-size: 1.75rem; line-height: 1.25; margin: 3rem 0 1.25rem; color: var(--ink); }
+.lf-pullquote { margin: 3rem 0; padding: 1.25rem 0 1.25rem 1.5rem; border-left: 4px solid var(--red); font-family: var(--display); font-size: 1.375rem; line-height: 1.45; color: var(--ink); }
+.lf-pullquote p { margin: 0; }
+.lf-pullquote cite { display: block; margin-top: .75rem; font-family: var(--sans); font-size: 14px; font-style: normal; color: var(--mid); letter-spacing: .02em; }
+.lf-stat { margin: 2.5rem 0; padding: 2rem 1.75rem; background: var(--ink); color: var(--cream); border-radius: 10px; }
+.lf-stat-n { font-family: var(--display); font-size: 3rem; color: var(--gold); line-height: 1; margin-bottom: .25rem; font-weight: 700; }
+.lf-stat-label { color: var(--cream); font-size: 17px; line-height: 1.5; }
+.lf-stat-citation { font-size: 12px; margin-top: .75rem; color: rgba(249,247,244,.5); font-style: italic; }
+.lf-callout { margin: 2.5rem 0; padding: 1.5rem 1.75rem; background: color-mix(in srgb, var(--cream) 85%, var(--gold) 15%); border-left: 4px solid var(--gold); border-radius: 6px; }
+.lf-callout-title { font-family: var(--display); font-size: 1.25rem; margin: 0 0 .5rem; color: var(--ink); }
+.lf-callout div { color: var(--mid); line-height: 1.7; }
+.lf-cta { margin-top: 3.5rem; text-align: center; padding-top: 2rem; border-top: 1px solid var(--line); }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Article Longform",
+  "settings": [
+    { "type": "text", "id": "category", "label": "Category tag" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Article title" },
+    { "type": "textarea", "id": "deck", "label": "Deck / standfirst" },
+    { "type": "text", "id": "hero_image", "label": "Hero image asset filename" },
+    { "type": "text", "id": "cta_label", "label": "Bottom CTA label", "default": "See it in action" },
+    { "type": "url", "id": "cta_url", "label": "Bottom CTA URL" }
+  ],
+  "blocks": [
+    { "type": "paragraph", "name": "Paragraph", "settings": [
+      { "type": "richtext", "id": "body", "label": "Body" }
+    ] },
+    { "type": "subheading", "name": "Subheading", "settings": [
+      { "type": "text", "id": "text", "label": "Text" }
+    ] },
+    { "type": "pull_quote", "name": "Pull quote", "settings": [
+      { "type": "text", "id": "quote", "label": "Quote" },
+      { "type": "text", "id": "attribution", "label": "Attribution" }
+    ] },
+    { "type": "stat_block", "name": "Stat block", "settings": [
+      { "type": "text", "id": "value", "label": "Value" },
+      { "type": "text", "id": "label", "label": "Label" },
+      { "type": "text", "id": "citation", "label": "Citation" }
+    ] },
+    { "type": "callout", "name": "Callout", "settings": [
+      { "type": "text", "id": "title", "label": "Title" },
+      { "type": "richtext", "id": "body", "label": "Body" }
+    ] }
+  ],
+  "presets": [ { "name": "Article Longform" } ]
+}
+{% endschema %}

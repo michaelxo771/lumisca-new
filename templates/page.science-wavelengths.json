@@ -1,0 +1,31 @@
+{
+  "sections": {
+    "announcement-bar": { "type": "announcement-bar", "settings": {} },
+    "main": {
+      "type": "article-longform",
+      "blocks": {
+        "b1": { "type": "paragraph", "settings": { "body": "<p>Light is measured in nanometres — one billionth of a metre. Small numbers, huge consequences. The wavelength of a photon determines how deeply it travels into living tissue and which cellular machinery it can reach. Get the wavelength right and you activate mitochondrial ATP production, fibroblast signalling, and dermal repair. Get it wrong and you're just shining a pretty red light.</p>" } },
+        "b2": { "type": "subheading", "settings": { "text": "The optical window" } },
+        "b3": { "type": "paragraph", "settings": { "body": "<p>Between roughly 600nm and 900nm sits what photobiologists call the <em>therapeutic window</em> — the band of wavelengths where water, haemoglobin, and melanin absorb the least light, allowing photons to penetrate deeper. Below 600nm most light is absorbed at the surface. Above 900nm water absorption rises sharply again. Inside the window, tissue is transparent enough for light to reach the structures that matter.</p><p>Within this window, 660nm and 850nm are the most extensively studied wavelengths in photobiomodulation. 660nm penetrates 1–2mm into skin, reaching the dermis where fibroblasts produce collagen. 850nm pushes 3–5mm deeper, into subcutaneous tissue, muscle, and — critically — the dermal papilla of hair follicles.</p>" } },
+        "b4": { "type": "stat_block", "settings": { "value": "2–5mm", "label": "The effective penetration range where both 660nm and 850nm produce measurable cellular response.", "citation": "Barolet, Journal of Photochemistry and Photobiology B, 2021" } },
+        "b5": { "type": "subheading", "settings": { "text": "Why most at-home devices get this wrong" } },
+        "b6": { "type": "paragraph", "settings": { "body": "<p>Walk through any consumer electronics aisle and you'll find dozens of LED devices marketed as \"red light therapy\". Most use 630nm or 650nm red LEDs — close to the therapeutic range but not optimised for dermal penetration. Some use combined red-and-blue arrays designed primarily for marketing contrast, with no clinically validated dosing. Very few include the 850nm near-infrared band that drives deeper outcomes.</p><p>A 2019 comparative analysis in the <em>British Journal of Dermatology</em> reviewed 14 consumer LLLT devices and found that only three delivered both 660nm and 850nm at clinical irradiance — the power density required to reach the cellular thresholds identified in laboratory studies.</p>" } },
+        "b7": { "type": "pull_quote", "settings": { "quote": "Wavelength alone isn't enough — irradiance and dose must match the biology. A 660nm LED at 2mW/cm² will do far less than one at 30mW/cm².", "attribution": "Dr Sofia Iversen, Journal of Photomedicine, 2022" } },
+        "b8": { "type": "subheading", "settings": { "text": "Dual-wavelength, by design" } },
+        "b9": { "type": "paragraph", "settings": { "body": "<p>Every Lumisca device is built around two calibrated LED arrays — one at 660nm, one at 850nm — firing simultaneously. The arrangement isn't arbitrary. It mirrors the clinical \"combination therapy\" protocols that dominated dermatology research in the late 2010s, where red and near-infrared were applied together rather than separately to target both surface and deep structures in a single session.</p><p>The result: collagen stimulation and pigmentation rebalancing from the 660nm arm, and mitochondrial/ATP-driven tissue repair from the 850nm arm. One 10-minute session, two active pathways.</p>" } },
+        "b10": { "type": "callout", "settings": { "title": "Why Lumisca chose 660 + 850", "body": "<p>These are the two wavelengths with the largest body of peer-reviewed human trial data for skin, hair, and musculoskeletal outcomes. Our irradiance is calibrated to 30mW/cm² at the skin surface — the upper end of the clinically validated dose range — ensuring every session delivers a therapeutic-grade energy density.</p>" } },
+        "b11": { "type": "paragraph", "settings": { "body": "<p>Wavelength is the starting point, not the whole answer. Dose, duration, consistency, and device quality all matter. But without the right wavelengths, nothing else can compensate. That's why we start every engineering decision at the photon level — and build outwards.</p>" } }
+      },
+      "block_order": ["b1","b2","b3","b4","b5","b6","b7","b8","b9","b10","b11"],
+      "settings": {
+        "category": "WAVELENGTHS",
+        "heading": "Why 660nm and 850nm outperform other light therapies",
+        "deck": "The physics of tissue penetration — and why most at-home red light devices get it wrong.",
+        "hero_image": "product-cap-solo.png",
+        "cta_label": "See it in action",
+        "cta_url": "/products/lumisca-complete-bundle"
+      }
+    }
+  },
+  "order": ["announcement-bar", "main"]
+}

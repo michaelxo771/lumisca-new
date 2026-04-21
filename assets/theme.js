@@ -23,12 +23,13 @@
     var items = $$("[data-announcement-item]", root);
     if (items.length < 2) return;
     var i = 0;
+    var rotateMs = parseInt(root.getAttribute("data-rotate-ms"), 10) || 4000;
     items.forEach(function (el, idx) { el.classList.toggle("is-active", idx === 0); });
     setInterval(function () {
       items[i].classList.remove("is-active");
       i = (i + 1) % items.length;
       items[i].classList.add("is-active");
-    }, 3000);
+    }, rotateMs);
   })();
 
   /* Mobile nav open/close */

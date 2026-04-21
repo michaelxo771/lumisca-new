@@ -1,5 +1,5 @@
 {%- if section.blocks.size > 0 -%}
-<div class="announcement" data-announcement>
+<div class="announcement" data-announcement data-rotate-ms="4000">
   <div class="container announcement-inner">
     {%- for block in section.blocks -%}
       <span class="announcement-item{% if forloop.first %} is-active{% endif %}" data-announcement-item {{ block.shopify_attributes }}>
@@ -13,8 +13,8 @@
 {%- stylesheet -%}
 .announcement { background: var(--ink); color: var(--cream); font-size: 12px; letter-spacing: .15em; text-transform: uppercase; }
 .announcement-inner { height: 40px; display: flex; align-items: center; justify-content: center; position: relative; }
-.announcement-item { display: none; text-align: center; font-weight: 500; }
-.announcement-item.is-active { display: inline-block; }
+.announcement-item { position: absolute; left: 0; right: 0; text-align: center; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity .55s ease; }
+.announcement-item.is-active { opacity: 1; pointer-events: auto; }
 @media (min-width: 768px) { .announcement { font-size: 13px; } }
 {%- endstylesheet -%}
 
@@ -29,17 +29,21 @@
       "type": "message",
       "name": "Message",
       "settings": [
-        { "type": "text", "id": "text", "label": "Message", "default": "🔴 Free UK Delivery On All Orders" }
+        { "type": "text", "id": "text", "label": "Message", "default": "🎉 50% OFF EVERYTHING — Code LUMISCA10 at checkout" }
       ]
     }
   ],
   "max_blocks": 6,
-  "default": {
-    "blocks": [
-      { "type": "message", "settings": { "text": "🔴 Free UK Delivery On All Orders" } },
-      { "type": "message", "settings": { "text": "60-Day Money Back Guarantee — Zero Risk" } },
-      { "type": "message", "settings": { "text": "Join 10,000+ Lumisca Customers Across The UK" } }
-    ]
-  }
+  "presets": [
+    {
+      "name": "Announcement Bar",
+      "blocks": [
+        { "type": "message", "settings": { "text": "🎉 50% OFF EVERYTHING — Code LUMISCA10 at checkout" } },
+        { "type": "message", "settings": { "text": "🚚 Free UK shipping on all orders" } },
+        { "type": "message", "settings": { "text": "⭐ 10,000+ UK customers · 4.9/5 average rating" } },
+        { "type": "message", "settings": { "text": "✓ 60-day money-back guarantee on every device" } }
+      ]
+    }
+  ]
 }
 {% endschema %}

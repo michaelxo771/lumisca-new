@@ -1,0 +1,100 @@
+<aside class="sticky-buy" data-sticky-buy hidden aria-hidden="true">
+  <div class="container sticky-buy-inner">
+    <div class="sticky-buy-left">
+      <span class="sticky-buy-title">{{ section.settings.title }}</span>
+      <span class="sticky-buy-prices">
+        <span class="sticky-buy-now">{{ section.settings.price }}</span>
+        <span class="sticky-buy-was">{{ section.settings.compare_at_price }}</span>
+      </span>
+    </div>
+
+    <a href="{{ section.settings.cta_url | default: '/products/lumisca-complete-bundle' }}" class="sticky-buy-cta">
+      {{ section.settings.cta_label }}
+    </a>
+
+    <a href="{{ section.settings.cta_url | default: '/products/lumisca-complete-bundle' }}" class="sticky-buy-cta-mobile">
+      {{ section.settings.mobile_cta_label }}
+    </a>
+
+    <button type="button" class="sticky-buy-close" data-sticky-buy-close aria-label="Dismiss">
+      {% render 'icon-close' %}
+    </button>
+  </div>
+</aside>
+
+{%- stylesheet -%}
+.sticky-buy { position: fixed; left: 0; right: 0; bottom: 0; z-index: 55; background: var(--ink); color: var(--cream); border-top: 1px solid rgba(255,255,255,.08); box-shadow: 0 -8px 30px -10px rgba(0,0,0,.4); transform: translateY(100%); transition: transform .35s ease; display: block; }
+.sticky-buy.is-open { transform: translateY(0); }
+.sticky-buy-inner { display: flex; align-items: center; gap: 1rem; height: 72px; padding: 0 1rem; }
+@media (min-width: 768px) { .sticky-buy-inner { height: 60px; padding: 0 1.25rem; gap: 1.25rem; } }
+.sticky-buy-left { display: none; flex: 1; min-width: 0; align-items: center; gap: 1.25rem; }
+@media (min-width: 768px) { .sticky-buy-left { display: flex; } }
+.sticky-buy-title { font-family: var(--display); font-size: 14px; letter-spacing: .15em; text-transform: uppercase; font-weight: 600; white-space: nowrap; }
+.sticky-buy-prices { display: inline-flex; align-items: baseline; gap: .6rem; font-size: 14px; }
+.sticky-buy-now { font-weight: 700; }
+.sticky-buy-was { color: var(--red); text-decoration: line-through; opacity: .8; }
+.sticky-buy-cta { display: none; background: var(--red); color: #fff; height: 40px; padding: 0 1.25rem; align-items: center; justify-content: center; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; border-radius: 4px; flex-shrink: 0; }
+.sticky-buy-cta:hover { background: var(--red-dark); }
+@media (min-width: 768px) { .sticky-buy-cta { display: inline-flex; } }
+.sticky-buy-cta-mobile { flex: 1; background: var(--red); color: #fff; height: 48px; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; border-radius: 4px; }
+@media (min-width: 768px) { .sticky-buy-cta-mobile { display: none; } }
+.sticky-buy-close { width: 32px; height: 32px; border-radius: 50%; color: rgba(249,247,244,.6); display: inline-flex; align-items: center; justify-content: center; background: rgba(255,255,255,.06); border: 0; cursor: pointer; flex-shrink: 0; transition: color .15s; }
+.sticky-buy-close:hover { color: var(--cream); }
+{%- endstylesheet -%}
+
+<script>
+(function () {
+  var bar = document.querySelector('[data-sticky-buy]');
+  if (!bar) return;
+  var COOKIE = 'lumisca_sticky_buy_dismissed';
+  function hasCookie() { return document.cookie.indexOf(COOKIE + '=') !== -1; }
+  function setCookie(minutes) {
+    var d = new Date(); d.setTime(d.getTime() + minutes * 60000);
+    document.cookie = COOKIE + '=1; expires=' + d.toUTCString() + '; path=/; SameSite=Lax';
+  }
+  if (hasCookie()) return;
+
+  // show once the user is past the hero (roughly one viewport-height)
+  var shown = false;
+  function check() {
+    if (shown) return;
+    if (window.scrollY > (window.innerHeight * 0.8)) {
+      bar.hidden = false;
+      // one paint before toggling transform so the slide-in animates
+      requestAnimationFrame(function () { bar.classList.add('is-open'); });
+      bar.setAttribute('aria-hidden', 'false');
+      shown = true;
+      window.removeEventListener('scroll', check);
+    }
+  }
+  window.addEventListener('scroll', check, { passive: true });
+  check();
+
+  var closeBtn = bar.querySelector('[data-sticky-buy-close]');
+  if (closeBtn) closeBtn.addEventListener('click', function () {
+    bar.classList.remove('is-open');
+    bar.setAttribute('aria-hidden', 'true');
+    setTimeout(function () { bar.hidden = true; }, 400);
+    setCookie(60);
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Sticky Buy Bar",
+  "tag": "div",
+  "class": "sticky-buy-section",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "LUMISCA COMPLETE BUNDLE" },
+    { "type": "text", "id": "price", "label": "Price", "default": "£124.99" },
+    { "type": "text", "id": "compare_at_price", "label": "Was price", "default": "was £299.97" },
+    { "type": "text", "id": "cta_label", "label": "Desktop CTA label", "default": "Add Bundle To Cart" },
+    { "type": "text", "id": "mobile_cta_label", "label": "Mobile CTA label", "default": "SHOP THE BUNDLE — £124.99 (50% OFF)" },
+    { "type": "url", "id": "cta_url", "label": "CTA link" }
+  ],
+  "presets": [
+    { "name": "Sticky Buy Bar" }
+  ]
+}
+{% endschema %}

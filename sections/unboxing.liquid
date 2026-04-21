@@ -1,4 +1,4 @@
-<section class="unboxing">
+<section class="unboxing" data-fade-up>
   <div class="container unboxing-inner">
     <div class="unboxing-head">
       {%- if section.settings.eyebrow != blank -%}
@@ -10,13 +10,28 @@
       {%- endif -%}
     </div>
 
-    <div class="unboxing-grid" data-fade-up>
+    <ul class="unboxing-included">
       {%- for block in section.blocks -%}
-        <figure class="unboxing-figure" {{ block.shopify_attributes }}>
-          <img src="{{ block.settings.image_filename | asset_url }}" alt="{{ block.settings.alt | escape }}" loading="lazy">
-        </figure>
+        <li class="unboxing-included-item" {{ block.shopify_attributes }}>
+          <div class="unboxing-icon">
+            {%- case block.settings.icon -%}
+              {%- when 'package' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 9.4l-9-5.19"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></svg>
+              {%- when 'plug' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22v-5"/><path d="M9 7V2"/><path d="M15 7V2"/><path d="M6 13V8.5C6 7.67 6.67 7 7.5 7h9c.83 0 1.5.67 1.5 1.5V13l-4 4h-4l-4-4z"/></svg>
+              {%- when 'book' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+              {%- when 'shield' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+              {%- else -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>
+            {%- endcase -%}
+          </div>
+          <h3 class="unboxing-title">{{ block.settings.title }}</h3>
+          <p class="unboxing-desc muted">{{ block.settings.body }}</p>
+        </li>
       {%- endfor -%}
-    </div>
+    </ul>
   </div>
 </section>
 
@@ -26,37 +41,49 @@
 .unboxing-inner { text-align: center; }
 .unboxing-head { max-width: 640px; margin: 0 auto 3.5rem; }
 .unboxing-body { margin-top: 1rem; font-size: 1rem; line-height: 1.7; }
-.unboxing-grid { display: grid; grid-template-columns: 1fr; gap: 20px; max-width: 1140px; margin: 0 auto; }
-@media (min-width: 768px) { .unboxing-grid { grid-template-columns: 1fr 1fr; } }
-.unboxing-figure { margin: 0; border-radius: 12px; overflow: hidden; background: #141414; aspect-ratio: 1/1; }
-.unboxing-figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.unboxing-included { display: grid; grid-template-columns: 1fr; gap: 2rem; list-style: none; padding: 0; margin: 0; max-width: 1140px; margin-left: auto; margin-right: auto; }
+@media (min-width: 640px) { .unboxing-included { grid-template-columns: repeat(2, 1fr); gap: 2.25rem; } }
+@media (min-width: 1024px) { .unboxing-included { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; } }
+.unboxing-included-item { padding: 0 .25rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: .75rem; }
+.unboxing-icon { width: 64px; height: 64px; display: inline-flex; align-items: center; justify-content: center; color: var(--red); background: rgba(200,16,46,.08); border-radius: 50%; }
+.unboxing-icon svg { width: 40px; height: 40px; }
+.unboxing-title { font-family: var(--display); font-size: 1.25rem; line-height: 1.25; margin: 0; }
+.unboxing-desc { font-size: 14px; line-height: 1.55; max-width: 240px; margin: 0 auto; }
 {%- endstylesheet -%}
 
 {% schema %}
 {
-  "name": "Unboxing Showcase",
+  "name": "What's Included",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE UNBOXING" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Arrives like a gift to yourself." },
-    { "type": "textarea", "id": "body", "label": "Body", "default": "Every Lumisca device is packaged with the care of a luxury fragrance house — because you're buying a ritual, not just a device." }
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "WHAT'S INCLUDED" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Ready from the moment it arrives." },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "No app downloads. No subscriptions. No complicated setup. Plug in, switch on, and glow — it's that simple." }
   ],
   "blocks": [
     {
-      "type": "shot",
-      "name": "Shot",
+      "type": "feature",
+      "name": "Feature",
       "settings": [
-        { "type": "text", "id": "image_filename", "label": "Asset filename", "default": "unboxing-box-lift.png" },
-        { "type": "text", "id": "alt", "label": "Alt text", "default": "LUMISCA unboxing" }
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "package", "label": "Package" },
+          { "value": "plug", "label": "Plug" },
+          { "value": "book", "label": "Book" },
+          { "value": "shield", "label": "Shield" }
+        ], "default": "package" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Premium Device" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Clinic-grade LEDs, CE-certified" }
       ]
     }
   ],
-  "max_blocks": 4,
+  "max_blocks": 6,
   "presets": [
     {
-      "name": "Unboxing Showcase",
+      "name": "What's Included",
       "blocks": [
-        { "type": "shot", "settings": { "image_filename": "unboxing-box-lift.png", "alt": "LUMISCA box being lifted from wrapping" } },
-        { "type": "shot", "settings": { "image_filename": "unboxing-mask-open.png", "alt": "LUMISCA mask revealed inside the box" } }
+        { "type": "feature", "settings": { "icon": "package", "title": "Premium Device",    "body": "Clinic-grade LEDs, CE-certified" } },
+        { "type": "feature", "settings": { "icon": "plug",    "title": "Fast Charger",      "body": "2-hour charge, 2 weeks of use" } },
+        { "type": "feature", "settings": { "icon": "book",    "title": "Quick-Start Guide", "body": "Your 10-minute ritual, simplified" } },
+        { "type": "feature", "settings": { "icon": "shield",  "title": "60-Day Guarantee",  "body": "Love it or return it, no questions" } }
       ]
     }
   ]

@@ -1,32 +1,52 @@
 {
   "sections": {
+    "announcement-bar": { "type": "announcement-bar", "settings": {} },
     "hero": {
-      "type": "science-hero"
-    },
-    "foundations": {
-      "type": "science-foundations"
-    },
-    "studies": {
-      "type": "science-studies"
-    },
-    "faq": {
-      "type": "faq-strip",
+      "type": "science-hero",
       "settings": {
-        "eyebrow": "FAQ",
-        "heading": "The Science, Questions Answered",
-        "cta_url": "/pages/faq"
+        "eyebrow": "THE SCIENCE",
+        "heading": "Clinical-grade light. At home.",
+        "body": "Red and near-infrared light therapy, explained by evidence. Wavelengths, mechanisms, clinical results — all in one place."
       }
     },
-    "announcement-bar": {
-      "type": "announcement-bar",
+    "intro": {
+      "type": "science-intro",
+      "settings": {
+        "eyebrow": "THE SCIENCE",
+        "heading": "Red light therapy, explained properly.",
+        "body": "<p>Red light therapy (also called photobiomodulation) uses specific wavelengths of light — 660nm red and 850nm near-infrared — to stimulate cellular energy production. It's backed by 3,000+ peer-reviewed studies and used in dermatology clinics worldwide. Here's exactly how it works, and why Lumisca's devices deliver clinical-grade results at home.</p>"
+      }
+    },
+    "foundations": { "type": "science-foundations", "settings": {} },
+    "wavelengths": {
+      "type": "science-wavelengths",
+      "blocks": {
+        "w1": { "type": "wavelength", "settings": { "value": "660nm", "label": "Visible red — surface stimulation", "depth": "Skin depth ~2mm", "depth_pct": 40 } },
+        "w2": { "type": "wavelength", "settings": { "value": "850nm", "label": "Near-infrared — deep tissue",       "depth": "Tissue depth ~5mm", "depth_pct": 100 } }
+      },
+      "block_order": ["w1", "w2"],
+      "settings": {}
+    },
+    "studies": { "type": "science-studies", "settings": {} },
+    "articles": {
+      "type": "science-articles-grid",
+      "blocks": {
+        "a1": { "type": "article", "settings": { "image_filename": "product-cap-solo.png",       "category": "Wavelengths",     "title": "Why 660nm and 850nm outperform other light therapies", "summary": "The physics of tissue penetration — and why most at-home devices get it wrong.",  "url": "/pages/science-wavelengths" } },
+        "a2": { "type": "article", "settings": { "image_filename": "hero-hair-cap-dramatic.png", "category": "Hair Loss",       "title": "The 2018 Harvard study that changed everything",       "summary": "A landmark trial that moved LLLT from fringe to first-line therapy.",             "url": "/pages/science-hair-loss" } },
+        "a3": { "type": "article", "settings": { "image_filename": "product-mask-solo.png",      "category": "Skin",            "title": "How red light triggers collagen production",           "summary": "Inside the fibroblast pathway that drives every visible improvement.",           "url": "/pages/science-skin" } },
+        "a4": { "type": "article", "settings": { "image_filename": "lifestyle-face-mask.png",    "category": "Clinical Trials", "title": "3,000+ peer-reviewed studies: what they found",        "summary": "A survey of the evidence base — effect sizes, dosing, and open questions.",       "url": "/pages/science-studies" } }
+      },
+      "block_order": ["a1", "a2", "a3", "a4"],
       "settings": {}
     }
   },
   "order": [
     "announcement-bar",
     "hero",
+    "intro",
     "foundations",
+    "wavelengths",
     "studies",
-    "faq"
+    "articles"
   ]
 }

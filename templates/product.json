@@ -49,6 +49,17 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "settings": {}
+    },
+    "sticky-buy-bar": {
+      "type": "sticky-buy-bar",
+      "settings": {
+        "title": "LUMISCA COMPLETE BUNDLE",
+        "price": "£124.99",
+        "compare_at_price": "was £299.97",
+        "cta_label": "Add Bundle To Cart",
+        "mobile_cta_label": "SHOP THE BUNDLE — £124.99 (50% OFF)",
+        "cta_url": "/products/lumisca-complete-bundle"
+      }
     }
   },
   "order": [
@@ -58,6 +69,7 @@
     "timeline",
     "science",
     "upsell",
-    "reviews"
+    "reviews",
+    "sticky-buy-bar"
   ]
 }
