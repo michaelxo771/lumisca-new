@@ -6,26 +6,64 @@
     },
     "hero": {
       "type": "hero",
-      "settings": {}
+      "blocks": {
+        "stat1": { "type": "stat", "settings": { "value": "10,000+", "label": "Customers" } },
+        "stat2": { "type": "stat", "settings": { "value": "4.9 ★", "label": "Rated" } },
+        "stat3": { "type": "stat", "settings": { "value": "60-Day", "label": "Money Back" } }
+      },
+      "block_order": ["stat1", "stat2", "stat3"],
+      "settings": {
+        "cta1_url": "/collections/all",
+        "cta2_url": "/pages/science"
+      }
     },
     "trust-bar": {
       "type": "trust-bar",
+      "blocks": {
+        "t1": { "type": "item", "settings": { "icon": "guarantee", "title": "60-Day Guarantee", "sub": "Money back, no questions" } },
+        "t2": { "type": "item", "settings": { "icon": "delivery",  "title": "Free UK Shipping", "sub": "On every order" } },
+        "t3": { "type": "item", "settings": { "icon": "science",   "title": "Clinic-Grade LEDs", "sub": "Medical-grade wavelengths" } },
+        "t4": { "type": "item", "settings": { "icon": "customers", "title": "10,000+ Customers", "sub": "Across the UK" } },
+        "t5": { "type": "item", "settings": { "icon": "secure",    "title": "As Seen On TikTok", "sub": "Trending UK wellness brand" } }
+      },
+      "block_order": ["t1", "t2", "t3", "t4", "t5"],
       "settings": {}
     },
     "featured-products": {
       "type": "featured-products",
-      "settings": {}
+      "settings": {
+        "collection": "all"
+      }
     },
     "how-it-works": {
       "type": "how-it-works",
+      "blocks": {
+        "s1": { "type": "step", "settings": { "title": "Unbox", "body": "Your Lumisca device arrives ready to use." } },
+        "s2": { "type": "step", "settings": { "title": "Treat", "body": "10 minutes a day, from your sofa." } },
+        "s3": { "type": "step", "settings": { "title": "Glow",  "body": "Visible results in 4-8 weeks." } }
+      },
+      "block_order": ["s1", "s2", "s3"],
       "settings": {}
     },
     "testimonials": {
       "type": "testimonials",
+      "blocks": {
+        "r1": { "type": "review", "settings": { "name": "Sarah M.",  "location": "Manchester",  "product": "Pro Hair Growth Cap", "body": "10 weeks with the Lumisca cap and I genuinely can't believe the difference. My hairdresser noticed before I even told her." } },
+        "r2": { "type": "review", "settings": { "name": "Claire B.", "location": "Edinburgh",   "product": "Glow Face Mask",      "body": "I was spending £80 a month on facials. This paid for itself in the first month. My skin looks brighter after 6 weeks." } },
+        "r3": { "type": "review", "settings": { "name": "James T.",  "location": "Birmingham",  "product": "Rest Eye Mask",       "body": "15 minutes before bed and I sleep better than I have in years." } }
+      },
+      "block_order": ["r1", "r2", "r3"],
       "settings": {}
     },
     "faq-strip": {
       "type": "faq-strip",
+      "blocks": {
+        "q1": { "type": "faq", "settings": { "question": "How long until I see results?", "answer": "<p>Sleep: from night one. Skin: from week 4. Hair regrowth: week 8-12. Consistency matters — 4-5 sessions per week.</p>" } },
+        "q2": { "type": "faq", "settings": { "question": "Is red light therapy safe?", "answer": "<p>Yes. Non-invasive, non-thermal, non-UV. Clinically studied in dermatology for over 20 years. Every Lumisca device is CE-certified.</p>" } },
+        "q3": { "type": "faq", "settings": { "question": "How often should I use it?", "answer": "<p>4-5 sessions per week is the clinical sweet spot. Each session is 15-25 minutes with auto-shutoff.</p>" } },
+        "q4": { "type": "faq", "settings": { "question": "What's in the box?", "answer": "<p>The device, USB-C charging cable, premium storage pouch and illustrated user guide. Bundles include a branded gift box and welcome card.</p>" } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4"],
       "settings": {}
     }
   },

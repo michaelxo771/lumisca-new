@@ -14,12 +14,12 @@
 
       <div class="hero-ctas">
         {%- if section.settings.cta1_label != blank -%}
-          <a href="{{ section.settings.cta1_url }}" class="btn btn-red btn-xl">
+          <a href="{{ section.settings.cta1_url | default: '/collections/all' }}" class="btn btn-red btn-xl">
             {{ section.settings.cta1_label }} {% render 'icon-arrow-right' %}
           </a>
         {%- endif -%}
         {%- if section.settings.cta2_label != blank -%}
-          <a href="{{ section.settings.cta2_url }}" class="btn btn-outline-light btn-xl">
+          <a href="{{ section.settings.cta2_url | default: '/pages/science' }}" class="btn btn-outline-light btn-xl">
             {{ section.settings.cta2_label }}
           </a>
         {%- endif -%}
@@ -42,7 +42,9 @@
         {%- if section.settings.image != blank -%}
           <img src="{{ section.settings.image | image_url: width: 1000 }}" alt="{{ section.settings.image.alt | escape }}" loading="eager" width="1000" height="1250">
         {%- else -%}
-          <div class="ph ph-dark aspect-45"><span class="ph-label">Lumisca Hero Lifestyle</span></div>
+          <div class="hero-placeholder">
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
         {%- endif -%}
         <span class="hero-tag hero-tag-red">Clinic-Grade</span>
         <span class="hero-tag hero-tag-gold">Best of 2026</span>
@@ -68,7 +70,9 @@
 @media (min-width: 768px) { .hero-stat-n { font-size: 1.875rem; } }
 .hero-stat-l { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: rgba(249,247,244,.6); margin-top: .25rem; display: block; }
 .hero-media-frame { position: relative; border: 2px dashed rgba(200,16,46,.5); }
-.hero-media-frame img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+.hero-media-frame img, .hero-placeholder { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; }
+.hero-placeholder { background: #141414; display: flex; align-items: center; justify-content: center; }
+.hero-placeholder svg { width: 100%; height: 100%; fill: rgba(255,255,255,.15); }
 .hero-tag { position: absolute; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; font-weight: 500; padding: .5rem 1rem; }
 .hero-tag-red { bottom: -1.25rem; left: -1.25rem; background: var(--red); color: #fff; }
 .hero-tag-gold { top: -1rem; right: 1rem; background: var(--gold); color: var(--ink); font-weight: 600; }
@@ -154,7 +158,30 @@
   "max_blocks": 3,
   "presets": [
     {
-      "name": "Hero"
+      "name": "Hero",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "value": "10,000+",
+            "label": "Customers"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "value": "4.9 ★",
+            "label": "Rated"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "value": "60-Day",
+            "label": "Money Back"
+          }
+        }
+      ]
     }
   ]
 }
