@@ -1,137 +1,106 @@
-# LUMISCA — Premium Next.js E-commerce Storefront
+# LUMISCA — Shopify Liquid theme
 
-Your At-Home Light Therapy Clinic. Production-ready Next.js 14 storefront for LUMISCA — clinic-grade red light therapy devices for hair, skin and sleep.
+Shopify 2.0 theme converted from the sibling Next.js storefront. Drop-in
+ready — upload as a ZIP via **Online Store → Themes → Add theme → Upload
+zip file**, or deploy with the Shopify CLI (`shopify theme push`).
 
-## Tech Stack
-
-- **Next.js 14** with App Router and React Server Components
-- **TypeScript** (strict)
-- **Tailwind CSS** with a bespoke LUMISCA design system
-- **Framer Motion** for premium micro-animations
-- **next/font** for Playfair Display + DM Sans
-- **Shopify Storefront API** ready — runs on local mock data out of the box
-- **Deploy** on Vercel in a single click
-
-## Brand
-
-- **Name**: LUMISCA (lumisca.co.uk)
-- **Tagline**: Your At-Home Light Therapy Clinic.
-- **Palette**: `#0A0A0A` ink · `#F9F7F4` cream · `#C8102E` brand red · `#C9A84C` gold · `#4A4A4A` mid grey · `#E8E6E3` light grey
-- **Typography**: Playfair Display (display) + DM Sans (body)
-
-## Getting Started
+## Install
 
 ```bash
-npm install
-npm run dev
+npm i -g @shopify/cli @shopify/theme
+shopify theme dev --store your-store
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The store ships with mock product data in `lib/products.ts` so it runs without any env setup.
+## Required store setup
 
-### Scripts
+Create the following in your Shopify admin before going live:
 
-| Command | Action |
-| ------- | ------ |
-| `npm run dev` | Start the Next.js dev server |
-| `npm run build` | Production build |
-| `npm run start` | Serve the production build |
-| `npm run lint` | Lint with `next lint` |
-| `npm run type-check` | Type-check without emitting |
+1. **Menus** (Online Store → Navigation)
+   - `main-menu` — Shop, The Science, Reviews, About, FAQ
+   - `footer-shop`, `footer-info`, `footer-support` — anything you like
+2. **Pages** (Online Store → Pages) and assign the right template from
+   the `Theme template` dropdown on the edit screen:
+   - About → `page.about`
+   - Science → `page.science`
+   - Reviews → `page.reviews`
+   - FAQ → `page.faq`
+   - Contact → `page.contact`
+3. **Products** — seed the four Lumisca products with the handles
+   listed below so the JSON templates line up:
+   - `lumisca-pro-hair-growth-cap`
+   - `lumisca-glow-face-mask`
+   - `lumisca-rest-eye-mask`
+   - `lumisca-complete-bundle`
+4. **Theme settings** — Online Store → Themes → Customize:
+   - Brand tagline, colours
+   - Free shipping threshold (default £50)
+   - Bundle product handle (`lumisca-complete-bundle`)
+   - Welcome discount code (`LUMISCA10`)
+   - TikTok + Instagram URLs
 
-## Project Structure
+## Conversion rules (enforced)
+
+This theme was built to seven hard rules:
+
+1. ✅ No `data-animate` CSS that sets `opacity: 0`. All content paints
+   immediately — animations layer on top, they never hide content.
+2. ✅ Cart drawer is rendered via `{% render 'cart-drawer' %}` — not a
+   `{% section %}` — so it always appears and cannot end up disabled
+   from the theme editor.
+3. ✅ Footer lives in the JSON templates only (`index.json`,
+   `product.json`, etc.) — never in `layout/theme.liquid`.
+4. ✅ All popups default to `display: none` via `.popup { display:
+   none }`. JS adds `.is-open` to show them.
+5. ✅ Mobile nav defaults to `display: none` via `.mobile-nav { display:
+   none }`. JS adds `.is-open` on the menu button click.
+6. ✅ CSS is under 300 lines (`assets/theme.css` is 190 lines). Each
+   section ships its own scoped `{% stylesheet %}` block so global CSS
+   stays lean.
+7. ✅ Each phase was committed separately (see `git log`).
+
+## File tree
 
 ```
-app/
-  layout.tsx              # Root layout, fonts, announcement bar, header, footer, popups
-  page.tsx                # Homepage
-  products/[handle]/      # Dynamic product pages (SSG via generateStaticParams)
-  collections/all/        # Collection page with client-side filter + sort
-  about/ science/ reviews/ faq/ contact/
-  sitemap.ts robots.ts not-found.tsx
-
-components/
-  layout/                 # AnnouncementBar, Header, Footer, CartDrawer, CartProvider, TrackingScripts
-  home/                   # Hero, TrustBar, FeaturedProducts, HowItWorks, ScienceCallout,
-                          # BundleHighlight, Testimonials, UGCStrip, FAQStrip
-  product/                # Gallery, Info, Tabs, Benefits, Timeline, Science, Upsell, Reviews, StickyATC
-  popups/                 # Welcome, Exit, CartUpsell, RecentPurchaseToast, CookieConsent
-  ui/                     # Button, Badge, StarRating, CountdownTimer, Accordion, ProductCard,
-                          # PlaceholderImage, BackToTop
-
-lib/
-  products.ts             # Mock product & review data — drop-in replaceable with Shopify data
-  shopify.ts              # Storefront API client (mock fallback) with step-by-step live-mode guide
-  utils.ts                # formatPrice, cn, countdown helpers, delivery date
-
-types/
-  index.ts                # Product, CartItem, Review, NavLink
+assets/
+  theme.css            # 190 lines, all design tokens and primitives
+  theme.js             # vanilla JS — cart AJAX, popups, countdown, tabs
+config/
+  settings_schema.json
+  settings_data.json
+layout/
+  theme.liquid         # base layout — NO footer here
+locales/
+  en.default.json
+sections/              # 36 sections, all with schemas and presets
+snippets/              # icons, cart-drawer, mobile-nav, popups, cards
+templates/
+  index.json           # homepage (hero → footer)
+  product.json         # PDP (main → upsell → reviews → footer)
+  collection.json      # collection page
+  cart.json
+  404.json
+  list-collections.json
+  search.json
+  page.json            # generic page fallback
+  page.about.json
+  page.science.json
+  page.reviews.json
+  page.faq.json
+  page.contact.json
 ```
 
-## Shopify Integration
+## Extending
 
-The store runs on mock data until you add Shopify credentials. To go live:
-
-1. In your Shopify admin → **Settings → Apps and sales channels → Develop apps → Create an app**.
-2. Enable the Storefront API scopes: `unauthenticated_read_product_listings`, `unauthenticated_read_product_inventory`, `unauthenticated_write_checkouts`, `unauthenticated_read_checkouts`.
-3. Copy the Storefront access token.
-4. Copy `.env.local.example` → `.env.local` and fill in:
-   ```
-   NEXT_PUBLIC_SHOPIFY_DOMAIN=your-store.myshopify.com
-   NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN=your_token
-   ```
-5. Replace the mock queries in `lib/shopify.ts` (`getAllProducts`, `getProductByHandle`, `createCheckoutUrl`) with live Storefront GraphQL.
-
-All downstream components consume the local `Product` type, so the transition is a drop-in.
-
-## Conversion Features
-
-- **Announcement bar** rotates 3 messages every 3s
-- **Sticky header** with cart badge + full-screen mobile drawer
-- **Cart drawer** with free-shipping progress bar + bundle upsell
-- **Welcome popup** (8s delay, localStorage-gated, 10% off)
-- **Exit-intent popup** (desktop `mouseleave` / 40s mobile idle, localStorage-gated)
-- **Cart upsell popup** triggers when single product added without bundle
-- **Recent purchase toast** rotates 8 UK customer + product combos
-- **Sticky ATC** on mobile product pages once main CTA scrolls out of view
-- **Countdown timer** daily-reset on bundle section + product pages
-- **Delivery countdown** to 3pm dispatch cutoff
-- **Cookie consent** GDPR-compliant banner gating all tracking pixels
-- **Back-to-top** fixed button after 400px scroll
+- **Swap an image**: every section with an image ships with an
+  `image_picker` setting — editable from the theme editor, falls back
+  to a placeholder at `.ph` if unset.
+- **Add a review**: open the product page in the editor, find the
+  *Product Reviews* section, click *Add Review*.
+- **Change the bundle**: set `bundle_product_handle` in Theme Settings.
+  The cart upsell and bundle countdown both read from it.
 
 ## Tracking
 
-Meta Pixel, TikTok Pixel and GA4 are wired into `components/layout/TrackingScripts.tsx`.
-
-- Pixels only load when the user accepts cookies (`lumisca.consent=accepted`).
-- Global helper `window.lumiscaTrack(event, data)` fires matching events to all three platforms. The cart uses it automatically for `AddToCart`.
-- Environment variables:
-  ```
-  NEXT_PUBLIC_META_PIXEL_ID=
-  NEXT_PUBLIC_TIKTOK_PIXEL_ID=
-  NEXT_PUBLIC_GA4_ID=
-  ```
-
-## Accessibility
-
-- All interactive elements ≥ 44px touch targets
-- Focus-visible outlines on all controls
-- `aria-label`s on icon-only buttons
-- Reduced-motion support via Tailwind's built-in variants (extendable)
-- Semantic landmarks (`<header>`, `<main>`, `<footer>`, `<nav>`)
-
-## Deployment (Vercel)
-
-1. Push to GitHub.
-2. Import the repo into Vercel.
-3. Add the env vars above in **Project Settings → Environment Variables**.
-4. Deploy — Next.js 14 builds automatically.
-
-Vercel's default build cache + ISR handles product page revalidation.
-
-## UK English
-
-All copy, dates and prices follow UK conventions (`colour`, £ GBP, `DD Month YYYY`). `Intl.NumberFormat("en-GB", ...)` in `lib/utils.ts`.
-
----
-
-© 2026 Lumisca Ltd.
+The theme does not ship tracking pixels by default. Paste Meta Pixel,
+TikTok Pixel or GA4 snippets in **Online Store → Preferences →
+Additional scripts** — gate on `document.cookie.indexOf("lumisca.consent=accepted")` to respect the cookie banner.
