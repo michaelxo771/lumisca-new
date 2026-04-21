@@ -1,0 +1,55 @@
+{%- liquid
+  assign rating = product.metafields.reviews.rating | default: 4.9
+  assign review_count = product.metafields.reviews.count | default: 0
+  assign tagline = product.metafields.custom.tagline | default: product.description | strip_html | truncatewords: 14
+  assign card_badge = product.metafields.custom.badge
+  if product.type == 'Bundle' or product.handle contains 'bundle'
+    assign card_badge_variant = 'badge-gold'
+  else
+    assign card_badge_variant = 'badge-red'
+  endif
+-%}
+<article class="card" data-cat="{{ product.type | downcase | default: 'all' }}" data-price="{{ product.price | money_without_currency }}" data-rating="{{ rating }}">
+  <a href="{{ product.url }}" class="card-media">
+    {%- if product.featured_image -%}
+      <img src="{{ product.featured_image | image_url: width: 720 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy" width="720" height="900">
+    {%- else -%}
+      <div class="ph aspect-45"><span class="ph-label">{{ product.title }}</span></div>
+    {%- endif -%}
+    <div class="card-badges">
+      {%- if card_badge != blank -%}<span class="badge {{ card_badge_variant }}">{{ card_badge }}</span>{%- endif -%}
+      {%- if product.compare_at_price > product.price -%}
+        {%- assign saved = product.compare_at_price | minus: product.price -%}
+        {%- assign pct = saved | times: 100.0 | divided_by: product.compare_at_price | round -%}
+        <span class="badge badge-dark">Save {{ pct }}%</span>
+      {%- endif -%}
+    </div>
+  </a>
+  <div class="card-body">
+    <div class="card-rating">
+      {% render 'star-rating', rating: rating, size: 'sm' %}
+      <span class="muted" style="font-size:13px;">{{ rating }}{% if review_count > 0 %} ({{ review_count }}){% endif %}</span>
+    </div>
+    <h3 class="card-title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
+    <p class="card-tagline muted">{{ tagline }}</p>
+    {% render 'price', product: product %}
+    <a href="{{ product.url }}" class="btn btn-dark btn-block card-cta">Shop Now {% render 'icon-arrow-right' %}</a>
+  </div>
+</article>
+
+{%- stylesheet -%}
+.card { display: flex; flex-direction: column; background: var(--cream); }
+.card-media { position: relative; display: block; overflow: hidden; }
+.card-media img { width: 100%; aspect-ratio: 4/5; object-fit: cover; transition: transform .7s; }
+.card-media:hover img { transform: scale(1.02); }
+.card-badges { position: absolute; top: 1rem; left: 1rem; display: flex; flex-direction: column; gap: .5rem; }
+.card-body { padding-top: 1.25rem; display: flex; flex-direction: column; gap: .5rem; }
+.card-rating { display: flex; align-items: center; gap: .5rem; }
+.card-title { font-size: clamp(1.15rem, 2.2vw, 1.4rem); line-height: 1.2; }
+.card-title a:hover { color: var(--red); }
+.card-tagline { font-size: 14px; }
+.price { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; }
+.price-now { font-family: var(--display); font-size: 1.5rem; }
+.price-was { color: var(--mid); text-decoration: line-through; font-size: .9rem; }
+.card-cta { margin-top: 1rem; }
+{%- endstylesheet -%}

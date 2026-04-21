@@ -1,0 +1,89 @@
+{%- comment -%}
+  Cart drawer — rendered via {% render %} from theme.liquid.
+  Starts hidden via .drawer rules (display:none). JS toggles .is-open.
+{%- endcomment -%}
+<aside class="drawer cart-drawer" data-cart-drawer role="dialog" aria-label="Shopping cart" aria-hidden="true">
+  <div class="drawer-backdrop" data-cart-close></div>
+  <div class="drawer-panel">
+    <div class="drawer-header">
+      <h2 class="drawer-title">{{ 'cart.title' | t }} <span class="muted" style="font-size:13px;font-family:var(--sans);">(<span data-cart-count>{{ cart.item_count }}</span>)</span></h2>
+      <button class="icon-btn" type="button" data-cart-close aria-label="Close cart">{% render 'icon-close' %}</button>
+    </div>
+
+    <div class="fsbar" data-fs-bar>
+      <p data-fs-msg>You're <strong>£50.00</strong> {{ 'cart.free_shipping_away' | t }}</p>
+      <div class="fsbar-track"><div class="fsbar-fill" data-fs-fill></div></div>
+    </div>
+
+    <div class="drawer-body" data-cart-body>
+      {%- comment -%} Populated by JS. Initial SSR render below for no-JS and first paint. {%- endcomment -%}
+      {%- if cart.item_count == 0 -%}
+        <div class="cart-empty">
+          <p class="eyebrow">{{ 'cart.empty' | t }}</p>
+          <p class="muted" style="max-width:260px;margin:.5rem auto 1.5rem;">Add a Lumisca device to start your at-home light therapy routine.</p>
+          <a href="/collections/all" class="btn btn-red">{{ 'cart.empty_cta' | t }}</a>
+        </div>
+      {%- else -%}
+        <ul class="cart-items">
+          {%- for item in cart.items -%}
+            <li class="cart-item" data-line-key="{{ item.key }}">
+              <div class="cart-item-img">
+                {%- if item.image -%}
+                  <img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.product.title | escape }}" loading="lazy" width="80" height="80">
+                {%- else -%}
+                  <div class="ph aspect-square"><span class="ph-label">{{ item.product.title | truncate: 14 }}</span></div>
+                {%- endif -%}
+              </div>
+              <div class="cart-item-body">
+                <a href="{{ item.url }}" class="cart-item-title">{{ item.product.title }}</a>
+                <p class="muted" style="font-size:13px;">{{ item.final_price | money }}</p>
+                <div class="cart-item-qty">
+                  <button class="qty-btn" data-cart-qty="-1" aria-label="Decrease">−</button>
+                  <span>{{ item.quantity }}</span>
+                  <button class="qty-btn" data-cart-qty="1" aria-label="Increase">+</button>
+                  <button class="cart-remove" data-cart-remove>{{ 'cart.remove' | t }}</button>
+                </div>
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+    <div class="drawer-footer{% if cart.item_count == 0 %} hidden{% endif %}" data-cart-footer>
+      <div class="drawer-subtotal">
+        <span class="eyebrow" style="color:var(--mid);">{{ 'cart.subtotal' | t }}</span>
+        <span class="drawer-subtotal-n" data-cart-subtotal>{{ cart.total_price | money }}</span>
+      </div>
+      <p class="muted" style="font-size:12px;margin-bottom:1rem;">Shipping and taxes calculated at checkout.</p>
+      <form action="{{ routes.cart_url }}" method="post">
+        <button type="submit" name="checkout" class="btn btn-red btn-block btn-lg">{{ 'cart.checkout' | t }}</button>
+      </form>
+      <p class="drawer-tagline">🔒 {{ 'cart.tagline' | t }}</p>
+    </div>
+  </div>
+</aside>
+
+{%- stylesheet -%}
+.drawer-title { font-family: var(--display); font-size: 20px; }
+.cart-empty { text-align: center; padding: 3.5rem 1.5rem; }
+.cart-items { display: flex; flex-direction: column; }
+.cart-item { display: flex; gap: 1rem; padding: 1.5rem; border-bottom: 1px solid var(--line); }
+.cart-item-img { width: 80px; flex-shrink: 0; }
+.cart-item-img img { width: 80px; height: 80px; object-fit: cover; }
+.cart-item-body { flex: 1; min-width: 0; }
+.cart-item-title { font-family: var(--display); font-size: 16px; display: block; line-height: 1.25; margin-bottom: .25rem; }
+.cart-item-title:hover { color: var(--red); }
+.cart-item-qty { margin-top: .75rem; display: flex; align-items: center; gap: .5rem; }
+.cart-item-qty > span { width: 32px; text-align: center; font-variant-numeric: tabular-nums; font-size: 14px; }
+.qty-btn { width: 36px; height: 36px; border: 1px solid var(--line); font-size: 18px; line-height: 1; }
+.qty-btn:hover { border-color: var(--ink); }
+.cart-remove { margin-left: auto; font-size: 12px; text-decoration: underline; text-underline-offset: 4px; color: var(--mid); }
+.cart-remove:hover { color: var(--red); }
+.cart-upsell { padding: 1.5rem; background: var(--ink); color: var(--cream); }
+.cart-upsell h3 { font-family: var(--display); font-size: 20px; margin: .5rem 0; }
+.cart-upsell p { font-size: 14px; margin-bottom: 1rem; }
+.drawer-subtotal { display: flex; align-items: center; justify-content: space-between; margin-bottom: .5rem; }
+.drawer-subtotal-n { font-family: var(--display); font-size: 26px; }
+.drawer-tagline { margin-top: 1rem; font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--mid); text-align: center; }
+{%- endstylesheet -%}

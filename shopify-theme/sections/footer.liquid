@@ -1,0 +1,113 @@
+<footer class="footer">
+  <div class="container footer-grid">
+    <div class="footer-col footer-brand">
+      <a href="/" class="header-logo" style="display:inline-block;margin-bottom:1rem;">{{ shop.name | upcase }}</a>
+      <p class="footer-tagline">Clinic-grade red light therapy for hair, skin and sleep. UK-designed. 60-day money back guarantee on every Lumisca device.</p>
+      <div class="footer-social">
+        {%- if settings.social_tiktok != blank -%}
+          <a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener noreferrer" aria-label="TikTok">{% render 'icon-tiktok' %}</a>
+        {%- endif -%}
+        {%- if settings.social_instagram != blank -%}
+          <a href="{{ settings.social_instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">{% render 'icon-instagram' %}</a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'menu' -%}
+        <div class="footer-col" {{ block.shopify_attributes }}>
+          <h4 class="footer-heading">{{ block.settings.heading }}</h4>
+          <ul class="footer-links">
+            {%- for link in linklists[block.settings.menu].links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+      {%- if block.type == 'support' -%}
+        <div class="footer-col" {{ block.shopify_attributes }}>
+          <h4 class="footer-heading">{{ block.settings.heading }}</h4>
+          <ul class="footer-links">
+            {%- for link in linklists[block.settings.menu].links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+          {%- if block.settings.email != blank -%}
+            <p class="footer-email">
+              <a href="mailto:{{ block.settings.email }}">{{ block.settings.email }}</a><br>
+              <span class="muted">{{ block.settings.hours }}</span>
+            </p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  <div class="container footer-bottom">
+    <p class="footer-copy">© {{ 'now' | date: '%Y' }} {{ shop.name }} Ltd — Registered in England &amp; Wales</p>
+    <ul class="footer-payments">
+      {%- assign payments = 'Visa,Mastercard,Amex,PayPal,Klarna,Clearpay,Apple Pay,Google Pay' | split: ',' -%}
+      {%- for p in payments -%}<li>{{ p }}</li>{%- endfor -%}
+    </ul>
+  </div>
+</footer>
+
+{%- stylesheet -%}
+.footer { background: var(--ink); color: var(--cream); padding: 4rem 0 2.5rem; }
+@media (min-width: 768px) { .footer { padding: 6rem 0 2.5rem; } }
+.footer-grid { display: grid; gap: 2.5rem; grid-template-columns: 1fr; }
+@media (min-width: 768px) { .footer-grid { grid-template-columns: 1.6fr 1fr 1fr 1.4fr; gap: 2rem; } }
+.footer-tagline { color: rgba(249,247,244,.7); font-size: 14px; line-height: 1.6; max-width: 22rem; }
+.footer-social { display: flex; gap: .75rem; margin-top: 1.5rem; }
+.footer-social a { width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,.15); }
+.footer-social a:hover { border-color: rgba(255,255,255,.4); }
+.footer-heading { font-family: var(--display); font-size: 14px; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 1rem; }
+.footer-links { display: flex; flex-direction: column; gap: .65rem; font-size: 14px; color: rgba(249,247,244,.7); }
+.footer-links a:hover { color: var(--cream); }
+.footer-email { color: rgba(249,247,244,.6); font-size: 14px; margin-top: 1.5rem; }
+.footer-email a { color: rgba(249,247,244,.9); }
+.footer-bottom { margin-top: 3.5rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,.1); display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+@media (min-width: 768px) { .footer-bottom { flex-direction: row; align-items: center; justify-content: space-between; } }
+.footer-copy { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: rgba(249,247,244,.5); }
+.footer-payments { display: flex; flex-wrap: wrap; gap: .5rem; }
+.footer-payments li { padding: 0 .75rem; height: 28px; display: inline-flex; align-items: center; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.1); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; color: rgba(249,247,244,.8); }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Footer",
+  "tag": "div",
+  "class": "footer-section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu column",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Shop" },
+        { "type": "link_list", "id": "menu", "label": "Menu" }
+      ]
+    },
+    {
+      "type": "support",
+      "name": "Support column",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Support" },
+        { "type": "link_list", "id": "menu", "label": "Menu" },
+        { "type": "text", "id": "email", "label": "Support email", "default": "support@lumisca.com" },
+        { "type": "text", "id": "hours", "label": "Support hours", "default": "Mon-Fri, 9am-6pm GMT" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "menu", "settings": { "heading": "Shop", "menu": "footer-shop" } },
+      { "type": "menu", "settings": { "heading": "Info", "menu": "footer-info" } },
+      { "type": "support", "settings": { "heading": "Support", "menu": "footer-support", "email": "support@lumisca.com", "hours": "Mon-Fri, 9am-6pm GMT" } }
+    ]
+  },
+  "presets": [
+    { "name": "Footer" }
+  ]
+}
+{% endschema %}

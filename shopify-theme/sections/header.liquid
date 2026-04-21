@@ -1,0 +1,63 @@
+<header class="header" data-header>
+  <div class="container header-inner">
+    <button class="icon-btn header-menu" type="button" data-mobile-nav-open aria-label="Open menu">
+      {% render 'icon-menu' %}
+    </button>
+
+    <a href="/" class="header-logo" aria-label="{{ shop.name }} home">
+      {{ shop.name | upcase }}
+    </a>
+
+    <nav class="header-nav" aria-label="Primary">
+      {%- for link in linklists[section.settings.menu].links -%}
+        <a href="{{ link.url }}" class="header-link">{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+
+    <div class="header-right">
+      <a href="{{ routes.search_url }}" class="icon-btn header-search" aria-label="Search">
+        {% render 'icon-search' %}
+      </a>
+      <button class="icon-btn header-cart" type="button" data-cart-open aria-label="Open cart">
+        {% render 'icon-cart' %}
+        <span class="header-cart-count{% if cart.item_count == 0 %} hidden{% endif %}" data-cart-count>{{ cart.item_count }}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+{%- stylesheet -%}
+.header { position: sticky; top: 0; z-index: 40; background: rgba(249,247,244,.9); backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: border-color .3s; }
+.header.is-scrolled { border-bottom-color: var(--line); }
+.header-inner { height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+@media (min-width: 768px) { .header-inner { height: 80px; } }
+.header-logo { font-family: var(--display); font-size: 22px; letter-spacing: .35em; line-height: 1; }
+@media (min-width: 768px) { .header-logo { font-size: 26px; } }
+.header-nav { display: none; gap: 2rem; }
+@media (min-width: 1024px) { .header-nav { display: inline-flex; } }
+.header-link { font-size: 13px; letter-spacing: .15em; text-transform: uppercase; font-weight: 500; transition: color .2s; }
+.header-link:hover { color: var(--red); }
+.header-right { display: flex; align-items: center; gap: .25rem; }
+.header-menu { display: inline-flex; }
+@media (min-width: 1024px) { .header-menu { display: none; } }
+.header-search { display: none; }
+@media (min-width: 768px) { .header-search { display: inline-flex; } }
+.header-cart { position: relative; }
+.header-cart-count { position: absolute; top: 2px; right: 2px; min-width: 20px; height: 20px; padding: 0 4px; border-radius: 999px; background: var(--red); color: #fff; font-size: 10px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "div",
+  "class": "header-section",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Primary menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

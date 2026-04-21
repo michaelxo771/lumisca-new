@@ -1,0 +1,17 @@
+{%- liquid
+  assign price = product.price | default: 0
+  assign compare = product.compare_at_price | default: 0
+  assign show_compare = false
+  if compare > price
+    assign show_compare = true
+  endif
+-%}
+<div class="price">
+  <span class="price-now">{{ price | money }}</span>
+  {%- if show_compare -%}
+    <span class="price-was">{{ compare | money }}</span>
+    {%- assign saved = compare | minus: price -%}
+    {%- assign pct = saved | times: 100.0 | divided_by: compare | round -%}
+    <span class="badge badge-red">Save {{ pct }}%</span>
+  {%- endif -%}
+</div>
