@@ -1,0 +1,31 @@
+<div class="popup popup-upsell" data-upsell-popup role="dialog" aria-label="Upgrade to bundle" aria-hidden="true">
+  <div class="popup-backdrop"></div>
+  <div class="popup-dialog popup-upsell-card">
+    <div class="upsell-row">
+      <div class="upsell-media ph aspect-square"><span class="ph-label">Bundle</span></div>
+      <div style="flex:1; min-width:0;">
+        <p class="eyebrow" style="color: var(--red);">Upgrade &amp; Save £174</p>
+        <h3 class="upsell-title">Add the other 2 devices and save 58%</h3>
+        <p class="muted" style="font-size: 13px;">Upgrade to the Complete Bundle for just £124.99 — a single purchase for hair, skin and sleep.</p>
+      </div>
+      <button type="button" class="upsell-close" data-popup-close aria-label="Close">{% render 'icon-close' %}</button>
+    </div>
+    <div class="upsell-ctas">
+      <button type="button" class="upsell-no" data-popup-close>No Thanks</button>
+      <a href="/products/{{ settings.bundle_product_handle }}" class="upsell-yes" data-popup-close>View The Bundle</a>
+    </div>
+  </div>
+</div>
+
+{%- stylesheet -%}
+.popup-upsell { align-items: flex-end !important; padding: 1rem; }
+@media (min-width: 768px) { .popup-upsell { align-items: center !important; } }
+.popup-upsell-card { background: var(--cream); color: var(--ink); max-width: 520px; width: 100%; border: 1px solid var(--line); }
+.upsell-row { display: flex; align-items: flex-start; gap: 1rem; padding: 1.25rem; }
+.upsell-media { width: 80px; flex-shrink: 0; }
+.upsell-title { font-family: var(--display); font-size: 18px; line-height: 1.3; margin: .25rem 0 .25rem; }
+.upsell-close { width: 32px; height: 32px; margin-right: -.5rem; margin-top: -.5rem; display: inline-flex; align-items: center; justify-content: center; color: var(--mid); }
+.upsell-ctas { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
+.upsell-no, .upsell-yes { height: 48px; font-size: 12px; letter-spacing: .15em; text-transform: uppercase; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; }
+.upsell-yes { background: var(--red); color: #fff; }
+{%- endstylesheet -%}

@@ -1,0 +1,36 @@
+<div class="popup popup-exit" data-popup="exit" data-popup-key="lumisca.exit" role="dialog" aria-label="Exit offer" aria-hidden="true">
+  <div class="popup-backdrop"></div>
+  <div class="popup-dialog popup-split">
+    <button type="button" class="popup-close" data-popup-close aria-label="Close">{% render 'icon-close' %}</button>
+    <div class="popup-body" style="order: 2;">
+      <p class="eyebrow" style="color: var(--gold);">Wait — before you go</p>
+      <div data-popup-main>
+        <h2 class="display-md" style="margin-bottom: 1rem; line-height: 1.2;">
+          Here's <span style="color: var(--red);">10% off</span>.<br>On the house.
+        </h2>
+        <p class="muted" style="line-height: 1.65; margin-bottom: 1.5rem;">Zero risk — try your Lumisca for 60 days. If you don't see results, we'll refund you in full.</p>
+        <form data-popup-form style="display:flex; flex-direction:column; gap:.75rem;">
+          <label>
+            <span class="sr-only">Email address</span>
+            <input type="email" required placeholder="Your email address" class="popup-input">
+          </label>
+          <button type="submit" class="btn btn-red btn-block">Claim My 10% Off</button>
+        </form>
+        <button type="button" class="popup-decline" data-popup-close>No thanks, I'll pay full price.</button>
+      </div>
+      <div data-popup-success class="hidden">
+        <h2 class="display-md" style="margin-bottom: 1rem;">Code on its way.</h2>
+        <p class="muted" style="line-height: 1.65;">Check your inbox for <strong style="color: var(--gold);">{{ settings.welcome_discount_code }}</strong> — good for 10% off your first order.</p>
+      </div>
+    </div>
+    <div class="popup-media ph ph-dark aspect-square" style="order: 1;"><span class="ph-label">Lumisca Exit</span></div>
+  </div>
+</div>
+
+{%- stylesheet -%}
+.popup-decline { margin-top: 1rem; font-size: 12px; color: rgba(249,247,244,.5); text-decoration: underline; text-underline-offset: 4px; }
+@media (min-width: 768px) {
+  .popup-exit .popup-body { order: 1 !important; }
+  .popup-exit .popup-media { order: 2 !important; }
+}
+{%- endstylesheet -%}
