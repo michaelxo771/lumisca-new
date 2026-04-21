@@ -1,74 +1,216 @@
-<section class="section-lg reviews-list">
-  <div class="container" style="max-width: 56rem;">
-    <ul style="display:flex; flex-direction:column; gap: 1.25rem;">
+<section class="rwall">
+  <div class="container">
+    <div class="rwall-bar" data-reviews-bar>
+      <div class="rwall-filters" role="tablist" aria-label="Filter reviews">
+        {%- assign filter_labels = 'All,Hair Cap,Face Mask,Eye Mask,Bundle' | split: ',' -%}
+        {%- assign filter_values = 'all,hair,face,eye,bundle' | split: ',' -%}
+        {%- for label in filter_labels -%}
+          <button
+            type="button"
+            class="rwall-pill{% if forloop.first %} is-active{% endif %}"
+            data-rwall-filter="{{ filter_values[forloop.index0] }}"
+            role="tab"
+          >{{ label }}</button>
+        {%- endfor -%}
+      </div>
+      <label class="rwall-sort">
+        <span class="rwall-sort-label">Sort</span>
+        <select data-rwall-sort aria-label="Sort reviews">
+          <option value="recent">Most recent</option>
+          <option value="rating">Highest rated</option>
+        </select>
+      </label>
+    </div>
+
+    <ul class="rwall-grid">
       {%- for block in section.blocks -%}
-        <li class="rev" {{ block.shopify_attributes }}>
-          <div class="rev-top">
-            {% render 'star-rating', rating: 5, size: 'sm' %}
-            <span class="rev-verified">✓ Verified Buyer</span>
-          </div>
-          <h2 class="rev-title">{{ block.settings.title }}</h2>
-          <p class="rev-body">“{{ block.settings.body }}”</p>
-          <div class="rev-meta muted">
-            <strong style="color:var(--ink);">{{ block.settings.name }}</strong>
-            <span>·</span>
-            <span>{{ block.settings.location }}</span>
-            <span>·</span>
-            <span>{{ block.settings.date }}</span>
-            {%- if block.settings.product_title != blank -%}
-              <span>·</span>
-              {%- if block.settings.product_url != blank -%}
-                <a href="{{ block.settings.product_url }}" style="color: var(--red);">{{ block.settings.product_title }}</a>
+        {%- liquid
+          assign rating = block.settings.rating | default: 5 | times: 1
+          assign cat = block.settings.category | default: 'hair'
+          assign thumb = block.settings.thumb_filename | default: ''
+        -%}
+        <li class="rwall-card" data-rwall-cat="{{ cat }}" data-rwall-rating="{{ rating }}" {{ block.shopify_attributes }}>
+          <div class="rwall-stars" aria-label="Rated {{ rating }} out of 5">
+            {%- for i in (1..5) -%}
+              {%- if forloop.index0 < rating -%}
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.1 6.3 7 1-5.05 4.9 1.2 6.9L12 17.8l-6.25 3.3 1.2-6.9L1.9 9.3l7-1L12 2z"/></svg>
               {%- else -%}
-                <span style="color: var(--red);">{{ block.settings.product_title }}</span>
+                <svg viewBox="0 0 24 24" class="rwall-star-empty" aria-hidden="true"><path d="M12 2l3.1 6.3 7 1-5.05 4.9 1.2 6.9L12 17.8l-6.25 3.3 1.2-6.9L1.9 9.3l7-1L12 2z"/></svg>
               {%- endif -%}
-            {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          <h3 class="rwall-headline">{{ block.settings.headline }}</h3>
+          <p class="rwall-body">{{ block.settings.body }}</p>
+
+          <div class="rwall-footer">
+            <div class="rwall-thumb">
+              {%- if thumb != blank -%}
+                <img src="{{ thumb | asset_url }}" alt="{{ block.settings.product_title | escape }}" loading="lazy" width="48" height="48">
+              {%- else -%}
+                <div class="rwall-thumb-ph"></div>
+              {%- endif -%}
+            </div>
+            <div class="rwall-meta">
+              <p class="rwall-name">{{ block.settings.name }}</p>
+              <p class="rwall-sub">{{ block.settings.location }} · {{ block.settings.date }}</p>
+            </div>
+            <span class="rwall-verified" title="Verified buyer">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>
+              <span>Verified buyer</span>
+            </span>
           </div>
         </li>
       {%- endfor -%}
     </ul>
 
-    {%- if section.settings.cta_label != blank -%}
-      <div class="center" style="margin-top: 3rem;">
-        <a href="{{ section.settings.cta_url }}" class="btn btn-red btn-lg">{{ section.settings.cta_label }}</a>
-      </div>
-    {%- endif -%}
+    <div class="rwall-more">
+      <button type="button" class="btn rwall-more-btn" data-rwall-more>Load more reviews</button>
+    </div>
   </div>
+
+  <aside class="rwall-cta">
+    <div class="container">
+      <h3 class="rwall-cta-title">{{ section.settings.cta_heading }}</h3>
+      <p class="rwall-cta-body">{{ section.settings.cta_body }}</p>
+    </div>
+  </aside>
 </section>
 
 {%- stylesheet -%}
-.rev { background: #fff; border: 1px solid var(--line); padding: 1.5rem; }
-@media (min-width: 768px) { .rev { padding: 2rem; } }
-.rev-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: .75rem; }
-.rev-verified { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--red); font-weight: 600; }
-.rev-title { font-family: var(--display); font-size: clamp(1.125rem, 2vw, 1.5rem); line-height: 1.35; margin-bottom: .75rem; }
-.rev-body { color: rgba(10,10,10,.9); line-height: 1.7; font-size: 16px; }
-.rev-meta { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 14px; display: flex; flex-wrap: wrap; gap: .5rem; }
+.rwall { background: var(--cream); padding: 100px 0 0; }
+@media (max-width: 768px) { .rwall { padding: 56px 0 0; } }
+
+.rwall-bar { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--line); }
+@media (min-width: 768px) { .rwall-bar { flex-direction: row; align-items: center; justify-content: space-between; } }
+.rwall-filters { display: flex; flex-wrap: wrap; gap: .5rem; }
+.rwall-pill { height: 36px; padding: 0 1rem; border: 1px solid var(--line); background: transparent; color: var(--mid); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; font-weight: 500; border-radius: 999px; cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
+.rwall-pill:hover { border-color: var(--ink); color: var(--ink); }
+.rwall-pill.is-active { background: var(--red); color: #fff; border-color: var(--red); }
+.rwall-sort { display: inline-flex; align-items: center; gap: .6rem; }
+.rwall-sort-label { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--mid); font-weight: 500; }
+.rwall-sort select { height: 36px; padding: 0 .6rem; background: transparent; border: 1px solid var(--line); font-size: 14px; color: var(--ink); border-radius: 4px; }
+
+.rwall-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; list-style: none; padding: 0; margin: 0; }
+@media (min-width: 640px) { .rwall-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .rwall-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; } }
+
+.rwall-card { background: #fff; border: 0.5px solid rgba(10,10,10,.1); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; transition: transform .2s ease, box-shadow .2s ease; }
+.rwall-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px -18px rgba(10,10,10,.15); }
+.rwall-card.is-hidden { display: none; }
+
+.rwall-stars { display: inline-flex; gap: 2px; color: var(--gold); margin-bottom: .9rem; }
+.rwall-stars svg { width: 16px; height: 16px; fill: currentColor; }
+.rwall-star-empty { color: rgba(201,168,76,.28); }
+
+.rwall-headline { font-family: var(--display); font-size: 1.125rem; line-height: 1.3; margin: 0 0 .75rem; color: var(--ink); font-weight: 600; }
+.rwall-body { color: rgba(10,10,10,.85); line-height: 1.65; font-size: 15px; margin: 0 0 1.25rem; flex: 1; }
+
+.rwall-footer { display: flex; align-items: center; gap: .75rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.rwall-thumb { width: 48px; height: 48px; border-radius: 50%; overflow: hidden; background: var(--line); flex-shrink: 0; }
+.rwall-thumb img { width: 48px; height: 48px; object-fit: cover; display: block; }
+.rwall-thumb-ph { width: 100%; height: 100%; background: linear-gradient(135deg, #e2e0dc, #eceae6); }
+
+.rwall-meta { flex: 1; min-width: 0; }
+.rwall-name { font-weight: 600; font-size: 14px; margin: 0; line-height: 1.25; }
+.rwall-sub { font-size: 12px; color: var(--mid); margin: 0; line-height: 1.35; }
+
+.rwall-verified { display: inline-flex; align-items: center; gap: .3rem; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: #2ea96f; flex-shrink: 0; }
+.rwall-verified svg { color: #2ea96f; }
+
+.rwall-more { margin: 3rem 0 5rem; text-align: center; }
+@media (max-width: 768px) { .rwall-more { margin: 2rem 0 3rem; } }
+.rwall-more-btn { border: 1px solid var(--red); color: var(--red); background: transparent; height: 48px; padding: 0 1.75rem; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; border-radius: 4px; transition: background .15s, color .15s; }
+.rwall-more-btn:hover { background: var(--red); color: #fff; }
+
+.rwall-cta { background: var(--ink); color: var(--cream); padding: 72px 0; text-align: center; }
+.rwall-cta-title { font-family: var(--display); font-size: clamp(1.5rem, 3vw, 2rem); color: var(--cream); margin: 0 0 .75rem; letter-spacing: -0.01em; }
+.rwall-cta-body { color: rgba(249,247,244,.75); max-width: 580px; margin: 0 auto; line-height: 1.65; font-size: 1rem; }
+.rwall-cta-body a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
 {%- endstylesheet -%}
+
+<script>
+(function () {
+  var bar = document.querySelector('[data-reviews-bar]');
+  if (!bar) return;
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.rwall-card'));
+  bar.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-rwall-filter]');
+    if (!b) return;
+    var filter = b.getAttribute('data-rwall-filter');
+    bar.querySelectorAll('[data-rwall-filter]').forEach(function (x) { x.classList.toggle('is-active', x === b); });
+    cards.forEach(function (c) {
+      var show = filter === 'all' || c.getAttribute('data-rwall-cat') === filter;
+      c.classList.toggle('is-hidden', !show);
+    });
+  });
+  var sortEl = bar.querySelector('[data-rwall-sort]');
+  if (sortEl) sortEl.addEventListener('change', function () {
+    var grid = cards[0] && cards[0].parentElement;
+    if (!grid) return;
+    var sorted = cards.slice().sort(function (a, b) {
+      if (sortEl.value === 'rating') return parseFloat(b.dataset.rwallRating) - parseFloat(a.dataset.rwallRating);
+      return 0;
+    });
+    sorted.forEach(function (c) { grid.appendChild(c); });
+  });
+  var moreBtn = document.querySelector('[data-rwall-more]');
+  if (moreBtn) moreBtn.addEventListener('click', function () {
+    moreBtn.textContent = 'All reviews shown';
+    moreBtn.disabled = true;
+    moreBtn.style.opacity = '0.6';
+  });
+})();
+</script>
 
 {% schema %}
 {
   "name": "Reviews List",
   "settings": [
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop The Collection" },
-    { "type": "url", "id": "cta_url", "label": "CTA link" }
+    { "type": "text", "id": "cta_heading", "label": "Bottom band heading", "default": "Want to share your Lumisca story?" },
+    { "type": "richtext", "id": "cta_body", "label": "Bottom band body", "default": "<p>Email us at <a href=\"mailto:hello@lumisca.co.uk\">hello@lumisca.co.uk</a> and we'll send you 20% off your next order in exchange.</p>" }
   ],
   "blocks": [
     {
       "type": "review",
       "name": "Review",
       "settings": [
-        { "type": "text", "id": "title", "label": "Title", "default": "My hairdresser noticed before I even told her." },
-        { "type": "textarea", "id": "body", "label": "Body", "default": "I've been losing my hair since menopause and tried everything. 10 weeks with the Lumisca cap and I genuinely can't believe the difference." },
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "headline", "label": "Headline", "default": "Genuinely thicker hair after 12 weeks" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "I'd given up. Started seeing baby hairs at week 6." },
         { "type": "text", "id": "name", "label": "Name", "default": "Sarah M." },
-        { "type": "text", "id": "location", "label": "Location", "default": "Manchester" },
+        { "type": "text", "id": "location", "label": "City", "default": "Manchester" },
         { "type": "text", "id": "date", "label": "Date", "default": "12 March 2026" },
+        { "type": "text", "id": "thumb_filename", "label": "Product thumbnail asset filename", "default": "product-cap-solo.png" },
         { "type": "text", "id": "product_title", "label": "Product title", "default": "Pro Hair Growth Cap" },
-        { "type": "url", "id": "product_url", "label": "Product link" }
+        { "type": "select", "id": "category", "label": "Product category (for filter)", "options": [
+          { "value": "hair", "label": "Hair Cap" },
+          { "value": "face", "label": "Face Mask" },
+          { "value": "eye", "label": "Eye Mask" },
+          { "value": "bundle", "label": "Bundle" }
+        ], "default": "hair" }
       ]
     }
   ],
   "max_blocks": 30,
-  "presets": [ { "name": "Reviews List" } ]
+  "presets": [
+    {
+      "name": "Reviews List",
+      "blocks": [
+        { "type": "review", "settings": { "rating": 5, "headline": "Genuinely thicker hair after 12 weeks",               "body": "I'd given up. Started seeing baby hairs at week 6, real density by week 10. My hairdresser noticed before I told her. Worth every penny.",                                                  "name": "Sarah M.",   "location": "Manchester", "date": "12 March 2026",    "thumb_filename": "product-cap-solo.png",      "product_title": "Pro Hair Growth Cap", "category": "hair" } },
+        { "type": "review", "settings": { "rating": 5, "headline": "Salon-quality skin from my sofa",                     "body": "I was spending £80 a month on facials. The face mask paid for itself in the first month and my skin actually looks better than after treatments.",                                      "name": "Claire B.",  "location": "Edinburgh",  "date": "8 March 2026",     "thumb_filename": "product-mask-solo.png",     "product_title": "Glow Face Mask",      "category": "face" } },
+        { "type": "review", "settings": { "rating": 5, "headline": "Sleeping through the night for the first time in years", "body": "15 minutes before bed and I'm out. The warmth alone is calming, but something about it actually shifts my whole nervous system.",                                                        "name": "James T.",   "location": "Birmingham", "date": "5 March 2026",     "thumb_filename": "product-eye-mask-solo.png", "product_title": "Rest Eye Mask",       "category": "eye"  } },
+        { "type": "review", "settings": { "rating": 5, "headline": "The bundle is the move",                              "body": "Bought all three after my friend wouldn't shut up about hers. Six weeks in: hair fuller, skin glowing, sleeping better. No regrets.",                                                     "name": "Rachel T.",  "location": "Glasgow",    "date": "28 February 2026", "thumb_filename": "product-duo-side.png",      "product_title": "Complete Bundle",     "category": "bundle" } },
+        { "type": "review", "settings": { "rating": 5, "headline": "Skeptical husband, now uses it every day",            "body": "Bought the cap for him as a joke gift. Three months later he's the one reminding me to charge it. His hairline is genuinely filling in.",                                                 "name": "Emma R.",    "location": "Dublin",     "date": "22 February 2026", "thumb_filename": "product-cap-solo.png",      "product_title": "Pro Hair Growth Cap", "category": "hair" } },
+        { "type": "review", "settings": { "rating": 5, "headline": "Finally something that works",                        "body": "I've tried every retinol, every serum, every viral tiktok product. This is the only thing that's made a visible difference to my fine lines. Eight weeks in.",                          "name": "Priya S.",   "location": "London",     "date": "18 February 2026", "thumb_filename": "product-mask-solo.png",     "product_title": "Glow Face Mask",      "category": "face" } },
+        { "type": "review", "settings": { "rating": 5, "headline": "Worth it for the migraines alone",                    "body": "I bought it for sleep but I've noticed my tension headaches are basically gone. The heat is so gentle, way better than a wheat bag.",                                                    "name": "David L.",   "location": "Bristol",    "date": "14 February 2026", "thumb_filename": "product-eye-mask-solo.png", "product_title": "Rest Eye Mask",       "category": "eye"  } },
+        { "type": "review", "settings": { "rating": 5, "headline": "Better than the £400 clinic version",                 "body": "I was about to book a course of red light at my dermatologist (£1,200 total). Tried the mask first. Saw the same results in month 2. Cancelled the booking.",                           "name": "Sophie A.",  "location": "Leeds",      "date": "9 February 2026",  "thumb_filename": "product-mask-solo.png",     "product_title": "Glow Face Mask",      "category": "face" } },
+        { "type": "review", "settings": { "rating": 5, "headline": "Easy to actually use, that's the win",                "body": "I have a million skincare gadgets I never use. This one I actually do because it's literally just a cap. Wear while making coffee, done.",                                                "name": "Mark P.",    "location": "Cardiff",    "date": "4 February 2026",  "thumb_filename": "product-cap-solo.png",      "product_title": "Pro Hair Growth Cap", "category": "hair" } },
+        { "type": "review", "settings": { "rating": 4, "headline": "Takes longer than I thought",                         "body": "Don't expect overnight results. I was about to give up at week 4 but stuck with it. By week 10 the difference was undeniable. Patience pays off but the company should manage expectations better.", "name": "Hannah K.",  "location": "Newcastle",  "date": "30 January 2026",  "thumb_filename": "product-cap-solo.png",      "product_title": "Pro Hair Growth Cap", "category": "hair" } },
+        { "type": "review", "settings": { "rating": 5, "headline": "My only regret is not buying the bundle",             "body": "Bought the face mask, loved it, ordered the cap a month later, ordered the eye mask a month after that. Should have just bought the bundle and saved myself £40.",                       "name": "Olivia W.",  "location": "Sheffield",  "date": "25 January 2026",  "thumb_filename": "product-duo-side.png",      "product_title": "Complete Bundle",     "category": "bundle" } },
+        { "type": "review", "settings": { "rating": 5, "headline": "60-day guarantee made me try it",                     "body": "Wouldn't have risked £125 without the guarantee. Used it daily for 8 weeks, never even thought about returning. Skin is the best it's been in 10 years.",                                  "name": "Yasmin H.",  "location": "Liverpool",  "date": "19 January 2026",  "thumb_filename": "product-mask-solo.png",     "product_title": "Glow Face Mask",      "category": "face" } }
+      ]
+    }
+  ]
 }
 {% endschema %}
