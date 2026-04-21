@@ -38,7 +38,7 @@
 
             {%- if saved_pct > 0 -%}
               {%- if is_featured -%}
-                <span class="featured-v2-badge-bundle">SAVE £{{ saved_gbp | money_without_currency | remove: '.00' }}</span>
+                <span class="featured-v2-badge-bundle">SAVE £{{ saved_pence | money_without_currency }}</span>
               {%- else -%}
                 <span class="featured-v2-badge">{{ saved_pct }}% OFF</span>
               {%- endif -%}

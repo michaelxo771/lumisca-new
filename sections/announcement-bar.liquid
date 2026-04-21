@@ -1,22 +1,58 @@
 {%- if section.blocks.size > 0 -%}
-<div class="announcement" data-announcement data-rotate-ms="4000">
-  <div class="container announcement-inner">
+<div class="ann" data-ann>
+  <div class="container ann-inner">
     {%- for block in section.blocks -%}
-      <span class="announcement-item{% if forloop.first %} is-active{% endif %}" data-announcement-item {{ block.shopify_attributes }}>
-        {{ block.settings.text }}
-      </span>
+      <span
+        class="ann-item{% if forloop.first %} is-active{% endif %}"
+        data-ann-item
+        {{ block.shopify_attributes }}
+      >{{ block.settings.text }}</span>
     {%- endfor -%}
   </div>
 </div>
 {%- endif -%}
 
 {%- stylesheet -%}
-.announcement { background: var(--ink); color: var(--cream); font-size: 12px; letter-spacing: .15em; text-transform: uppercase; }
-.announcement-inner { height: 40px; display: flex; align-items: center; justify-content: center; position: relative; }
-.announcement-item { position: absolute; left: 0; right: 0; text-align: center; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity .55s ease; }
-.announcement-item.is-active { opacity: 1; pointer-events: auto; }
-@media (min-width: 768px) { .announcement { font-size: 13px; } }
+.ann { background: #C8102E; color: #fff; font-size: 12px; letter-spacing: .15em; text-transform: uppercase; }
+@media (min-width: 768px) { .ann { font-size: 13px; } }
+.ann-inner { position: relative; height: 40px; overflow: hidden; }
+.ann-item {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  text-align: center;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 300ms ease, transform 300ms ease;
+  pointer-events: none;
+}
+.ann-item.is-active { opacity: 1; transform: translateY(0); pointer-events: auto; }
 {%- endstylesheet -%}
+
+<script>
+(function () {
+  var root = document.querySelector('[data-ann]');
+  if (!root) return;
+  var items = root.querySelectorAll('[data-ann-item]');
+  if (items.length < 2) return;
+  var i = 0;
+  var paused = false;
+  function tick() {
+    if (paused) return;
+    items[i].classList.remove('is-active');
+    i = (i + 1) % items.length;
+    items[i].classList.add('is-active');
+  }
+  setInterval(tick, 4000);
+  root.addEventListener('mouseenter', function () { paused = true; });
+  root.addEventListener('mouseleave', function () { paused = false; });
+})();
+</script>
 
 {% schema %}
 {
