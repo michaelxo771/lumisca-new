@@ -197,20 +197,6 @@
           "type": "review",
           "settings": {
             "rating": 5,
-            "headline": "Postpartum hair loss saviour",
-            "body": "Lost so much hair after my second baby. Three months with this cap and my hair feels like mine again.",
-            "name": "Lucy P.",
-            "location": "Brighton",
-            "date": "11 January 2026",
-            "thumb_filename": "product-cap-solo.png",
-            "product_title": "Pro Hair Growth Cap",
-            "category": "hair"
-          }
-        },
-        "r15": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
             "headline": "Skin texture transformation",
             "body": "My pores look smaller, my skin reflects light differently. I genuinely look like I'm wearing makeup when I'm not.",
             "name": "Aisha M.",
@@ -221,7 +207,7 @@
             "category": "face"
           }
         },
-        "r16": {
+        "r15": {
           "type": "review",
           "settings": {
             "rating": 5,
@@ -235,21 +221,7 @@
             "category": "face"
           }
         },
-        "r17": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "headline": "Game changer for my eczema",
-            "body": "Not officially what it's for, but my flare-ups have calmed massively since using the mask. My dermatologist says the wavelengths make sense.",
-            "name": "Daniel R.",
-            "location": "Coventry",
-            "date": "3 January 2026",
-            "thumb_filename": "product-mask-solo.png",
-            "product_title": "Glow Face Mask",
-            "category": "face"
-          }
-        },
-        "r18": {
+        "r16": {
           "type": "review",
           "settings": {
             "rating": 5,
@@ -263,7 +235,7 @@
             "category": "eye"
           }
         },
-        "r19": {
+        "r17": {
           "type": "review",
           "settings": {
             "rating": 5,
@@ -277,7 +249,7 @@
             "category": "bundle"
           }
         },
-        "r20": {
+        "r18": {
           "type": "review",
           "settings": {
             "rating": 4,
@@ -291,21 +263,7 @@
             "category": "hair"
           }
         },
-        "r21": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "headline": "Husband stopped slagging me eventually",
-            "body": "He laughed when it arrived. Six weeks later he was asking to borrow it for his receding hairline. The mask is converting the whole house.",
-            "name": "Niamh O.",
-            "location": "Galway",
-            "date": "19 December 2025",
-            "thumb_filename": "product-mask-solo.png",
-            "product_title": "Glow Face Mask",
-            "category": "face"
-          }
-        },
-        "r22": {
+        "r19": {
           "type": "review",
           "settings": {
             "rating": 5,
@@ -319,7 +277,7 @@
             "category": "face"
           }
         },
-        "r23": {
+        "r20": {
           "type": "review",
           "settings": {
             "rating": 5,
@@ -333,7 +291,7 @@
             "category": "hair"
           }
         },
-        "r24": {
+        "r21": {
           "type": "review",
           "settings": {
             "rating": 5,
@@ -347,7 +305,7 @@
             "category": "eye"
           }
         },
-        "r25": {
+        "r22": {
           "type": "review",
           "settings": {
             "rating": 5,
@@ -361,7 +319,7 @@
             "category": "hair"
           }
         },
-        "r26": {
+        "r23": {
           "type": "review",
           "settings": {
             "rating": 5,
@@ -375,21 +333,7 @@
             "category": "bundle"
           }
         },
-        "r27": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "headline": "Bought one for me, one for my mum",
-            "body": "Christmas sorted. She's so impressed she's bought one for her sister too. Family chain reaction.",
-            "name": "Olivia G.",
-            "location": "Swansea",
-            "date": "24 November 2025",
-            "thumb_filename": "product-mask-solo.png",
-            "product_title": "Glow Face Mask",
-            "category": "face"
-          }
-        },
-        "r28": {
+        "r24": {
           "type": "review",
           "settings": {
             "rating": 5,
@@ -403,7 +347,7 @@
             "category": "face"
           }
         },
-        "r29": {
+        "r25": {
           "type": "review",
           "settings": {
             "rating": 5,
@@ -417,21 +361,7 @@
             "category": "hair"
           }
         },
-        "r30": {
-          "type": "review",
-          "settings": {
-            "rating": 4,
-            "headline": "Shipping took longer than expected",
-            "body": "Took 8 days not the 3 they advertised. But the product is genuinely excellent. Just be patient with delivery.",
-            "name": "Greg M.",
-            "location": "Stoke",
-            "date": "9 November 2025",
-            "thumb_filename": "product-mask-solo.png",
-            "product_title": "Glow Face Mask",
-            "category": "face"
-          }
-        },
-        "r31": {
+        "r26": {
           "type": "review",
           "settings": {
             "rating": 5,
@@ -445,21 +375,7 @@
             "category": "hair"
           }
         },
-        "r32": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "headline": "My partner says I look 5 years younger",
-            "body": "He's not normally one to comment on appearance. He's mentioned my skin twice in the last month. Sold.",
-            "name": "Sinead F.",
-            "location": "Dublin",
-            "date": "30 October 2025",
-            "thumb_filename": "product-mask-solo.png",
-            "product_title": "Glow Face Mask",
-            "category": "face"
-          }
-        },
-        "r33": {
+        "r27": {
           "type": "review",
           "settings": {
             "rating": 5,
@@ -473,7 +389,7 @@
             "category": "eye"
           }
         },
-        "r34": {
+        "r28": {
           "type": "review",
           "settings": {
             "rating": 3,
@@ -487,21 +403,7 @@
             "category": "hair"
           }
         },
-        "r35": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "headline": "Mum's perimenopause hair loss reversed",
-            "body": "My mum was devastated about her thinning. Bought her this for her 60th. Six months later her hairdresser is asking her what she's been doing. Worth every penny.",
-            "name": "Hannah J.",
-            "location": "Inverness",
-            "date": "17 October 2025",
-            "thumb_filename": "product-cap-solo.png",
-            "product_title": "Pro Hair Growth Cap",
-            "category": "hair"
-          }
-        },
-        "r36": {
+        "r29": {
           "type": "review",
           "settings": {
             "rating": 5,
@@ -515,7 +417,7 @@
             "category": "face"
           }
         },
-        "r37": {
+        "r30": {
           "type": "review",
           "settings": {
             "rating": 5,
@@ -560,14 +462,7 @@
         "r27",
         "r28",
         "r29",
-        "r30",
-        "r31",
-        "r32",
-        "r33",
-        "r34",
-        "r35",
-        "r36",
-        "r37"
+        "r30"
       ],
       "settings": {
         "cta_heading": "Want to share your Lumisca story?",
