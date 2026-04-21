@@ -1,0 +1,26 @@
+{
+  "current": {
+    "tagline": "Your At-Home Light Therapy Clinic.",
+    "color_ink": "#0A0A0A",
+    "color_cream": "#F9F7F4",
+    "color_red": "#C8102E",
+    "color_gold": "#C9A84C",
+    "free_shipping_threshold": 50,
+    "bundle_product_handle": "lumisca-complete-bundle",
+    "welcome_discount_code": "LUMISCA10",
+    "social_tiktok": "https://tiktok.com/@lumisca",
+    "social_instagram": "https://instagram.com/lumisca"
+  },
+  "presets": {
+    "LUMISCA default": {
+      "tagline": "Your At-Home Light Therapy Clinic.",
+      "color_ink": "#0A0A0A",
+      "color_cream": "#F9F7F4",
+      "color_red": "#C8102E",
+      "color_gold": "#C9A84C",
+      "free_shipping_threshold": 50,
+      "bundle_product_handle": "lumisca-complete-bundle",
+      "welcome_discount_code": "LUMISCA10"
+    }
+  }
+}

@@ -1,0 +1,65 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "LUMISCA",
+    "theme_version": "1.0.0",
+    "theme_author": "LUMISCA",
+    "theme_documentation_url": "https://lumisca.co.uk",
+    "theme_support_url": "mailto:support@lumisca.com"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      },
+      {
+        "type": "text",
+        "id": "tagline",
+        "label": "Brand tagline",
+        "default": "Your At-Home Light Therapy Clinic."
+      }
+    ]
+  },
+  {
+    "name": "Colours",
+    "settings": [
+      { "type": "color", "id": "color_ink", "label": "Ink (primary dark)", "default": "#0A0A0A" },
+      { "type": "color", "id": "color_cream", "label": "Cream (background)", "default": "#F9F7F4" },
+      { "type": "color", "id": "color_red", "label": "Brand red", "default": "#C8102E" },
+      { "type": "color", "id": "color_gold", "label": "Gold accent", "default": "#C9A84C" }
+    ]
+  },
+  {
+    "name": "Conversion",
+    "settings": [
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free shipping threshold (£)",
+        "default": 50
+      },
+      {
+        "type": "text",
+        "id": "bundle_product_handle",
+        "label": "Bundle product handle",
+        "default": "lumisca-complete-bundle"
+      },
+      {
+        "type": "text",
+        "id": "welcome_discount_code",
+        "label": "Welcome popup discount code",
+        "default": "LUMISCA10"
+      }
+    ]
+  },
+  {
+    "name": "Social",
+    "settings": [
+      { "type": "url", "id": "social_tiktok", "label": "TikTok URL" },
+      { "type": "url", "id": "social_instagram", "label": "Instagram URL" }
+    ]
+  }
+]

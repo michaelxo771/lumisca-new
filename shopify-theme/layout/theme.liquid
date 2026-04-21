@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
+    <meta name="theme-color" content="#0A0A0A">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {%- render 'meta-tags' -%}
+
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+    <script>
+      window.LUMISCA = {
+        routes: {
+          cart_url: '{{ routes.cart_url }}',
+          cart_add_url: '{{ routes.cart_add_url }}',
+          cart_change_url: '{{ routes.cart_change_url }}',
+          cart_update_url: '{{ routes.cart_update_url }}',
+          search_url: '{{ routes.search_url }}'
+        },
+        money_format: {{ shop.money_format | json }},
+        free_shipping_threshold: {{ settings.free_shipping_threshold | default: 50 | times: 100 }},
+        bundle_handle: {{ settings.bundle_product_handle | default: 'lumisca-complete-bundle' | json }},
+        strings: {
+          added_to_cart: {{ 'cart.added' | t | json }},
+          free_shipping_unlocked: {{ 'cart.free_shipping_unlocked' | t | json }},
+          free_shipping_away: {{ 'cart.free_shipping_away' | t | json }}
+        }
+      };
+    </script>
+
+    {{ content_for_header }}
+  </head>
+  <body class="template-{{ template.name | handle }}">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    {% section 'announcement-bar' %}
+    {% section 'header' %}
+
+    <main id="main" role="main">
+      {{ content_for_layout }}
+    </main>
+
+    {%- comment -%}
+      Footer lives in the JSON templates — NEVER in theme.liquid. This keeps
+      section rendering consistent and lets pages own their final strip.
+    {%- endcomment -%}
+
+    {%- render 'cart-drawer' -%}
+    {%- render 'mobile-nav' -%}
+    {%- render 'popup-welcome' -%}
+    {%- render 'popup-exit' -%}
+    {%- render 'popup-cart-upsell' -%}
+    {%- render 'popup-cookie' -%}
+    {%- render 'toast-recent-purchase' -%}
+    {%- render 'back-to-top' -%}
+
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+  </body>
+</html>

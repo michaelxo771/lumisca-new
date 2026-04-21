@@ -1,0 +1,47 @@
+{
+  "general": {
+    "skip_to_content": "Skip to content",
+    "search": "Search",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty",
+    "empty_cta": "Shop The Collection",
+    "subtotal": "Subtotal",
+    "checkout": "Secure Checkout",
+    "added": "Added to cart",
+    "remove": "Remove",
+    "free_shipping_unlocked": "You've unlocked free UK delivery",
+    "free_shipping_away": "away from free UK delivery",
+    "tagline": "Free UK Delivery · 60-Day Returns · Secure Checkout"
+  },
+  "product": {
+    "add_to_cart": "Add To Cart",
+    "sold_out": "Sold Out",
+    "in_stock": "In Stock — Ships Today",
+    "quantity": "Quantity",
+    "description": "Description",
+    "how_to_use": "How To Use",
+    "in_the_box": "In The Box",
+    "specs": "Specs",
+    "shipping": "Shipping",
+    "savings": "Save"
+  },
+  "collection": {
+    "sort_by": "Sort",
+    "sort_featured": "Featured",
+    "sort_price_asc": "Price — Low to High",
+    "sort_price_desc": "Price — High to Low",
+    "sort_rating": "Rating",
+    "filter_all": "All Devices",
+    "filter_hair": "Hair",
+    "filter_face": "Face & Skin",
+    "filter_eye": "Sleep & Eyes",
+    "filter_bundle": "Bundles"
+  },
+  "newsletter": {
+    "placeholder": "Your email address"
+  }
+}
