@@ -1,0 +1,20 @@
+<section class="section-dark page-hero" style="position:relative; overflow:hidden;">
+  <div class="hero-glow" style="opacity:.7;"></div>
+  <div class="container center" style="position:relative; max-width: 56rem; padding: 5rem 1rem;">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h1 class="display-xl" style="margin-bottom:1.25rem;">{{ section.settings.heading }}</h1>
+    {%- if section.settings.body != blank -%}<p class="muted" style="font-size:1.125rem; line-height:1.7; max-width: 40rem; margin: 0 auto;">{{ section.settings.body }}</p>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page Hero",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Heading" },
+    { "type": "richtext", "id": "body", "label": "Body" }
+  ],
+  "presets": [ { "name": "Page Hero" } ]
+}
+{% endschema %}

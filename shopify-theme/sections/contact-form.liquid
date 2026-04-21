@@ -1,0 +1,110 @@
+<section class="section-lg contact-form">
+  <div class="container contact-grid">
+    <div>
+      <div class="ph aspect-45" style="margin-bottom: 2rem;"><span class="ph-label">Lumisca Support</span></div>
+      <div style="display:flex; flex-direction:column; gap: 1.25rem; font-size: 15px;">
+        <div>
+          <p class="eyebrow" style="color: var(--mid); margin-bottom: .25rem;">Email</p>
+          <a href="mailto:{{ section.settings.email }}" class="contact-link">{{ section.settings.email }}</a>
+        </div>
+        <div>
+          <p class="eyebrow" style="color: var(--mid); margin-bottom: .25rem;">Response Time</p>
+          <p>{{ section.settings.response_time }}</p>
+        </div>
+        <div>
+          <p class="eyebrow" style="color: var(--mid); margin-bottom: .25rem;">Registered Office</p>
+          <p style="line-height:1.6;">{{ section.settings.address | newline_to_br }}</p>
+        </div>
+        {%- if settings.social_tiktok != blank or settings.social_instagram != blank -%}
+          <div>
+            <p class="eyebrow" style="color: var(--mid); margin-bottom: .5rem;">Socials</p>
+            <div style="display:flex; gap: .75rem;">
+              {%- if settings.social_tiktok != blank -%}<a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener noreferrer" class="contact-social">{% render 'icon-tiktok' %}</a>{%- endif -%}
+              {%- if settings.social_instagram != blank -%}<a href="{{ settings.social_instagram }}" target="_blank" rel="noopener noreferrer" class="contact-social">{% render 'icon-instagram' %}</a>{%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="contact-card">
+      {%- form 'contact', id: 'contact-form' -%}
+        {%- if form.posted_successfully? -%}
+          <div class="contact-success center" style="padding: 3rem 1rem;">
+            <div class="contact-success-icon">{% render 'icon-check' %}</div>
+            <h2 class="display-md" style="margin-bottom: .75rem;">Message received.</h2>
+            <p class="muted" style="max-width: 24rem; margin: 0 auto; line-height:1.7;">Thanks for reaching out. We'll be in touch within 24 working hours at the email you provided.</p>
+          </div>
+        {%- else -%}
+          <h2 class="display-md" style="margin-bottom: .5rem;">Send us a message</h2>
+          <p class="muted" style="font-size: 14px; margin-bottom: 1.25rem;">Include your order number if your query is order-related — it speeds things up.</p>
+          {%- if form.errors -%}
+            <div class="form-errors">{{ form.errors | default_errors }}</div>
+          {%- endif -%}
+          <div class="grid grid-sm-2" style="gap:1rem;">
+            <label class="field">
+              <span class="field-label">Name</span>
+              <input type="text" name="contact[name]" value="{{ form.name | default: customer.name }}" required>
+            </label>
+            <label class="field">
+              <span class="field-label">Email</span>
+              <input type="email" name="contact[email]" value="{{ form.email | default: customer.email }}" required>
+            </label>
+          </div>
+          <div class="grid grid-sm-2" style="gap:1rem; margin-top: 1rem;">
+            <label class="field">
+              <span class="field-label">Order number (optional)</span>
+              <input type="text" name="contact[order_number]" placeholder="#LUM-12345">
+            </label>
+            <label class="field">
+              <span class="field-label">Subject</span>
+              <select name="contact[subject]" required>
+                <option value="">Select a topic</option>
+                <option>Order enquiry</option>
+                <option>Returns / Refunds</option>
+                <option>Product help</option>
+                <option>Press / Wholesale</option>
+                <option>Other</option>
+              </select>
+            </label>
+          </div>
+          <label class="field" style="margin-top: 1rem;">
+            <span class="field-label">Message</span>
+            <textarea name="contact[body]" rows="6" required></textarea>
+          </label>
+          <button type="submit" class="btn btn-red btn-xl btn-block" style="margin-top: 1.25rem;">Send Message</button>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.contact-grid { display: grid; gap: 2.5rem; max-width: 64rem; }
+@media (min-width: 1024px) { .contact-grid { grid-template-columns: 2fr 3fr; gap: 3.5rem; } }
+.contact-link { color: var(--ink); }
+.contact-link:hover { color: var(--red); }
+.contact-social { width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--line); }
+.contact-social:hover { border-color: var(--ink); }
+.contact-card { background: #fff; border: 1px solid var(--line); padding: 1.5rem; }
+@media (min-width: 768px) { .contact-card { padding: 2.5rem; } }
+.field { display: flex; flex-direction: column; }
+.field-label { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--mid); margin-bottom: .5rem; }
+.field input, .field select, .field textarea { width: 100%; padding: 0 1rem; height: 48px; border: 1px solid var(--line); background: var(--cream); outline: none; }
+.field textarea { padding: .75rem 1rem; height: auto; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--red); }
+.contact-success-icon { display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; background: var(--red); color: #fff; margin-bottom: 1rem; }
+.form-errors { color: var(--red); padding: .75rem 1rem; border: 1px solid var(--red); margin-bottom: 1rem; font-size: 14px; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Contact Form",
+  "settings": [
+    { "type": "text", "id": "email", "label": "Support email", "default": "support@lumisca.com" },
+    { "type": "text", "id": "response_time", "label": "Response time", "default": "Within 24 hours, Monday-Friday" },
+    { "type": "textarea", "id": "address", "label": "Registered address", "default": "Lumisca Ltd\n71-75 Shelton Street\nLondon, WC2H 9JQ" }
+  ],
+  "presets": [ { "name": "Contact Form" } ]
+}
+{% endschema %}

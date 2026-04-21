@@ -1,0 +1,37 @@
+<section class="section-dark about-hero" style="position:relative; overflow:hidden;">
+  <div class="hero-glow" style="opacity:.7;"></div>
+  <div class="container about-hero-grid" style="position:relative;">
+    <div>
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h1 class="display-xl" style="margin-bottom:1.5rem;">{{ section.settings.heading }}</h1>
+      <p class="muted" style="font-size: 1.125rem; line-height: 1.7; max-width: 36rem;">{{ section.settings.body }}</p>
+    </div>
+    <div class="about-hero-media">
+      {%- if section.settings.image != blank -%}
+        <img src="{{ section.settings.image | image_url: width: 800 }}" alt="{{ section.settings.image.alt | escape }}" loading="eager" width="800" height="1000">
+      {%- else -%}
+        <div class="ph ph-dark aspect-45"><span class="ph-label">Founder Portrait</span></div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.about-hero-grid { display: grid; gap: 2.5rem; align-items: center; padding: 4rem 1rem; }
+@media (min-width: 1024px) { .about-hero-grid { grid-template-columns: 1fr 1fr; gap: 3rem; padding: 6rem 1rem; } }
+.about-hero-media { border: 2px dashed rgba(200,16,46,.4); }
+.about-hero-media img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "About Hero",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our Story" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Clinic-grade light. At home. For everyone." },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "Lumisca was born in a London dermatology clinic, where our founder paid £150 a session for red light therapy on a receding hairline. It worked — and it felt absurd that something this effective was locked away for the few who could afford it." },
+    { "type": "image_picker", "id": "image", "label": "Portrait" }
+  ],
+  "presets": [ { "name": "About Hero" } ]
+}
+{% endschema %}

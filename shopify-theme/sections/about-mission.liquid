@@ -1,0 +1,26 @@
+<section class="section-lg about-mission">
+  <div class="container" style="max-width: 48rem;">
+    <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+    <h2 class="display-lg" style="margin-bottom:1.5rem;">{{ section.settings.heading }}</h2>
+    <div class="prose">{{ section.settings.body }}</div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.prose { color: var(--mid); line-height: 1.75; font-size: 17px; }
+.prose p + p { margin-top: 1.25rem; }
+.prose strong { color: var(--ink); }
+.prose em { color: var(--ink); }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "About Mission",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Mission" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "A full-body light therapy routine, for the price of one clinic session." },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>In 2023, after another £150 clinic appointment, we sat down with a dermatologist, two engineers and a handful of TikTok creators and asked a single question: why isn't this at-home tech?</p><p>The answer was a mix of inertia and margin. We spent 18 months on prototypes. We calibrated wavelengths, LED density, session timers, battery life and silicone softness. We ran a 12-week pilot with 200 UK customers. 94% saw results. The ones that didn't got full refunds — and that became our 60-day guarantee.</p><p><strong>Our mission is simple — make clinic-grade light therapy available to anyone with a sofa.</strong></p>" }
+  ],
+  "presets": [ { "name": "About Mission" } ]
+}
+{% endschema %}

@@ -1,0 +1,77 @@
+<section class="section faq-page">
+  <div class="container" style="max-width: 56rem;">
+    <nav class="faq-nav" aria-label="FAQ sections">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'group' -%}
+          <a href="#{{ block.settings.anchor }}" class="faq-nav-chip">{{ block.settings.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+
+    <div class="faq-groups">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'group' -%}
+          <section id="{{ block.settings.anchor }}" class="faq-group" {{ block.shopify_attributes }}>
+            <h2 class="display-md" style="margin-bottom:1rem;">{{ block.settings.title }}</h2>
+            <div class="accordion">
+              {%- assign questions = block.settings.questions | newline_to_br | split: '<br />' -%}
+              {%- assign answers = block.settings.answers | newline_to_br | split: '<br />' -%}
+              {%- for q in questions -%}
+                {%- assign trimmed = q | strip -%}
+                {%- if trimmed != '' -%}
+                  <div class="accordion-item">
+                    <button type="button" class="accordion-trigger" aria-expanded="false">
+                      {{ trimmed }}
+                      <span class="accordion-icon">{% render 'icon-plus' %}</span>
+                    </button>
+                    <div class="accordion-panel">{{ answers[forloop.index0] | strip }}</div>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </section>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.faq-nav { display: flex; flex-wrap: wrap; gap: .5rem; padding-bottom: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--line); }
+.faq-nav-chip { height: 40px; display: inline-flex; align-items: center; padding: 0 1rem; border: 1px solid var(--line); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; font-weight: 500; transition: background .2s, color .2s, border-color .2s; }
+.faq-nav-chip:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.faq-groups { display: flex; flex-direction: column; gap: 3.5rem; }
+.faq-group { scroll-margin-top: 6rem; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "FAQ Page",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "group",
+      "name": "FAQ group",
+      "settings": [
+        { "type": "text", "id": "anchor", "label": "Anchor id", "default": "products" },
+        { "type": "text", "id": "title", "label": "Group title", "default": "About Our Products" },
+        { "type": "textarea", "id": "questions", "label": "Questions (one per line)", "default": "What makes Lumisca devices different?\nAre Lumisca devices certified?\nWhere are they made?" },
+        { "type": "textarea", "id": "answers", "label": "Answers (matching order, one per line)", "default": "Three things. Clinical wavelengths, hands-free design and a proper 60-day money-back guarantee.\nYes — CE-certified and tested to UK and EU electrical safety standards.\nDesigned in the UK, manufactured in a Shenzhen medical-device facility, assembled in the Midlands." }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "default": {
+    "blocks": [
+      { "type": "group", "settings": { "anchor": "products", "title": "About Our Products", "questions": "What makes Lumisca devices different?\nAre Lumisca devices certified?\nWhere are they made?\nDo I need a different device for men vs women?\nCan I give Lumisca as a gift?", "answers": "Clinical wavelengths (not decorative LEDs), genuinely hands-free design and a proper 60-day money-back guarantee.\nYes. Every device is CE-certified, RoHS-compliant and tested to UK and EU electrical safety standards.\nDesigned in the UK, manufactured in a Shenzhen medical-device facility, assembled and quality-controlled in the Midlands.\nNo. All devices are fully unisex and size-adjustable.\nYes — the Complete Bundle is designed for gifting, with branded packaging and a welcome card." } },
+      { "type": "group", "settings": { "anchor": "how-it-works", "title": "How It Works", "questions": "What wavelengths do Lumisca devices use?\nHow long does each session take?\nHow often should I use them?\nCan I use more than one device at a time?\nDo I charge the device or use it plugged in?", "answers": "650nm visible red and 850nm near-infrared. The Glow Mask also includes 415nm blue for breakouts and 590nm amber for tone.\nGlow Face Mask: 20 minutes. Pro Hair Cap: 25 minutes. Rest Eye Mask: 15 minutes. All auto-shutoff.\n4-5 sessions per week is the clinical sweet spot. Consistency matters more than duration.\nNot simultaneously — use them sequentially so your skin and scalp respond to each protocol.\nEvery Lumisca device is cordless — fully rechargeable over USB-C." } },
+      { "type": "group", "settings": { "anchor": "safety", "title": "Safety", "questions": "Is red light therapy safe?\nIs it safe during pregnancy?\nCan I use if I'm on medication?\nIs it safe for my eyes?\nCan children use it?", "answers": "Yes. Non-invasive, non-thermal, non-ionising. Not UV.\nWe recommend pausing during pregnancy until you've checked with your GP.\nIf you're on a photosensitising medication consult your GP first. Otherwise no known interactions.\nThe Glow Face Mask ships with protective eye shields. Always use them.\nWe recommend Lumisca devices for adults 18+." } },
+      { "type": "group", "settings": { "anchor": "results", "title": "Results", "questions": "How long until I see results?\nWhat if I don't see results?\nCan I use on coloured, treated or bleached hair?\nWill it help with alopecia or medical hair loss?\nWill results last if I stop using it?", "answers": "Sleep: night one. Skin: from week 4. Hair: from week 8-12.\nContact support@lumisca.com within 60 days of delivery and we'll refund you in full.\nYes — the Pro Hair Cap affects follicles, not the hair shaft.\nLLLT is FDA-cleared for androgenetic alopecia. For other causes please consult a dermatologist.\nFor hair: results diminish over 3-6 months of non-use. Maintenance is 3x/week." } },
+      { "type": "group", "settings": { "anchor": "shipping", "title": "Shipping", "questions": "How long does UK delivery take?\nIs delivery free?\nDo you ship to Ireland?\nDo you ship internationally?\nCan I track my order?", "answers": "3-5 working days via tracked courier. Order before 3pm Monday-Friday for same-day dispatch.\nYes — free UK delivery on every order, every time.\nYes — £6.99, 5-7 working days.\nUK, Ireland, Jersey, Guernsey and the Isle of Man. Other countries: email support@lumisca.com.\nYes — dispatch email with Royal Mail/DPD tracking link." } },
+      { "type": "group", "settings": { "anchor": "returns", "title": "Returns", "questions": "What is your returns policy?\nDo I pay return postage?\nDoes the device need to be unused to return it?\nHow long do refunds take?\nDo you offer exchanges?", "answers": "60-day money-back guarantee. Contact support@lumisca.com within 60 days.\nWe cover faulty returns. For change-of-mind, customer pays or we send a freepost label for £4.99.\nNo. Use it — that's the whole point. Use for at least 30 days before deciding.\n3 working days of receiving the item; 5-10 working days for the funds.\nYes. Email support@lumisca.com." } },
+      { "type": "group", "settings": { "anchor": "payment", "title": "Payment", "questions": "What payment methods do you accept?\nDo you offer pay-later?\nIs my payment secure?\nCan I use a discount code?\nI have a billing question.", "answers": "Visa, Mastercard, Amex, Apple Pay, Google Pay, PayPal, Klarna and Clearpay.\nYes — Klarna and Clearpay available at checkout.\nEvery transaction is SSL-encrypted and processed via Shopify Payments (PCI-DSS Level 1).\nYes — one code per order. Sign up for 10% off your first order (LUMISCA10).\nEmail support@lumisca.com with your order number." } }
+    ]
+  },
+  "presets": [ { "name": "FAQ Page" } ]
+}
+{% endschema %}

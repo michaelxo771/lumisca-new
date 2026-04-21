@@ -1,0 +1,74 @@
+<section class="section-lg reviews-list">
+  <div class="container" style="max-width: 56rem;">
+    <ul style="display:flex; flex-direction:column; gap: 1.25rem;">
+      {%- for block in section.blocks -%}
+        <li class="rev" {{ block.shopify_attributes }}>
+          <div class="rev-top">
+            {% render 'star-rating', rating: 5, size: 'sm' %}
+            <span class="rev-verified">✓ Verified Buyer</span>
+          </div>
+          <h2 class="rev-title">{{ block.settings.title }}</h2>
+          <p class="rev-body">“{{ block.settings.body }}”</p>
+          <div class="rev-meta muted">
+            <strong style="color:var(--ink);">{{ block.settings.name }}</strong>
+            <span>·</span>
+            <span>{{ block.settings.location }}</span>
+            <span>·</span>
+            <span>{{ block.settings.date }}</span>
+            {%- if block.settings.product_title != blank -%}
+              <span>·</span>
+              {%- if block.settings.product_url != blank -%}
+                <a href="{{ block.settings.product_url }}" style="color: var(--red);">{{ block.settings.product_title }}</a>
+              {%- else -%}
+                <span style="color: var(--red);">{{ block.settings.product_title }}</span>
+              {%- endif -%}
+            {%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    {%- if section.settings.cta_label != blank -%}
+      <div class="center" style="margin-top: 3rem;">
+        <a href="{{ section.settings.cta_url }}" class="btn btn-red btn-lg">{{ section.settings.cta_label }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{%- stylesheet -%}
+.rev { background: #fff; border: 1px solid var(--line); padding: 1.5rem; }
+@media (min-width: 768px) { .rev { padding: 2rem; } }
+.rev-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: .75rem; }
+.rev-verified { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--red); font-weight: 600; }
+.rev-title { font-family: var(--display); font-size: clamp(1.125rem, 2vw, 1.5rem); line-height: 1.35; margin-bottom: .75rem; }
+.rev-body { color: rgba(10,10,10,.9); line-height: 1.7; font-size: 16px; }
+.rev-meta { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 14px; display: flex; flex-wrap: wrap; gap: .5rem; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Reviews List",
+  "settings": [
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop The Collection" },
+    { "type": "url", "id": "cta_url", "label": "CTA link" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "My hairdresser noticed before I even told her." },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "I've been losing my hair since menopause and tried everything. 10 weeks with the Lumisca cap and I genuinely can't believe the difference." },
+        { "type": "text", "id": "name", "label": "Name", "default": "Sarah M." },
+        { "type": "text", "id": "location", "label": "Location", "default": "Manchester" },
+        { "type": "text", "id": "date", "label": "Date", "default": "12 March 2026" },
+        { "type": "text", "id": "product_title", "label": "Product title", "default": "Pro Hair Growth Cap" },
+        { "type": "url", "id": "product_url", "label": "Product link" }
+      ]
+    }
+  ],
+  "max_blocks": 30,
+  "presets": [ { "name": "Reviews List" } ]
+}
+{% endschema %}
