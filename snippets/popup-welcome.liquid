@@ -73,15 +73,54 @@
   var modal = document.querySelector('[data-welcome-modal]');
   if (!modal) return;
   var COOKIE = 'lumisca_welcome_seen';
+  var DELAY_MS = 5000;
+  var SCROLL_PX = 100;
+  var armed = false;
+  var opened = false;
+
   function setCookie(v, days) {
     var d = new Date(); d.setTime(d.getTime() + days * 864e5);
     document.cookie = COOKIE + '=' + v + '; expires=' + d.toUTCString() + '; path=/; SameSite=Lax';
   }
   function hasCookie() { return document.cookie.indexOf(COOKIE + '=') !== -1; }
-  function openModal() { modal.hidden = false; modal.classList.add('is-open'); modal.setAttribute('aria-hidden', 'false'); }
-  function closeModal() { modal.classList.remove('is-open'); modal.hidden = true; modal.setAttribute('aria-hidden', 'true'); setCookie('1', 30); }
+  function openModal() {
+    if (opened || hasCookie()) return;
+    opened = true;
+    modal.hidden = false;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    try { console.info('[lumisca welcome] opened'); } catch (_) {}
+  }
+  function closeModal() {
+    modal.classList.remove('is-open');
+    modal.hidden = true;
+    modal.setAttribute('aria-hidden', 'true');
+    setCookie('1', 30);
+  }
 
-  if (!hasCookie()) { setTimeout(openModal, 8000); }
+  // Arm triggers: fires whichever comes first — 5s timer OR first scroll past 100px.
+  // bfcache-safe: re-arms on pageshow if the page was restored from cache.
+  function arm() {
+    if (armed || hasCookie()) return;
+    armed = true;
+    try { console.info('[lumisca welcome] armed (cookie:', hasCookie(), ')'); } catch (_) {}
+
+    var timer = setTimeout(openModal, DELAY_MS);
+    function onScroll() {
+      if (window.scrollY > SCROLL_PX) {
+        clearTimeout(timer);
+        window.removeEventListener('scroll', onScroll);
+        openModal();
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  arm();
+  window.addEventListener('pageshow', function (e) {
+    // If restored from bfcache (e.g. Safari back-button), re-arm so cookie check runs again.
+    if (e.persisted && !opened) { armed = false; arm(); }
+  });
 
   modal.addEventListener('click', function (e) {
     if (e.target.closest('[data-welcome-dismiss]')) closeModal();

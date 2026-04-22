@@ -8,13 +8,14 @@
   else
     assign card_badge_variant = 'badge-red'
   endif
+  assign tag_list = product.tags | join: ',' | downcase
 -%}
-<article class="card" data-cat="{{ product.type | downcase | default: 'all' }}" data-price="{{ product.price | money_without_currency }}" data-rating="{{ rating }}">
+<article class="card" data-cat="{{ product.type | downcase | default: 'all' }}" data-tags="{{ tag_list }}" data-price="{{ product.price | money_without_currency }}" data-rating="{{ rating }}">
   <a href="{{ product.url }}" class="card-media">
     {%- if product.featured_image -%}
-      <img src="{{ product.featured_image | image_url: width: 720 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy" width="720" height="900">
+      <img src="{{ product.featured_image | image_url: width: 720 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy" width="720" height="720">
     {%- else -%}
-      <div class="ph aspect-45"><span class="ph-label">{{ product.title }}</span></div>
+      <div class="ph aspect-square"><span class="ph-label">{{ product.title }}</span></div>
     {%- endif -%}
     <div class="card-badges">
       {%- if card_badge != blank -%}<span class="badge {{ card_badge_variant }}">{{ card_badge }}</span>{%- endif -%}
@@ -40,7 +41,7 @@
 {%- stylesheet -%}
 .card { display: flex; flex-direction: column; background: var(--cream); }
 .card-media { position: relative; display: block; overflow: hidden; }
-.card-media img { width: 100%; aspect-ratio: 4/5; object-fit: cover; transition: transform .7s; }
+.card-media img { width: 100%; aspect-ratio: 1/1; object-fit: cover; transition: transform .7s; }
 .card-media:hover img { transform: scale(1.02); }
 .card-badges { position: absolute; top: 1rem; left: 1rem; display: flex; flex-direction: column; gap: .5rem; }
 .card-body { padding-top: 1.25rem; display: flex; flex-direction: column; gap: .5rem; }

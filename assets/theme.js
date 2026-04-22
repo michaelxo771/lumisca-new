@@ -136,7 +136,13 @@
 
   document.addEventListener("click", function (e) {
     var openBtn = e.target.closest("[data-cart-open]");
-    if (openBtn) { e.preventDefault(); Cart.fetch().then(Cart.render).then(Cart.open); return; }
+    if (openBtn) {
+      e.preventDefault();
+      Cart.fetch()
+        .then(function (cart) { Cart.render(cart); })
+        .then(function () { Cart.open(); });
+      return;
+    }
     var closeBtn = e.target.closest("[data-cart-close]");
     if (closeBtn) { e.preventDefault(); Cart.close(); return; }
     var qtyBtn = e.target.closest("[data-cart-qty]");
@@ -213,7 +219,22 @@
     var p = $("[data-popup=exit]");
     if (!p || store.get("lumisca.exit")) return;
     var fired = false;
-    var trigger = function () { if (!fired) { fired = true; showPopup(p); } };
+    function welcomeSettled() {
+      // Wait until the welcome flow has been dismissed/submitted before arming the exit popup.
+      // Prevents the "welcome + exit stacked" race and ensures new visitors see welcome first.
+      return document.cookie.indexOf("lumisca_welcome_seen=") !== -1;
+    }
+    function welcomeOpen() {
+      var wm = document.querySelector("[data-welcome-modal]");
+      return wm && wm.classList.contains("is-open");
+    }
+    var trigger = function () {
+      if (fired) return;
+      if (welcomeOpen()) return;      // never overlap the welcome modal
+      if (!welcomeSettled()) return;  // wait until welcome has been seen and dismissed
+      fired = true;
+      showPopup(p);
+    };
     document.addEventListener("mouseleave", function (e) {
       if (e.clientY <= 0 && e.relatedTarget == null) trigger();
     });
@@ -395,8 +416,10 @@
     var grid = document.querySelector("[data-collection-grid]");
     if (!grid) return;
     $$("[data-cat]", grid).forEach(function (card) {
-      var cat = card.getAttribute("data-cat");
-      card.classList.toggle("hidden", val !== "all" && cat !== val);
+      var cat = (card.getAttribute("data-cat") || "").toLowerCase();
+      var tags = (card.getAttribute("data-tags") || "").toLowerCase().split(",");
+      var match = val === "all" || cat === val || tags.indexOf(val) > -1;
+      card.classList.toggle("hidden", !match);
     });
   });
 
@@ -462,5 +485,5 @@
   })();
 
   /* Initial cart load to sync count */
-  Cart.fetch().then(Cart.render).catch(function () {});
+  Cart.fetch().then(function (cart) { Cart.render(cart); }).catch(function () {});
 })();
