@@ -107,19 +107,6 @@
           assign tier1 = product.price
           assign tier2 = product.price | times: 0.85 | round
           assign tier3 = product.price | times: 0.77 | round
-          if handle contains 'hair'
-            assign tier1 = 6499
-            assign tier2 = 5499
-            assign tier3 = 4999
-          elsif handle contains 'face' or handle contains 'glow' or handle contains 'mask'
-            assign tier1 = 5499
-            assign tier2 = 4699
-            assign tier3 = 4299
-          elsif handle contains 'eye' or handle contains 'rest'
-            assign tier1 = 2999
-            assign tier2 = 2599
-            assign tier3 = 2399
-          endif
         -%}
 
         {%- if show_tiers -%}

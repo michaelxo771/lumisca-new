@@ -10,6 +10,11 @@
   if handle contains 'bundle' or handle contains 'complete'
     assign cat = 'bundle'
   endif
+
+  assign hair_p = all_products['pro-red-light-hair-growth-cap']
+  assign face_p = all_products['glow-red-light-face-mask']
+  assign eye_p  = all_products['rest-heated-eye-mask']
+  assign bundle_p = all_products['lumisca-complete-bundle']
 -%}
 
 <section class="xsell">
@@ -20,17 +25,19 @@
     </div>
 
     <div class="xsell-grid">
-      {%- comment -%} All 4 candidates; we skip the current product's card by cat match. {%- endcomment -%}
+      {%- comment -%} All 4 candidates; we skip the current product's card by cat match. Prices pull live from Shopify admin. {%- endcomment -%}
 
       {%- unless cat == 'hair' -%}
-        <a href="/products/pro-red-light-hair-growth-cap" class="xsell-card">
+        <a href="{{ hair_p.url | default: '/products/pro-red-light-hair-growth-cap' }}" class="xsell-card">
           <div class="xsell-media"><img src="{{ 'product-cap-solo.png' | asset_url }}" alt="Pro Red Light Hair Growth Cap" loading="lazy"></div>
           <div class="xsell-body">
             <h3 class="xsell-name">Pro Red Light Hair Growth Cap</h3>
             <p class="xsell-hook muted">Clinic-grade hair regrowth, built into a cap</p>
             <div class="xsell-price">
-              <span class="xsell-now">£64.99</span>
-              <span class="xsell-was">£129.99</span>
+              <span class="xsell-now">{{ hair_p.price | money }}</span>
+              {%- if hair_p.compare_at_price > hair_p.price -%}
+                <span class="xsell-was">{{ hair_p.compare_at_price | money }}</span>
+              {%- endif -%}
             </div>
             <span class="xsell-cta">Add to routine →</span>
           </div>
@@ -38,14 +45,16 @@
       {%- endunless -%}
 
       {%- unless cat == 'face' -%}
-        <a href="/products/glow-red-light-face-mask" class="xsell-card">
+        <a href="{{ face_p.url | default: '/products/glow-red-light-face-mask' }}" class="xsell-card">
           <div class="xsell-media"><img src="{{ 'product-mask-solo.png' | asset_url }}" alt="Glow Red Light Face Mask" loading="lazy"></div>
           <div class="xsell-body">
             <h3 class="xsell-name">Glow Red Light Face Mask</h3>
             <p class="xsell-hook muted">Salon-grade skincare, 10 minutes a day</p>
             <div class="xsell-price">
-              <span class="xsell-now">£54.99</span>
-              <span class="xsell-was">£109.99</span>
+              <span class="xsell-now">{{ face_p.price | money }}</span>
+              {%- if face_p.compare_at_price > face_p.price -%}
+                <span class="xsell-was">{{ face_p.compare_at_price | money }}</span>
+              {%- endif -%}
             </div>
             <span class="xsell-cta">Add to routine →</span>
           </div>
@@ -53,14 +62,16 @@
       {%- endunless -%}
 
       {%- unless cat == 'eye' -%}
-        <a href="/products/rest-heated-eye-mask" class="xsell-card">
+        <a href="{{ eye_p.url | default: '/products/rest-heated-eye-mask' }}" class="xsell-card">
           <div class="xsell-media"><img src="{{ 'product-eye-mask-solo.png' | asset_url }}" alt="Rest Heated Eye Mask" loading="lazy"></div>
           <div class="xsell-body">
             <h3 class="xsell-name">Rest Heated Eye Mask</h3>
             <p class="xsell-hook muted">Deeper sleep in 10 minutes</p>
             <div class="xsell-price">
-              <span class="xsell-now">£29.99</span>
-              <span class="xsell-was">£59.99</span>
+              <span class="xsell-now">{{ eye_p.price | money }}</span>
+              {%- if eye_p.compare_at_price > eye_p.price -%}
+                <span class="xsell-was">{{ eye_p.compare_at_price | money }}</span>
+              {%- endif -%}
             </div>
             <span class="xsell-cta">Add to routine →</span>
           </div>
@@ -68,14 +79,16 @@
       {%- endunless -%}
 
       {%- unless cat == 'bundle' -%}
-        <a href="/products/lumisca-complete-bundle" class="xsell-card xsell-card-featured">
+        <a href="{{ bundle_p.url | default: '/products/lumisca-complete-bundle' }}" class="xsell-card xsell-card-featured">
           <div class="xsell-media"><img src="{{ 'product-duo-side.png' | asset_url }}" alt="Complete Lumisca Bundle" loading="lazy"></div>
           <div class="xsell-body">
             <h3 class="xsell-name">The Complete Lumisca Bundle</h3>
-            <p class="xsell-hook muted">All three devices — save £174.98</p>
+            <p class="xsell-hook muted">All three devices — save vs buying individually</p>
             <div class="xsell-price">
-              <span class="xsell-now">£124.99</span>
-              <span class="xsell-was">£299.97</span>
+              <span class="xsell-now">{{ bundle_p.price | money }}</span>
+              {%- if bundle_p.compare_at_price > bundle_p.price -%}
+                <span class="xsell-was">{{ bundle_p.compare_at_price | money }}</span>
+              {%- endif -%}
             </div>
             <span class="xsell-cta">Add to routine →</span>
           </div>

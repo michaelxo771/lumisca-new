@@ -139,7 +139,13 @@
         </h1>
         <p class="quiz-result-sub" data-result-sub>Based on your answers, this is your match.</p>
 
-        {%- assign variants = 'hair,skin,eye,bundle' | split: ',' -%}
+        {%- liquid
+          assign qp_hair   = all_products['pro-red-light-hair-growth-cap']
+          assign qp_skin   = all_products['glow-red-light-face-mask']
+          assign qp_eye    = all_products['rest-heated-eye-mask']
+          assign qp_bundle = all_products['lumisca-complete-bundle']
+          assign variants = 'hair,skin,eye,bundle' | split: ','
+        -%}
         {%- for v in variants -%}
           <div class="quiz-variant" data-variant="{{ v }}" hidden>
             {%- case v -%}
@@ -147,9 +153,13 @@
                 <img class="quiz-variant-img" src="{{ 'product-cap-solo.png' | asset_url }}" alt="Pro Red Light Hair Growth Cap" loading="lazy">
                 <h3 class="quiz-variant-name">Pro Red Light Hair Growth Cap</h3>
                 <div class="quiz-variant-price">
-                  <span class="quiz-variant-now">£64.99</span>
-                  <span class="quiz-variant-was">£129.99</span>
-                  <span class="badge badge-gold">50% OFF</span>
+                  <span class="quiz-variant-now">{{ qp_hair.price | money }}</span>
+                  {%- if qp_hair.compare_at_price > qp_hair.price -%}
+                    <span class="quiz-variant-was">{{ qp_hair.compare_at_price | money }}</span>
+                    {%- assign hair_saved = qp_hair.compare_at_price | minus: qp_hair.price -%}
+                    {%- assign hair_pct = hair_saved | times: 100 | divided_by: qp_hair.compare_at_price | round -%}
+                    <span class="badge badge-gold">{{ hair_pct }}% OFF</span>
+                  {%- endif -%}
                 </div>
                 <div class="quiz-variant-rating">
                   {% render 'star-rating', rating: 5, size: 'sm' %}
@@ -160,14 +170,18 @@
                   <li>10 mins daily, hands-free</li>
                   <li>Visible density in 8-12 weeks</li>
                 </ul>
-                <a class="btn btn-red btn-xl btn-block quiz-variant-cta" href="/products/pro-red-light-hair-growth-cap">Shop My Recommendation →</a>
+                <a class="btn btn-red btn-xl btn-block quiz-variant-cta" href="{{ qp_hair.url | default: '/products/pro-red-light-hair-growth-cap' }}">Shop My Recommendation →</a>
               {%- when 'skin' -%}
                 <img class="quiz-variant-img" src="{{ 'product-mask-solo.png' | asset_url }}" alt="Glow Red Light Face Mask" loading="lazy">
                 <h3 class="quiz-variant-name">Glow Red Light Face Mask</h3>
                 <div class="quiz-variant-price">
-                  <span class="quiz-variant-now">£54.99</span>
-                  <span class="quiz-variant-was">£109.99</span>
-                  <span class="badge badge-gold">50% OFF</span>
+                  <span class="quiz-variant-now">{{ qp_skin.price | money }}</span>
+                  {%- if qp_skin.compare_at_price > qp_skin.price -%}
+                    <span class="quiz-variant-was">{{ qp_skin.compare_at_price | money }}</span>
+                    {%- assign skin_saved = qp_skin.compare_at_price | minus: qp_skin.price -%}
+                    {%- assign skin_pct = skin_saved | times: 100 | divided_by: qp_skin.compare_at_price | round -%}
+                    <span class="badge badge-gold">{{ skin_pct }}% OFF</span>
+                  {%- endif -%}
                 </div>
                 <div class="quiz-variant-rating">
                   {% render 'star-rating', rating: 5, size: 'sm' %}
@@ -178,14 +192,18 @@
                   <li>10 mins daily</li>
                   <li>Visible radiance in 4-6 weeks</li>
                 </ul>
-                <a class="btn btn-red btn-xl btn-block quiz-variant-cta" href="/products/glow-red-light-face-mask">Shop My Recommendation →</a>
+                <a class="btn btn-red btn-xl btn-block quiz-variant-cta" href="{{ qp_skin.url | default: '/products/glow-red-light-face-mask' }}">Shop My Recommendation →</a>
               {%- when 'eye' -%}
                 <img class="quiz-variant-img" src="{{ 'product-eye-mask-solo.png' | asset_url }}" alt="Rest Heated Eye Mask" loading="lazy">
                 <h3 class="quiz-variant-name">Rest Heated Eye Mask</h3>
                 <div class="quiz-variant-price">
-                  <span class="quiz-variant-now">£29.99</span>
-                  <span class="quiz-variant-was">£59.99</span>
-                  <span class="badge badge-gold">50% OFF</span>
+                  <span class="quiz-variant-now">{{ qp_eye.price | money }}</span>
+                  {%- if qp_eye.compare_at_price > qp_eye.price -%}
+                    <span class="quiz-variant-was">{{ qp_eye.compare_at_price | money }}</span>
+                    {%- assign eye_saved = qp_eye.compare_at_price | minus: qp_eye.price -%}
+                    {%- assign eye_pct = eye_saved | times: 100 | divided_by: qp_eye.compare_at_price | round -%}
+                    <span class="badge badge-gold">{{ eye_pct }}% OFF</span>
+                  {%- endif -%}
                 </div>
                 <div class="quiz-variant-rating">
                   {% render 'star-rating', rating: 5, size: 'sm' %}
@@ -196,14 +214,17 @@
                   <li>10 mins before bed</li>
                   <li>Reduces tension and eye strain</li>
                 </ul>
-                <a class="btn btn-red btn-xl btn-block quiz-variant-cta" href="/products/rest-heated-eye-mask">Shop My Recommendation →</a>
+                <a class="btn btn-red btn-xl btn-block quiz-variant-cta" href="{{ qp_eye.url | default: '/products/rest-heated-eye-mask' }}">Shop My Recommendation →</a>
               {%- when 'bundle' -%}
                 <img class="quiz-variant-img" src="{{ 'product-duo-side.png' | asset_url }}" alt="Complete Lumisca Bundle" loading="lazy">
                 <h3 class="quiz-variant-name">The Complete Lumisca Bundle</h3>
                 <div class="quiz-variant-price">
-                  <span class="quiz-variant-now">£124.99</span>
-                  <span class="quiz-variant-was">£299.97</span>
-                  <span class="badge badge-gold">SAVE £174.98</span>
+                  <span class="quiz-variant-now">{{ qp_bundle.price | money }}</span>
+                  {%- if qp_bundle.compare_at_price > qp_bundle.price -%}
+                    <span class="quiz-variant-was">{{ qp_bundle.compare_at_price | money }}</span>
+                    {%- assign bundle_saved = qp_bundle.compare_at_price | minus: qp_bundle.price -%}
+                    <span class="badge badge-gold">SAVE {{ bundle_saved | money }}</span>
+                  {%- endif -%}
                 </div>
                 <div class="quiz-variant-rating">
                   {% render 'star-rating', rating: 5, size: 'sm' %}
@@ -211,10 +232,10 @@
                 </div>
                 <ul class="quiz-variant-bullets">
                   <li>All 3 devices, all 3 benefits</li>
-                  <li>Save £174.98 vs individual</li>
+                  <li>Best value vs buying individually</li>
                   <li>Most-purchased by repeat customers</li>
                 </ul>
-                <a class="btn btn-red btn-xl btn-block quiz-variant-cta" href="/products/lumisca-complete-bundle">Shop My Recommendation →</a>
+                <a class="btn btn-red btn-xl btn-block quiz-variant-cta" href="{{ qp_bundle.url | default: '/products/lumisca-complete-bundle' }}">Shop My Recommendation →</a>
             {%- endcase -%}
           </div>
         {%- endfor -%}
