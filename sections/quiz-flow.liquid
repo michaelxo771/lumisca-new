@@ -1,0 +1,496 @@
+<section class="quiz" data-quiz>
+  <div class="quiz-stage">
+    <div class="quiz-progress" aria-hidden="true">
+      <div class="quiz-progress-fill" data-quiz-progress style="--pct: 14%;"></div>
+    </div>
+
+    <div class="quiz-card">
+      {%- comment -%} ===== 7 question steps ===== {%- endcomment -%}
+
+      {%- comment -%} Q1 — single-select, main concern {%- endcomment -%}
+      <div class="quiz-step is-active" data-quiz-step="1">
+        <p class="quiz-step-meta">Step <span data-step-n>1</span> of 7</p>
+        <h2 class="quiz-q">What's your main concern right now?</h2>
+        <div class="quiz-options" data-quiz-single="q1">
+          <button type="button" class="quiz-opt" data-quiz-value="hair">Hair thinning or loss</button>
+          <button type="button" class="quiz-opt" data-quiz-value="skin">Aging skin, fine lines, or dullness</button>
+          <button type="button" class="quiz-opt" data-quiz-value="sleep">Poor sleep or constant tiredness</button>
+          <button type="button" class="quiz-opt" data-quiz-value="all">All three — I want full-body benefits</button>
+        </div>
+        <div class="quiz-nav">
+          <span></span>
+          <button type="button" class="quiz-next btn btn-red" data-quiz-next disabled>Next →</button>
+        </div>
+      </div>
+
+      {%- comment -%} Q2 — multi-select, max 2 {%- endcomment -%}
+      <div class="quiz-step" data-quiz-step="2">
+        <p class="quiz-step-meta">Step <span data-step-n>2</span> of 7</p>
+        <h2 class="quiz-q">Anything else you'd like to address?</h2>
+        <p class="quiz-q-hint muted">Select up to 2</p>
+        <div class="quiz-options" data-quiz-multi="q2" data-quiz-max="2">
+          <button type="button" class="quiz-opt" data-quiz-value="hair-density">Hair density / fuller hair</button>
+          <button type="button" class="quiz-opt" data-quiz-value="skin-texture">Skin texture / radiance</button>
+          <button type="button" class="quiz-opt" data-quiz-value="sleep-quality">Better sleep quality</button>
+          <button type="button" class="quiz-opt" data-quiz-value="acne">Reducing acne or breakouts</button>
+          <button type="button" class="quiz-opt" data-quiz-value="anti-aging">Anti-aging / wrinkle reduction</button>
+          <button type="button" class="quiz-opt" data-quiz-value="eye-strain">Eye strain or migraines</button>
+          <button type="button" class="quiz-opt" data-quiz-value="curious">Just curious about red light</button>
+        </div>
+        <div class="quiz-nav">
+          <button type="button" class="quiz-back" data-quiz-back>← Back</button>
+          <button type="button" class="quiz-next btn btn-red" data-quiz-next disabled>Next →</button>
+        </div>
+      </div>
+
+      {%- comment -%} Q3 — severity {%- endcomment -%}
+      <div class="quiz-step" data-quiz-step="3">
+        <p class="quiz-step-meta">Step <span data-step-n>3</span> of 7</p>
+        <h2 class="quiz-q">How long has this been bothering you?</h2>
+        <div class="quiz-options" data-quiz-single="q3">
+          <button type="button" class="quiz-opt" data-quiz-value="lt6">Less than 6 months</button>
+          <button type="button" class="quiz-opt" data-quiz-value="6-12">6–12 months</button>
+          <button type="button" class="quiz-opt" data-quiz-value="1-3y">1–3 years</button>
+          <button type="button" class="quiz-opt" data-quiz-value="gt3y">More than 3 years</button>
+          <button type="button" class="quiz-opt" data-quiz-value="prevent">I just want to prevent issues before they start</button>
+        </div>
+        <div class="quiz-nav">
+          <button type="button" class="quiz-back" data-quiz-back>← Back</button>
+          <button type="button" class="quiz-next btn btn-red" data-quiz-next disabled>Next →</button>
+        </div>
+      </div>
+
+      {%- comment -%} Q4 — treatment history {%- endcomment -%}
+      <div class="quiz-step" data-quiz-step="4">
+        <p class="quiz-step-meta">Step <span data-step-n>4</span> of 7</p>
+        <h2 class="quiz-q">Have you tried other solutions?</h2>
+        <div class="quiz-options" data-quiz-single="q4">
+          <button type="button" class="quiz-opt" data-quiz-value="none">Nothing yet — Lumisca would be my first step</button>
+          <button type="button" class="quiz-opt" data-quiz-value="skincare">Skincare creams / serums (skin)</button>
+          <button type="button" class="quiz-opt" data-quiz-value="minoxidil">Minoxidil / hair growth shampoos (hair)</button>
+          <button type="button" class="quiz-opt" data-quiz-value="sleep-aids">Sleep aids / supplements (sleep)</button>
+          <button type="button" class="quiz-opt" data-quiz-value="salon">Salon treatments / clinics</button>
+          <button type="button" class="quiz-opt" data-quiz-value="multiple">Tried multiple — none worked</button>
+        </div>
+        <div class="quiz-nav">
+          <button type="button" class="quiz-back" data-quiz-back>← Back</button>
+          <button type="button" class="quiz-next btn btn-red" data-quiz-next disabled>Next →</button>
+        </div>
+      </div>
+
+      {%- comment -%} Q5 — time commitment {%- endcomment -%}
+      <div class="quiz-step" data-quiz-step="5">
+        <p class="quiz-step-meta">Step <span data-step-n>5</span> of 7</p>
+        <h2 class="quiz-q">How much time can you commit per day?</h2>
+        <div class="quiz-options" data-quiz-single="q5">
+          <button type="button" class="quiz-opt" data-quiz-value="under10">Under 10 minutes — I'm busy</button>
+          <button type="button" class="quiz-opt" data-quiz-value="10-15">10–15 minutes — that's my sweet spot</button>
+          <button type="button" class="quiz-opt" data-quiz-value="15-20">15–20 minutes — I can carve out the time</button>
+          <button type="button" class="quiz-opt" data-quiz-value="whatever">Whatever it takes — I want maximum results</button>
+        </div>
+        <div class="quiz-nav">
+          <button type="button" class="quiz-back" data-quiz-back>← Back</button>
+          <button type="button" class="quiz-next btn btn-red" data-quiz-next disabled>Next →</button>
+        </div>
+      </div>
+
+      {%- comment -%} Q6 — budget (routing constraint) {%- endcomment -%}
+      <div class="quiz-step" data-quiz-step="6">
+        <p class="quiz-step-meta">Step <span data-step-n>6</span> of 7</p>
+        <h2 class="quiz-q">What's your investment range?</h2>
+        <div class="quiz-options" data-quiz-single="q6">
+          <button type="button" class="quiz-opt" data-quiz-value="under40">Under £40</button>
+          <button type="button" class="quiz-opt" data-quiz-value="40-80">£40–80</button>
+          <button type="button" class="quiz-opt" data-quiz-value="80-150">£80–150</button>
+          <button type="button" class="quiz-opt" data-quiz-value="max">Money's no object — show me the best option</button>
+        </div>
+        <div class="quiz-nav">
+          <button type="button" class="quiz-back" data-quiz-back>← Back</button>
+          <button type="button" class="quiz-next btn btn-red" data-quiz-next disabled>Next →</button>
+        </div>
+      </div>
+
+      {%- comment -%} Q7 — email gate {%- endcomment -%}
+      <div class="quiz-step" data-quiz-step="7">
+        <p class="quiz-step-meta">Step <span data-step-n>7</span> of 7</p>
+        <h2 class="quiz-q">Where should we send your personalised plan + 10% off code?</h2>
+        {%- form 'customer', id: 'quiz-email-form', class: 'quiz-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter,quiz-completion">
+          <label class="quiz-email-label">
+            <span class="sr-only">Email</span>
+            <input type="email" name="contact[email]" placeholder="your@email.com" required autocomplete="email">
+          </label>
+          <p class="quiz-form-fine muted">We'll email your result + LUMISCA10 code (worth 10% off your first order). No spam, ever.</p>
+          <button type="submit" class="btn btn-red btn-lg btn-block quiz-form-submit" data-quiz-submit>
+            Reveal My Result + Get 10% Off
+          </button>
+        {%- endform -%}
+        <div class="quiz-nav">
+          <button type="button" class="quiz-back" data-quiz-back>← Back</button>
+          <span></span>
+        </div>
+      </div>
+
+      {%- comment -%} ===== Result panel — 4 variants ===== {%- endcomment -%}
+      <div class="quiz-result" data-quiz-result>
+        <p class="quiz-result-eyebrow">YOUR PERSONALISED LUMISCA PLAN</p>
+        <h1 class="quiz-result-title">
+          We recommend the <span data-result-name>Pro Red Light Hair Growth Cap</span>.
+        </h1>
+        <p class="quiz-result-sub" data-result-sub>Based on your answers, this is your match.</p>
+
+        {%- assign variants = 'hair,skin,eye,bundle' | split: ',' -%}
+        {%- for v in variants -%}
+          <div class="quiz-variant" data-variant="{{ v }}" hidden>
+            {%- case v -%}
+              {%- when 'hair' -%}
+                <img class="quiz-variant-img" src="{{ 'product-cap-solo.png' | asset_url }}" alt="Pro Red Light Hair Growth Cap" loading="lazy">
+                <h3 class="quiz-variant-name">Pro Red Light Hair Growth Cap</h3>
+                <div class="quiz-variant-price">
+                  <span class="quiz-variant-now">£64.99</span>
+                  <span class="quiz-variant-was">£129.99</span>
+                  <span class="badge badge-gold">50% OFF</span>
+                </div>
+                <div class="quiz-variant-rating">
+                  {% render 'star-rating', rating: 5, size: 'sm' %}
+                  <span class="muted">4.9 (1,284 reviews)</span>
+                </div>
+                <ul class="quiz-variant-bullets">
+                  <li>Targets thinning at the follicle level</li>
+                  <li>10 mins daily, hands-free</li>
+                  <li>Visible density in 8-12 weeks</li>
+                </ul>
+                <a class="btn btn-red btn-xl btn-block quiz-variant-cta" href="/products/pro-red-light-hair-growth-cap">Shop My Recommendation →</a>
+              {%- when 'skin' -%}
+                <img class="quiz-variant-img" src="{{ 'product-mask-solo.png' | asset_url }}" alt="Glow Red Light Face Mask" loading="lazy">
+                <h3 class="quiz-variant-name">Glow Red Light Face Mask</h3>
+                <div class="quiz-variant-price">
+                  <span class="quiz-variant-now">£54.99</span>
+                  <span class="quiz-variant-was">£109.99</span>
+                  <span class="badge badge-gold">50% OFF</span>
+                </div>
+                <div class="quiz-variant-rating">
+                  {% render 'star-rating', rating: 5, size: 'sm' %}
+                  <span class="muted">4.9 (962 reviews)</span>
+                </div>
+                <ul class="quiz-variant-bullets">
+                  <li>Stimulates collagen at the cellular level</li>
+                  <li>10 mins daily</li>
+                  <li>Visible radiance in 4-6 weeks</li>
+                </ul>
+                <a class="btn btn-red btn-xl btn-block quiz-variant-cta" href="/products/glow-red-light-face-mask">Shop My Recommendation →</a>
+              {%- when 'eye' -%}
+                <img class="quiz-variant-img" src="{{ 'product-eye-mask-solo.png' | asset_url }}" alt="Rest Heated Eye Mask" loading="lazy">
+                <h3 class="quiz-variant-name">Rest Heated Eye Mask</h3>
+                <div class="quiz-variant-price">
+                  <span class="quiz-variant-now">£29.99</span>
+                  <span class="quiz-variant-was">£59.99</span>
+                  <span class="badge badge-gold">50% OFF</span>
+                </div>
+                <div class="quiz-variant-rating">
+                  {% render 'star-rating', rating: 5, size: 'sm' %}
+                  <span class="muted">4.8 (734 reviews)</span>
+                </div>
+                <ul class="quiz-variant-bullets">
+                  <li>Sleep deeper from night one</li>
+                  <li>10 mins before bed</li>
+                  <li>Reduces tension and eye strain</li>
+                </ul>
+                <a class="btn btn-red btn-xl btn-block quiz-variant-cta" href="/products/rest-heated-eye-mask">Shop My Recommendation →</a>
+              {%- when 'bundle' -%}
+                <img class="quiz-variant-img" src="{{ 'product-duo-side.png' | asset_url }}" alt="Complete Lumisca Bundle" loading="lazy">
+                <h3 class="quiz-variant-name">The Complete Lumisca Bundle</h3>
+                <div class="quiz-variant-price">
+                  <span class="quiz-variant-now">£124.99</span>
+                  <span class="quiz-variant-was">£299.97</span>
+                  <span class="badge badge-gold">SAVE £174.98</span>
+                </div>
+                <div class="quiz-variant-rating">
+                  {% render 'star-rating', rating: 5, size: 'sm' %}
+                  <span class="muted">4.9 (2,847 reviews)</span>
+                </div>
+                <ul class="quiz-variant-bullets">
+                  <li>All 3 devices, all 3 benefits</li>
+                  <li>Save £174.98 vs individual</li>
+                  <li>Most-purchased by repeat customers</li>
+                </ul>
+                <a class="btn btn-red btn-xl btn-block quiz-variant-cta" href="/products/lumisca-complete-bundle">Shop My Recommendation →</a>
+            {%- endcase -%}
+          </div>
+        {%- endfor -%}
+
+        <div class="quiz-discount">
+          <p class="quiz-discount-title">Your code: <strong>LUMISCA10</strong></p>
+          <p class="quiz-discount-body">10% off your first order. Code emailed to you, applies automatically at checkout.</p>
+        </div>
+
+        <a class="quiz-result-alt" href="/collections/all">Or browse the full collection →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.quiz { min-height: 100vh; background: #0A0A0A; color: var(--cream); display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; }
+.quiz-stage { width: 100%; max-width: 720px; }
+
+/* Progress bar */
+.quiz-progress { width: 100%; height: 3px; background: rgba(249,247,244,.1); border-radius: 999px; overflow: hidden; margin-bottom: 2rem; }
+.quiz-progress-fill { height: 100%; background: var(--gold); border-radius: 999px; width: var(--pct, 14%); transition: width .35s ease; }
+
+/* Card */
+.quiz-card { position: relative; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 2rem 1.5rem; min-height: 520px; }
+@media (min-width: 640px) { .quiz-card { padding: 3rem; } }
+
+/* Step visibility */
+.quiz-step { display: none; opacity: 0; transform: translateY(8px); transition: opacity .3s ease, transform .3s ease; }
+.quiz-step.is-active { display: flex; flex-direction: column; gap: 1.25rem; opacity: 1; transform: translateY(0); }
+
+.quiz-step-meta { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: rgba(249,247,244,.55); margin: 0; font-weight: 600; }
+.quiz-q { font-family: var(--display); font-size: 24px; line-height: 1.25; margin: 0; color: var(--cream); }
+@media (min-width: 768px) { .quiz-q { font-size: 32px; } }
+.quiz-q-hint { font-size: 13px; margin: 0; color: rgba(249,247,244,.55); }
+
+/* Options */
+.quiz-options { display: flex; flex-direction: column; gap: .75rem; }
+.quiz-opt { display: block; text-align: left; width: 100%; padding: 20px 24px; background: #fff; border: 0.5px solid rgba(10,10,10,.12); border-radius: 12px; color: var(--ink); font-size: 15px; line-height: 1.4; cursor: pointer; transition: border-color .15s, transform .15s, background .15s; min-height: 56px; }
+.quiz-opt:hover { border-color: var(--gold); transform: translateY(-1px); }
+.quiz-opt.is-selected { border: 2px solid var(--red); background: color-mix(in srgb, #fff 92%, var(--red) 8%); padding: 19px 23px; }
+
+/* Nav row */
+.quiz-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; gap: 1rem; }
+.quiz-back { background: none; border: 0; color: rgba(249,247,244,.55); font-size: 13px; letter-spacing: .04em; cursor: pointer; padding: 12px 0; min-height: 44px; }
+.quiz-back:hover { color: var(--cream); }
+.quiz-next { border-radius: 6px; padding: 0 1.5rem; }
+.quiz-next[disabled] { opacity: .4; cursor: not-allowed; }
+
+/* Form step */
+.quiz-form { display: flex; flex-direction: column; gap: .75rem; margin-top: 1rem; }
+.quiz-email-label input { width: 100%; height: 56px; padding: 0 1.25rem; background: transparent; border: 1px solid rgba(249,247,244,.25); color: var(--cream); outline: none; font-size: 1rem; border-radius: 8px; text-align: center; }
+.quiz-email-label input::placeholder { color: rgba(249,247,244,.4); }
+.quiz-email-label input:focus { border-color: var(--gold); }
+.quiz-form-fine { font-size: 12px; line-height: 1.55; margin: 0; text-align: center; color: rgba(249,247,244,.55); }
+.quiz-form-submit { border-radius: 8px; }
+
+/* Result */
+.quiz-result { display: none; flex-direction: column; gap: 1rem; }
+.quiz-result.is-active { display: flex; }
+.quiz-result-eyebrow { color: var(--gold); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; font-weight: 700; margin: 0; }
+.quiz-result-title { font-family: var(--display); font-size: 40px; line-height: 1.1; margin: 0 0 .25rem; color: var(--cream); font-weight: 600; letter-spacing: -0.015em; }
+@media (max-width: 640px) { .quiz-result-title { font-size: 28px; } }
+.quiz-result-title span { color: var(--gold); }
+.quiz-result-sub { color: rgba(249,247,244,.7); line-height: 1.6; margin: 0 0 1rem; }
+
+.quiz-variant { display: none; flex-direction: column; gap: .85rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,.08); }
+.quiz-variant.is-active { display: flex; }
+.quiz-variant-img { width: 100%; max-width: 360px; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; align-self: center; background: #141414; }
+.quiz-variant-name { font-family: var(--display); font-size: 1.5rem; color: var(--cream); margin: 0; }
+.quiz-variant-price { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+.quiz-variant-now { font-family: var(--display); font-size: 1.75rem; color: var(--cream); font-weight: 700; }
+.quiz-variant-was { color: rgba(249,247,244,.5); text-decoration: line-through; font-size: .95rem; }
+.quiz-variant-rating { display: inline-flex; align-items: center; gap: .5rem; font-size: 13px; }
+.quiz-variant-bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .5rem; }
+.quiz-variant-bullets li { position: relative; padding-left: 1.25rem; color: rgba(249,247,244,.85); font-size: 15px; line-height: 1.6; }
+.quiz-variant-bullets li::before { content: "✓"; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+.quiz-variant-cta { border-radius: 8px; margin-top: .5rem; }
+
+.quiz-discount { padding: 1rem 1.25rem; background: rgba(201,168,76,.08); border: 1px solid rgba(201,168,76,.3); border-radius: 10px; text-align: center; }
+.quiz-discount-title { font-family: var(--display); font-size: 1rem; color: var(--cream); margin: 0; }
+.quiz-discount-title strong { color: var(--gold); letter-spacing: .08em; font-weight: 700; }
+.quiz-discount-body { font-size: 12px; color: rgba(249,247,244,.7); line-height: 1.55; margin: .35rem 0 0; }
+
+.quiz-result-alt { align-self: center; font-size: 13px; color: rgba(249,247,244,.55); text-decoration: underline; text-underline-offset: 4px; margin-top: .5rem; }
+.quiz-result-alt:hover { color: var(--cream); }
+
+.quiz-card.is-result-mode .quiz-step { display: none !important; }
+{%- endstylesheet -%}
+
+<script>
+(function () {
+  var root = document.querySelector('[data-quiz]');
+  if (!root) return;
+  var card = root.querySelector('.quiz-card');
+  var steps = Array.prototype.slice.call(root.querySelectorAll('[data-quiz-step]'));
+  var progress = root.querySelector('[data-quiz-progress]');
+  var total = steps.length;
+
+  var state = { q1: null, q2: [], q3: null, q4: null, q5: null, q6: null };
+  var current = 1;
+
+  function stepEl(n) { return steps.find(function (s) { return parseInt(s.getAttribute('data-quiz-step'), 10) === n; }); }
+
+  function goTo(n) {
+    if (n < 1 || n > total) return;
+    current = n;
+    steps.forEach(function (s) {
+      var match = parseInt(s.getAttribute('data-quiz-step'), 10) === n;
+      s.classList.toggle('is-active', match);
+    });
+    if (progress) progress.style.setProperty('--pct', Math.round((n / total) * 100) + '%');
+    refreshNextButton();
+  }
+
+  function refreshNextButton() {
+    var el = stepEl(current);
+    if (!el) return;
+    var btn = el.querySelector('[data-quiz-next]');
+    if (!btn) return;
+    var single = el.querySelector('[data-quiz-single]');
+    var multi = el.querySelector('[data-quiz-multi]');
+    if (single) {
+      var key = single.getAttribute('data-quiz-single');
+      btn.disabled = !state[key];
+    } else if (multi) {
+      var key2 = multi.getAttribute('data-quiz-multi');
+      btn.disabled = !(state[key2] && state[key2].length > 0);
+    }
+  }
+
+  // Single-select click
+  root.addEventListener('click', function (e) {
+    var opt = e.target.closest('.quiz-opt');
+    if (!opt) return;
+    var group = opt.parentElement;
+    if (!group) return;
+
+    var singleKey = group.getAttribute('data-quiz-single');
+    var multiKey = group.getAttribute('data-quiz-multi');
+
+    if (singleKey) {
+      group.querySelectorAll('.quiz-opt').forEach(function (x) { x.classList.remove('is-selected'); });
+      opt.classList.add('is-selected');
+      state[singleKey] = opt.getAttribute('data-quiz-value');
+      refreshNextButton();
+    }
+
+    if (multiKey) {
+      var max = parseInt(group.getAttribute('data-quiz-max'), 10) || 99;
+      var val = opt.getAttribute('data-quiz-value');
+      state[multiKey] = state[multiKey] || [];
+      var idx = state[multiKey].indexOf(val);
+      if (idx > -1) {
+        state[multiKey].splice(idx, 1);
+        opt.classList.remove('is-selected');
+      } else {
+        if (state[multiKey].length >= max) return; // enforce max
+        state[multiKey].push(val);
+        opt.classList.add('is-selected');
+      }
+      refreshNextButton();
+    }
+  });
+
+  // Next / back
+  root.addEventListener('click', function (e) {
+    if (e.target.closest('[data-quiz-next]')) {
+      if (!e.target.closest('[data-quiz-next]').disabled) goTo(current + 1);
+    } else if (e.target.closest('[data-quiz-back]')) {
+      goTo(current - 1);
+    }
+  });
+
+  // Routing logic
+  function getRecommendation(s) {
+    var scores = { hair: 0, skin: 0, sleep: 0 };
+    if (s.q1 === 'hair') scores.hair += 3;
+    else if (s.q1 === 'skin') scores.skin += 3;
+    else if (s.q1 === 'sleep') scores.sleep += 3;
+    else if (s.q1 === 'all') { scores.hair += 2; scores.skin += 2; scores.sleep += 2; }
+
+    (s.q2 || []).forEach(function (v) {
+      if (v === 'hair-density') scores.hair += 1;
+      if (v === 'skin-texture' || v === 'acne' || v === 'anti-aging') scores.skin += 1;
+      if (v === 'sleep-quality' || v === 'eye-strain') scores.sleep += 1;
+    });
+
+    // Budget hard constraints
+    if (s.q6 === 'under40') return { variant: 'eye', top: 'sleep' };
+    if (s.q6 === '80-150' || s.q6 === 'max') return { variant: 'bundle', top: 'all' };
+    if (s.q1 === 'all') return { variant: 'bundle', top: 'all' };
+
+    // Budget 40-80: highest scoring single
+    var max = Math.max(scores.hair, scores.skin, scores.sleep);
+    var tied = ['hair', 'skin', 'sleep'].filter(function (k) { return scores[k] === max; });
+    if (tied.length >= 2) {
+      // Budget doesn't allow bundle here; prefer Q1 match if possible
+      if (tied.indexOf(s.q1) > -1) return { variant: s.q1 === 'sleep' ? 'eye' : s.q1, top: s.q1 };
+      var first = tied[0];
+      return { variant: first === 'sleep' ? 'eye' : first, top: first };
+    }
+    var winner = tied[0];
+    return { variant: winner === 'sleep' ? 'eye' : winner, top: winner };
+  }
+
+  function buildSubtext(s, top) {
+    var concern = {
+      hair: 'hair thinning',
+      skin: 'aging skin and tone',
+      sleep: 'poor sleep',
+      all: 'hair, skin, and sleep concerns'
+    }[top] || 'your concerns';
+
+    var tenure = {
+      'lt6': 'over the last few months',
+      '6-12': 'over the last 6–12 months',
+      '1-3y': 'over the last 1–3 years',
+      'gt3y': 'for more than 3 years',
+      'prevent': 'and a focus on prevention'
+    }[s.q3] || '';
+
+    var timeNote = {
+      'under10': 'under 10 minutes a day',
+      '10-15': 'a 10–15 minute daily ritual',
+      '15-20': 'a 15–20 minute daily routine',
+      'whatever': 'a commitment to maximum results'
+    }[s.q5] || 'a daily ritual';
+
+    return 'Based on your concern with ' + concern + ' ' + tenure + ' and your preference for ' + timeNote + ', this is your match.';
+  }
+
+  function showResult(rec) {
+    card.classList.add('is-result-mode');
+    root.querySelectorAll('[data-variant]').forEach(function (v) {
+      var match = v.getAttribute('data-variant') === rec.variant;
+      v.hidden = !match;
+      v.classList.toggle('is-active', match);
+    });
+    var result = root.querySelector('[data-quiz-result]');
+    result.classList.add('is-active');
+
+    var names = { hair: 'Pro Red Light Hair Growth Cap', skin: 'Glow Red Light Face Mask', eye: 'Rest Heated Eye Mask', bundle: 'Complete Lumisca Bundle' };
+    var nameEl = root.querySelector('[data-result-name]');
+    if (nameEl) nameEl.textContent = names[rec.variant];
+    var subEl = root.querySelector('[data-result-sub]');
+    if (subEl) subEl.textContent = buildSubtext(state, rec.top);
+
+    if (progress) progress.style.setProperty('--pct', '100%');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Q7 form submission
+  var form = root.querySelector('#quiz-email-form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var btn = form.querySelector('[data-quiz-submit]');
+      if (btn) { btn.disabled = true; btn.textContent = 'Submitting…'; }
+      var data = new FormData(form);
+      var rec = getRecommendation(state);
+      fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+        .catch(function () {})
+        .finally(function () { showResult(rec); });
+    });
+  }
+
+  // Initial progress
+  if (progress) progress.style.setProperty('--pct', Math.round((1 / total) * 100) + '%');
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Quiz Flow",
+  "settings": [],
+  "presets": [ { "name": "Quiz Flow" } ]
+}
+{% endschema %}

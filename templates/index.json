@@ -68,7 +68,8 @@
       ],
       "settings": {
         "cta1_url": "/collections/all",
-        "cta2_url": "/pages/science"
+        "cta2_url": "/pages/science",
+        "quiz_url": "/pages/quiz"
       }
     },
     "press-bar": {
@@ -702,6 +703,17 @@
         "cta_url": "/pages/science",
         "image_filename": "lifestyle-face-mask.png"
       }
+    },
+    "quiz-prompt": {
+      "type": "quiz-prompt",
+      "settings": {
+        "eyebrow": "FIND YOUR MATCH",
+        "heading": "Take the 60-second Lumisca quiz.",
+        "body": "Answer 7 quick questions and we'll recommend the right device for your concerns — plus 10% off your first order.",
+        "cta_label": "Start The Quiz",
+        "cta_url": "/pages/quiz",
+        "cta_fine": "Approx. 60 seconds · 10% off included"
+      }
     }
   },
   "order": [
@@ -717,6 +729,7 @@
     "unboxing",
     "science-callout",
     "testimonials",
+    "quiz-prompt",
     "comparison",
     "clinical-proof",
     "faq-strip",

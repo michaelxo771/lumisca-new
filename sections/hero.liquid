@@ -47,6 +47,12 @@
         {%- endif -%}
       </div>
 
+      {%- if section.settings.quiz_label != blank -%}
+        <a href="{{ section.settings.quiz_url | default: '/pages/quiz' }}" class="hero-v2-quiz-link">
+          {{ section.settings.quiz_label }}
+        </a>
+      {%- endif -%}
+
       <ul class="hero-v2-stats">
         {%- for block in section.blocks -%}
           {%- if block.type == 'stat' -%}
@@ -79,6 +85,8 @@
 .hero-v2-sub { margin-bottom: 2rem; max-width: 36rem; font-size: 1.05rem; line-height: 1.65; color: rgba(255,255,255,.82); }
 .hero-v2-ctas { display: flex; flex-direction: column; gap: .75rem; margin-bottom: 3rem; }
 @media (min-width: 640px) { .hero-v2-ctas { flex-direction: row; } }
+.hero-v2-quiz-link { display: inline-block; margin: -1.5rem 0 2.5rem; font-size: 13px; color: rgba(255,255,255,.72); text-decoration: underline; text-underline-offset: 4px; transition: color .15s; }
+.hero-v2-quiz-link:hover { color: var(--gold); }
 .hero-v2-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; max-width: 34rem; border-top: 1px solid rgba(255,255,255,.18); padding-top: 1.5rem; }
 .hero-v2-stat-n { font-family: var(--display); font-size: 1.5rem; display: block; }
 @media (min-width: 768px) { .hero-v2-stat-n { font-size: 1.875rem; } }
@@ -96,7 +104,9 @@
     { "type": "text", "id": "cta1_label", "label": "CTA 1 label", "default": "Shop The Collection" },
     { "type": "url", "id": "cta1_url", "label": "CTA 1 link" },
     { "type": "text", "id": "cta2_label", "label": "CTA 2 label", "default": "See The Science" },
-    { "type": "url", "id": "cta2_url", "label": "CTA 2 link" }
+    { "type": "url", "id": "cta2_url", "label": "CTA 2 link" },
+    { "type": "text", "id": "quiz_label", "label": "Quiz link label", "default": "Not sure which is right for you? → Take the 60-second quiz" },
+    { "type": "url", "id": "quiz_url", "label": "Quiz link URL" }
   ],
   "blocks": [
     { "type": "stat", "name": "Stat", "settings": [
