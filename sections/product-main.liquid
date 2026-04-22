@@ -41,9 +41,9 @@
         </div>
         <div class="product-main-img" data-gallery-main>
           {%- if product.featured_image -%}
-            <img src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.featured_image.alt | escape }}" loading="eager" width="1200" height="1500">
+            <img src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.featured_image.alt | escape }}" loading="eager" width="1200" height="1200">
           {%- else -%}
-            <div class="ph aspect-45"><span class="ph-label">{{ product.title }}</span></div>
+            <div class="ph aspect-square"><span class="ph-label">{{ product.title }}</span></div>
           {%- endif -%}
         </div>
       </div>
@@ -302,7 +302,7 @@
 .product-thumb.is-active { border-color: var(--red); }
 .product-thumb img { width: 80px; height: 80px; object-fit: cover; display: block; }
 .product-main-img { flex: 1; position: relative; }
-.product-main-img img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; }
+.product-main-img img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
 .product-info { display: flex; flex-direction: column; gap: 1.25rem; }
 .product-rating { display: flex; align-items: center; gap: .5rem; }
 .product-title { font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.2; }
