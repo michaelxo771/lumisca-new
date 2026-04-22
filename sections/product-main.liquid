@@ -104,13 +104,18 @@
             assign show_tiers = false
           endif
 
+          assign tier2_pct = section.settings.tier2_discount_pct | default: 15
+          assign tier3_pct = section.settings.tier3_discount_pct | default: 23
+          assign tier2_factor = 100 | minus: tier2_pct
+          assign tier3_factor = 100 | minus: tier3_pct
+
           assign tier1 = product.price
-          assign tier2 = product.price | times: 0.85 | round
-          assign tier3 = product.price | times: 0.77 | round
+          assign tier2 = product.price | times: tier2_factor | divided_by: 100 | round
+          assign tier3 = product.price | times: tier3_factor | divided_by: 100 | round
         -%}
 
         {%- if show_tiers -%}
-          <div class="pvol" data-pvol>
+          <div class="pvol" data-pvol data-tier2-pct="{{ tier2_pct }}" data-tier3-pct="{{ tier3_pct }}">
             <p class="eyebrow" style="color: var(--mid);">Choose Your Pack</p>
             <div class="pvol-tiers">
               <label class="pvol-tier" data-pvol-qty="1">
@@ -131,7 +136,7 @@
                     <span class="pvol-title">2 DEVICES — POPULAR</span>
                     <span class="pvol-badge">BEST VALUE</span>
                   </span>
-                  <span class="pvol-sub"><strong>{{ tier2 | money }}</strong> each (save 15%) · {{ tier2 | times: 2 | money }} total · Free shipping</span>
+                  <span class="pvol-sub"><strong>{{ tier2 | money }}</strong> each (save {{ tier2_pct }}%) · {{ tier2 | times: 2 | money }} total · Free shipping</span>
                 </span>
               </label>
               <label class="pvol-tier" data-pvol-qty="3">
@@ -141,14 +146,15 @@
                   <span class="pvol-row">
                     <span class="pvol-title">3 DEVICES — MAXIMUM RESULTS</span>
                   </span>
-                  <span class="pvol-sub"><strong>{{ tier3 | money }}</strong> each (save 23%) · {{ tier3 | times: 3 | money }} total · Free shipping + priority</span>
+                  <span class="pvol-sub"><strong>{{ tier3 | money }}</strong> each (save {{ tier3_pct }}%) · {{ tier3 | times: 3 | money }} total · Free shipping + priority</span>
                 </span>
               </label>
             </div>
+            <p class="pvol-fine">✓ Volume savings applied automatically at checkout</p>
           </div>
         {%- endif -%}
 
-        <form data-product-form method="post" action="{{ routes.cart_add_url }}">
+        <form data-product-form method="post" action="{{ routes.cart_add_url }}" data-unit-pence="{{ product.price }}">
           <input type="hidden" name="id" value="{{ current_variant.id }}">
 
           <div class="product-qty-row" data-qty>
@@ -164,6 +170,12 @@
             {% if current_variant.available %}{{ 'product.add_to_cart' | t }} · <span data-atc-total>{{ product.price | money }}</span>{% else %}{{ 'product.sold_out' | t }}{% endif %}
             {% render 'icon-arrow-right' %}
           </button>
+
+          {%- if show_tiers -%}
+            <p class="product-atc-sub" data-atc-sub hidden>
+              after volume discount: <strong data-atc-sub-total></strong> · applied at checkout
+            </p>
+          {%- endif -%}
         </form>
 
         <div class="product-pay">
@@ -329,6 +341,9 @@
 .pvol-badge { background: var(--gold); color: var(--ink); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
 .pvol-sub { font-size: 13px; color: var(--mid); line-height: 1.5; }
 .pvol-sub strong { color: var(--ink); font-weight: 700; }
+.pvol-fine { font-size: 12px; color: var(--mid); text-align: center; margin: .75rem 0 0; letter-spacing: .02em; }
+.product-atc-sub { font-size: 12px; color: var(--mid); text-align: center; margin: .5rem 0 0; line-height: 1.5; }
+.product-atc-sub strong { color: var(--ink); font-weight: 700; }
 
 /* Trust badges row */
 .product-trust { list-style: none; padding: 1rem 0 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem 1rem; }
@@ -377,10 +392,44 @@
   var form = document.querySelector('[data-product-form]');
   var qtyInput = form && form.querySelector('input[name=quantity]');
   var total = document.querySelector('[data-atc-total]');
+  var sub = document.querySelector('[data-atc-sub]');
+  var subTotal = document.querySelector('[data-atc-sub-total]');
 
-  function priceFor(tier) {
-    var badge = tier.querySelector('.pvol-sub strong');
-    return badge ? badge.textContent.trim() : '';
+  var unitPence = parseInt((form && form.getAttribute('data-unit-pence')) || '0', 10);
+  var tier2Pct = parseInt(container.getAttribute('data-tier2-pct') || '15', 10);
+  var tier3Pct = parseInt(container.getAttribute('data-tier3-pct') || '23', 10);
+
+  // Pull initial money symbol from the server-rendered ATC total so we match locale.
+  var initialText = (total && total.textContent) || '£0.00';
+  var symMatch = initialText.match(/^[^\d\-]*/);
+  var symbol = (symMatch && symMatch[0]) || '£';
+
+  function fmt(pence) {
+    var amt = (pence / 100).toFixed(2);
+    return symbol + amt;
+  }
+
+  function apply(qty) {
+    qty = qty || 1;
+    var discountPct = 0;
+    if (qty === 2) discountPct = tier2Pct;
+    else if (qty >= 3) discountPct = tier3Pct;
+
+    var preTotal = unitPence * qty;
+    var afterTotal = Math.round(preTotal * (100 - discountPct) / 100);
+
+    // ATC button — honest pre-discount total (what Shopify charges before auto-discount).
+    if (total) total.textContent = fmt(preTotal);
+
+    // Muted sub line — only show when a volume discount applies.
+    if (sub && subTotal) {
+      if (discountPct > 0) {
+        subTotal.textContent = fmt(afterTotal);
+        sub.hidden = false;
+      } else {
+        sub.hidden = true;
+      }
+    }
   }
 
   container.addEventListener('click', function (e) {
@@ -392,22 +441,46 @@
     if (qtyInput) qtyInput.value = qty;
     var radio = tier.querySelector('input[type=radio]');
     if (radio) radio.checked = true;
-    if (total) {
-      // Compute total = per-unit price × qty via the readable string already rendered
-      var subs = tier.querySelectorAll('.pvol-sub strong');
-      // prefer any "X total" mention if present; otherwise synthesize from unit × qty
-      var subText = (tier.querySelector('.pvol-sub') || {}).textContent || '';
-      var match = subText.match(/·\s*(£[0-9.,]+)\s*total/);
-      if (match) { total.textContent = match[1]; }
-      else if (subs[0]) { total.textContent = subs[0].textContent.trim(); }
-    }
+    apply(qty);
   });
+
+  // Initial sync — the server rendered tier 2 as is-active, so reflect that in the ATC button and sub line.
+  var initialActive = container.querySelector('.pvol-tier.is-active');
+  var initialQty = initialActive ? (parseInt(initialActive.getAttribute('data-pvol-qty'), 10) || 1) : 1;
+  apply(initialQty);
 })();
 </script>
 
 {% schema %}
 {
   "name": "Product Main",
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "Volume discount tiers"
+    },
+    {
+      "type": "paragraph",
+      "content": "Set the advertised savings shown on the pack selector. These must match the automatic discounts you configure in Shopify admin → Discounts (e.g. '15% off when buying 2+ of this product')."
+    },
+    {
+      "type": "range",
+      "id": "tier2_discount_pct",
+      "label": "2-pack discount (%)",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "tier3_discount_pct",
+      "label": "3-pack discount (%)",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 23
+    }
+  ]
 }
 {% endschema %}
