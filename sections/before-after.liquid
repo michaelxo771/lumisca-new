@@ -1,0 +1,158 @@
+{%- liquid
+  assign handle = product.handle | default: ''
+  assign cat = 'hair'
+  if handle contains 'face' or handle contains 'glow' or handle contains 'mask'
+    assign cat = 'face'
+  endif
+  if handle contains 'eye' or handle contains 'rest'
+    assign cat = 'eye'
+  endif
+
+  assign prefix = 'hair'
+  if cat == 'face'
+    assign prefix = 'face'
+  endif
+  if cat == 'eye'
+    assign prefix = 'eye'
+  endif
+
+  assign captions = 'Sarah, 34 · 12 weeks of daily use|David, 41 · 16 weeks of daily use|Emma, 29 · 10 weeks of daily use|Tom, 47 · 20 weeks of daily use|Claire, 38 · 14 weeks of daily use' | split: '|'
+-%}
+
+<section class="ba">
+  <div class="container">
+    <div class="ba-head">
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="display-lg">{{ section.settings.heading }}</h2>
+      <p class="ba-lead muted">{{ section.settings.body }}</p>
+    </div>
+
+    <div class="ba-stage" data-ba>
+      {%- for i in (1..5) -%}
+        <figure class="ba-slide{% if forloop.first %} is-active{% endif %}" data-ba-slide="{{ forloop.index }}">
+          <div class="ba-compare" data-ba-compare>
+            <div class="ba-img ba-img-before" style="background-image: linear-gradient(135deg, #2a2a2a, #0a0a0a), url('{{ prefix | append: '-before-after-' | append: forloop.index | append: '.jpg' | asset_url }}');"></div>
+            <div class="ba-img ba-img-after" data-ba-after style="background-image: linear-gradient(135deg, #c8102e 0%, #f9f7f4 100%), url('{{ prefix | append: '-before-after-' | append: forloop.index | append: '.jpg' | asset_url }}');"></div>
+            <div class="ba-divider" data-ba-handle aria-hidden="true">
+              <span class="ba-grip"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6l-4 6 4 6M16 6l4 6-4 6"/></svg></span>
+            </div>
+            <span class="ba-tag ba-tag-before">Before</span>
+            <span class="ba-tag ba-tag-after">After</span>
+          </div>
+          <figcaption class="ba-caption">{{ captions[forloop.index0] }}</figcaption>
+        </figure>
+      {%- endfor -%}
+
+      <div class="ba-nav">
+        <button type="button" class="ba-arrow" data-ba-prev aria-label="Previous">←</button>
+        <div class="ba-dots" role="tablist">
+          {%- for i in (1..5) -%}
+            <button type="button" class="ba-dot{% if forloop.first %} is-active{% endif %}" data-ba-go="{{ forloop.index }}" aria-label="Go to result {{ forloop.index }}"></button>
+          {%- endfor -%}
+        </div>
+        <button type="button" class="ba-arrow" data-ba-next aria-label="Next">→</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.ba { background: var(--cream); padding: 80px 0; }
+@media (max-width: 768px) { .ba { padding: 56px 0; } }
+.ba-head { text-align: center; max-width: 760px; margin: 0 auto 3rem; }
+.ba-lead { max-width: 620px; margin: 1rem auto 0; line-height: 1.7; font-size: 1rem; }
+
+.ba-stage { position: relative; max-width: 1200px; margin: 0 auto; }
+.ba-slide { display: none; margin: 0; }
+.ba-slide.is-active { display: block; }
+
+.ba-compare { position: relative; width: 100%; aspect-ratio: 3/2; overflow: hidden; border-radius: 12px; background: #141414; user-select: none; cursor: ew-resize; touch-action: pan-y; }
+.ba-img { position: absolute; inset: 0; background-size: cover; background-position: center; }
+.ba-img-after { clip-path: inset(0 0 0 50%); }
+.ba-divider { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #fff; box-shadow: 0 0 12px rgba(0,0,0,.25); transform: translateX(-50%); pointer-events: none; }
+.ba-grip { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 44px; height: 44px; border-radius: 50%; background: #fff; box-shadow: 0 4px 18px rgba(0,0,0,.25); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; }
+
+.ba-tag { position: absolute; top: 1rem; padding: .3rem .7rem; background: rgba(10,10,10,.7); color: #fff; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; font-weight: 600; border-radius: 999px; pointer-events: none; }
+.ba-tag-before { left: 1rem; }
+.ba-tag-after  { right: 1rem; }
+
+.ba-caption { text-align: center; margin-top: 1rem; font-size: 14px; color: var(--mid); }
+
+.ba-nav { display: flex; align-items: center; justify-content: center; gap: 1.25rem; margin-top: 1.5rem; }
+.ba-arrow { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--ink); font-size: 18px; cursor: pointer; transition: border-color .15s, background .15s; }
+.ba-arrow:hover { border-color: var(--red); color: var(--red); }
+.ba-dots { display: inline-flex; gap: .4rem; }
+.ba-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--line); border: 0; cursor: pointer; padding: 0; transition: background .15s, transform .15s; }
+.ba-dot.is-active { background: var(--red); transform: scale(1.25); }
+{%- endstylesheet -%}
+
+<script>
+(function () {
+  var stage = document.querySelector('[data-ba]');
+  if (!stage) return;
+  var slides = Array.prototype.slice.call(stage.querySelectorAll('[data-ba-slide]'));
+  var dots = Array.prototype.slice.call(stage.querySelectorAll('[data-ba-go]'));
+  var current = 0;
+
+  function show(i) {
+    if (i < 0) i = slides.length - 1;
+    if (i >= slides.length) i = 0;
+    slides.forEach(function (s, idx) { s.classList.toggle('is-active', idx === i); });
+    dots.forEach(function (d, idx) { d.classList.toggle('is-active', idx === i); });
+    current = i;
+  }
+
+  stage.addEventListener('click', function (e) {
+    if (e.target.closest('[data-ba-prev]')) show(current - 1);
+    else if (e.target.closest('[data-ba-next]')) show(current + 1);
+    else {
+      var g = e.target.closest('[data-ba-go]');
+      if (g) show(parseInt(g.getAttribute('data-ba-go'), 10) - 1);
+    }
+  });
+
+  // Drag handle per slide
+  slides.forEach(function (slide) {
+    var compare = slide.querySelector('[data-ba-compare]');
+    var divider = slide.querySelector('[data-ba-handle]');
+    var after = slide.querySelector('[data-ba-after]');
+    if (!compare || !divider || !after) return;
+
+    var dragging = false;
+
+    function setPct(pct) {
+      pct = Math.max(0, Math.min(100, pct));
+      divider.style.left = pct + '%';
+      after.style.clipPath = 'inset(0 0 0 ' + pct + '%)';
+    }
+
+    function onMove(clientX) {
+      var rect = compare.getBoundingClientRect();
+      setPct(((clientX - rect.left) / rect.width) * 100);
+    }
+
+    compare.addEventListener('mousedown', function (e) { dragging = true; onMove(e.clientX); e.preventDefault(); });
+    window.addEventListener('mouseup', function () { dragging = false; });
+    window.addEventListener('mousemove', function (e) { if (dragging) onMove(e.clientX); });
+
+    compare.addEventListener('touchstart', function (e) { dragging = true; if (e.touches[0]) onMove(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchend', function () { dragging = false; });
+    window.addEventListener('touchmove', function (e) { if (dragging && e.touches[0]) onMove(e.touches[0].clientX); }, { passive: true });
+
+    // Init at 50%
+    setPct(50);
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Before After Slider",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "REAL RESULTS" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Real Lumisca customers. Real transformations." },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "Every photo is a verified customer, submitted in their own words. No filters, no retouching, no actors." }
+  ],
+  "presets": [ { "name": "Before After Slider" } ]
+}
+{% endschema %}

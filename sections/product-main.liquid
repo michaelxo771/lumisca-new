@@ -5,6 +5,7 @@
   assign sold_24h = product.metafields.custom.sold_24h | default: 47
   assign viewing_now = product.metafields.custom.viewing_now | default: 12
   assign current_variant = product.selected_or_first_available_variant
+  assign handle = product.handle | default: ''
   assign is_bundle = false
   if product.handle == settings.bundle_product_handle
     assign is_bundle = true
@@ -96,6 +97,70 @@
           <li data-dispatch-text></li>
         </ul>
 
+        {%- comment -%} Volume tiers — bundle has its own pricing so we skip it there {%- endcomment -%}
+        {%- liquid
+          assign show_tiers = true
+          if handle contains 'bundle' or handle contains 'complete'
+            assign show_tiers = false
+          endif
+
+          assign tier1 = product.price
+          assign tier2 = product.price | times: 0.85 | round
+          assign tier3 = product.price | times: 0.77 | round
+          if handle contains 'hair'
+            assign tier1 = 6499
+            assign tier2 = 5499
+            assign tier3 = 4999
+          elsif handle contains 'face' or handle contains 'glow' or handle contains 'mask'
+            assign tier1 = 5499
+            assign tier2 = 4699
+            assign tier3 = 4299
+          elsif handle contains 'eye' or handle contains 'rest'
+            assign tier1 = 2999
+            assign tier2 = 2599
+            assign tier3 = 2399
+          endif
+        -%}
+
+        {%- if show_tiers -%}
+          <div class="pvol" data-pvol>
+            <p class="eyebrow" style="color: var(--mid);">Choose Your Pack</p>
+            <div class="pvol-tiers">
+              <label class="pvol-tier" data-pvol-qty="1">
+                <input type="radio" name="pvol" value="1">
+                <span class="pvol-radio" aria-hidden="true"></span>
+                <span class="pvol-body">
+                  <span class="pvol-row">
+                    <span class="pvol-title">1 DEVICE</span>
+                  </span>
+                  <span class="pvol-sub"><strong>{{ tier1 | money }}</strong> each · Best for single user</span>
+                </span>
+              </label>
+              <label class="pvol-tier is-active" data-pvol-qty="2">
+                <input type="radio" name="pvol" value="2" checked>
+                <span class="pvol-radio" aria-hidden="true"></span>
+                <span class="pvol-body">
+                  <span class="pvol-row">
+                    <span class="pvol-title">2 DEVICES — POPULAR</span>
+                    <span class="pvol-badge">BEST VALUE</span>
+                  </span>
+                  <span class="pvol-sub"><strong>{{ tier2 | money }}</strong> each (save 15%) · {{ tier2 | times: 2 | money }} total · Free shipping</span>
+                </span>
+              </label>
+              <label class="pvol-tier" data-pvol-qty="3">
+                <input type="radio" name="pvol" value="3">
+                <span class="pvol-radio" aria-hidden="true"></span>
+                <span class="pvol-body">
+                  <span class="pvol-row">
+                    <span class="pvol-title">3 DEVICES — MAXIMUM RESULTS</span>
+                  </span>
+                  <span class="pvol-sub"><strong>{{ tier3 | money }}</strong> each (save 23%) · {{ tier3 | times: 3 | money }} total · Free shipping + priority</span>
+                </span>
+              </label>
+            </div>
+          </div>
+        {%- endif -%}
+
         <form data-product-form method="post" action="{{ routes.cart_add_url }}">
           <input type="hidden" name="id" value="{{ current_variant.id }}">
 
@@ -103,13 +168,13 @@
             <span class="eyebrow" style="color: var(--mid);">{{ 'product.quantity' | t }}</span>
             <div class="product-qty">
               <button type="button" data-qty-step="-1" aria-label="Decrease">−</button>
-              <input type="number" name="quantity" value="1" min="1" inputmode="numeric">
+              <input type="number" name="quantity" value="{% if show_tiers %}2{% else %}1{% endif %}" min="1" inputmode="numeric">
               <button type="button" data-qty-step="1" aria-label="Increase">+</button>
             </div>
           </div>
 
           <button type="submit" class="btn btn-red btn-xl btn-block product-atc" data-atc-btn data-main-atc>
-            {% if current_variant.available %}{{ 'product.add_to_cart' | t }} · {{ product.price | money }}{% else %}{{ 'product.sold_out' | t }}{% endif %}
+            {% if current_variant.available %}{{ 'product.add_to_cart' | t }} · <span data-atc-total>{{ product.price | money }}</span>{% else %}{{ 'product.sold_out' | t }}{% endif %}
             {% render 'icon-arrow-right' %}
           </button>
         </form>
@@ -121,12 +186,24 @@
           {%- endfor -%}
         </div>
 
-        <div class="product-badges">
-          <span>🚚 Free UK Delivery</span>
-          <span>🛡 60-Day Guarantee</span>
-          <span>🔒 Secure Checkout</span>
-          <span>✅ 2-Year Warranty</span>
-        </div>
+        <ul class="product-trust">
+          <li>
+            <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
+            <span class="product-trust-copy"><strong>Free Tracked Shipping</strong><small>UK + Ireland</small></span>
+          </li>
+          <li>
+            <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg></span>
+            <span class="product-trust-copy"><strong>60-Day Guarantee</strong><small>Money back, no questions</small></span>
+          </li>
+          <li>
+            <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span>
+            <span class="product-trust-copy"><strong>Secure Checkout</strong><small>256-bit SSL encryption</small></span>
+          </li>
+          <li>
+            <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M8.5 14l-1.5 7 5-3 5 3-1.5-7"/></svg></span>
+            <span class="product-trust-copy"><strong>2-Year Warranty</strong><small>Full device coverage</small></span>
+          </li>
+        </ul>
       </div>
     </div>
 
@@ -247,8 +324,34 @@
 .product-atc { justify-content: center; gap: .5rem; }
 .product-pay { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
 .product-pay-badge { display: inline-flex; align-items: center; justify-content: center; height: 44px; border: 1px solid var(--line); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; }
-.product-badges { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; padding-top: .5rem; font-size: 12px; color: var(--mid); }
-@media (min-width: 640px) { .product-badges { grid-template-columns: repeat(4, 1fr); } }
+
+/* Volume tiers */
+.pvol { display: flex; flex-direction: column; gap: .75rem; padding-top: .25rem; }
+.pvol-tiers { display: flex; flex-direction: column; gap: .6rem; }
+.pvol-tier { display: flex; align-items: center; gap: .75rem; padding: 1rem 1.25rem; background: #fff; border: 1.5px solid var(--line); border-radius: 10px; cursor: pointer; position: relative; transition: border-color .15s, background .15s; }
+.pvol-tier input { position: absolute; opacity: 0; pointer-events: none; }
+.pvol-radio { flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--line); display: inline-flex; align-items: center; justify-content: center; transition: border-color .15s; }
+.pvol-radio::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); opacity: 0; transition: opacity .15s; }
+.pvol-tier.is-active { border-color: var(--gold); background: color-mix(in srgb, #fff 90%, var(--gold) 10%); }
+.pvol-tier.is-active .pvol-radio { border-color: var(--gold); }
+.pvol-tier.is-active .pvol-radio::after { opacity: 1; }
+.pvol-tier:hover { border-color: var(--gold); }
+.pvol-body { flex: 1; display: flex; flex-direction: column; gap: .25rem; min-width: 0; }
+.pvol-row { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+.pvol-title { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink); }
+.pvol-badge { background: var(--gold); color: var(--ink); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+.pvol-sub { font-size: 13px; color: var(--mid); line-height: 1.5; }
+.pvol-sub strong { color: var(--ink); font-weight: 700; }
+
+/* Trust badges row */
+.product-trust { list-style: none; padding: 1rem 0 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem 1rem; }
+@media (min-width: 640px) { .product-trust { grid-template-columns: repeat(4, 1fr); } }
+.product-trust li { display: flex; align-items: center; gap: .6rem; }
+.product-trust-icon { flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%; background: rgba(200,16,46,.08); display: inline-flex; align-items: center; justify-content: center; color: var(--red); }
+.product-trust-icon svg { width: 18px; height: 18px; }
+.product-trust-copy { display: flex; flex-direction: column; min-width: 0; }
+.product-trust-copy strong { font-size: 12px; font-weight: 600; line-height: 1.25; color: var(--ink); }
+.product-trust-copy small { font-size: 11px; line-height: 1.35; color: var(--mid); }
 .product-tabs { margin-top: 3rem; }
 .product-tabs-nav { display: flex; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow-x: auto; }
 .product-tab { padding: 0 1.25rem; height: 56px; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; font-weight: 500; color: var(--mid); border-bottom: 2px solid transparent; white-space: nowrap; }
@@ -279,6 +382,41 @@
 .sticky-atc-info { flex: 1; min-width: 0; }
 .sticky-atc-price { font-family: var(--display); font-size: 18px; }
 {%- endstylesheet -%}
+
+<script>
+(function () {
+  var container = document.querySelector('[data-pvol]');
+  if (!container) return;
+  var form = document.querySelector('[data-product-form]');
+  var qtyInput = form && form.querySelector('input[name=quantity]');
+  var total = document.querySelector('[data-atc-total]');
+
+  function priceFor(tier) {
+    var badge = tier.querySelector('.pvol-sub strong');
+    return badge ? badge.textContent.trim() : '';
+  }
+
+  container.addEventListener('click', function (e) {
+    var tier = e.target.closest('.pvol-tier');
+    if (!tier) return;
+    container.querySelectorAll('.pvol-tier').forEach(function (t) { t.classList.remove('is-active'); });
+    tier.classList.add('is-active');
+    var qty = parseInt(tier.getAttribute('data-pvol-qty'), 10) || 1;
+    if (qtyInput) qtyInput.value = qty;
+    var radio = tier.querySelector('input[type=radio]');
+    if (radio) radio.checked = true;
+    if (total) {
+      // Compute total = per-unit price × qty via the readable string already rendered
+      var subs = tier.querySelectorAll('.pvol-sub strong');
+      // prefer any "X total" mention if present; otherwise synthesize from unit × qty
+      var subText = (tier.querySelector('.pvol-sub') || {}).textContent || '';
+      var match = subText.match(/·\s*(£[0-9.,]+)\s*total/);
+      if (match) { total.textContent = match[1]; }
+      else if (subs[0]) { total.textContent = subs[0].textContent.trim(); }
+    }
+  });
+})();
+</script>
 
 {% schema %}
 {

@@ -1,0 +1,43 @@
+<section class="eq">
+  <div class="container eq-inner">
+    <p class="eq-eyebrow">{{ section.settings.eyebrow }}</p>
+    <div class="eq-portrait" aria-hidden="true">
+      {%- if section.settings.portrait != blank -%}
+        <img src="{{ section.settings.portrait | image_url: width: 200 }}" alt="{{ section.settings.name | escape }}" loading="lazy" width="100" height="100">
+      {%- else -%}
+        <svg viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="50" fill="#2a2a2a"/>
+          <circle cx="50" cy="40" r="16" fill="rgba(249,247,244,.3)"/>
+          <path d="M18 92c4-18 16-28 32-28s28 10 32 28" fill="rgba(249,247,244,.3)"/>
+        </svg>
+      {%- endif -%}
+    </div>
+    <blockquote class="eq-quote">“{{ section.settings.quote }}”</blockquote>
+    <p class="eq-attribution">{{ section.settings.name }} · {{ section.settings.credentials }}</p>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.eq { background: #0A0A0A; color: var(--cream); padding: 120px 1.25rem; }
+@media (max-width: 768px) { .eq { padding: 72px 1.25rem; } }
+.eq-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+.eq-eyebrow { color: var(--gold); font-size: 11px; letter-spacing: .25em; text-transform: uppercase; font-weight: 700; margin: 0 0 1.5rem; }
+.eq-portrait { display: inline-flex; align-items: center; justify-content: center; width: 100px; height: 100px; border-radius: 50%; overflow: hidden; margin-bottom: 2rem; background: #2a2a2a; }
+.eq-portrait img, .eq-portrait svg { width: 100%; height: 100%; display: block; object-fit: cover; }
+.eq-quote { font-family: var(--display); font-size: clamp(1.25rem, 2.4vw, 1.75rem); line-height: 1.45; margin: 0 auto 1.5rem; max-width: 780px; color: var(--cream); font-weight: 500; }
+.eq-attribution { font-family: var(--display); font-style: italic; font-size: .95rem; color: rgba(249,247,244,.65); margin: 0; letter-spacing: .02em; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Expert Quote",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "MEDICAL CONSULTANT" },
+    { "type": "image_picker", "id": "portrait", "label": "Portrait image" },
+    { "type": "textarea", "id": "quote", "label": "Quote", "default": "Red light therapy at these clinical wavelengths is backed by decades of peer-reviewed research. Lumisca has engineered a consumer device that genuinely meets clinic standards — I recommend it to patients exploring at-home options." },
+    { "type": "text", "id": "name", "label": "Name", "default": "Dr. James Holloway, MBBS" },
+    { "type": "text", "id": "credentials", "label": "Credentials", "default": "Aesthetic Medicine Consultant · London" }
+  ],
+  "presets": [ { "name": "Expert Quote" } ]
+}
+{% endschema %}

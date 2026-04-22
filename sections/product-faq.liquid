@@ -1,0 +1,86 @@
+{%- liquid
+  assign handle = product.handle | default: ''
+  assign cat = 'hair'
+  if handle contains 'face' or handle contains 'glow' or handle contains 'mask'
+    assign cat = 'face'
+  endif
+  if handle contains 'eye' or handle contains 'rest'
+    assign cat = 'eye'
+  endif
+  if handle contains 'bundle' or handle contains 'complete'
+    assign cat = 'bundle'
+  endif
+-%}
+
+<section class="pfaq">
+  <div class="container pfaq-inner">
+    <div class="pfaq-head">
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="display-md">{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="accordion">
+      {%- case cat -%}
+        {%- when 'face' -%}
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">How often should I use it?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>4–5 times per week, 10 minutes each session. More isn't better — consistency wins.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">When will I see results?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Radiance shift in 2 weeks. Texture from week 4. Fine lines soften noticeably by week 8–12.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Can I use it with my existing skincare?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Yes — use on clean, dry skin, then apply serums and moisturiser after. Red light improves active ingredient absorption.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Is it safe for sensitive skin?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Yes. Four clinical wavelengths, no UV, no heat-based stimulation. Suitable for all skin types, including rosacea and post-procedure healing.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Does it work for acne?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Yes — 415nm blue kills P. acnes bacteria, and 660nm calms inflammation. Most users see breakouts reduce within 3–4 weeks.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">How long does the device last?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>5+ years of daily use. LEDs are rated for 50,000+ hours — longer than you'll realistically need.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">What if it doesn't work for me?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>60-day money-back guarantee, no questions asked. Email us at hello@lumisca.co.uk.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Is it safe while pregnant?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Red light at these wavelengths contains no UV and isn't known to cause harm — but we recommend checking with your doctor first.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Can multiple people use it?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Yes. Wipe the inner silicone with a gentle disinfectant between users.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Does it replace my dermatologist?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>No — it complements. For medical skin conditions (severe acne, psoriasis, melanoma concerns), see a specialist.</p></div></div>
+
+        {%- when 'eye' -%}
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Is the heat strong enough to be effective?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Yes — calibrated to 40–45°C, the clinically validated temperature range for meibomian gland therapy.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Can I use it all night?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>It's designed for 10–15 minute pre-sleep sessions with an auto-off timer. Don't sleep wearing it.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Safe for contact lens wearers?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Remove contact lenses before each session for comfort. The heat is applied externally — no contact with the eye.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Does it actually help migraines?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Many customers report reduced migraine frequency. Warmth relaxes the occipital muscles and improves circulation around the eye area.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Can it replace sleep medication?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>We make no medical claims. Many users report deeper natural sleep, but talk to your doctor before changing any prescription.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Is it for dry eye syndrome?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Warm compress therapy is clinically recommended for meibomian gland dysfunction, a leading cause of dry eye. Check with your optometrist for your specific case.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">How long does the charge last?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>~2 weeks of daily use per 2-hour charge. USB-C cable included.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">What if it doesn't work for me?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>60-day money-back guarantee. Email hello@lumisca.co.uk.</p></div></div>
+
+        {%- when 'bundle' -%}
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Do I need all three devices?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Not required — but the bundle saves you £174.98 and gives you the full daily ritual. Most customers end up buying all three eventually.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Can I use all three on the same day?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Yes. Typical routine: Cap morning, Mask afternoon/evening, Eye mask pre-sleep. Each is 10–25 minutes.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">When should I expect visible results?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Sleep shifts from night one. Skin from week 4. Hair density from week 8–12. The compounding effect is the bundle's real advantage.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Can I share it with family?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Yes — each device is personal-use friendly and wipes clean between users.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">What if one device doesn't work for me?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>60-day money-back guarantee on the whole bundle. Keep what works for you, return the bundle if it's not your fit.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">How is it packaged?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Premium unboxing — a single branded box containing all three devices, chargers, quick-start guides, and a welcome card.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Can I buy individual devices later?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Yes — but you'll pay full price for each. The bundle is the cheapest way to own all three.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Do bundles include shipping?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Yes — free tracked UK + Ireland shipping on every bundle order.</p></div></div>
+
+        {%- else -%}
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Will it work on my pattern of hair loss?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Most effective on androgenetic alopecia (male and female pattern hair loss) and early-stage thinning. Less effective on scarring alopecia or chemotherapy-related loss.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Do I need to use it forever?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Once you hit results (typically month 3–4), you can drop to 3–4 sessions per week for maintenance. If you stop entirely, the effect will slowly fade.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Can I use it with minoxidil or finasteride?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Yes — red light therapy is complementary with both. Apply topicals after the session, not before, so the light reaches the follicle directly.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">How long per session?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>25 minutes, 4–5 times per week. Built-in timer stops the session automatically.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Will it work on my beard?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>The cap targets the scalp, not the face. For beard growth, the Glow Face Mask is the better match.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Is it safe for colour-treated hair?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Yes. Red light therapy doesn't affect hair colour or dye. Use on dry hair for best penetration.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">Does it cause shedding initially?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Some users see a temporary "reset shed" around week 3–4 as weakened follicles release and are replaced. This is normal — regrowth follows.</p></div></div>
+          <div class="accordion-item"><button class="accordion-trigger" type="button" aria-expanded="false">What if I miss a day?<span class="accordion-icon">{% render 'icon-plus' %}</span></button><div class="accordion-panel"><p>Missing the odd day won't reset your progress. Consistency over weeks matters more than any single session. Just pick it back up tomorrow.</p></div></div>
+      {%- endcase -%}
+    </div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.pfaq { background: var(--cream); padding: 80px 0; }
+@media (max-width: 768px) { .pfaq { padding: 56px 0; } }
+.pfaq-inner { max-width: 800px; margin: 0 auto; }
+.pfaq-head { text-align: center; margin-bottom: 2.5rem; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Product FAQ",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "QUESTIONS" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Everything You Need to Know." }
+  ],
+  "presets": [ { "name": "Product FAQ" } ]
+}
+{% endschema %}

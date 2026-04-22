@@ -1,0 +1,133 @@
+{%- liquid
+  assign handle = product.handle | default: ''
+  assign cat = 'hair'
+  if handle contains 'face' or handle contains 'glow' or handle contains 'mask'
+    assign cat = 'face'
+  endif
+  if handle contains 'eye' or handle contains 'rest'
+    assign cat = 'eye'
+  endif
+  if handle contains 'bundle' or handle contains 'complete'
+    assign cat = 'bundle'
+  endif
+
+  assign rival = 'Salon / Clinic'
+  assign rival_cost_per = '£80-200'
+  assign rival_year = '£2,000+'
+  assign rival_session = '30-45 min'
+  case cat
+    when 'hair'
+      assign rival = 'Clinic LLLT session'
+      assign rival_cost_per = '£150-300'
+      assign rival_year = '£3,600+'
+      assign rival_session = '25-30 min'
+    when 'eye'
+      assign rival = 'Clinic / therapist visit'
+      assign rival_cost_per = '£60-120'
+      assign rival_year = '£1,200+'
+      assign rival_session = '20-40 min'
+    when 'bundle'
+      assign rival = 'Clinic + salon + therapist'
+      assign rival_cost_per = '£300-500 combined'
+      assign rival_year = '£6,000+'
+      assign rival_session = '2+ hours weekly'
+  endcase
+
+  assign ours_title = product.title | default: 'Lumisca device'
+  assign ours_price = product.price | money
+  if product.price == 0
+    assign ours_price = section.settings.fallback_price
+  endif
+-%}
+
+<section class="vsal">
+  <div class="container">
+    <div class="vsal-head">
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="display-md">{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="vsal-table">
+      <div class="vsal-col vsal-col-rival">
+        <div class="vsal-col-head">
+          <p class="vsal-col-label">{{ rival }}</p>
+          <p class="vsal-col-mood">The old way</p>
+        </div>
+        <ul class="vsal-rows">
+          <li><span class="vsal-k">Cost per session</span><span class="vsal-v">{{ rival_cost_per }}</span></li>
+          <li><span class="vsal-k">Cost per year</span><span class="vsal-v">{{ rival_year }}</span></li>
+          <li><span class="vsal-k">Booking required</span><span class="vsal-v">1–2 weeks advance</span></li>
+          <li><span class="vsal-k">Travel time</span><span class="vsal-v">30–60 min each way</span></li>
+          <li><span class="vsal-k">Session length</span><span class="vsal-v">{{ rival_session }}</span></li>
+          <li><span class="vsal-k">Wavelengths</span><span class="vsal-v">Single type</span></li>
+          <li><span class="vsal-k">Guarantee</span><span class="vsal-v">None</span></li>
+        </ul>
+      </div>
+
+      <div class="vsal-col vsal-col-lumisca">
+        <div class="vsal-col-head">
+          <p class="vsal-col-label">Lumisca {{ ours_title }}</p>
+          <p class="vsal-col-mood vsal-col-mood-bright">The Lumisca way</p>
+        </div>
+        <ul class="vsal-rows">
+          <li><span class="vsal-k">Cost per session</span><span class="vsal-v vsal-v-win">£0 after purchase</span></li>
+          <li><span class="vsal-k">Cost per year</span><span class="vsal-v vsal-v-win">{{ ours_price }} one-time</span></li>
+          <li><span class="vsal-k">Booking required</span><span class="vsal-v vsal-v-win">Right now</span></li>
+          <li><span class="vsal-k">Travel time</span><span class="vsal-v vsal-v-win">0 minutes</span></li>
+          <li><span class="vsal-k">Session length</span><span class="vsal-v vsal-v-win">10 min</span></li>
+          <li><span class="vsal-k">Wavelengths</span><span class="vsal-v vsal-v-win">Multi-wavelength (660 + 850nm)</span></li>
+          <li><span class="vsal-k">Guarantee</span><span class="vsal-v vsal-v-win">60-day money-back</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="vsal-line">Pay once. Use forever. See the results.</p>
+
+    <div class="center">
+      <a href="{{ product.url | default: '#' }}#main-atc" class="btn btn-red btn-lg vsal-cta">Add to Cart — {{ ours_price }}</a>
+    </div>
+  </div>
+</section>
+
+{%- stylesheet -%}
+.vsal { background: var(--cream); padding: 80px 0; }
+@media (max-width: 768px) { .vsal { padding: 56px 0; } }
+.vsal-head { text-align: center; max-width: 640px; margin: 0 auto 2.5rem; }
+
+.vsal-table { display: grid; grid-template-columns: 1fr; gap: 1rem; max-width: 980px; margin: 0 auto 2rem; }
+@media (min-width: 768px) { .vsal-table { grid-template-columns: 1fr 1fr; gap: 1.5rem; } }
+
+.vsal-col { background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.vsal-col-rival { opacity: .82; filter: grayscale(.3); }
+.vsal-col-lumisca { border: 2px solid var(--gold); }
+
+.vsal-col-head { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--line); background: rgba(0,0,0,.02); }
+.vsal-col-lumisca .vsal-col-head { background: color-mix(in srgb, #fff 85%, var(--gold) 15%); border-bottom-color: var(--gold); }
+
+.vsal-col-label { font-family: var(--display); font-size: 1.125rem; margin: 0; color: var(--ink); line-height: 1.3; }
+.vsal-col-mood { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--mid); margin: .25rem 0 0; font-weight: 600; }
+.vsal-col-mood-bright { color: var(--red); }
+
+.vsal-rows { list-style: none; margin: 0; padding: 0; }
+.vsal-rows li { display: flex; justify-content: space-between; gap: 1rem; padding: .75rem 1.5rem; border-top: 1px solid var(--line); }
+.vsal-rows li:first-child { border-top: 0; }
+.vsal-k { color: var(--mid); font-size: 13px; font-weight: 500; }
+.vsal-v { color: var(--ink); font-weight: 600; font-size: 14px; text-align: right; }
+.vsal-v-win { color: var(--red); }
+
+.vsal-line { font-family: var(--display); font-size: clamp(1.25rem, 2.6vw, 1.75rem); text-align: center; margin: 2.25rem auto 1.5rem; max-width: 640px; }
+.vsal-cta { border-radius: 6px; }
+.center { text-align: center; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Vs Salon",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "LUMISCA vs THE OLD WAY" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Clinic-grade results. Salon prices, gone." },
+    { "type": "text", "id": "fallback_price", "label": "Fallback price (used if Shopify price is 0)", "default": "£54.99" }
+  ],
+  "presets": [ { "name": "Vs Salon" } ]
+}
+{% endschema %}

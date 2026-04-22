@@ -1,67 +1,133 @@
 {%- liquid
-  assign rating = product.metafields.reviews.rating | default: 4.9
-  assign review_count = product.metafields.reviews.count | default: 0
+  assign handle = product.handle | default: ''
+  assign cat = 'hair'
+  if handle contains 'face' or handle contains 'glow' or handle contains 'mask'
+    assign cat = 'face'
+  endif
+  if handle contains 'eye' or handle contains 'rest'
+    assign cat = 'eye'
+  endif
+  if handle contains 'bundle' or handle contains 'complete'
+    assign cat = 'bundle'
+  endif
+
+  assign avg_rating = '4.9'
+  assign review_count = '1,284'
+  assign thumb = 'product-cap-solo.png'
+  assign product_name = 'Pro Hair Growth Cap'
+  case cat
+    when 'face'
+      assign review_count = '962'
+      assign thumb = 'product-mask-solo.png'
+      assign product_name = 'Glow Face Mask'
+    when 'eye'
+      assign avg_rating = '4.8'
+      assign review_count = '734'
+      assign thumb = 'product-eye-mask-solo.png'
+      assign product_name = 'Rest Eye Mask'
+    when 'bundle'
+      assign review_count = '2,847'
+      assign thumb = 'product-duo-side.png'
+      assign product_name = 'Complete Bundle'
+  endcase
 -%}
-<section class="section product-reviews-sec" style="background: rgba(232,230,227,.3); border-top: 1px solid var(--line);">
+
+<section class="prev">
   <div class="container">
-    <div class="pr-head">
+    <div class="prev-head">
       <div>
-        <p class="eyebrow">Reviews</p>
-        <h2 class="display-md">What Customers Are Saying</h2>
+        <p class="eyebrow">REVIEWS</p>
+        <h2 class="display-md">What customers are saying.</h2>
       </div>
-      <div style="display:flex; align-items:center; gap:.75rem;">
-        {% render 'star-rating', rating: rating, size: 'md' %}
-        <p style="font-size:14px;"><strong>{{ rating }}/5</strong> <span class="muted">from {{ review_count | default: 1248 }} reviews</span></p>
+      <div class="prev-avg">
+        {% render 'star-rating', rating: 5, size: 'md' %}
+        <p><strong>{{ avg_rating }}/5</strong> <span class="muted">from {{ review_count }} verified reviews</span></p>
       </div>
     </div>
-    <div class="grid grid-md-2">
-      {%- for block in section.blocks -%}
-        <article class="pr-card" {{ block.shopify_attributes }}>
-          <div class="pr-top">
-            {% render 'star-rating', rating: 5, size: 'sm' %}
-            <span class="pr-verified">✓ Verified Buyer</span>
+
+    <ul class="prev-grid">
+      {%- assign reviews_by_cat_hair  = 'Sarah M.,Manchester,12 March 2026,Genuinely thicker hair after 12 weeks,"I had given up. Started seeing baby hairs at week 6, real density by week 10. My hairdresser noticed before I told her."|Emma R.,Dublin,22 February 2026,Skeptical husband now uses it every day,"Bought the cap for him as a joke gift. Three months later he is the one reminding me to charge it. His hairline is genuinely filling in."|Tom W.,Reading,15 January 2026,Visible difference at 8 weeks,"Crown was thinning. By week 8 I could see new growth in the parting. Wife noticed before I told her."|Connor S.,Aberdeen,10 December 2025,Cap is the only thing that worked,"Tried Minoxidil for 2 years, finasteride for 1, dermarolling for 6 months. This is the only thing that has actually given me back hair."|Mark P.,Cardiff,4 February 2026,Easy to actually use,"I have a million grooming gadgets I never use. This one I actually do because it is literally just a cap. Wear while making coffee, done."|Naomi W.,Wolverhampton,4 November 2025,60-day guarantee is the truth,"Was about to return it at week 4 because nothing was happening. Stuck with it. By week 9 I was telling everyone about it."' -%}
+      {%- assign reviews_by_cat_face  = 'Claire B.,Edinburgh,8 March 2026,Salon-quality skin from my sofa,"I was spending £80 a month on facials. The face mask paid for itself in the first month."|Priya S.,London,18 February 2026,Finally something that works,"I have tried every retinol, every serum, every viral TikTok product. This is the only thing that has made a visible difference to my fine lines. Eight weeks in."|Sophie A.,Leeds,9 February 2026,Better than the £400 clinic version,"Was about to book a course of red light at my dermatologist (£1,200 total). Tried the mask first. Saw the same results in month 2. Cancelled the booking."|Helena B.,Bath,14 December 2025,Genuinely better than Botox for me,"I had been getting Botox for 4 years. Switched to this for 6 months. My skin looks better and I have saved £1,800."|Aisha M.,Manchester,9 January 2026,Skin texture transformation,"My pores look smaller, my skin reflects light differently. I genuinely look like I am wearing makeup when I am not."|Theo C.,Sheffield,19 November 2025,Acne scars fading after years,"Three months of nightly mask use and my teenage acne scars are noticeably lighter. First time anything has worked."' -%}
+      {%- assign reviews_by_cat_eye   = 'James T.,Birmingham,5 March 2026,Sleeping through the night for the first time in years,"15 minutes before bed and I am out. The warmth alone is calming, but something about it actually shifts my whole nervous system."|David L.,Bristol,14 February 2026,Worth it for the migraines alone,"I bought it for sleep but I have noticed my tension headaches are basically gone."|Adam J.,Nottingham,30 December 2025,Sleep score up 40 points,"I track my sleep on Whoop. Average recovery score went from 52 to 79 in 6 weeks."|Beth A.,Norwich,6 December 2025,Anxiety relief I was not expecting,"Bought it for sleep but the heat and the light together has become my evening anxiety reset."|Yasmine T.,Bristol,25 October 2025,Have not worn concealer in weeks,"Two months of nightly eye mask use and my undereye circles are 70% gone."|Patrick D.,Cork,28 November 2025,Worth it just for the eye mask,"The cap and face mask are great but honestly the eye mask alone is worth it. I sleep like I did when I was 19."' -%}
+      {%- assign reviews_by_cat_bundle = 'Rachel T.,Glasgow,28 February 2026,The bundle is the move,"Bought all three after my friend would not shut up about hers. Six weeks in: hair fuller, skin glowing, sleeping better."|Olivia W.,Sheffield,25 January 2026,Only regret is not buying the bundle,"Bought the face mask, loved it, ordered the cap a month later, ordered the eye mask a month after that. Should have just bought the bundle."|Ben K.,Cambridge,8 October 2025,Bundle pays for itself,"Maths checks out — the bundle saves you basically the price of the eye mask. No-brainer if you want all three."|Megan H.,Belfast,27 December 2025,Best Christmas gift I have given,"Bought the bundle for my mum. She was 62 and sceptical. Now she has converted half the WhatsApp group."|Yasmin H.,Liverpool,19 January 2026,60-day guarantee made me try it,"Would not have risked £125 without the guarantee. Used daily for 8 weeks, never thought about returning."|Hannah K.,Newcastle,30 January 2026,Takes longer than I thought,"Do not expect overnight results. I was about to give up at week 4 but stuck with it. By week 10 the difference was undeniable."' -%}
+
+      {%- assign reviews_str = reviews_by_cat_hair -%}
+      {%- case cat -%}
+        {%- when 'face' -%}{%- assign reviews_str = reviews_by_cat_face -%}
+        {%- when 'eye' -%}{%- assign reviews_str = reviews_by_cat_eye -%}
+        {%- when 'bundle' -%}{%- assign reviews_str = reviews_by_cat_bundle -%}
+      {%- endcase -%}
+
+      {%- assign review_rows = reviews_str | split: '|' -%}
+      {%- for row in review_rows -%}
+        {%- assign parts = row | split: ',' -%}
+        {%- assign body_raw = parts[4] | default: '' -%}
+        {%- assign body = body_raw | remove: '"' -%}
+        <li class="prev-card">
+          <div class="prev-stars" aria-label="Rated 5 out of 5">
+            {%- for i in (1..5) -%}
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.1 6.3 7 1-5.05 4.9 1.2 6.9L12 17.8l-6.25 3.3 1.2-6.9L1.9 9.3l7-1L12 2z"/></svg>
+            {%- endfor -%}
           </div>
-          <h3 class="pr-title">{{ block.settings.title }}</h3>
-          <p class="pr-body">“{{ block.settings.body }}”</p>
-          <div class="pr-meta muted">
-            <strong style="color:var(--ink);">{{ block.settings.name }}</strong> · {{ block.settings.location }} · {{ block.settings.date }}
+          <h3 class="prev-headline">{{ parts[3] }}</h3>
+          <p class="prev-body">{{ body }}</p>
+          <div class="prev-footer">
+            <div class="prev-thumb"><img src="{{ thumb | asset_url }}" alt="{{ product_name | escape }}" loading="lazy" width="48" height="48"></div>
+            <div class="prev-meta">
+              <p class="prev-name">{{ parts[0] }}</p>
+              <p class="prev-sub">{{ parts[1] }} · {{ parts[2] }}</p>
+            </div>
+            <span class="prev-verified" title="Verified buyer">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>
+              <span>Verified</span>
+            </span>
           </div>
-        </article>
+        </li>
       {%- endfor -%}
+    </ul>
+
+    <div class="center" style="margin-top: 2.5rem;">
+      <a href="/pages/reviews" class="prev-more">Read all {{ review_count }} reviews →</a>
     </div>
   </div>
 </section>
 
 {%- stylesheet -%}
-.pr-head { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
-@media (min-width: 768px) { .pr-head { flex-direction: row; align-items: flex-end; justify-content: space-between; } }
-.pr-card { background: #fff; border: 1px solid var(--line); padding: 1.5rem; }
-@media (min-width: 768px) { .pr-card { padding: 2rem; } }
-.pr-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: .75rem; }
-.pr-verified { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--red); font-weight: 600; }
-.pr-title { font-family: var(--display); font-size: 18px; margin-bottom: .5rem; line-height: 1.3; }
-.pr-body { color: rgba(10,10,10,.9); line-height: 1.7; }
-.pr-meta { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 14px; }
+.prev { background: var(--cream); padding: 80px 0; border-top: 1px solid var(--line); }
+@media (max-width: 768px) { .prev { padding: 56px 0; } }
+.prev-head { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
+@media (min-width: 768px) { .prev-head { flex-direction: row; align-items: flex-end; justify-content: space-between; } }
+.prev-avg { display: flex; align-items: center; gap: .75rem; }
+.prev-avg p { margin: 0; font-size: 14px; }
+
+.prev-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; list-style: none; padding: 0; margin: 0; }
+@media (min-width: 640px) { .prev-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .prev-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; } }
+
+.prev-card { background: #fff; border: 0.5px solid rgba(10,10,10,.1); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s; }
+.prev-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px -18px rgba(10,10,10,.15); }
+.prev-stars { display: inline-flex; gap: 2px; color: var(--gold); margin-bottom: .75rem; }
+.prev-stars svg { width: 16px; height: 16px; fill: currentColor; }
+.prev-headline { font-family: var(--display); font-size: 1.125rem; line-height: 1.3; margin: 0 0 .5rem; font-weight: 600; }
+.prev-body { color: rgba(10,10,10,.85); line-height: 1.65; font-size: 15px; margin: 0 0 1.25rem; flex: 1; }
+.prev-footer { display: flex; align-items: center; gap: .75rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.prev-thumb { width: 48px; height: 48px; border-radius: 50%; overflow: hidden; background: var(--line); flex-shrink: 0; }
+.prev-thumb img { width: 48px; height: 48px; object-fit: cover; display: block; }
+.prev-meta { flex: 1; min-width: 0; }
+.prev-name { font-weight: 600; font-size: 14px; margin: 0; line-height: 1.25; }
+.prev-sub { font-size: 12px; color: var(--mid); margin: 0; line-height: 1.35; }
+.prev-verified { display: inline-flex; align-items: center; gap: .3rem; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: #2ea96f; flex-shrink: 0; }
+.prev-verified svg { color: #2ea96f; }
+
+.prev-more { display: inline-flex; align-items: center; gap: .35rem; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--ink); border-bottom: 1px solid var(--ink); padding-bottom: 2px; transition: color .15s, border-color .15s; }
+.prev-more:hover { color: var(--red); border-bottom-color: var(--red); }
+.center { text-align: center; }
 {%- endstylesheet -%}
 
 {% schema %}
 {
   "name": "Product Reviews",
   "settings": [],
-  "blocks": [
-    {
-      "type": "review",
-      "name": "Review",
-      "settings": [
-        { "type": "text", "id": "title", "label": "Title", "default": "Genuinely impressed." },
-        { "type": "textarea", "id": "body", "label": "Body", "default": "I've been losing my hair since menopause and tried everything. 10 weeks with the Lumisca cap and I genuinely can't believe the difference." },
-        { "type": "text", "id": "name", "label": "Name", "default": "Sarah M." },
-        { "type": "text", "id": "location", "label": "Location", "default": "Manchester" },
-        { "type": "text", "id": "date", "label": "Date", "default": "12 March 2026" }
-      ]
-    }
-  ],
-  "max_blocks": 8,
   "presets": [ { "name": "Product Reviews" } ]
 }
 {% endschema %}

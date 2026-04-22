@@ -1,75 +1,40 @@
 {
   "sections": {
-    "main": {
-      "type": "product-main"
-    },
-    "benefits": {
-      "type": "product-benefits"
-    },
-    "timeline": {
-      "type": "product-timeline"
-    },
-    "science": {
-      "type": "product-science",
-      "settings": {
-        "cta_url": "/pages/science"
-      }
-    },
+    "announcement-bar": { "type": "announcement-bar", "settings": {} },
+    "main": { "type": "product-main" },
+    "benefits": { "type": "product-benefits" },
+    "timeline": { "type": "product-timeline" },
+    "expert-quote": { "type": "expert-quote" },
+    "vs-salon": { "type": "vs-salon" },
+    "before-after": { "type": "before-after" },
+    "science": { "type": "product-science", "settings": { "cta_url": "/pages/science" } },
     "upsell": {
       "type": "product-upsell",
       "blocks": {
-        "u1": {
-          "type": "product",
-          "settings": {
-            "product": "lumisca-complete-bundle"
-          }
-        },
-        "u2": {
-          "type": "product",
-          "settings": {
-            "product": "lumisca-glow-face-mask"
-          }
-        },
-        "u3": {
-          "type": "product",
-          "settings": {
-            "product": "lumisca-rest-eye-mask"
-          }
-        }
+        "u1": { "type": "product", "settings": { "product": "lumisca-complete-bundle" } },
+        "u2": { "type": "product", "settings": { "product": "lumisca-glow-face-mask" } },
+        "u3": { "type": "product", "settings": { "product": "lumisca-rest-eye-mask" } }
       },
-      "block_order": [
-        "u1",
-        "u2",
-        "u3"
-      ]
+      "block_order": ["u1", "u2", "u3"]
     },
-    "reviews": {
-      "type": "product-reviews"
-    },
-    "announcement-bar": {
-      "type": "announcement-bar",
-      "settings": {}
-    },
-    "sticky-buy-bar": {
-      "type": "sticky-buy-bar",
-      "settings": {
-        "title": "LUMISCA COMPLETE BUNDLE",
-        "price": "£124.99",
-        "compare_at_price": "was £299.97",
-        "cta_label": "Add Bundle To Cart",
-        "mobile_cta_label": "SHOP THE BUNDLE — £124.99 (50% OFF)",
-        "cta_url": "/products/lumisca-complete-bundle"
-      }
-    }
+    "reviews": { "type": "product-reviews" },
+    "product-faq": { "type": "product-faq" },
+    "cross-sell": { "type": "cross-sell" },
+    "product-sticky-atc": { "type": "product-sticky-atc" }
   },
   "order": [
     "announcement-bar",
     "main",
     "benefits",
     "timeline",
+    "expert-quote",
+    "vs-salon",
+    "before-after",
     "science",
     "upsell",
     "reviews",
-    "sticky-buy-bar"
+    "product-faq",
+    "cross-sell",
+    "product-sticky-atc"
   ]
 }

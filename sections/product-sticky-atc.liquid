@@ -1,0 +1,109 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+-%}
+
+<aside class="psa" data-psa hidden aria-hidden="true">
+  <div class="container psa-inner">
+    <div class="psa-thumb">
+      {%- if product.featured_image -%}
+        <img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}" loading="lazy" width="60" height="60">
+      {%- elsif product.metafields.custom.image_filename != blank -%}
+        <img src="{{ product.metafields.custom.image_filename | asset_url }}" alt="{{ product.title | escape }}" loading="lazy" width="60" height="60">
+      {%- else -%}
+        <div class="psa-thumb-ph"></div>
+      {%- endif -%}
+    </div>
+    <div class="psa-copy">
+      <p class="psa-name">{{ product.title }}</p>
+      <p class="psa-price">
+        <span class="psa-now">{{ product.price | money }}</span>
+        {%- if product.compare_at_price > product.price -%}
+          <span class="psa-was">{{ product.compare_at_price | money }}</span>
+        {%- endif -%}
+      </p>
+    </div>
+    <form action="{{ routes.cart_add_url }}" method="post" class="psa-form" data-product-form>
+      <input type="hidden" name="id" value="{{ current_variant.id }}">
+      <input type="hidden" name="quantity" value="1">
+      <button type="submit" class="psa-cta" {% if current_variant.available == false %}disabled{% endif %}>
+        {% if current_variant.available %}Add to Cart{% else %}Sold Out{% endif %}
+      </button>
+    </form>
+  </div>
+</aside>
+
+{%- stylesheet -%}
+.psa { position: fixed; left: 0; right: 0; bottom: 0; z-index: 99; background: #fff; border-top: 1px solid var(--line); box-shadow: 0 -8px 30px -10px rgba(10,10,10,.18); transform: translateY(100%); transition: transform .3s ease; }
+.psa.is-open { transform: translateY(0); }
+.psa-inner { display: flex; align-items: center; gap: .75rem; padding: .75rem 1rem; }
+@media (min-width: 768px) { .psa-inner { padding: 1rem 1.25rem; gap: 1rem; } }
+
+.psa-thumb { width: 52px; height: 52px; border-radius: 8px; overflow: hidden; background: var(--line); flex-shrink: 0; }
+@media (min-width: 768px) { .psa-thumb { width: 60px; height: 60px; } }
+.psa-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.psa-thumb-ph { width: 100%; height: 100%; background: linear-gradient(135deg, #e2e0dc, #eceae6); }
+
+.psa-copy { flex: 1; min-width: 0; }
+.psa-name { font-size: 13px; font-weight: 600; line-height: 1.25; margin: 0; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (min-width: 768px) { .psa-name { font-size: 14px; } }
+.psa-price { display: flex; align-items: baseline; gap: .5rem; margin: .2rem 0 0; }
+.psa-now { font-family: var(--display); font-size: 1.125rem; font-weight: 700; color: var(--ink); }
+.psa-was { font-size: 12px; color: var(--mid); text-decoration: line-through; }
+
+.psa-form { margin: 0; flex-shrink: 0; }
+.psa-cta { background: var(--red); color: #fff; height: 46px; padding: 0 1rem; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; border: 0; border-radius: 6px; cursor: pointer; min-width: 120px; }
+@media (min-width: 768px) { .psa-cta { height: 48px; padding: 0 1.5rem; min-width: 160px; } }
+.psa-cta:hover { background: var(--red-dark); }
+.psa-cta[disabled] { opacity: .5; cursor: not-allowed; }
+
+@media (max-width: 440px) {
+  .psa-was { display: none; }
+  .psa-cta { min-width: 100px; padding: 0 .75rem; font-size: 12px; }
+}
+{%- endstylesheet -%}
+
+<script>
+(function () {
+  var bar = document.querySelector('[data-psa]');
+  if (!bar) return;
+  var mainAtc = document.querySelector('[data-main-atc]');
+  var shown = false;
+
+  function setVisible(v) {
+    if (v && !shown) {
+      bar.hidden = false;
+      requestAnimationFrame(function () { bar.classList.add('is-open'); });
+      bar.setAttribute('aria-hidden', 'false');
+      shown = true;
+    } else if (!v && shown) {
+      bar.classList.remove('is-open');
+      bar.setAttribute('aria-hidden', 'true');
+      setTimeout(function () { bar.hidden = true; }, 300);
+      shown = false;
+    }
+  }
+
+  function check() {
+    if (window.scrollY < 800) { setVisible(false); return; }
+    if (mainAtc) {
+      var r = mainAtc.getBoundingClientRect();
+      var inView = r.top < window.innerHeight && r.bottom > 0;
+      setVisible(!inView);
+    } else {
+      setVisible(true);
+    }
+  }
+
+  window.addEventListener('scroll', check, { passive: true });
+  window.addEventListener('resize', check, { passive: true });
+  check();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Product Sticky ATC",
+  "settings": [],
+  "presets": [ { "name": "Product Sticky ATC" } ]
+}
+{% endschema %}
