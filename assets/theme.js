@@ -383,20 +383,6 @@
     input.value = Math.max(1, v + d);
   });
 
-  /* Sticky ATC observer */
-  (function stickyATC() {
-    var main = $("[data-main-atc]");
-    var sticky = $("[data-sticky-atc]");
-    if (!main || !sticky || !("IntersectionObserver" in window)) return;
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        var below = !en.isIntersecting && en.boundingClientRect.top < 0;
-        sticky.classList.toggle("is-open", below);
-      });
-    }, { threshold: 0 });
-    io.observe(main);
-  })();
-
   /* Product tabs */
   document.addEventListener("click", function (e) {
     var t = e.target.closest("[data-tab]");

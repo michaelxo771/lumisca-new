@@ -273,19 +273,6 @@
   </div>
 </section>
 
-{%- comment -%} Sticky ATC (mobile) — hidden by default, JS toggles .is-open {%- endcomment -%}
-<div class="sticky-atc" data-sticky-atc>
-  <div class="sticky-atc-inner">
-    <div class="sticky-atc-info">
-      <p class="muted" style="font-size:12px;">{{ product.title | truncate: 28 }}</p>
-      <p class="sticky-atc-price">{{ product.price | money }}</p>
-    </div>
-    <button type="button" class="btn btn-red" onclick="document.querySelector('[data-product-form]').requestSubmit()">
-      {{ 'product.add_to_cart' | t }}
-    </button>
-  </div>
-</div>
-
 {%- stylesheet -%}
 .product-section { padding-top: 1.5rem; }
 .breadcrumb { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); padding: 1rem 0; }
@@ -377,13 +364,6 @@
 .product-specs > div { display: grid; grid-template-columns: 180px 1fr; gap: 1rem; padding: 1rem 0; border-top: 1px solid var(--line); }
 .product-specs > div:first-child { border-top: 0; }
 .product-specs dt { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--mid); }
-.sticky-atc { position: fixed; bottom: 0; left: 0; right: 0; z-index: 30; background: var(--cream); border-top: 1px solid var(--line); box-shadow: 0 30px 80px -20px rgba(10,10,10,.35); display: none; }
-.sticky-atc.is-open { display: block; }
-@media (min-width: 768px) { .sticky-atc.is-open { display: none; } }
-.sticky-atc-inner { max-width: 480px; margin: 0 auto; padding: .75rem 1rem; display: flex; align-items: center; gap: .75rem; }
-.sticky-atc-info { flex: 1; min-width: 0; }
-.sticky-atc-price { font-family: var(--display); font-size: 18px; }
-
 /* Mobile PDP: cap hero image to ~65vh so price + variant selector clear
    the fold on iPhone-class viewports. Drops the forced 1:1 aspect so
    height can actually take effect. Tightens section/grid padding on the
