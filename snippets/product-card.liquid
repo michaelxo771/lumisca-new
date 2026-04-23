@@ -9,8 +9,20 @@
     assign card_badge_variant = 'badge-red'
   endif
   assign tag_list = product.tags | join: ',' | downcase
+
+  assign handle = product.handle | default: ''
+  assign card_cat = product.type | downcase | default: 'all'
+  if handle contains 'bundle' or handle contains 'complete'
+    assign card_cat = 'bundle'
+  elsif handle contains 'eye' or handle contains 'rest'
+    assign card_cat = 'eye'
+  elsif handle contains 'face' or handle contains 'glow' or handle contains 'mask'
+    assign card_cat = 'face'
+  elsif handle contains 'hair' or handle contains 'cap'
+    assign card_cat = 'hair'
+  endif
 -%}
-<article class="card" data-cat="{{ product.type | downcase | default: 'all' }}" data-tags="{{ tag_list }}" data-price="{{ product.price | money_without_currency }}" data-rating="{{ rating }}">
+<article class="card" data-cat="{{ card_cat }}" data-tags="{{ tag_list }}" data-price="{{ product.price | money_without_currency }}" data-rating="{{ rating }}">
   <a href="{{ product.url }}" class="card-media">
     {%- if product.featured_image -%}
       <img src="{{ product.featured_image | image_url: width: 720 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy" width="720" height="720">

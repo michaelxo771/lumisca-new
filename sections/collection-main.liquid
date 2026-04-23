@@ -56,6 +56,13 @@
 .collection-sort { display: flex; align-items: center; gap: .75rem; }
 .collection-sort select { height: 40px; padding: 0 .75rem; background: var(--cream); border: 1px solid var(--line); font-size: 14px; }
 .collection-pagination { margin-top: 2.5rem; display: flex; justify-content: space-between; gap: 1rem; font-size: 13px; letter-spacing: .15em; text-transform: uppercase; font-weight: 500; }
+
+/* Mobile: force a 2-column grid and stop the 1:1 crop from clipping non-square admin images. */
+.collection-body [data-collection-grid] { grid-template-columns: repeat(2, 1fr); gap: .75rem 1rem; }
+@media (min-width: 640px) { .collection-body [data-collection-grid] { gap: 1.25rem; } }
+.collection-body .card-media { background: #fafafa; }
+.collection-body .card-media img { object-fit: contain; }
+@media (min-width: 768px) { .collection-body .card-media img { object-fit: cover; } }
 {%- endstylesheet -%}
 
 {% schema %}
