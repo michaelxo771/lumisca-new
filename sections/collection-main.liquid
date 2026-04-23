@@ -57,7 +57,7 @@
 .collection-sort select { height: 40px; padding: 0 .75rem; background: var(--cream); border: 1px solid var(--line); font-size: 14px; }
 .collection-pagination { margin-top: 2.5rem; display: flex; justify-content: space-between; gap: 1rem; font-size: 13px; letter-spacing: .15em; text-transform: uppercase; font-weight: 500; }
 
-/* Mobile collection grid: 2-col, 4:5 portrait card media with object-fit
+/* Mobile collection grid: 2-col, 3:4 portrait card media with object-fit
    cover (tight grouping, no letterbox gaps), equal-height cards so CTA
    pins to the bottom of whichever card has the shorter title. Reset to
    1:1 cover at ≥768px where theme assets are already square. */
@@ -67,11 +67,13 @@
 
 .collection-body .card { height: 100%; }
 .collection-body .card-media { background: #fafafa; }
-.collection-body .card-media img { aspect-ratio: 4/5; object-fit: cover; width: 100%; display: block; }
+.collection-body .card-media img { aspect-ratio: 3/4; object-fit: cover; width: 100%; display: block; }
 @media (min-width: 768px) { .collection-body .card-media img { aspect-ratio: 1/1; } }
 
-.collection-body .card-body { padding-top: .75rem; gap: .35rem; }
-@media (min-width: 768px) { .collection-body .card-body { padding-top: 1.25rem; gap: .5rem; } }
+.collection-body .card-body { padding: .75rem .875rem 1rem; gap: .35rem; }
+@media (min-width: 768px) { .collection-body .card-body { padding: 1.25rem 0 0; gap: .5rem; } }
+.collection-body .card-tagline { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.45; min-height: calc(1.45em * 3); }
+@media (min-width: 768px) { .collection-body .card-tagline { display: block; -webkit-line-clamp: none; min-height: 0; overflow: visible; } }
 .collection-body .card-cta { margin-top: auto; }
 {%- endstylesheet -%}
 
