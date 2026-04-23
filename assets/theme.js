@@ -75,7 +75,12 @@
       var html = '<ul class="cart-items">';
       cart.items.forEach(function (it) {
         html += '<li class="cart-item" data-line-key="' + it.key + '">';
-        html += '  <div class="cart-item-img ph aspect-square"><span class="ph-label">' + (it.product_title.split(" ").slice(-3).join(" ")) + '</span></div>';
+        var img = it.image || (it.featured_image && it.featured_image.url) || '';
+        if (img) {
+          html += '  <div class="cart-item-img"><img src="' + img + '" alt="' + (it.product_title || '').replace(/"/g, '&quot;') + '" loading="lazy" width="80" height="80"></div>';
+        } else {
+          html += '  <div class="cart-item-img ph aspect-square"><span class="ph-label">' + (it.product_title || '').split(" ").slice(-3).join(" ") + '</span></div>';
+        }
         html += '  <div class="cart-item-body">';
         html += '    <a href="' + it.url + '" class="cart-item-title">' + it.product_title + '</a>';
         html += '    <p class="muted" style="font-size:13px;">' + formatMoney(it.final_price) + '</p>';
