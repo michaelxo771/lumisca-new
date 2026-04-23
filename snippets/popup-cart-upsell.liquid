@@ -1,8 +1,15 @@
+{%- assign upsell_bundle = all_products[settings.bundle_product_handle] -%}
 <div class="popup popup-upsell" data-upsell-popup role="dialog" aria-label="Upgrade to bundle" aria-hidden="true">
   <div class="popup-backdrop"></div>
   <div class="popup-dialog popup-upsell-card">
     <div class="upsell-row">
-      <div class="upsell-media ph aspect-square"><span class="ph-label">Bundle</span></div>
+      <div class="upsell-media">
+        {%- if upsell_bundle.featured_image -%}
+          <img src="{{ upsell_bundle.featured_image | image_url: width: 160 }}" alt="{{ upsell_bundle.title | escape }}" width="80" height="80" loading="lazy">
+        {%- else -%}
+          <img src="{{ 'product-duo-side.png' | asset_url }}" alt="Complete Lumisca Bundle" width="80" height="80" loading="lazy">
+        {%- endif -%}
+      </div>
       <div style="flex:1; min-width:0;">
         <p class="eyebrow" style="color: var(--red);">Upgrade &amp; Save £174</p>
         <h3 class="upsell-title">Add the other 2 devices and save 58%</h3>
@@ -22,7 +29,8 @@
 @media (min-width: 768px) { .popup-upsell { align-items: center !important; } }
 .popup-upsell-card { background: var(--cream); color: var(--ink); max-width: 520px; width: 100%; border: 1px solid var(--line); }
 .upsell-row { display: flex; align-items: flex-start; gap: 1rem; padding: 1.25rem; }
-.upsell-media { width: 80px; flex-shrink: 0; }
+.upsell-media { width: 80px; height: 80px; flex-shrink: 0; border-radius: 6px; overflow: hidden; background: #fafafa; }
+.upsell-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .upsell-title { font-family: var(--display); font-size: 18px; line-height: 1.3; margin: .25rem 0 .25rem; }
 .upsell-close { width: 32px; height: 32px; margin-right: -.5rem; margin-top: -.5rem; display: inline-flex; align-items: center; justify-content: center; color: var(--mid); }
 .upsell-ctas { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
