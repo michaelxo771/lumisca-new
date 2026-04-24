@@ -49,7 +49,7 @@
       </div>
 
       {%- comment -%} Info {%- endcomment -%}
-      <div class="product-info">
+      <div class="product-info" id="main-atc">
         <div class="product-rating">
           {% render 'star-rating', rating: rating, size: 'md' %}
           <span class="muted" style="font-size:14px;">{{ rating }} {% if review_count > 0 %}({{ review_count | times: 1 | default: 1248 }} reviews){% endif %}</span>
@@ -290,6 +290,7 @@
 .product-main-img { flex: 1; position: relative; }
 .product-main-img img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
 .product-info { display: flex; flex-direction: column; gap: 1.25rem; }
+#main-atc { scroll-margin-top: 96px; }
 .product-rating { display: flex; align-items: center; gap: .5rem; }
 .product-title { font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.2; }
 .product-desc { font-size: 15px; line-height: 1.65; }
