@@ -44,6 +44,37 @@
       assign current_variant = matched_variant
     endif
   endunless
+
+  comment
+    Eye mask: USA + EU plugs are not stocked. Force current_variant to a UK
+    variant even if URL ?variant=… or first-available resolved to USA/EU.
+    Other products keep their full plug range.
+  endcomment
+  if handle == 'rest-heated-eye-mask'
+    assign current_is_uk = false
+    for o in current_variant.options
+      if o == 'UK'
+        assign current_is_uk = true
+        break
+      endif
+    endfor
+    unless current_is_uk
+      assign uk_match = nil
+      for v in product.variants
+        if uk_match == nil and v.available
+          for o in v.options
+            if o == 'UK'
+              assign uk_match = v
+              break
+            endif
+          endfor
+        endif
+      endfor
+      if uk_match
+        assign current_variant = uk_match
+      endif
+    endunless
+  endif
 -%}
 <section class="section product-section">
   <div class="container">
@@ -114,10 +145,15 @@
                 </legend>
                 <div class="pvar-options">
                   {%- for val in opt.values -%}
-                    <label class="pvar-opt{% if val == opt_selected %} is-active{% endif %}">
-                      <input type="radio" name="option-{{ opt_pos }}" value="{{ val | escape }}"{% if val == opt_selected %} checked{% endif %}>
-                      <span>{{ val }}</span>
-                    </label>
+                    {%- assign render_chip = true -%}
+                    {%- if handle == 'rest-heated-eye-mask' and val == 'USA' -%}{%- assign render_chip = false -%}{%- endif -%}
+                    {%- if handle == 'rest-heated-eye-mask' and val == 'EU' -%}{%- assign render_chip = false -%}{%- endif -%}
+                    {%- if render_chip -%}
+                      <label class="pvar-opt{% if val == opt_selected %} is-active{% endif %}">
+                        <input type="radio" name="option-{{ opt_pos }}" value="{{ val | escape }}"{% if val == opt_selected %} checked{% endif %}>
+                        <span>{{ val }}</span>
+                      </label>
+                    {%- endif -%}
                   {%- endfor -%}
                 </div>
               </fieldset>
