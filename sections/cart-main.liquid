@@ -21,7 +21,7 @@
                 {%- endif -%}
               </div>
               <div class="cart-main-body">
-                <a href="{{ item.url }}" class="cart-main-title">{{ item.product.title }}</a>
+                <a href="{{ item.url }}" class="cart-main-title">{{ item.product.title }}{% unless item.variant.title == 'Default Title' %} <span style="font-family: var(--sans); font-size: 13px; color: var(--mid); font-weight: 400;">/ {{ item.variant.title }}</span>{% endunless %}</a>
                 <p class="muted" style="font-size: 14px;">{{ item.final_price | money }}</p>
                 <div class="cart-main-controls">
                   <div class="product-qty">

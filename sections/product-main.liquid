@@ -10,6 +10,40 @@
   if product.handle == settings.bundle_product_handle
     assign is_bundle = true
   endif
+
+  comment
+    Country-aware plug default. Match by VALUE (UK / USA / EU) — option name
+    differs across products (e.g. "Plug Type" vs "Electrical outlet") so we
+    don't depend on the option label. URL ?variant=… still wins via
+    product.selected_variant.
+  endcomment
+  assign plug_iso = localization.country.iso_code
+  assign plug_default = 'UK'
+  assign eu_codes = 'AT,BE,BG,HR,CY,CZ,DK,EE,FI,FR,DE,GR,HU,IE,IT,LV,LT,LU,MT,NL,PL,PT,RO,SK,SI,ES,SE,NO,CH,IS,LI'
+  if plug_iso == 'GB'
+    assign plug_default = 'UK'
+  elsif plug_iso == 'US' or plug_iso == 'CA'
+    assign plug_default = 'USA'
+  elsif eu_codes contains plug_iso
+    assign plug_default = 'EU'
+  endif
+
+  unless product.selected_variant
+    assign matched_variant = nil
+    for v in product.variants
+      if matched_variant == nil and v.available
+        for o in v.options
+          if o == plug_default
+            assign matched_variant = v
+            break
+          endif
+        endfor
+      endif
+    endfor
+    if matched_variant
+      assign current_variant = matched_variant
+    endif
+  endunless
 -%}
 <section class="section product-section">
   <div class="container">
@@ -67,6 +101,30 @@
             <span class="badge badge-red">Save {{ saved_pct }}% · {{ saved | money }}</span>
           {%- endif -%}
         </div>
+
+        {%- unless product.has_only_default_variant -%}
+          <div class="pvar" data-pvar>
+            {%- for opt in product.options_with_values -%}
+              {%- assign opt_pos = opt.position -%}
+              {%- assign opt_selected = current_variant.options[forloop.index0] -%}
+              <fieldset class="pvar-group" data-pvar-group="{{ opt_pos }}">
+                <legend class="pvar-legend">
+                  <span class="eyebrow" style="color: var(--mid);">{{ opt.name }}</span>
+                  <span class="pvar-selected" data-pvar-selected-for="{{ opt_pos }}">{{ opt_selected }}</span>
+                </legend>
+                <div class="pvar-options">
+                  {%- for val in opt.values -%}
+                    <label class="pvar-opt{% if val == opt_selected %} is-active{% endif %}">
+                      <input type="radio" name="option-{{ opt_pos }}" value="{{ val | escape }}"{% if val == opt_selected %} checked{% endif %}>
+                      <span>{{ val }}</span>
+                    </label>
+                  {%- endfor -%}
+                </div>
+              </fieldset>
+            {%- endfor -%}
+          </div>
+          <script type="application/json" data-pvar-variants>{{ product.variants | json }}</script>
+        {%- endunless -%}
 
         {%- if is_bundle -%}
           <div class="product-bundle-cd">
@@ -330,6 +388,19 @@
 .pvol-sub { font-size: 13px; color: var(--mid); line-height: 1.5; }
 .pvol-sub strong { color: var(--ink); font-weight: 700; }
 .pvol-fine { font-size: 12px; color: var(--mid); text-align: center; margin: .75rem 0 0; letter-spacing: .02em; }
+
+/* Variant picker (model / plug) — matches the .pvol-tier aesthetic but as
+   inline option chips. Renders one fieldset per product.option. */
+.pvar { display: flex; flex-direction: column; gap: 1rem; padding-top: .25rem; }
+.pvar-group { border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .5rem; }
+.pvar-legend { display: flex; align-items: baseline; gap: .5rem; padding: 0; }
+.pvar-selected { font-size: 14px; color: var(--ink); font-weight: 500; }
+.pvar-options { display: flex; flex-wrap: wrap; gap: .5rem; }
+.pvar-opt { position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 64px; padding: .65rem 1rem; background: #fff; border: 1.5px solid var(--line); border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--ink); transition: border-color .15s, background .15s; }
+.pvar-opt input { position: absolute; opacity: 0; pointer-events: none; }
+.pvar-opt:hover { border-color: var(--gold); }
+.pvar-opt.is-active { border-color: var(--gold); background: color-mix(in srgb, #fff 90%, var(--gold) 10%); }
+.pvar-opt[aria-disabled="true"], .pvar-opt.is-disabled { opacity: .45; cursor: not-allowed; text-decoration: line-through; }
 .product-atc-sub { font-size: 12px; color: var(--mid); text-align: center; margin: .5rem 0 0; line-height: 1.5; }
 .product-atc-sub strong { color: var(--ink); font-weight: 700; }
 
@@ -394,9 +465,13 @@
   var sub = document.querySelector('[data-atc-sub]');
   var subTotal = document.querySelector('[data-atc-sub-total]');
 
-  var unitPence = parseInt((form && form.getAttribute('data-unit-pence')) || '0', 10);
   var tier2Pct = parseInt(container.getAttribute('data-tier2-pct') || '15', 10);
   var tier3Pct = parseInt(container.getAttribute('data-tier3-pct') || '23', 10);
+  var currentQty = 1;
+
+  function getUnit() {
+    return parseInt((form && form.getAttribute('data-unit-pence')) || '0', 10);
+  }
 
   // Pull initial money symbol from the server-rendered ATC total so we match locale.
   var initialText = (total && total.textContent) || '£0.00';
@@ -409,18 +484,16 @@
   }
 
   function apply(qty) {
-    qty = qty || 1;
+    currentQty = qty || currentQty || 1;
+    var unit = getUnit();
     var discountPct = 0;
-    if (qty === 2) discountPct = tier2Pct;
-    else if (qty >= 3) discountPct = tier3Pct;
+    if (currentQty === 2) discountPct = tier2Pct;
+    else if (currentQty >= 3) discountPct = tier3Pct;
 
-    var preTotal = unitPence * qty;
+    var preTotal = unit * currentQty;
     var afterTotal = Math.round(preTotal * (100 - discountPct) / 100);
 
-    // ATC button — honest pre-discount total (what Shopify charges before auto-discount).
     if (total) total.textContent = fmt(preTotal);
-
-    // Muted sub line — only show when a volume discount applies.
     if (sub && subTotal) {
       if (discountPct > 0) {
         subTotal.textContent = fmt(afterTotal);
@@ -443,7 +516,9 @@
     apply(qty);
   });
 
-  // Initial sync — the server rendered tier 2 as is-active, so reflect that in the ATC button and sub line.
+  // Variant picker recomputes prices when the user changes model/plug.
+  window.__lumiscaPvolRecalc = function () { apply(currentQty); };
+
   var initialActive = container.querySelector('.pvol-tier.is-active');
   var initialQty = initialActive ? (parseInt(initialActive.getAttribute('data-pvol-qty'), 10) || 1) : 1;
   apply(initialQty);

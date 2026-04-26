@@ -82,7 +82,8 @@
           html += '  <div class="cart-item-img ph aspect-square"><span class="ph-label">' + (it.product_title || '').split(" ").slice(-3).join(" ") + '</span></div>';
         }
         html += '  <div class="cart-item-body">';
-        html += '    <a href="' + it.url + '" class="cart-item-title">' + it.product_title + '</a>';
+        var varTitle = (it.variant_title && it.variant_title !== "Default Title") ? ' <span class="cart-item-variant">/ ' + it.variant_title + '</span>' : '';
+        html += '    <a href="' + it.url + '" class="cart-item-title">' + it.product_title + varTitle + '</a>';
         html += '    <p class="muted" style="font-size:13px;">' + formatMoney(it.final_price) + '</p>';
         html += '    <div class="cart-item-qty">';
         html += '      <button class="qty-btn" data-cart-qty="-1" aria-label="Decrease">−</button>';
@@ -382,6 +383,99 @@
     var v = parseInt(input.value, 10) || 1;
     input.value = Math.max(1, v + d);
   });
+
+  /* Product variant picker — option radios → variant id + price + ATC label.
+     Server-side Liquid sets the initial selection (country-aware plug default
+     + URL ?variant=… override). On change, find the matching variant from the
+     embedded variants JSON, sync the form, prices, and ?variant in URL, then
+     poke the volume-tier recalc so multi-pack totals stay correct. */
+  (function variantPicker() {
+    var pvar = document.querySelector("[data-pvar]");
+    var variantsScript = document.querySelector("[data-pvar-variants]");
+    if (!pvar || !variantsScript) return;
+    var variants;
+    try { variants = JSON.parse(variantsScript.textContent); } catch (_) { return; }
+    var form = document.querySelector("[data-product-form]");
+    if (!form) return;
+    var idInput = form.querySelector('input[name="id"]');
+    var priceNow = document.querySelector(".product-price-now");
+    var priceWas = document.querySelector(".product-price-was");
+    var atcTotal = document.querySelector("[data-atc-total]");
+    var atcBtn = document.querySelector("[data-atc-btn]");
+
+    function picks() {
+      var values = [];
+      pvar.querySelectorAll("[data-pvar-group]").forEach(function (g) {
+        var checked = g.querySelector("input:checked");
+        values.push(checked ? checked.value : null);
+      });
+      return values;
+    }
+
+    function findVariant(values) {
+      return variants.filter(function (v) {
+        if (!v.options || v.options.length !== values.length) return false;
+        for (var i = 0; i < values.length; i++) {
+          if (v.options[i] !== values[i]) return false;
+        }
+        return true;
+      })[0];
+    }
+
+    function syncUI(v) {
+      pvar.querySelectorAll("[data-pvar-group]").forEach(function (g, idx) {
+        var pos = g.getAttribute("data-pvar-group");
+        var sel = pvar.querySelector('[data-pvar-selected-for="' + pos + '"]');
+        var checked = g.querySelector("input:checked");
+        if (sel && checked) sel.textContent = checked.value;
+        g.querySelectorAll(".pvar-opt").forEach(function (o) {
+          var input = o.querySelector("input");
+          o.classList.toggle("is-active", !!input.checked);
+        });
+      });
+    }
+
+    function update() {
+      var v = findVariant(picks());
+      if (!v) return;
+      idInput.value = v.id;
+      if (priceNow) priceNow.textContent = formatMoney(v.price);
+      if (priceWas) {
+        if (v.compare_at_price && v.compare_at_price > v.price) {
+          priceWas.textContent = formatMoney(v.compare_at_price);
+          priceWas.style.display = "";
+        } else {
+          priceWas.style.display = "none";
+        }
+      }
+      if (atcTotal) atcTotal.textContent = formatMoney(v.price);
+      if (atcBtn) atcBtn.disabled = !v.available;
+      form.setAttribute("data-unit-pence", v.price);
+      syncUI(v);
+      try {
+        var url = new URL(window.location.href);
+        url.searchParams.set("variant", v.id);
+        history.replaceState({}, "", url);
+      } catch (_) {}
+      if (typeof window.__lumiscaPvolRecalc === "function") window.__lumiscaPvolRecalc();
+    }
+
+    /* QA-only ?country=UK|USA|EU override — non-persistent, current pageload only. */
+    (function applyCountryOverride() {
+      var params = new URLSearchParams(window.location.search);
+      var c = (params.get("country") || "").toUpperCase();
+      if (c !== "UK" && c !== "USA" && c !== "EU") return;
+      var groups = pvar.querySelectorAll("[data-pvar-group]");
+      for (var i = 0; i < groups.length; i++) {
+        var g = groups[i];
+        var match = g.querySelector('input[value="' + c + '"]');
+        if (match) { match.checked = true; break; }
+      }
+    })();
+
+    pvar.addEventListener("change", update);
+    update();
+  })();
 
   /* Product tabs */
   document.addEventListener("click", function (e) {

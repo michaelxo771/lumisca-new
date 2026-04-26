@@ -35,7 +35,7 @@
                 {%- endif -%}
               </div>
               <div class="cart-item-body">
-                <a href="{{ item.url }}" class="cart-item-title">{{ item.product.title }}</a>
+                <a href="{{ item.url }}" class="cart-item-title">{{ item.product.title }}{% unless item.variant.title == 'Default Title' %} <span class="cart-item-variant">/ {{ item.variant.title }}</span>{% endunless %}</a>
                 <p class="muted" style="font-size:13px;">{{ item.final_price | money }}</p>
                 <div class="cart-item-qty">
                   <button class="qty-btn" data-cart-qty="-1" aria-label="Decrease">−</button>
@@ -74,6 +74,7 @@
 .cart-item-body { flex: 1; min-width: 0; }
 .cart-item-title { font-family: var(--display); font-size: 16px; display: block; line-height: 1.25; margin-bottom: .25rem; }
 .cart-item-title:hover { color: var(--red); }
+.cart-item-variant { font-family: var(--sans); font-size: 12px; font-weight: 400; color: var(--mid); letter-spacing: .02em; }
 .cart-item-qty { margin-top: .75rem; display: flex; align-items: center; gap: .5rem; }
 .cart-item-qty > span { width: 32px; text-align: center; font-variant-numeric: tabular-nums; font-size: 14px; }
 .qty-btn { width: 36px; height: 36px; border: 1px solid var(--line); font-size: 18px; line-height: 1; }
