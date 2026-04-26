@@ -188,7 +188,8 @@
           <li class="product-scarcity-red">⚠️ Only {{ stock }} units remaining</li>
           <li>🔥 <strong>{{ sold_24h }} people</strong> bought this in the last 24 hours</li>
           <li class="muted">👁 <strong style="color:var(--ink);">{{ viewing_now }} people</strong> viewing this right now</li>
-          <li data-dispatch-text></li>
+          {%- comment -%} Removed 2026-04-26 — UX cleanup (false-urgency reduction). Uncomment to restore the rolling delivery countdown. {%- endcomment -%}
+          {%- comment -%}<li data-dispatch-text></li>{%- endcomment -%}
         </ul>
 
         {%- comment -%} Volume tiers — bundle has its own pricing so we skip it there {%- endcomment -%}

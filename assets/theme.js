@@ -327,6 +327,8 @@
       var mEl = el.querySelector("[data-cd-m]"); if (mEl) mEl.textContent = pad(m);
       var sEl = el.querySelector("[data-cd-s]"); if (sEl) sEl.textContent = pad(s);
     });
+    /* Delivery countdown removed 2026-04-26 — UX cleanup (false-urgency reduction).
+       Uncomment to restore the rolling "Order in the next Xh Ym for delivery by …" line.
     $$("[data-dispatch-text]").forEach(function (el) {
       var now = new Date();
       var cutoff = new Date(); cutoff.setHours(15, 0, 0, 0);
@@ -340,6 +342,7 @@
       var dStr = delivery.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
       el.innerHTML = "Order in the next <strong>" + h + "h " + pad(m) + "m</strong> for delivery by <strong>" + dStr + "</strong>";
     });
+    */
   }
   tickCountdowns();
   setInterval(tickCountdowns, 1000);
