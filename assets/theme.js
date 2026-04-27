@@ -177,10 +177,40 @@
     e.preventDefault();
     var variantId = form.querySelector("[name=id]").value;
     var qty = parseInt((form.querySelector("[name=quantity]") || { value: 1 }).value, 10) || 1;
+    if (typeof fbq === 'function') {
+      var unitPence = parseInt(form.getAttribute('data-unit-pence') || '0', 10);
+      var titleEl = document.querySelector('.product-title');
+      fbq('track', 'AddToCart', {
+        content_ids: [variantId],
+        content_type: 'product',
+        content_name: titleEl ? titleEl.textContent.trim() : '',
+        value: (unitPence * qty) / 100,
+        currency: 'GBP'
+      });
+    }
     var btn = form.querySelector("[data-atc-btn]");
     if (btn) { btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = "Adding…"; }
     Cart.add(variantId, qty).finally(function () {
       if (btn) { btn.disabled = false; btn.textContent = btn.dataset.label; }
+    });
+  });
+
+  /* Meta Pixel — InitiateCheckout: fires on every checkout button click
+     (cart drawer + full cart page). Synchronous read from rendered DOM,
+     no preventDefault so the form submits to /checkout immediately after. */
+  document.addEventListener("click", function (e) {
+    var checkoutBtn = e.target.closest('button[name="checkout"]');
+    if (!checkoutBtn) return;
+    if (typeof fbq !== 'function') return;
+    var subtotalEl = document.querySelector('[data-cart-subtotal]');
+    var countEl = document.querySelector('[data-cart-count]');
+    var subtotalText = subtotalEl ? subtotalEl.textContent : '';
+    var value = parseFloat(subtotalText.replace(/[^0-9.]/g, '')) || 0;
+    var num_items = countEl ? parseInt(countEl.textContent, 10) || 0 : 0;
+    fbq('track', 'InitiateCheckout', {
+      value: value,
+      currency: 'GBP',
+      num_items: num_items
     });
   });
 
