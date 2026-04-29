@@ -177,17 +177,6 @@
     e.preventDefault();
     var variantId = form.querySelector("[name=id]").value;
     var qty = parseInt((form.querySelector("[name=quantity]") || { value: 1 }).value, 10) || 1;
-    if (typeof fbq === 'function') {
-      var unitPence = parseInt(form.getAttribute('data-unit-pence') || '0', 10);
-      var titleEl = document.querySelector('.product-title');
-      fbq('track', 'AddToCart', {
-        content_ids: [variantId],
-        content_type: 'product',
-        content_name: titleEl ? titleEl.textContent.trim() : '',
-        value: (unitPence * qty) / 100,
-        currency: 'GBP'
-      });
-    }
     var btn = form.querySelector("[data-atc-btn]");
     if (btn) { btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = "Adding…"; }
     Cart.add(variantId, qty).finally(function () {
@@ -195,24 +184,36 @@
     });
   });
 
-  /* Meta Pixel — InitiateCheckout: fires on every checkout button click
-     (cart drawer + full cart page). Synchronous read from rendered DOM,
-     no preventDefault so the form submits to /checkout immediately after. */
-  document.addEventListener("click", function (e) {
-    var checkoutBtn = e.target.closest('button[name="checkout"]');
-    if (!checkoutBtn) return;
-    if (typeof fbq !== 'function') return;
-    var subtotalEl = document.querySelector('[data-cart-subtotal]');
-    var countEl = document.querySelector('[data-cart-count]');
-    var subtotalText = subtotalEl ? subtotalEl.textContent : '';
-    var value = parseFloat(subtotalText.replace(/[^0-9.]/g, '')) || 0;
-    var num_items = countEl ? parseInt(countEl.textContent, 10) || 0 : 0;
-    fbq('track', 'InitiateCheckout', {
-      value: value,
-      currency: 'GBP',
-      num_items: num_items
-    });
-  });
+  /* Meta Pixel Advanced Matching — capture email from any storefront form
+     submit, hash with SHA-256, persist to first-party cookie for 90 days.
+     Subsequent PageView fires (theme.liquid head) read this cookie and
+     pass as `em` in fbq init. Passive: doesn't preventDefault, runs
+     alongside form-scoped handlers (welcome popup, quiz, exit popup). */
+  (function emCookieCapture() {
+    if (!window.crypto || !crypto.subtle) return;
+    function sha256Hex(str) {
+      var data = new TextEncoder().encode(String(str).toLowerCase().trim());
+      return crypto.subtle.digest('SHA-256', data).then(function (buf) {
+        return Array.prototype.map.call(new Uint8Array(buf), function (b) {
+          return b.toString(16).padStart(2, '0');
+        }).join('');
+      });
+    }
+    function setCookie(n, v, days) {
+      var d = new Date(); d.setTime(d.getTime() + days * 864e5);
+      document.cookie = n + '=' + encodeURIComponent(v) + '; expires=' + d.toUTCString() + '; path=/; SameSite=Lax';
+    }
+    document.addEventListener('submit', function (e) {
+      var form = e.target;
+      if (!form || !form.querySelector) return;
+      var emailInput = form.querySelector('input[type="email"]');
+      if (!emailInput || !emailInput.value) return;
+      var emailValue = emailInput.value;
+      sha256Hex(emailValue).then(function (hash) {
+        setCookie('lumisca_em_h', hash, 90);
+      }).catch(function () {});
+    }, true);
+  })();
 
   /* Cart upsell popup: on first add if single product */
   document.addEventListener("lumisca:added", function (e) {
