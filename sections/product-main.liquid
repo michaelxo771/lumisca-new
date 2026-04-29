@@ -213,8 +213,8 @@
           <div class="pvol" data-pvol data-tier2-pct="{{ tier2_pct }}" data-tier3-pct="{{ tier3_pct }}">
             <p class="eyebrow" style="color: var(--mid);">Choose Your Pack</p>
             <div class="pvol-tiers">
-              <label class="pvol-tier" data-pvol-qty="1">
-                <input type="radio" name="pvol" value="1">
+              <label class="pvol-tier is-active" data-pvol-qty="1">
+                <input type="radio" name="pvol" value="1" checked>
                 <span class="pvol-radio" aria-hidden="true"></span>
                 <span class="pvol-body">
                   <span class="pvol-row">
@@ -223,8 +223,8 @@
                   <span class="pvol-sub"><strong>{{ tier1 | money }}</strong> each · Best for single user</span>
                 </span>
               </label>
-              <label class="pvol-tier is-active" data-pvol-qty="2">
-                <input type="radio" name="pvol" value="2" checked>
+              <label class="pvol-tier" data-pvol-qty="2">
+                <input type="radio" name="pvol" value="2">
                 <span class="pvol-radio" aria-hidden="true"></span>
                 <span class="pvol-body">
                   <span class="pvol-row">
@@ -256,7 +256,7 @@
             <span class="eyebrow" style="color: var(--mid);">{{ 'product.quantity' | t }}</span>
             <div class="product-qty">
               <button type="button" data-qty-step="-1" aria-label="Decrease">−</button>
-              <input type="number" name="quantity" value="{% if show_tiers %}2{% else %}1{% endif %}" min="1" inputmode="numeric">
+              <input type="number" name="quantity" value="1" min="1" inputmode="numeric">
               <button type="button" data-qty-step="1" aria-label="Increase">+</button>
             </div>
           </div>
