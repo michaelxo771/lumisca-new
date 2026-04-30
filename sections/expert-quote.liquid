@@ -1,3 +1,5 @@
+{%- comment -%} Gated for the hair cap PDP — replaced by the cap-stat-band section on that product only. Other products keep this block. {%- endcomment -%}
+{%- unless product.handle == 'pro-red-light-hair-growth-cap' -%}
 <section class="eq">
   <div class="container eq-inner">
     <p class="eq-eyebrow">{{ section.settings.eyebrow }}</p>
@@ -16,6 +18,7 @@
     <p class="eq-attribution">{{ section.settings.name }} · {{ section.settings.credentials }}</p>
   </div>
 </section>
+{%- endunless -%}
 
 {%- stylesheet -%}
 .eq { background: #0A0A0A; color: var(--cream); padding: 120px 1.25rem; }

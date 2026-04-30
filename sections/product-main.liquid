@@ -121,7 +121,17 @@
         </div>
 
         <h1 class="product-title">{{ product.title }}</h1>
+        {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+          <p class="cap-subhead">The Drug-Free Hair Growth System Going Viral in the UK.<br>Clinically proven red light therapy. 10 minutes a day.<br>Visible results in 8&ndash;12 weeks.</p>
+        {%- endif -%}
         <p class="muted product-desc">{{ product.description | strip_html | truncatewords: 40 }}</p>
+
+        {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+          <div class="cap-timer" data-cap-timer aria-live="off">
+            <span class="cap-timer-label">⏰ OFFER ENDS IN</span>
+            <span class="cap-timer-digits"><span data-cap-h>00</span>:<span data-cap-m>00</span>:<span data-cap-s>00</span></span>
+          </div>
+        {%- endif -%}
 
         <div class="product-price">
           <span class="product-price-now">{{ product.price | money }}</span>
@@ -129,7 +139,11 @@
             <span class="product-price-was">{{ product.compare_at_price | money }}</span>
             {%- assign saved = product.compare_at_price | minus: product.price -%}
             {%- assign saved_pct = saved | times: 100.0 | divided_by: product.compare_at_price | round -%}
-            <span class="badge badge-red">Save {{ saved_pct }}% · {{ saved | money }}</span>
+            {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+              <span class="badge cap-save-pill">SAVE {{ saved | money_without_trailing_zeros }} · {{ saved_pct }}% OFF</span>
+            {%- else -%}
+              <span class="badge badge-red">Save {{ saved_pct }}% · {{ saved | money }}</span>
+            {%- endif -%}
           {%- endif -%}
         </div>
 
@@ -178,11 +192,19 @@
           </div>
         {%- endif -%}
 
-        <div class="product-trust">
-          <span>Free UK Delivery</span><span>·</span>
-          <span>60-Day Money Back</span><span>·</span>
-          <span class="product-trust-hi">In Stock — Ships Today</span>
-        </div>
+        {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+          <div class="product-trust">
+            <span>Free UK Delivery</span><span>·</span>
+            <span>90-Day Money Back</span><span>·</span>
+            <span class="product-trust-hi">In Stock — Ships Today</span>
+          </div>
+        {%- else -%}
+          <div class="product-trust">
+            <span>Free UK Delivery</span><span>·</span>
+            <span>60-Day Money Back</span><span>·</span>
+            <span class="product-trust-hi">In Stock — Ships Today</span>
+          </div>
+        {%- endif -%}
 
         <ul class="product-scarcity">
           <li class="product-scarcity-red">⚠️ Only {{ stock }} units remaining</li>
@@ -249,6 +271,14 @@
           </div>
         {%- endif -%}
 
+        {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+          <div class="cap-totalvalue">
+            <div class="cap-tv-row"><span class="cap-tv-label">Total Value:</span><span class="cap-tv-strike">£171.97</span></div>
+            <div class="cap-tv-row cap-tv-today"><span class="cap-tv-label">Today:</span><span class="cap-tv-amount">£54.99</span></div>
+            <div class="cap-tv-row cap-tv-save"><span class="cap-tv-label">You save:</span><span class="cap-tv-savings">£117 (67% OFF)</span></div>
+          </div>
+        {%- endif -%}
+
         <form data-product-form method="post" action="{{ routes.cart_add_url }}" data-unit-pence="{{ product.price }}">
           <input type="hidden" name="id" value="{{ current_variant.id }}">
 
@@ -273,6 +303,62 @@
           {%- endif -%}
         </form>
 
+        {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+          <section class="cap-bonus" aria-labelledby="cap-bonus-h">
+            <p class="cap-bonus-eyebrow">What's included in your order</p>
+            <h3 class="cap-bonus-h" id="cap-bonus-h">Your Lumisca Hair Growth System</h3>
+            <ul class="cap-bonus-list">
+              <li class="cap-bonus-item">
+                <span class="cap-bonus-icon" aria-hidden="true">🧢</span>
+                <div class="cap-bonus-body">
+                  <p class="cap-bonus-title">Lumisca Pro Red Light Hair Growth Cap</p>
+                  <p class="cap-bonus-desc">The clinical-grade device. Same 660nm + 850nm wavelengths used in £400 dermatology sessions.</p>
+                  <p class="cap-bonus-value">£109.99 value</p>
+                </div>
+              </li>
+              <li class="cap-bonus-item">
+                <span class="cap-bonus-icon" aria-hidden="true">📘</span>
+                <div class="cap-bonus-body">
+                  <p class="cap-bonus-title">The Lumisca Hair Growth Protocol</p>
+                  <p class="cap-bonus-desc">Our 22-page science-backed guide. Week-by-week protocol, nutrition plan, scalp care recipes.</p>
+                  <p class="cap-bonus-value">£19 value <span class="cap-bonus-free">FREE</span></p>
+                </div>
+              </li>
+              <li class="cap-bonus-item">
+                <span class="cap-bonus-icon" aria-hidden="true">📸</span>
+                <div class="cap-bonus-body">
+                  <p class="cap-bonus-title">90-Day Visual Progress Tracker</p>
+                  <p class="cap-bonus-desc">The exact photo system that lets you actually see your results.</p>
+                  <p class="cap-bonus-value">£9 value <span class="cap-bonus-free">FREE</span></p>
+                </div>
+              </li>
+              <li class="cap-bonus-item">
+                <span class="cap-bonus-icon" aria-hidden="true">📧</span>
+                <div class="cap-bonus-body">
+                  <p class="cap-bonus-title">8-Part Email Coaching Series</p>
+                  <p class="cap-bonus-desc">Delivered weekly across your 90 days. Reminders, motivation, troubleshooting.</p>
+                  <p class="cap-bonus-value">£29 value <span class="cap-bonus-free">FREE</span></p>
+                </div>
+              </li>
+              <li class="cap-bonus-item">
+                <span class="cap-bonus-icon" aria-hidden="true">🚚</span>
+                <div class="cap-bonus-body">
+                  <p class="cap-bonus-title">Free UK &amp; Ireland Tracked Shipping</p>
+                  <p class="cap-bonus-value">£4.99 value <span class="cap-bonus-free">FREE</span></p>
+                </div>
+              </li>
+              <li class="cap-bonus-item">
+                <span class="cap-bonus-icon" aria-hidden="true">🛡️</span>
+                <div class="cap-bonus-body">
+                  <p class="cap-bonus-title">90-Day "See Results Or Money Back" Guarantee</p>
+                  <p class="cap-bonus-desc">No fine print. No restocking fees.</p>
+                </div>
+              </li>
+            </ul>
+            <p class="cap-bonus-footer"><span class="cap-bonus-footer-label">TOTAL VALUE:</span> <span class="cap-bonus-strike">£171.97</span> &nbsp;→&nbsp; <span class="cap-bonus-footer-label">YOURS TODAY:</span> <span class="cap-bonus-today">£54.99</span></p>
+          </section>
+        {%- endif -%}
+
         <div class="product-pay">
           {%- assign pay_methods = 'Apple Pay,Google Pay,Klarna' | split: ',' -%}
           {%- for pay in pay_methods -%}
@@ -280,24 +366,45 @@
           {%- endfor -%}
         </div>
 
-        <ul class="product-trust">
-          <li>
-            <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
-            <span class="product-trust-copy"><strong>Free Tracked Shipping</strong><small>UK + Ireland</small></span>
-          </li>
-          <li>
-            <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg></span>
-            <span class="product-trust-copy"><strong>60-Day Guarantee</strong><small>Money back, no questions</small></span>
-          </li>
-          <li>
-            <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span>
-            <span class="product-trust-copy"><strong>Secure Checkout</strong><small>256-bit SSL encryption</small></span>
-          </li>
-          <li>
-            <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M8.5 14l-1.5 7 5-3 5 3-1.5-7"/></svg></span>
-            <span class="product-trust-copy"><strong>2-Year Warranty</strong><small>Full device coverage</small></span>
-          </li>
-        </ul>
+        {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+          <ul class="product-trust">
+            <li>
+              <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
+              <span class="product-trust-copy"><strong>Free UK &amp; IE Shipping</strong><small>Tracked courier</small></span>
+            </li>
+            <li>
+              <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg></span>
+              <span class="product-trust-copy"><strong>90-Day Money Back</strong><small>See results or refund</small></span>
+            </li>
+            <li>
+              <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 19.5c.6-3 3.4-5.5 6.5-5.5s5.9 2.5 6.5 5.5"/><circle cx="17.5" cy="9" r="2.6"/><path d="M14 18.5c.45-2.4 2.55-4.5 4.5-4.5s3 1.5 3 3"/></svg></span>
+              <span class="product-trust-copy"><strong>10,000+ Happy Customers</strong><small>UK &amp; Ireland</small></span>
+            </li>
+            <li>
+              <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="3"/></svg></span>
+              <span class="product-trust-copy"><strong>Drug-Free &amp; Clinically Proven</strong><small>660nm + 850nm wavelengths</small></span>
+            </li>
+          </ul>
+        {%- else -%}
+          <ul class="product-trust">
+            <li>
+              <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
+              <span class="product-trust-copy"><strong>Free Tracked Shipping</strong><small>UK + Ireland</small></span>
+            </li>
+            <li>
+              <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg></span>
+              <span class="product-trust-copy"><strong>60-Day Guarantee</strong><small>Money back, no questions</small></span>
+            </li>
+            <li>
+              <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span>
+              <span class="product-trust-copy"><strong>Secure Checkout</strong><small>256-bit SSL encryption</small></span>
+            </li>
+            <li>
+              <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M8.5 14l-1.5 7 5-3 5 3-1.5-7"/></svg></span>
+              <span class="product-trust-copy"><strong>2-Year Warranty</strong><small>Full device coverage</small></span>
+            </li>
+          </ul>
+        {%- endif -%}
       </div>
     </div>
 
@@ -361,7 +468,11 @@
         </div>
         <div data-tab-panel="shipping" class="product-panel">
           <p class="muted"><strong style="color:var(--ink);">Free UK delivery on every order.</strong> Tracked courier, 3-5 working days. Order before 3pm Monday-Friday for same-day dispatch.</p>
-          <p class="muted" style="margin-top:1rem;">We also ship to Ireland, Jersey, Guernsey and the Isle of Man. 60-day returns, no questions asked.</p>
+          {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+            <p class="muted" style="margin-top:1rem;">We also ship to Ireland, Jersey, Guernsey and the Isle of Man. 90-day returns, no questions asked. Use the cap for 90 days. If you don't see visible improvement, send it back for a full refund. No fine print, no return fees.</p>
+          {%- else -%}
+            <p class="muted" style="margin-top:1rem;">We also ship to Ireland, Jersey, Guernsey and the Isle of Man. 60-day returns, no questions asked.</p>
+          {%- endif -%}
         </div>
       </div>
     </div>
@@ -490,6 +601,45 @@
     object-position: center;
   }
 }
+
+/* Hair Cap PDP — offer presentation (cap-handle gated in markup) */
+.cap-subhead { font-family: 'Times New Roman', Times, serif; font-style: italic; color: #3D3D3D; font-size: 16px; line-height: 1.55; margin: -.25rem 0 .25rem; }
+@media (min-width: 768px) { .cap-subhead { font-size: 18px; } }
+
+.cap-timer { display: inline-flex; flex-direction: column; align-items: center; gap: .35rem; padding: .65rem 1.1rem; background: rgba(196,30,58,.06); border: 1px solid rgba(196,30,58,.18); border-radius: 8px; align-self: flex-start; }
+.cap-timer-label { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; color: #C41E3A; }
+.cap-timer-digits { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 22px; font-weight: 700; color: #C41E3A; letter-spacing: .04em; animation: cap-timer-pulse 2.4s ease-in-out infinite; font-variant-numeric: tabular-nums; }
+@keyframes cap-timer-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .68; } }
+
+.cap-save-pill { display: inline-flex; align-items: center; padding: .3rem .8rem; background: #C41E3A; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .04em; border-radius: 999px; }
+
+.cap-totalvalue { padding: 1rem 1.25rem; background: rgba(0,0,0,.025); border: 1px solid rgba(0,0,0,.07); border-radius: 8px; margin: .25rem 0 1rem; }
+.cap-tv-row { display: flex; justify-content: space-between; align-items: baseline; padding: .15rem 0; }
+.cap-tv-label { font-size: 14px; color: #6B6B6B; letter-spacing: .01em; }
+.cap-tv-strike { font-size: 14px; color: #8A8A8A; text-decoration: line-through; }
+.cap-tv-today { padding-top: .35rem; padding-bottom: .15rem; }
+.cap-tv-today .cap-tv-label { color: #0A0A0A; font-weight: 600; }
+.cap-tv-amount { font-family: var(--display); font-size: 1.85rem; font-weight: 700; color: #C41E3A; line-height: 1; }
+.cap-tv-save .cap-tv-label { color: #0A0A0A; font-weight: 600; }
+.cap-tv-savings { font-size: 14px; font-weight: 700; color: #C41E3A; }
+
+.cap-bonus { margin: 1.5rem 0 0; padding: 1.5rem 1.25rem; background: var(--cream); border: 1px solid #B8924E; border-radius: 12px; }
+@media (min-width: 768px) { .cap-bonus { padding: 1.75rem 1.5rem; } }
+.cap-bonus-eyebrow { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; font-weight: 700; color: #B8924E; margin: 0 0 .35rem; }
+.cap-bonus-h { font-family: var(--display); font-size: 1.35rem; line-height: 1.2; margin: 0 0 1rem; color: #0A0A0A; }
+.cap-bonus-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
+.cap-bonus-item { display: flex; gap: .9rem; padding: .9rem 0; border-top: 1px solid rgba(10,10,10,.08); }
+.cap-bonus-item:first-child { border-top: 0; padding-top: .25rem; }
+.cap-bonus-icon { flex-shrink: 0; font-size: 22px; line-height: 1; width: 32px; text-align: center; padding-top: .15rem; }
+.cap-bonus-body { flex: 1; min-width: 0; }
+.cap-bonus-title { font-size: 15px; font-weight: 700; color: #0A0A0A; margin: 0 0 .2rem; line-height: 1.3; }
+.cap-bonus-desc { font-size: 13.5px; color: #3D3D3D; line-height: 1.5; margin: 0 0 .35rem; }
+.cap-bonus-value { font-size: 12px; color: #6B6B6B; font-weight: 500; margin: 0; display: inline-flex; align-items: center; gap: .5rem; }
+.cap-bonus-free { display: inline-flex; align-items: center; padding: .15rem .55rem; background: #C41E3A; color: #fff; font-size: 10px; letter-spacing: .08em; font-weight: 700; border-radius: 999px; }
+.cap-bonus-footer { margin: 1.25rem 0 0; padding: 1rem 0 0; border-top: 1.5px solid rgba(10,10,10,.12); font-size: 13.5px; color: #0A0A0A; text-align: center; line-height: 1.5; }
+.cap-bonus-footer-label { font-weight: 700; letter-spacing: .04em; }
+.cap-bonus-strike { color: #8A8A8A; text-decoration: line-through; }
+.cap-bonus-today { font-family: var(--display); font-size: 1.25rem; font-weight: 700; color: #C41E3A; }
 {%- endstylesheet -%}
 
 <script>
@@ -559,6 +709,48 @@
   var initialActive = container.querySelector('.pvol-tier.is-active');
   var initialQty = initialActive ? (parseInt(initialActive.getAttribute('data-pvol-qty'), 10) || 1) : 1;
   apply(initialQty);
+})();
+</script>
+
+<script>
+/* Hair Cap PDP — 3-hour rolling offer countdown. localStorage persistence:
+   the offer-end timestamp is written once and read on subsequent loads, so
+   the timer doesn't reset on page navigation. When it hits zero, a fresh
+   3-hour window is minted and the timer continues. Cap-only — markup is
+   handle-gated in the section, so this script no-ops on other PDPs. */
+(function () {
+  var el = document.querySelector('[data-cap-timer]');
+  if (!el) return;
+  var KEY = 'lumisca_cap_offer_end';
+  var WINDOW_MS = 3 * 60 * 60 * 1000;
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function freshEnd() {
+    var end = Date.now() + WINDOW_MS;
+    try { localStorage.setItem(KEY, String(end)); } catch (_) {}
+    return end;
+  }
+  function readEnd() {
+    var raw = 0;
+    try { raw = parseInt(localStorage.getItem(KEY), 10) || 0; } catch (_) {}
+    if (!raw || raw <= Date.now()) return freshEnd();
+    return raw;
+  }
+  var end = readEnd();
+  var hEl = el.querySelector('[data-cap-h]');
+  var mEl = el.querySelector('[data-cap-m]');
+  var sEl = el.querySelector('[data-cap-s]');
+  function tick() {
+    var diff = end - Date.now();
+    if (diff <= 0) { end = freshEnd(); diff = end - Date.now(); }
+    var h = Math.floor(diff / 3600000);
+    var m = Math.floor((diff % 3600000) / 60000);
+    var s = Math.floor((diff % 60000) / 1000);
+    if (hEl) hEl.textContent = pad(h);
+    if (mEl) mEl.textContent = pad(m);
+    if (sEl) sEl.textContent = pad(s);
+  }
+  tick();
+  setInterval(tick, 1000);
 })();
 </script>
 

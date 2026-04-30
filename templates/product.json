@@ -16,6 +16,9 @@
     "expert-quote": {
       "type": "expert-quote"
     },
+    "cap-stat-band": {
+      "type": "cap-stat-band"
+    },
     "vs-salon": {
       "type": "vs-salon"
     },
@@ -72,6 +75,7 @@
     "benefits",
     "timeline",
     "expert-quote",
+    "cap-stat-band",
     "vs-salon",
     "science",
     "upsell",

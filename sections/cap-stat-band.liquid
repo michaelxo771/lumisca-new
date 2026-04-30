@@ -1,0 +1,49 @@
+{%- comment -%}
+  Hair Cap stat band — self-gates on product handle so it renders only on
+  the Pro Red Light Hair Growth Cap PDP. Sits in the product.json section
+  order in the slot the expert-quote used to fill (expert-quote is gated
+  off for the same handle in sections/expert-quote.liquid).
+{%- endcomment -%}
+{%- if product.handle == 'pro-red-light-hair-growth-cap' -%}
+<section class="csb">
+  <div class="container csb-inner">
+    <ul class="csb-grid">
+      <li class="csb-item">
+        <p class="csb-num">10,000+</p>
+        <p class="csb-label">Customers</p>
+      </li>
+      <li class="csb-item">
+        <p class="csb-num">1,284</p>
+        <p class="csb-label">Reviews</p>
+      </li>
+      <li class="csb-item">
+        <p class="csb-num">4.9/5</p>
+        <p class="csb-label">Avg Rating</p>
+      </li>
+      <li class="csb-item">
+        <p class="csb-num">100%</p>
+        <p class="csb-label">Clinically Studied</p>
+      </li>
+    </ul>
+  </div>
+</section>
+{%- endif -%}
+
+{%- stylesheet -%}
+.csb { background: #0A0A0A; color: var(--cream); padding: 80px 1.25rem; }
+@media (max-width: 768px) { .csb { padding: 56px 1.25rem; } }
+.csb-inner { max-width: 1080px; margin: 0 auto; }
+.csb-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.25rem 1.5rem; text-align: center; }
+@media (min-width: 768px) { .csb-grid { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; } }
+.csb-item { display: flex; flex-direction: column; align-items: center; gap: .35rem; }
+.csb-num { font-family: var(--display); font-size: clamp(2rem, 5vw, 2.75rem); font-weight: 700; line-height: 1; margin: 0; color: #C41E3A; letter-spacing: .005em; }
+.csb-label { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; font-weight: 600; color: #B8924E; margin: 0; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Cap Stat Band",
+  "settings": [],
+  "presets": [ { "name": "Cap Stat Band" } ]
+}
+{% endschema %}
