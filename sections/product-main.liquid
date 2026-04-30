@@ -130,7 +130,7 @@
           <ul class="cap-trustbar" aria-label="Trust signals">
             <li>Clinically Proven</li>
             <li aria-hidden="true">·</li>
-            <li>10,000+ Customers</li>
+            <li>Drug-Free Formula</li>
             <li aria-hidden="true">·</li>
             <li>90-Day Guarantee</li>
             <li aria-hidden="true">·</li>
@@ -210,19 +210,14 @@
           </div>
         {%- endif -%}
 
-        {%- if handle == 'pro-red-light-hair-growth-cap' -%}
-          <div class="product-trust">
-            <span>Free UK Delivery</span><span>·</span>
-            <span>90-Day Money Back</span><span>·</span>
-            <span class="product-trust-hi">In Stock — Ships Today</span>
-          </div>
-        {%- else -%}
+        {%- comment -%} v2 dedupe: top pill row removed on cap PDP (replaced by the .cap-trustbar above-fold bar near the H1). Other products keep this row unchanged with original 60-day copy. {%- endcomment -%}
+        {%- unless handle == 'pro-red-light-hair-growth-cap' -%}
           <div class="product-trust">
             <span>Free UK Delivery</span><span>·</span>
             <span>60-Day Money Back</span><span>·</span>
             <span class="product-trust-hi">In Stock — Ships Today</span>
           </div>
-        {%- endif -%}
+        {%- endunless -%}
 
         <ul class="product-scarcity">
           <li class="product-scarcity-red">⚠️ Only {{ stock }} units remaining</li>
