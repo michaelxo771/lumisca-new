@@ -2,6 +2,8 @@
   assign current_variant = product.selected_or_first_available_variant
 -%}
 
+{%- comment -%} v2: Cap-only sticky ATC. Hidden on Face Mask / Eye Mask / Bundle PDPs to honor the v2 brief's strict cap-only scope. Revert by removing the if-gate to restore for all products. {%- endcomment -%}
+{%- if product.handle == 'pro-red-light-hair-growth-cap' -%}
 <aside class="psa" data-psa hidden aria-hidden="true">
   <div class="container psa-inner">
     <div class="psa-thumb">
@@ -100,6 +102,7 @@
   check();
 })();
 </script>
+{%- endif -%}
 
 {% schema %}
 {

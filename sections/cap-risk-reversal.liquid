@@ -1,0 +1,51 @@
+{%- comment -%}
+  v2: Risk reversal section — black background, cream/gold copy, three
+  pillars. Self-gates on cap handle.
+{%- endcomment -%}
+{%- if product.handle == 'pro-red-light-hair-growth-cap' -%}
+<section class="crr">
+  <div class="container crr-inner">
+    <h2 class="crr-h">Use It For 90 Days. If You Don't See Results, We Refund You.</h2>
+    <p class="crr-sub">No questions, no return fees, no fine print.</p>
+    <ul class="crr-pillars">
+      <li class="crr-pillar">
+        <span class="crr-icon" aria-hidden="true">🛡️</span>
+        <p class="crr-label">90-Day Guarantee</p>
+        <p class="crr-desc">Try it risk-free</p>
+      </li>
+      <li class="crr-pillar">
+        <span class="crr-icon" aria-hidden="true">📦</span>
+        <p class="crr-label">Free UK Returns</p>
+        <p class="crr-desc">We pay return shipping</p>
+      </li>
+      <li class="crr-pillar">
+        <span class="crr-icon" aria-hidden="true">💯</span>
+        <p class="crr-label">Full Refund</p>
+        <p class="crr-desc">No restocking fees</p>
+      </li>
+    </ul>
+  </div>
+</section>
+{%- endif -%}
+
+{%- stylesheet -%}
+.crr { background: #0A0A0A; color: var(--cream); padding: 80px 1.25rem; }
+@media (max-width: 768px) { .crr { padding: 64px 1.25rem; } }
+.crr-inner { max-width: 920px; margin: 0 auto; text-align: center; }
+.crr-h { font-family: 'Times New Roman', Times, serif; font-weight: 700; font-size: clamp(1.6rem, 3.4vw, 2.4rem); line-height: 1.25; color: var(--cream); margin: 0 0 1rem; max-width: 760px; margin-left: auto; margin-right: auto; }
+.crr-sub { font-style: italic; color: #B8924E; font-size: clamp(.95rem, 1.6vw, 1.05rem); margin: 0 0 3rem; letter-spacing: .01em; }
+.crr-pillars { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr; gap: 2rem 1.5rem; }
+@media (min-width: 700px) { .crr-pillars { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; } }
+.crr-pillar { display: flex; flex-direction: column; align-items: center; gap: .5rem; }
+.crr-icon { display: inline-flex; align-items: center; justify-content: center; width: 60px; height: 60px; border-radius: 50%; background: rgba(196,30,58,.15); border: 1px solid rgba(196,30,58,.35); font-size: 26px; line-height: 1; margin-bottom: .35rem; }
+.crr-label { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; color: var(--cream); margin: 0; }
+.crr-desc { font-size: 13px; color: rgba(249,247,244,.7); margin: 0; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Cap Risk Reversal",
+  "settings": [],
+  "presets": [ { "name": "Cap Risk Reversal" } ]
+}
+{% endschema %}

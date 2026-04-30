@@ -28,6 +28,12 @@
         "cta_url": "/pages/science"
       }
     },
+    "cap-testimonial-row": {
+      "type": "cap-testimonial-row"
+    },
+    "cap-risk-reversal": {
+      "type": "cap-risk-reversal"
+    },
     "upsell": {
       "type": "product-upsell",
       "blocks": {
@@ -78,6 +84,8 @@
     "cap-stat-band",
     "vs-salon",
     "science",
+    "cap-testimonial-row",
+    "cap-risk-reversal",
     "upsell",
     "reviews",
     "product-faq",

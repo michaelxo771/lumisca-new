@@ -1,0 +1,66 @@
+{%- comment -%}
+  v2: 3-card customer testimonial row. Self-gates on cap handle so the
+  section can be in product.json's section order without polluting other
+  PDPs. Verbatim quotes from the v2 brief.
+{%- endcomment -%}
+{%- if product.handle == 'pro-red-light-hair-growth-cap' -%}
+<section class="ctr">
+  <div class="container ctr-inner">
+    <p class="ctr-eyebrow">What real customers are saying</p>
+    <ul class="ctr-grid">
+      <li class="ctr-card">
+        <div class="ctr-stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <p class="ctr-headline">Genuinely thicker hair after 12 weeks</p>
+        <p class="ctr-body">I had given up. Started seeing baby hairs at week 6 and by week 12 my parting was visibly thinner. The photos don't lie.</p>
+        <div class="ctr-foot">
+          <span class="ctr-name">Sarah M., Manchester</span>
+          <span class="ctr-verified">Verified Buyer</span>
+        </div>
+      </li>
+      <li class="ctr-card">
+        <div class="ctr-stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <p class="ctr-headline">Skeptical husband now uses it every day</p>
+        <p class="ctr-body">Bought the cap as a joke gift. Three months later he is the one reminding me to charge it. His hairline is genuinely filling in.</p>
+        <div class="ctr-foot">
+          <span class="ctr-name">Emma R., Dublin</span>
+          <span class="ctr-verified">Verified Buyer</span>
+        </div>
+      </li>
+      <li class="ctr-card">
+        <div class="ctr-stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <p class="ctr-headline">Visible difference at week 8</p>
+        <p class="ctr-body">Crown was thinning. By week 8 I could see new growth in the parting. Wife noticed before I told her I was using anything.</p>
+        <div class="ctr-foot">
+          <span class="ctr-name">Tom W., Reading</span>
+          <span class="ctr-verified">Verified Buyer</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+{%- endif -%}
+
+{%- stylesheet -%}
+.ctr { background: var(--cream); padding: 72px 1.25rem; }
+@media (max-width: 768px) { .ctr { padding: 56px 1.25rem; } }
+.ctr-inner { max-width: 1100px; margin: 0 auto; }
+.ctr-eyebrow { font-size: 11px; letter-spacing: .25em; text-transform: uppercase; font-weight: 700; color: #C41E3A; text-align: center; margin: 0 0 2rem; }
+.ctr-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+@media (min-width: 768px) { .ctr-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; } }
+.ctr-card { background: #fff; border: 1px solid #B8924E; border-radius: 10px; padding: 1.5rem 1.4rem; display: flex; flex-direction: column; gap: .65rem; transition: transform .25s ease, box-shadow .25s ease; }
+.ctr-card:hover { transform: translateY(-3px); box-shadow: 0 18px 40px -22px rgba(10,10,10,.18); }
+.ctr-stars { color: #B8924E; font-size: 18px; letter-spacing: .12em; line-height: 1; }
+.ctr-headline { font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: #0A0A0A; line-height: 1.3; margin: 0; }
+.ctr-body { font-size: 14.5px; line-height: 1.6; color: #3D3D3D; margin: 0; flex: 1; }
+.ctr-foot { display: flex; align-items: center; flex-wrap: wrap; gap: .55rem; padding-top: .35rem; }
+.ctr-name { font-size: 13px; font-weight: 600; color: #0A0A0A; }
+.ctr-verified { display: inline-flex; align-items: center; padding: .15rem .55rem; background: #C41E3A; color: #fff; font-size: 10px; letter-spacing: .08em; font-weight: 700; border-radius: 999px; text-transform: uppercase; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Cap Testimonial Row",
+  "settings": [],
+  "presets": [ { "name": "Cap Testimonial Row" } ]
+}
+{% endschema %}

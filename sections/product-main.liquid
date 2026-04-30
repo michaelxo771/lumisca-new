@@ -127,6 +127,18 @@
         <p class="muted product-desc">{{ product.description | strip_html | truncatewords: 40 }}</p>
 
         {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+          <ul class="cap-trustbar" aria-label="Trust signals">
+            <li>Clinically Proven</li>
+            <li aria-hidden="true">·</li>
+            <li>10,000+ Customers</li>
+            <li aria-hidden="true">·</li>
+            <li>90-Day Guarantee</li>
+            <li aria-hidden="true">·</li>
+            <li>Free UK Shipping</li>
+          </ul>
+        {%- endif -%}
+
+        {%- if handle == 'pro-red-light-hair-growth-cap' -%}
           <div class="cap-timer" data-cap-timer aria-live="off">
             <span class="cap-timer-label">⏰ OFFER ENDS IN</span>
             <span class="cap-timer-digits"><span data-cap-h>00</span>:<span data-cap-m>00</span>:<span data-cap-s>00</span></span>
@@ -135,19 +147,25 @@
 
         <div class="product-price">
           <span class="product-price-now">{{ product.price | money }}</span>
-          {%- if product.compare_at_price > product.price -%}
+          {%- if handle == 'pro-red-light-hair-growth-cap' and product.compare_at_price == blank -%}
+            <span class="product-price-was">£109.99</span>
+            <span class="badge cap-save-pill">SAVE £55</span>
+          {%- elsif product.compare_at_price > product.price -%}
             <span class="product-price-was">{{ product.compare_at_price | money }}</span>
             {%- assign saved = product.compare_at_price | minus: product.price -%}
             {%- assign saved_pct = saved | times: 100.0 | divided_by: product.compare_at_price | round -%}
             {%- if handle == 'pro-red-light-hair-growth-cap' -%}
-              <span class="badge cap-save-pill">SAVE {{ saved | money_without_trailing_zeros }} · {{ saved_pct }}% OFF</span>
+              <span class="badge cap-save-pill">SAVE {{ saved | money_without_trailing_zeros }}</span>
             {%- else -%}
               <span class="badge badge-red">Save {{ saved_pct }}% · {{ saved | money }}</span>
             {%- endif -%}
           {%- endif -%}
         </div>
 
-        {%- unless product.has_only_default_variant -%}
+        {%- assign hide_pvar = false -%}
+        {%- if product.has_only_default_variant -%}{%- assign hide_pvar = true -%}{%- endif -%}
+        {%- if handle == 'pro-red-light-hair-growth-cap' and product.variants.size == 1 -%}{%- assign hide_pvar = true -%}{%- endif -%}
+        {%- unless hide_pvar -%}
           <div class="pvar" data-pvar>
             {%- for opt in product.options_with_values -%}
               {%- assign opt_pos = opt.position -%}
@@ -640,6 +658,20 @@
 .cap-bonus-footer-label { font-weight: 700; letter-spacing: .04em; }
 .cap-bonus-strike { color: #8A8A8A; text-decoration: line-through; }
 .cap-bonus-today { font-family: var(--display); font-size: 1.25rem; font-weight: 700; color: #C41E3A; }
+
+/* v2: Above-fold inline trust bar (cap-only) */
+.cap-trustbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .35rem .55rem; list-style: none; padding: .5rem 0; margin: .25rem 0 .5rem; border-top: 1px solid #EEEEEE; border-bottom: 1px solid #EEEEEE; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #8A8A8A; font-weight: 500; }
+.cap-trustbar li { line-height: 1; }
+@media (min-width: 768px) { .cap-trustbar { justify-content: flex-start; } }
+
+/* v2: Polish — ATC hover, bonus hover lift, urgent timer pulse, focus rings */
+.product-atc { transition: filter .2s ease, transform .2s ease, box-shadow .2s ease; }
+.product-atc:hover:not([disabled]) { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 12px 28px -10px rgba(196,30,58,.45); }
+.cap-bonus-item { transition: transform .25s ease, box-shadow .25s ease; border-radius: 6px; }
+.cap-bonus-item:hover { transform: translateY(-2px); box-shadow: 0 8px 22px -12px rgba(10,10,10,.18); }
+.cap-timer.is-urgent .cap-timer-digits { animation: cap-timer-urgent 1s ease-in-out infinite; }
+@keyframes cap-timer-urgent { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.04); opacity: .85; } }
+.product-atc:focus-visible, .cap-bonus a:focus-visible, .pvol-tier:focus-within, .cap-bonus-item:focus-within, .cap-trustbar a:focus-visible { outline: 3px solid #B8924E; outline-offset: 2px; }
 {%- endstylesheet -%}
 
 <script>
@@ -717,12 +749,16 @@
    the offer-end timestamp is written once and read on subsequent loads, so
    the timer doesn't reset on page navigation. When it hits zero, a fresh
    3-hour window is minted and the timer continues. Cap-only — markup is
-   handle-gated in the section, so this script no-ops on other PDPs. */
+   handle-gated in the section, so this script no-ops on other PDPs.
+   IntersectionObserver gates setInterval start until the timer enters the
+   viewport (avoids waking up off-screen tabs / lazy-load contexts).
+   .is-urgent class added when <30 min remain for visual pulse. */
 (function () {
   var el = document.querySelector('[data-cap-timer]');
   if (!el) return;
   var KEY = 'lumisca_cap_offer_end';
   var WINDOW_MS = 3 * 60 * 60 * 1000;
+  var URGENT_MS = 30 * 60 * 1000;
   function pad(n) { return String(n).padStart(2, '0'); }
   function freshEnd() {
     var end = Date.now() + WINDOW_MS;
@@ -739,6 +775,7 @@
   var hEl = el.querySelector('[data-cap-h]');
   var mEl = el.querySelector('[data-cap-m]');
   var sEl = el.querySelector('[data-cap-s]');
+  var interval = null;
   function tick() {
     var diff = end - Date.now();
     if (diff <= 0) { end = freshEnd(); diff = end - Date.now(); }
@@ -748,9 +785,21 @@
     if (hEl) hEl.textContent = pad(h);
     if (mEl) mEl.textContent = pad(m);
     if (sEl) sEl.textContent = pad(s);
+    el.classList.toggle('is-urgent', diff <= URGENT_MS);
   }
-  tick();
-  setInterval(tick, 1000);
+  function start() {
+    if (interval) return;
+    tick();
+    interval = setInterval(tick, 1000);
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { start(); io.disconnect(); } });
+    }, { rootMargin: '200px' });
+    io.observe(el);
+  } else {
+    start();
+  }
 })();
 </script>
 

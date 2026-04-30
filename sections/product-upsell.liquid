@@ -1,9 +1,17 @@
+{%- comment -%} v2: cap-only retitle — repositions this block as a future-purchase tease so it doesn't compete with the bonus stack offer at the moment of buy. {%- endcomment -%}
+{%- if product.handle == 'pro-red-light-hair-growth-cap' -%}
+  {%- assign upsell_eyebrow = 'AFTER YOUR 90 DAYS' -%}
+  {%- assign upsell_heading = 'Upgrade Your Routine' -%}
+{%- else -%}
+  {%- assign upsell_eyebrow = section.settings.eyebrow -%}
+  {%- assign upsell_heading = section.settings.heading -%}
+{%- endif -%}
 <section class="section product-upsell" style="border-top: 1px solid var(--line);">
   <div class="container">
     <div class="upsell-head">
       <div>
-        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
-        <h2 class="display-md">{{ section.settings.heading }}</h2>
+        <p class="eyebrow">{{ upsell_eyebrow }}</p>
+        <h2 class="display-md">{{ upsell_heading }}</h2>
       </div>
       <p class="muted" style="max-width: 22rem;">{{ section.settings.lead }}</p>
     </div>
