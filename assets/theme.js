@@ -300,11 +300,17 @@
     var names = ["Sarah","David","Claire","Priya","James","Emma","Tom","Rachel"];
     var locs = ["Manchester","Leeds","Edinburgh","London","Birmingham","Dublin","Glasgow","Bristol"];
     var prods = ["Pro Hair Growth Cap","Glow Face Mask","Rest Heated Eye Mask","Complete Bundle"];
+    var imgsEl = t.querySelector("[data-toast-images]");
+    var imgMap = {};
+    if (imgsEl) { try { imgMap = JSON.parse(imgsEl.textContent); } catch (_) {} }
+    var imgEl = t.querySelector("[data-toast-img-el]");
     function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
     function show() {
       t.querySelector("[data-toast-name]").textContent = pick(names);
       t.querySelector("[data-toast-loc]").textContent = pick(locs);
-      t.querySelector("[data-toast-product]").textContent = pick(prods);
+      var p = pick(prods);
+      t.querySelector("[data-toast-product]").textContent = p;
+      if (imgEl && imgMap[p]) imgEl.src = imgMap[p];
       t.querySelector("[data-toast-mins]").textContent = (2 + Math.floor(Math.random() * 20)) + " mins ago";
       t.classList.add("is-open");
       setTimeout(function () { t.classList.remove("is-open"); }, 5000);

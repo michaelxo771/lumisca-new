@@ -1,5 +1,5 @@
 <div class="toast" data-toast="recent" role="status" aria-live="polite" aria-hidden="true">
-  <div class="toast-img ph aspect-square"><span class="ph-label" data-toast-product>Product</span></div>
+  <div class="toast-img"><img data-toast-img-el src="{{ 'product-cap-solo.png' | asset_url }}" alt="" loading="lazy" width="56" height="56"></div>
   <div style="min-width:0; flex:1;">
     <p style="font-size: 14px; line-height: 1.25;">
       <strong data-toast-name>Sarah</strong> from <strong data-toast-loc>Manchester</strong>
@@ -9,9 +9,17 @@
     </p>
     <p style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--red); margin-top: 4px;">✓ <span data-toast-mins>5 mins ago</span></p>
   </div>
+  <script type="application/json" data-toast-images>
+  {
+    "Pro Hair Growth Cap": "{{ 'product-cap-solo.png' | asset_url }}",
+    "Glow Face Mask": "{{ 'product-mask-solo.png' | asset_url }}",
+    "Rest Heated Eye Mask": "{{ 'product-eye-mask-solo.png' | asset_url }}",
+    "Complete Bundle": "{{ 'product-duo-side.png' | asset_url }}"
+  }
+  </script>
 </div>
 
 {%- stylesheet -%}
-.toast-img { width: 56px; height: 56px; flex-shrink: 0; }
-.toast-img .ph-label { font-size: 9px; }
+.toast-img { width: 56px; height: 56px; flex-shrink: 0; border-radius: 8px; overflow: hidden; background: #fafafa; }
+.toast-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 {%- endstylesheet -%}
