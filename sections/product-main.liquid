@@ -244,7 +244,86 @@
           assign tier3 = product.price | times: tier3_factor | divided_by: 100 | round
         -%}
 
-        {%- if show_tiers -%}
+        {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+          {%- liquid
+            assign cap_v = current_variant
+            assign face_p = all_products['glow-red-light-face-mask']
+            assign face_v = face_p.selected_or_first_available_variant
+            comment
+              Match face mask plug to the same country-resolved plug_default the cap uses,
+              so a US visitor picking the duo gets cap+face both with USA plug, not mixed.
+            endcomment
+            for v in face_p.variants
+              if v.available
+                for o in v.options
+                  if o == plug_default
+                    assign face_v = v
+                    break
+                  endif
+                endfor
+              endif
+            endfor
+            assign bundle_handle = settings.bundle_product_handle | default: 'lumisca-complete-bundle'
+            assign bundle_p = all_products[bundle_handle]
+            assign bundle_v = bundle_p.selected_or_first_available_variant
+          -%}
+
+          <div class="pvol" data-pvol data-cap-bundle
+               data-cap-variant="{{ cap_v.id }}"
+               data-face-variant="{{ face_v.id }}"
+               data-bundle-variant="{{ bundle_v.id }}">
+            <p class="eyebrow" style="color: var(--mid);">Choose Your Pack</p>
+            <div class="pvol-tiers">
+              <label class="pvol-tier is-active"
+                     data-tier="cap-only"
+                     data-tv-rrp-pence="17197"
+                     data-tv-today-pence="{{ product.price }}"
+                     data-tv-save-pence="11698"
+                     data-tv-pct="68"
+                     data-add-mode="cap">
+                <input type="radio" name="pvol" value="cap-only" checked>
+                <span class="pvol-radio" aria-hidden="true"></span>
+                <span class="pvol-body">
+                  <span class="pvol-row"><span class="pvol-title">1 DEVICE</span></span>
+                  <span class="pvol-sub"><strong>{{ product.price | money }}</strong> · Best for single user</span>
+                </span>
+              </label>
+              <label class="pvol-tier"
+                     data-tier="hair-skin-duo"
+                     data-tv-rrp-pence="28196"
+                     data-tv-today-pence="10998"
+                     data-tv-save-pence="17198"
+                     data-tv-pct="61"
+                     data-add-mode="cap+face">
+                <input type="radio" name="pvol" value="hair-skin-duo">
+                <span class="pvol-radio" aria-hidden="true"></span>
+                <span class="pvol-body">
+                  <span class="pvol-row">
+                    <span class="pvol-title">HAIR + SKIN DUO — POPULAR</span>
+                    <span class="pvol-badge">BEST VALUE</span>
+                  </span>
+                  <span class="pvol-sub">Cap + Glow Face Mask · <strong>£109.98</strong> · Save £172 vs RRP · Free shipping</span>
+                  <span class="pvol-microcopy">Adds Cap + Face Mask to your cart</span>
+                </span>
+              </label>
+              <label class="pvol-tier"
+                     data-tier="complete"
+                     data-tv-rrp-pence="36195"
+                     data-tv-today-pence="12499"
+                     data-tv-save-pence="23696"
+                     data-tv-pct="65"
+                     data-add-mode="bundle">
+                <input type="radio" name="pvol" value="complete">
+                <span class="pvol-radio" aria-hidden="true"></span>
+                <span class="pvol-body">
+                  <span class="pvol-row"><span class="pvol-title">COMPLETE BUNDLE — MAXIMUM RESULTS</span></span>
+                  <span class="pvol-sub">All 3 devices · <strong>£124.99</strong> · Save £237 vs RRP · Free shipping + priority</span>
+                </span>
+              </label>
+            </div>
+            <p class="pvol-fine">✓ Free UK delivery · 90-day guarantee on all options</p>
+          </div>
+        {%- elsif show_tiers -%}
           <div class="pvol" data-pvol data-tier2-pct="{{ tier2_pct }}" data-tier3-pct="{{ tier3_pct }}">
             <p class="eyebrow" style="color: var(--mid);">Choose Your Pack</p>
             <div class="pvol-tiers">
@@ -286,9 +365,9 @@
 
         {%- if handle == 'pro-red-light-hair-growth-cap' -%}
           <div class="cap-totalvalue">
-            <div class="cap-tv-row"><span class="cap-tv-label">Total Value:</span><span class="cap-tv-strike">£171.97</span></div>
-            <div class="cap-tv-row cap-tv-today"><span class="cap-tv-label">Today:</span><span class="cap-tv-amount">£54.99</span></div>
-            <div class="cap-tv-row cap-tv-save"><span class="cap-tv-label">You save:</span><span class="cap-tv-savings">£117 (67% OFF)</span></div>
+            <div class="cap-tv-row"><span class="cap-tv-label">Total Value:</span><span class="cap-tv-strike" data-cap-tv-strike>£171.97</span></div>
+            <div class="cap-tv-row cap-tv-today"><span class="cap-tv-label">Today:</span><span class="cap-tv-amount" data-cap-tv-amount>£54.99</span></div>
+            <div class="cap-tv-row cap-tv-save"><span class="cap-tv-label">You save:</span><span class="cap-tv-savings" data-cap-tv-savings>£117 (68% OFF)</span></div>
           </div>
         {%- endif -%}
 
@@ -368,7 +447,7 @@
                 </div>
               </li>
             </ul>
-            <p class="cap-bonus-footer"><span class="cap-bonus-footer-label">TOTAL VALUE:</span> <span class="cap-bonus-strike">£171.97</span> &nbsp;→&nbsp; <span class="cap-bonus-footer-label">YOURS TODAY:</span> <span class="cap-bonus-today">£54.99</span></p>
+            <p class="cap-bonus-footer"><span class="cap-bonus-footer-label">TOTAL VALUE:</span> <span class="cap-bonus-strike" data-cap-bonus-strike>£171.97</span> &nbsp;→&nbsp; <span class="cap-bonus-footer-label">YOURS TODAY:</span> <span class="cap-bonus-today" data-cap-bonus-today>£54.99</span></p>
           </section>
         {%- endif -%}
 
@@ -549,6 +628,7 @@
 .pvol-sub { font-size: 13px; color: var(--mid); line-height: 1.5; }
 .pvol-sub strong { color: var(--ink); font-weight: 700; }
 .pvol-fine { font-size: 12px; color: var(--mid); text-align: center; margin: .75rem 0 0; letter-spacing: .02em; }
+.pvol-microcopy { display: block; font-size: 11px; color: #6B6B6B; margin-top: .35rem; font-style: italic; letter-spacing: .01em; }
 
 /* Variant picker (model / plug) — matches the .pvol-tier aesthetic but as
    inline option chips. Renders one fieldset per product.option. */
@@ -673,6 +753,7 @@
 (function () {
   var container = document.querySelector('[data-pvol]');
   if (!container) return;
+  if (container.hasAttribute('data-cap-bundle')) return;  /* cap PDP uses the bundle picker IIFE below; existing qty-multiplier doesn't apply */
   var form = document.querySelector('[data-product-form]');
   var qtyInput = form && form.querySelector('input[name=quantity]');
   var total = document.querySelector('[data-atc-total]');
@@ -736,6 +817,101 @@
   var initialActive = container.querySelector('.pvol-tier.is-active');
   var initialQty = initialActive ? (parseInt(initialActive.getAttribute('data-pvol-qty'), 10) || 1) : 1;
   apply(initialQty);
+})();
+</script>
+
+<script>
+/* Hair Cap PDP — bundle picker (replaces qty-multiplier). Three tiers:
+   cap-only (single SKU add), hair-skin-duo (multi-item: cap + face),
+   complete (single SKU add of the existing bundle product). On tier
+   click, repaints ATC total + Total Value box + bonus stack footer
+   from the tier's data-tv-* attrs. On form submit, intercepts the
+   default Cart.add path in capture phase so it can do a multi-item
+   POST to /cart/add.js for the duo tier. Skips the sticky-bar form
+   so the floating bar still does its simple cap-only add. */
+(function () {
+  var picker = document.querySelector('[data-cap-bundle]');
+  if (!picker) return;
+
+  function fmt(pence) { var amt = (pence / 100).toFixed(2); return '£' + amt; }
+  function setText(sel, txt) {
+    var els = document.querySelectorAll(sel);
+    for (var i = 0; i < els.length; i++) els[i].textContent = txt;
+  }
+
+  function applyTier(tier) {
+    var rrp = parseInt(tier.getAttribute('data-tv-rrp-pence'), 10) || 0;
+    var today = parseInt(tier.getAttribute('data-tv-today-pence'), 10) || 0;
+    var save = parseInt(tier.getAttribute('data-tv-save-pence'), 10) || 0;
+    var pct = parseInt(tier.getAttribute('data-tv-pct'), 10) || 0;
+
+    setText('[data-cap-tv-strike]', fmt(rrp));
+    setText('[data-cap-tv-amount]', fmt(today));
+    setText('[data-cap-tv-savings]', fmt(save) + ' (' + pct + '% OFF)');
+    setText('[data-cap-bonus-strike]', fmt(rrp));
+    setText('[data-cap-bonus-today]', fmt(today));
+    setText('[data-atc-total]', fmt(today));
+
+    var tiers = picker.querySelectorAll('.pvol-tier');
+    for (var i = 0; i < tiers.length; i++) tiers[i].classList.remove('is-active');
+    tier.classList.add('is-active');
+    var radio = tier.querySelector('input[type=radio]');
+    if (radio) radio.checked = true;
+  }
+
+  picker.addEventListener('click', function (e) {
+    var tier = e.target.closest('.pvol-tier');
+    if (!tier) return;
+    applyTier(tier);
+  });
+
+  var initial = picker.querySelector('.pvol-tier.is-active');
+  if (initial) applyTier(initial);
+
+  /* Capture-phase submit intercept — fires before the document-level
+     handler in theme.js so the duo/bundle path can divert from the
+     default single-variant Cart.add. Sticky-bar form (.psa-form) is
+     left alone: it always adds the cap variant. */
+  document.addEventListener('submit', function (e) {
+    var form = e.target.closest('[data-product-form]');
+    if (!form) return;
+    if (form.classList.contains('psa-form')) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    var tier = picker.querySelector('.pvol-tier.is-active');
+    if (!tier) return;
+    var mode = tier.getAttribute('data-add-mode');
+    var capV = parseInt(picker.getAttribute('data-cap-variant'), 10) || 0;
+    var faceV = parseInt(picker.getAttribute('data-face-variant'), 10) || 0;
+    var bundleV = parseInt(picker.getAttribute('data-bundle-variant'), 10) || 0;
+    var items = [];
+    if (mode === 'cap' && capV) items = [{ id: capV, quantity: 1 }];
+    else if (mode === 'cap+face' && capV && faceV) items = [{ id: capV, quantity: 1 }, { id: faceV, quantity: 1 }];
+    else if (mode === 'bundle' && bundleV) items = [{ id: bundleV, quantity: 1 }];
+    if (items.length === 0) return;
+
+    var btn = form.querySelector('[data-atc-btn]');
+    if (btn) { btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = 'Adding…'; }
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ items: items })
+    }).then(function (r) { return r.json(); })
+      .then(function () {
+        if (window.LumiscaCart && typeof window.LumiscaCart.fetch === 'function') {
+          return window.LumiscaCart.fetch().then(function (cart) {
+            window.LumiscaCart.render(cart);
+            window.LumiscaCart.open();
+          });
+        }
+      })
+      .catch(function (err) { try { console.warn('[lumisca cap-bundle add]', err); } catch (_) {} })
+      .then(function () {
+        if (btn) { btn.disabled = false; btn.textContent = btn.dataset.label || btn.textContent; }
+      });
+  }, true);
 })();
 </script>
 
