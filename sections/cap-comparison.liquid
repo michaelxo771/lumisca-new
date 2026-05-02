@@ -1,0 +1,81 @@
+{%- comment -%}
+  Cap PDP 3-column comparison table (LUMISCA vs Salon Visit vs Other
+  At-Home), replacing the 2-column vs-salon block on the cap PDP. Self-
+  gates on cap handle. Reuses .comparison CSS classes from
+  sections/comparison.liquid.
+  Cap-specific tweaks vs the homepage version:
+    Cost row "£54.99 one-time" (cap admin price) instead of £64.99
+    Money-back row "✓ 90 days" instead of 60 days
+{%- endcomment -%}
+{%- if product.handle == 'pro-red-light-hair-growth-cap' -%}
+<section class="comparison" data-fade-up>
+  <div class="container">
+    <div class="comparison-head">
+      <p class="eyebrow">WHY LUMISCA</p>
+      <h2 class="display-lg">10,000+ UK customers didn't choose us by accident.</h2>
+    </div>
+
+    <div class="comparison-table" role="table" aria-label="Lumisca comparison">
+      <div class="comparison-row comparison-header" role="row">
+        <div class="comparison-cell comparison-cell-label" role="columnheader"></div>
+        <div class="comparison-cell comparison-cell-lumisca" role="columnheader">
+          <span class="comparison-brand">LUMISCA</span>
+        </div>
+        <div class="comparison-cell" role="columnheader">Salon Visit</div>
+        <div class="comparison-cell" role="columnheader">Other At-Home</div>
+      </div>
+
+      <div class="comparison-row" role="row">
+        <div class="comparison-cell comparison-cell-label" role="cell" data-label="Feature">Cost</div>
+        <div class="comparison-cell comparison-cell-lumisca" role="cell" data-label="LUMISCA">£54.99 one-time</div>
+        <div class="comparison-cell" role="cell" data-label="Salon">£2,400+/year</div>
+        <div class="comparison-cell" role="cell" data-label="Other">£30–200</div>
+      </div>
+      <div class="comparison-row" role="row">
+        <div class="comparison-cell comparison-cell-label" role="cell" data-label="Feature">Convenience</div>
+        <div class="comparison-cell comparison-cell-lumisca" role="cell" data-label="LUMISCA">Anytime, at home</div>
+        <div class="comparison-cell" role="cell" data-label="Salon">Weekly appointments</div>
+        <div class="comparison-cell" role="cell" data-label="Other">At home</div>
+      </div>
+      <div class="comparison-row" role="row">
+        <div class="comparison-cell comparison-cell-label" role="cell" data-label="Feature">Wavelengths</div>
+        <div class="comparison-cell comparison-cell-lumisca" role="cell" data-label="LUMISCA">✓ 660nm + 850nm</div>
+        <div class="comparison-cell" role="cell" data-label="Salon">Varies</div>
+        <div class="comparison-cell" role="cell" data-label="Other">✗ Usually single</div>
+      </div>
+      <div class="comparison-row" role="row">
+        <div class="comparison-cell comparison-cell-label" role="cell" data-label="Feature">Certification</div>
+        <div class="comparison-cell comparison-cell-lumisca" role="cell" data-label="LUMISCA">✓ CE-certified</div>
+        <div class="comparison-cell" role="cell" data-label="Salon">Varies</div>
+        <div class="comparison-cell" role="cell" data-label="Other">✗ Often uncertified</div>
+      </div>
+      <div class="comparison-row" role="row">
+        <div class="comparison-cell comparison-cell-label" role="cell" data-label="Feature">Money-back</div>
+        <div class="comparison-cell comparison-cell-lumisca" role="cell" data-label="LUMISCA">✓ 90 days</div>
+        <div class="comparison-cell" role="cell" data-label="Salon">✗</div>
+        <div class="comparison-cell" role="cell" data-label="Other">Varies</div>
+      </div>
+      <div class="comparison-row" role="row">
+        <div class="comparison-cell comparison-cell-label" role="cell" data-label="Feature">Session time</div>
+        <div class="comparison-cell comparison-cell-lumisca" role="cell" data-label="LUMISCA">10 minutes</div>
+        <div class="comparison-cell" role="cell" data-label="Salon">45 minutes</div>
+        <div class="comparison-cell" role="cell" data-label="Other">Varies</div>
+      </div>
+      <div class="comparison-row" role="row">
+        <div class="comparison-cell comparison-cell-label" role="cell" data-label="Feature">Ongoing cost</div>
+        <div class="comparison-cell comparison-cell-lumisca" role="cell" data-label="LUMISCA">£0</div>
+        <div class="comparison-cell" role="cell" data-label="Salon">£200+/month</div>
+        <div class="comparison-cell" role="cell" data-label="Other">Varies</div>
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Cap Comparison",
+  "settings": [],
+  "presets": [ { "name": "Cap Comparison" } ]
+}
+{% endschema %}

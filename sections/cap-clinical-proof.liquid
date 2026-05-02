@@ -1,0 +1,64 @@
+{%- comment -%}
+  Cap PDP performance chart (46.6% / 8.6% / 6.6%). Self-gates on cap
+  handle. Reuses .cprf CSS classes from sections/clinical-proof.liquid.
+  Hardcoded values match the homepage clinical-proof preset defaults.
+{%- endcomment -%}
+{%- if product.handle == 'pro-red-light-hair-growth-cap' -%}
+{%- liquid
+  assign chart_max = 50.0
+  assign b1_pct = 46.6
+  assign b2_pct = 8.6
+  assign b3_pct = 6.6
+  assign b1_h = b1_pct | times: 100 | divided_by: chart_max | round
+  assign b2_h = b2_pct | times: 100 | divided_by: chart_max | round
+  assign b3_h = b3_pct | times: 100 | divided_by: chart_max | round
+-%}
+<section class="cprf">
+  <div class="cprf-content">
+    <div class="cprf-content-inner">
+      <p class="cprf-eyebrow">CLINICALLY PROVEN</p>
+      <h2 class="cprf-heading">Outperforms other at-home solutions.</h2>
+      <p class="cprf-body">Independent comparison of hair density growth after 16 weeks of consistent use vs leading consumer LED competitors.</p>
+
+      <div class="cprf-chart" role="img" aria-label="Bar chart comparing Lumisca 46.6% hair growth vs Competitor A 8.6% vs Competitor B 6.6% over 16 weeks">
+        <ul class="cprf-y-axis" aria-hidden="true">
+          <li>50%</li>
+          <li>25%</li>
+          <li>0%</li>
+        </ul>
+        <div class="cprf-bars">
+          <div class="cprf-bar-col">
+            <div class="cprf-bar cprf-bar-brand" style="--h: {{ b1_h }}%;">
+              <span class="cprf-bar-value">46.6%</span>
+            </div>
+            <span class="cprf-bar-label cprf-bar-label-brand">LUMISCA</span>
+          </div>
+          <div class="cprf-bar-col">
+            <div class="cprf-bar cprf-bar-comp" style="--h: {{ b2_h }}%;">
+              <span class="cprf-bar-value">8.6%</span>
+            </div>
+            <span class="cprf-bar-label">Competitor A</span>
+          </div>
+          <div class="cprf-bar-col">
+            <div class="cprf-bar cprf-bar-comp" style="--h: {{ b3_h }}%;">
+              <span class="cprf-bar-value">6.6%</span>
+            </div>
+            <span class="cprf-bar-label">Competitor B</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="cprf-disclaimer">*Based on customer-reported results after 16 weeks of consistent daily use. Individual results may vary.</p>
+    </div>
+  </div>
+  <div class="cprf-media" role="img" aria-label="Outperforms other at-home solutions" style="background-image: url('{{ 'product-cap-solo.png' | asset_url }}');"></div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Cap Clinical Proof",
+  "settings": [],
+  "presets": [ { "name": "Cap Clinical Proof" } ]
+}
+{% endschema %}

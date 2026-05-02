@@ -7,8 +7,14 @@
     "main": {
       "type": "product-main"
     },
+    "cap-press-bar": {
+      "type": "cap-press-bar"
+    },
     "benefits": {
       "type": "product-benefits"
+    },
+    "cap-clinical-proof": {
+      "type": "cap-clinical-proof"
     },
     "timeline": {
       "type": "product-timeline"
@@ -21,6 +27,9 @@
     },
     "vs-salon": {
       "type": "vs-salon"
+    },
+    "cap-comparison": {
+      "type": "cap-comparison"
     },
     "science": {
       "type": "product-science",
@@ -78,11 +87,14 @@
   "order": [
     "announcement-bar",
     "main",
+    "cap-press-bar",
     "benefits",
+    "cap-clinical-proof",
     "timeline",
     "expert-quote",
     "cap-stat-band",
     "vs-salon",
+    "cap-comparison",
     "science",
     "cap-testimonial-row",
     "cap-risk-reversal",

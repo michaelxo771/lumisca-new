@@ -1,0 +1,30 @@
+{%- comment -%}
+  Cap PDP "AS FEATURED IN" press bar. Self-gates on cap handle so the
+  section can sit in product.json's section order without polluting
+  Face Mask / Eye Mask / Bundle PDPs. Reuses .press-bar CSS classes
+  shipped by sections/press-bar.liquid (CSS is bundled site-wide so
+  the classes are available even on PDPs where the press-bar section
+  isn't rendered).
+{%- endcomment -%}
+{%- if product.handle == 'pro-red-light-hair-growth-cap' -%}
+<section class="press-bar">
+  <div class="container press-bar-inner">
+    <p class="press-bar-eyebrow">AS FEATURED IN</p>
+    <ul class="press-bar-names">
+      <li class="press-bar-name">VOGUE</li>
+      <li class="press-bar-name">ELLE</li>
+      <li class="press-bar-name">WOMEN'S HEALTH</li>
+      <li class="press-bar-name">REFINERY29</li>
+      <li class="press-bar-name">GRAZIA</li>
+    </ul>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Cap Press Bar",
+  "settings": [],
+  "presets": [ { "name": "Cap Press Bar" } ]
+}
+{% endschema %}

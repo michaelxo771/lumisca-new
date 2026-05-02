@@ -40,6 +40,8 @@
   endif
 -%}
 
+{%- comment -%} Cap PDP gets a 3-column comparison table via cap-comparison.liquid instead of the 2-column vs-salon. Skip rendering on cap; other PDPs unchanged. {%- endcomment -%}
+{%- unless product.handle == 'pro-red-light-hair-growth-cap' -%}
 <section class="vsal">
   <div class="container">
     <div class="vsal-head">
@@ -88,6 +90,7 @@
     </div>
   </div>
 </section>
+{%- endunless -%}
 
 {%- stylesheet -%}
 .vsal { background: var(--cream); padding: 80px 0; }
