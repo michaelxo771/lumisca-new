@@ -115,6 +115,10 @@
 
       {%- comment -%} Info {%- endcomment -%}
       <div class="product-info" id="main-atc">
+        {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+          <p class="cap-audience" data-cap-audience="women" hidden><strong>For women:</strong> Experiencing thinning at the parting, postpartum shedding, or general hair loss? You're not alone — 1 in 3 women experience hair thinning. This is for you.</p>
+          <p class="cap-audience" data-cap-audience="men" hidden><strong>For men:</strong> Noticed thinning at the crown, receding temples, or hair getting weaker? You're in the right place — clinically-proven red light therapy for male pattern hair loss.</p>
+        {%- endif -%}
         <div class="product-rating">
           {% render 'star-rating', rating: rating, size: 'md' %}
           <span class="muted" style="font-size:14px;">{{ rating }} {% if review_count > 0 %}({{ review_count | times: 1 | default: 1248 }} reviews){% endif %}</span>
@@ -275,6 +279,16 @@
             assign bundle_handle = settings.bundle_product_handle | default: 'lumisca-complete-bundle'
             assign bundle_p = all_products[bundle_handle]
             assign bundle_v = bundle_p.selected_or_first_available_variant
+            assign eye_p = all_products['rest-heated-eye-mask']
+            comment
+              Thumbnail sources — prefer admin-uploaded featured_image so they
+              match what the customer sees on each product page; fall back to
+              the theme assets shipped in /assets/ if a product has no
+              featured image set.
+            endcomment
+            assign cap_thumb = product.featured_image | default: nil
+            assign face_thumb = face_p.featured_image | default: nil
+            assign eye_thumb = eye_p.featured_image | default: nil
           -%}
 
           <div class="pvol" data-pvol data-cap-bundle
@@ -296,6 +310,9 @@
                   <span class="pvol-row"><span class="pvol-title">1 DEVICE</span></span>
                   <span class="pvol-sub"><strong>{{ product.price | money }}</strong> · Best for single user</span>
                 </span>
+                <span class="pvol-thumbs" aria-hidden="true">
+                  {%- if cap_thumb -%}<img class="pvol-thumb" src="{{ cap_thumb | image_url: width: 100 }}" alt="" loading="lazy" width="44" height="44">{%- else -%}<img class="pvol-thumb" src="{{ 'product-cap-solo.png' | asset_url }}" alt="" loading="lazy" width="44" height="44">{%- endif -%}
+                </span>
               </label>
               <label class="pvol-tier"
                      data-tier="hair-skin-duo"
@@ -315,6 +332,10 @@
                   <span class="pvol-secondary">Save £172 vs RRP · Free shipping</span>
                   <span class="pvol-microcopy">Adds Cap + Face Mask to your cart</span>
                 </span>
+                <span class="pvol-thumbs" aria-hidden="true">
+                  {%- if cap_thumb -%}<img class="pvol-thumb" src="{{ cap_thumb | image_url: width: 100 }}" alt="" loading="lazy" width="44" height="44">{%- else -%}<img class="pvol-thumb" src="{{ 'product-cap-solo.png' | asset_url }}" alt="" loading="lazy" width="44" height="44">{%- endif -%}
+                  {%- if face_thumb -%}<img class="pvol-thumb" src="{{ face_thumb | image_url: width: 100 }}" alt="" loading="lazy" width="44" height="44">{%- else -%}<img class="pvol-thumb" src="{{ 'product-mask-solo.png' | asset_url }}" alt="" loading="lazy" width="44" height="44">{%- endif -%}
+                </span>
               </label>
               <label class="pvol-tier"
                      data-tier="complete"
@@ -329,6 +350,11 @@
                   <span class="pvol-row"><span class="pvol-title">COMPLETE BUNDLE — MAXIMUM RESULTS</span></span>
                   <span class="pvol-sub"><strong>£124.99</strong> · Hair Growth Cap + Glow Face Mask (skin) + Rest Eye Mask</span>
                   <span class="pvol-secondary">Save £237 vs RRP · Free shipping + priority</span>
+                </span>
+                <span class="pvol-thumbs" aria-hidden="true">
+                  {%- if cap_thumb -%}<img class="pvol-thumb" src="{{ cap_thumb | image_url: width: 100 }}" alt="" loading="lazy" width="44" height="44">{%- else -%}<img class="pvol-thumb" src="{{ 'product-cap-solo.png' | asset_url }}" alt="" loading="lazy" width="44" height="44">{%- endif -%}
+                  {%- if face_thumb -%}<img class="pvol-thumb" src="{{ face_thumb | image_url: width: 100 }}" alt="" loading="lazy" width="44" height="44">{%- else -%}<img class="pvol-thumb" src="{{ 'product-mask-solo.png' | asset_url }}" alt="" loading="lazy" width="44" height="44">{%- endif -%}
+                  {%- if eye_thumb -%}<img class="pvol-thumb" src="{{ eye_thumb | image_url: width: 100 }}" alt="" loading="lazy" width="44" height="44">{%- else -%}<img class="pvol-thumb" src="{{ 'product-eye-mask-solo.png' | asset_url }}" alt="" loading="lazy" width="44" height="44">{%- endif -%}
                 </span>
               </label>
             </div>
@@ -652,6 +678,18 @@
 .cap-trio-n { font-family: var(--display); font-size: 1.2rem; font-weight: 700; color: var(--ink); line-height: 1; }
 @media (min-width: 640px) { .cap-trio-n { font-size: 1.35rem; } }
 .cap-trio-l { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--mid); font-weight: 600; }
+
+/* Bundle picker — product thumbnails on the right of each tier card */
+.pvol-thumbs { display: flex; flex-shrink: 0; gap: .35rem; align-self: center; align-items: center; }
+.pvol-thumb { width: 44px; height: 44px; border-radius: 8px; border: 1px solid rgba(10,10,10,.08); object-fit: cover; background: #fafafa; display: block; }
+@media (max-width: 480px) { .pvol-thumb { width: 32px; height: 32px; border-radius: 6px; } .pvol-thumbs { gap: .25rem; } }
+
+/* Audience-targeted banner (cap PDP) — hidden by default, JS reveals on
+   ?audience=women|men. Italic gold copy with thin grey rules above and
+   below for a quiet credibility cue. */
+.cap-audience { display: none; padding: .75rem 0; margin: .25rem 0 .5rem; border-top: 1px solid #EEEEEE; border-bottom: 1px solid #EEEEEE; font-style: italic; color: #B8924E; font-size: 13px; line-height: 1.5; text-align: center; }
+.cap-audience.is-visible { display: block; }
+.cap-audience strong { font-style: normal; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #B8924E; }
 
 /* Variant picker (model / plug) — matches the .pvol-tier aesthetic but as
    inline option chips. Renders one fieldset per product.option. */
@@ -993,6 +1031,36 @@
     io.observe(el);
   } else {
     start();
+  }
+})();
+</script>
+
+<script>
+/* Cap PDP — audience-targeted hero. Reads ?audience=women|men on load,
+   reveals the matching pre-rendered banner above the product rating,
+   and (for men) reorders the reviews grid so the first card is a male
+   testimonial (Tom W. → Connor S. → Mark P. fallback chain). Default
+   (no param, or unknown value) leaves the page exactly as rendered. */
+(function () {
+  if (document.body.className.indexOf('template-product') === -1) return;
+  var audience = '';
+  try {
+    var params = new URLSearchParams(window.location.search);
+    audience = (params.get('audience') || '').toLowerCase();
+  } catch (_) { return; }
+  if (audience !== 'women' && audience !== 'men') return;
+
+  var banner = document.querySelector('[data-cap-audience="' + audience + '"]');
+  if (banner) { banner.hidden = false; banner.classList.add('is-visible'); }
+
+  if (audience === 'men') {
+    var grid = document.querySelector('.prev-grid');
+    if (!grid) return;
+    var maleNames = ['Tom W.', 'Connor S.', 'Mark P.'];
+    for (var i = 0; i < maleNames.length; i++) {
+      var match = grid.querySelector('[data-review-name="' + maleNames[i] + '"]');
+      if (match) { grid.insertBefore(match, grid.firstChild); break; }
+    }
   }
 })();
 </script>
