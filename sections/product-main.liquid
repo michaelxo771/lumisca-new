@@ -738,21 +738,20 @@
 .product-specs > div { display: grid; grid-template-columns: 180px 1fr; gap: 1rem; padding: 1rem 0; border-top: 1px solid var(--line); }
 .product-specs > div:first-child { border-top: 0; }
 .product-specs dt { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--mid); }
-/* Mobile PDP: cap hero image to ~65vh so price + variant selector clear
-   the fold on iPhone-class viewports. Drops the forced 1:1 aspect so
-   height can actually take effect. Tightens section/grid padding on the
-   same breakpoint to reclaim ~40px more for the buy-box. */
+/* Mobile PDP: keep the hero image strictly 1:1 to match thumbnails. Drops
+   the prior 65vh height cap (commit c6c71b5) — the trade-off is the
+   price + variant selector now sit slightly further below the fold on
+   iPhone-class viewports. object-position is nudged to center 40% so
+   the cap brim stays in frame instead of being centre-cropped out. */
 @media (max-width: 767px) {
   .product-section { padding-top: .75rem; }
   .product-grid { padding: 1rem 0; gap: 1.5rem; }
   .product-main-img img {
-    aspect-ratio: auto;
+    aspect-ratio: 1 / 1;
     width: 100%;
-    height: 65vh;
-    max-height: 560px;
-    min-height: 340px;
+    height: auto;
     object-fit: cover;
-    object-position: center;
+    object-position: center 40%;
   }
 }
 
