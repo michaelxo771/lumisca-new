@@ -130,6 +130,33 @@
         {%- endif -%}
         <p class="muted product-desc">{{ product.description | strip_html | truncatewords: 40 }}</p>
 
+        {%- comment -%}
+          LUMISCA-CONVERSION-FIX (Problem 1): regulatory trust strip immediately
+          under the title/hook, cap-only. Four settings let admin fill in the
+          actual claims; defaults reflect the safest opening position.
+          Mike: confirm CE certificate from AutoDS supplier before going live.
+          FDA/MHRA claims are illegal in UK ads without proof — do NOT default
+          to "FDA Cleared" / "MHRA Registered" without supplier paperwork.
+        {%- endcomment -%}
+        {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+          {%- assign reg_markers = '' -%}
+          {%- if section.settings.regulatory_marker_1 != blank -%}{%- assign reg_markers = reg_markers | append: section.settings.regulatory_marker_1 | append: '|' -%}{%- endif -%}
+          {%- if section.settings.regulatory_marker_2 != blank -%}{%- assign reg_markers = reg_markers | append: section.settings.regulatory_marker_2 | append: '|' -%}{%- endif -%}
+          {%- if section.settings.regulatory_marker_3 != blank -%}{%- assign reg_markers = reg_markers | append: section.settings.regulatory_marker_3 | append: '|' -%}{%- endif -%}
+          {%- if section.settings.regulatory_marker_4 != blank -%}{%- assign reg_markers = reg_markers | append: section.settings.regulatory_marker_4 | append: '|' -%}{%- endif -%}
+          {%- assign reg_list = reg_markers | split: '|' -%}
+          {%- if reg_list.size > 0 -%}
+            <ul class="cap-regulatory" aria-label="Regulatory and clinical markers">
+              {%- for m in reg_list -%}
+                <li class="cap-regulatory-item">
+                  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+                  <span>{{ m }}</span>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        {%- endif -%}
+
         {%- if handle == 'pro-red-light-hair-growth-cap' -%}
           <ul class="cap-trustbar" aria-label="Trust signals">
             <li>Clinically Proven</li>
@@ -168,6 +195,19 @@
 
         {%- if handle == 'pro-red-light-hair-growth-cap' -%}
           <p class="cap-klarna"><span class="cap-klarna-dot" aria-hidden="true"></span>Or 3 interest-free payments of £18.33 with Klarna</p>
+          {%- comment -%}
+            LUMISCA-CONVERSION-FIX (Problem 2): "Why we're £54.99 not £549"
+            collapsible. Closed by default on mobile, expandable. Three honest
+            DTC reasons. Cap-only.
+          {%- endcomment -%}
+          <details class="cap-why-cheap">
+            <summary class="cap-why-cheap-summary">Why we're £54.99, not £549<span class="cap-why-cheap-chev" aria-hidden="true">+</span></summary>
+            <ul class="cap-why-cheap-list">
+              <li><strong>Direct-to-consumer.</strong> No salon margin, no retail middleman.</li>
+              <li><strong>Streamlined components.</strong> One cap, no add-ons you don't need.</li>
+              <li><strong>Volume manufacturing.</strong> Savings passed to UK customers, not investors.</li>
+            </ul>
+          </details>
           <ul class="cap-stats-trio" aria-label="Trust stats">
             <li class="cap-trio-item"><span class="cap-trio-n">10,000+</span><span class="cap-trio-l">Customers</span></li>
             <li class="cap-trio-item"><span class="cap-trio-n">4.9★</span><span class="cap-trio-l">Rated</span></li>
@@ -232,10 +272,25 @@
           </div>
         {%- endunless -%}
 
+        {%- comment -%}
+          LUMISCA-CONVERSION-FIX: scarcity copy refined for cap PDP only.
+            • Removed the "12 people viewing this right now" line entirely
+              (Mike confirmed delete — read as scammy at the existing density).
+            • "Only N units remaining" → "Limited UK stock — restocking in 2 weeks"
+            • "N people bought this in the last 24 hours" → "Trending this week — N customers ordered"
+          Other PDPs (face / eye / bundle) keep the original three-line scarcity copy.
+          To revert, restore the three-line block and remove the cap-handle gate.
+        {%- endcomment -%}
+        {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+          <ul class="product-scarcity">
+            <li class="product-scarcity-red">⚠️ Limited UK stock — restocking in 2 weeks</li>
+            <li>🔥 Trending this week — <strong>{{ sold_24h }} customers</strong> ordered</li>
+        {%- else -%}
         <ul class="product-scarcity">
           <li class="product-scarcity-red">⚠️ Only {{ stock }} units remaining</li>
           <li>🔥 <strong>{{ sold_24h }} people</strong> bought this in the last 24 hours</li>
           <li class="muted">👁 <strong style="color:var(--ink);">{{ viewing_now }} people</strong> viewing this right now</li>
+        {%- endif -%}
           {%- comment -%} Removed 2026-04-26 — UX cleanup (false-urgency reduction). Uncomment to restore the rolling delivery countdown. {%- endcomment -%}
           {%- comment -%}<li data-dispatch-text></li>{%- endcomment -%}
         </ul>
@@ -307,7 +362,7 @@
                 <input type="radio" name="pvol" value="cap-only" checked>
                 <span class="pvol-radio" aria-hidden="true"></span>
                 <span class="pvol-body">
-                  <span class="pvol-row"><span class="pvol-title">1 DEVICE</span></span>
+                  <span class="pvol-row"><span class="pvol-title">Just the Cap</span></span>
                   <span class="pvol-sub"><strong>{{ product.price | money }}</strong> · Best for single user</span>
                 </span>
                 <span class="pvol-thumbs" aria-hidden="true">
@@ -325,7 +380,7 @@
                 <span class="pvol-radio" aria-hidden="true"></span>
                 <span class="pvol-body">
                   <span class="pvol-row">
-                    <span class="pvol-title">HAIR + SKIN DUO — POPULAR</span>
+                    <span class="pvol-title">Hair + Skin Duo — Best Value</span>
                     <span class="pvol-badge">BEST VALUE</span>
                   </span>
                   <span class="pvol-sub"><strong>£109.98</strong> · Pro Hair Growth Cap + Glow Face Mask (skincare)</span>
@@ -347,7 +402,7 @@
                 <input type="radio" name="pvol" value="complete">
                 <span class="pvol-radio" aria-hidden="true"></span>
                 <span class="pvol-body">
-                  <span class="pvol-row"><span class="pvol-title">COMPLETE BUNDLE — MAXIMUM RESULTS</span></span>
+                  <span class="pvol-row"><span class="pvol-title">Complete System — Maximum Results</span></span>
                   <span class="pvol-sub"><strong>£124.99</strong> · Hair Growth Cap + Glow Face Mask (skin) + Rest Eye Mask</span>
                   <span class="pvol-secondary">Save £237 vs RRP · Free shipping + priority</span>
                 </span>
@@ -678,6 +733,21 @@
 .cap-trio-n { font-family: var(--display); font-size: 1.2rem; font-weight: 700; color: var(--ink); line-height: 1; }
 @media (min-width: 640px) { .cap-trio-n { font-size: 1.35rem; } }
 .cap-trio-l { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--mid); font-weight: 600; }
+
+/* Cap-only — regulatory trust strip (LUMISCA-CONVERSION-FIX Problem 1) */
+.cap-regulatory { list-style: none; padding: .65rem 0; margin: .5rem 0 .25rem; display: flex; flex-wrap: wrap; gap: .35rem .85rem; border-top: 1px solid #EEEEEE; border-bottom: 1px solid #EEEEEE; font-size: 11px; letter-spacing: .04em; color: var(--ink); font-weight: 600; }
+.cap-regulatory-item { display: inline-flex; align-items: center; gap: .35rem; line-height: 1.25; }
+.cap-regulatory-item svg { color: #B8924E; flex-shrink: 0; }
+
+/* Cap-only — "Why we're £54.99 not £549" collapsible (LUMISCA-CONVERSION-FIX Problem 2) */
+.cap-why-cheap { margin: -.25rem 0 .5rem; padding: .65rem .85rem; background: rgba(184,146,78,.06); border: 1px solid rgba(184,146,78,.2); border-radius: 6px; }
+.cap-why-cheap[open] { padding-bottom: .85rem; }
+.cap-why-cheap-summary { display: flex; align-items: center; justify-content: space-between; gap: .5rem; cursor: pointer; font-size: 12.5px; font-weight: 600; color: var(--ink); list-style: none; }
+.cap-why-cheap-summary::-webkit-details-marker { display: none; }
+.cap-why-cheap-chev { font-family: var(--display); font-size: 18px; color: #B8924E; line-height: 1; transition: transform .2s; }
+.cap-why-cheap[open] .cap-why-cheap-chev { transform: rotate(45deg); }
+.cap-why-cheap-list { list-style: none; padding: 0; margin: .65rem 0 0; display: flex; flex-direction: column; gap: .4rem; font-size: 12.5px; color: #3D3D3D; line-height: 1.55; }
+.cap-why-cheap-list strong { color: var(--ink); font-weight: 700; }
 
 /* Bundle picker — product thumbnails on the right of each tier card */
 .pvol-thumbs { display: flex; flex-shrink: 0; gap: .35rem; align-self: center; align-items: center; }
@@ -1062,6 +1132,18 @@
 {
   "name": "Product Main",
   "settings": [
+    {
+      "type": "header",
+      "content": "Cap PDP — regulatory trust strip"
+    },
+    {
+      "type": "paragraph",
+      "content": "Renders only on /products/pro-red-light-hair-growth-cap. Leave a slot blank to hide that pill. Confirm CE certificate from AutoDS supplier before going live. FDA Cleared / MHRA Registered are specific legal claims — do NOT add unless the supplier has provided certified paperwork."
+    },
+    { "type": "text", "id": "regulatory_marker_1", "label": "Marker 1", "default": "CE Marked" },
+    { "type": "text", "id": "regulatory_marker_2", "label": "Marker 2", "default": "660nm + 850nm Clinical Wavelengths" },
+    { "type": "text", "id": "regulatory_marker_3", "label": "Marker 3", "default": "UK & IE Stock" },
+    { "type": "text", "id": "regulatory_marker_4", "label": "Marker 4", "default": "30,000+ LEDs Tested" },
     {
       "type": "header",
       "content": "Volume discount tiers"

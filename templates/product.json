@@ -74,6 +74,9 @@
     "reviews": {
       "type": "product-reviews"
     },
+    "cap-trichologist": {
+      "type": "cap-trichologist"
+    },
     "product-faq": {
       "type": "product-faq"
     },
@@ -100,6 +103,7 @@
     "cap-risk-reversal",
     "upsell",
     "reviews",
+    "cap-trichologist",
     "product-faq",
     "cross-sell",
     "product-sticky-atc"

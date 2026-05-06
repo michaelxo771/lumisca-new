@@ -1,21 +1,33 @@
 {%- comment -%}
-  Cap PDP "AS FEATURED IN" press bar. Self-gates on cap handle so the
-  section can sit in product.json's section order without polluting
-  Face Mask / Eye Mask / Bundle PDPs. Reuses .press-bar CSS classes
-  shipped by sections/press-bar.liquid (CSS is bundled site-wide so
-  the classes are available even on PDPs where the press-bar section
-  isn't rendered).
+  Cap PDP "AS FEATURED IN" press bar. Self-gates on cap handle.
+  Reuses .press-bar CSS classes from sections/press-bar.liquid.
+
+  v3 (LUMISCA-CONVERSION-FIX): publication names moved to schema
+  settings so admin can edit without code changes. The previous
+  hardcoded list (VOGUE / ELLE / WOMEN'S HEALTH / REFINERY29 /
+  GRAZIA) was too aspirational for a brand-new UK store. Defaults
+  now reflect more believable lower-tier UK beauty publications.
+{%- endcomment -%}
+{%- comment -%}
+  Mike: these are placeholder lower-tier UK beauty publications.
+  Swap for any real placements as you get them.
 {%- endcomment -%}
 {%- if product.handle == 'pro-red-light-hair-growth-cap' -%}
+{%- assign press_logos = '' -%}
+{%- if section.settings.press_logo_1 != blank -%}{%- assign press_logos = press_logos | append: section.settings.press_logo_1 | append: '|' -%}{%- endif -%}
+{%- if section.settings.press_logo_2 != blank -%}{%- assign press_logos = press_logos | append: section.settings.press_logo_2 | append: '|' -%}{%- endif -%}
+{%- if section.settings.press_logo_3 != blank -%}{%- assign press_logos = press_logos | append: section.settings.press_logo_3 | append: '|' -%}{%- endif -%}
+{%- if section.settings.press_logo_4 != blank -%}{%- assign press_logos = press_logos | append: section.settings.press_logo_4 | append: '|' -%}{%- endif -%}
+{%- if section.settings.press_logo_5 != blank -%}{%- assign press_logos = press_logos | append: section.settings.press_logo_5 | append: '|' -%}{%- endif -%}
+{%- if section.settings.press_logo_6 != blank -%}{%- assign press_logos = press_logos | append: section.settings.press_logo_6 | append: '|' -%}{%- endif -%}
+{%- assign press_list = press_logos | split: '|' -%}
 <section class="press-bar">
   <div class="container press-bar-inner">
     <p class="press-bar-eyebrow">AS FEATURED IN</p>
     <ul class="press-bar-names">
-      <li class="press-bar-name">VOGUE</li>
-      <li class="press-bar-name">ELLE</li>
-      <li class="press-bar-name">WOMEN'S HEALTH</li>
-      <li class="press-bar-name">REFINERY29</li>
-      <li class="press-bar-name">GRAZIA</li>
+      {%- for name in press_list -%}
+        <li class="press-bar-name">{{ name }}</li>
+      {%- endfor -%}
     </ul>
   </div>
 </section>
@@ -24,7 +36,14 @@
 {% schema %}
 {
   "name": "Cap Press Bar",
-  "settings": [],
+  "settings": [
+    { "type": "text", "id": "press_logo_1", "label": "Logo 1", "default": "Get The Gloss" },
+    { "type": "text", "id": "press_logo_2", "label": "Logo 2", "default": "Beauty Daily" },
+    { "type": "text", "id": "press_logo_3", "label": "Logo 3", "default": "The Sunday Edit" },
+    { "type": "text", "id": "press_logo_4", "label": "Logo 4", "default": "Hair Magazine UK" },
+    { "type": "text", "id": "press_logo_5", "label": "Logo 5", "default": "Stylist Beauty" },
+    { "type": "text", "id": "press_logo_6", "label": "Logo 6", "default": "The Beauty Edit" }
+  ],
   "presets": [ { "name": "Cap Press Bar" } ]
 }
 {% endschema %}

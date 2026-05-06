@@ -54,7 +54,9 @@
 .ctr-body { font-size: 14.5px; line-height: 1.6; color: #3D3D3D; margin: 0; flex: 1; }
 .ctr-foot { display: flex; align-items: center; flex-wrap: wrap; gap: .55rem; padding-top: .35rem; }
 .ctr-name { font-size: 13px; font-weight: 600; color: #0A0A0A; }
-.ctr-verified { display: inline-flex; align-items: center; padding: .15rem .55rem; background: #C41E3A; color: #fff; font-size: 10px; letter-spacing: .08em; font-weight: 700; border-radius: 999px; text-transform: uppercase; }
+/* LUMISCA-CONVERSION-FIX: aligned with .prev-verified — green pill, dark-green text + check, same proportions across all review surfaces. */
+.ctr-verified { display: inline-flex; align-items: center; gap: .35rem; padding: .2rem .55rem; background: rgba(46,169,111,.12); color: #1f7d4f; font-size: 10px; letter-spacing: .1em; font-weight: 700; border-radius: 999px; text-transform: uppercase; }
+.ctr-verified::before { content: ""; width: 10px; height: 10px; background: currentColor; -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f7d4f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12l5 5L20 7'/></svg>") no-repeat center / contain; mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f7d4f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12l5 5L20 7'/></svg>") no-repeat center / contain; }
 {%- endstylesheet -%}
 
 {% schema %}

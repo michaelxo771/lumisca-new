@@ -293,10 +293,18 @@
     setTimeout(function () { hidePopup(popup); }, 2400);
   });
 
-  /* Recent purchase toast */
+  /* Recent purchase toast — LUMISCA-CONVERSION-FIX: throttled to 90-120s
+     between shows (was 60-90s) and capped at MAX_SHOWS per session so
+     the popup feels like genuine activity, not constant noise. To
+     revert, set MIN/RANGE back to 60000/30000 and remove the
+     shownCount guard. */
   (function toast() {
     var t = $("[data-toast=recent]");
     if (!t) return;
+    var MIN_INTERVAL = 90000;     // 90s minimum between shows
+    var INTERVAL_RANGE = 30000;   // up to 30s additional jitter -> 90-120s
+    var MAX_SHOWS = 6;
+    var shownCount = 0;
     var names = ["Sarah","David","Claire","Priya","James","Emma","Tom","Rachel"];
     var locs = ["Manchester","Leeds","Edinburgh","London","Birmingham","Dublin","Glasgow","Bristol"];
     var prods = ["Pro Hair Growth Cap","Glow Face Mask","Rest Heated Eye Mask","Complete Bundle"];
@@ -306,6 +314,8 @@
     var imgEl = t.querySelector("[data-toast-img-el]");
     function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
     function show() {
+      if (shownCount >= MAX_SHOWS) return;
+      shownCount++;
       t.querySelector("[data-toast-name]").textContent = pick(names);
       t.querySelector("[data-toast-loc]").textContent = pick(locs);
       var p = pick(prods);
@@ -314,7 +324,7 @@
       t.querySelector("[data-toast-mins]").textContent = (2 + Math.floor(Math.random() * 20)) + " mins ago";
       t.classList.add("is-open");
       setTimeout(function () { t.classList.remove("is-open"); }, 5000);
-      setTimeout(show, 60000 + Math.random() * 30000);
+      if (shownCount < MAX_SHOWS) setTimeout(show, MIN_INTERVAL + Math.random() * INTERVAL_RANGE);
     }
     setTimeout(show, 15000);
   })();

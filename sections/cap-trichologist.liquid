@@ -1,0 +1,62 @@
+{%- comment -%}
+  Cap PDP — "Recommended by trichologists" credibility section. Self-
+  gates on cap handle. Sits just above the FAQ in product.json's order.
+  Settings let Mike fill in a real practitioner endorsement when he
+  has one; while the settings are blank, the section renders only the
+  generic, legal-safe wavelength claim.
+{%- endcomment -%}
+{%- comment -%}
+  Mike: when you have a real trichologist on board, fill in
+  trichologist_name / trichologist_credentials / trichologist_photo
+  via Online Store → Customize → Cap Trichologist section settings.
+  Until then the section renders the generic wavelength claim only.
+{%- endcomment -%}
+{%- if product.handle == 'pro-red-light-hair-growth-cap' -%}
+{%- assign t_name = section.settings.trichologist_name -%}
+{%- assign t_credentials = section.settings.trichologist_credentials -%}
+{%- assign t_photo = section.settings.trichologist_photo -%}
+<section class="ctri">
+  <div class="container ctri-inner">
+    <p class="ctri-eyebrow">Recommended by trichologists</p>
+    <blockquote class="ctri-claim">The 660nm and 850nm wavelengths used in Lumisca are the same wavelengths recommended by trichologists worldwide for at-home hair regeneration.</blockquote>
+    {%- if t_name != blank -%}
+      <div class="ctri-attribution">
+        {%- if t_photo != blank -%}
+          <img class="ctri-photo" src="{{ t_photo | image_url: width: 160 }}" alt="{{ t_name | escape }}" loading="lazy" width="60" height="60">
+        {%- endif -%}
+        <div class="ctri-meta">
+          <p class="ctri-name">{{ t_name }}</p>
+          {%- if t_credentials != blank -%}
+            <p class="ctri-credentials">{{ t_credentials }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+{%- endif -%}
+
+{%- stylesheet -%}
+.ctri { background: var(--cream); padding: 64px 1.25rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+@media (max-width: 768px) { .ctri { padding: 48px 1.25rem; } }
+.ctri-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+.ctri-eyebrow { font-size: 11px; letter-spacing: .25em; text-transform: uppercase; color: #B8924E; font-weight: 700; margin: 0 0 1.25rem; }
+.ctri-claim { font-family: var(--display); font-size: clamp(1.15rem, 2.4vw, 1.5rem); line-height: 1.45; color: var(--ink); margin: 0; font-weight: 500; }
+.ctri-attribution { display: inline-flex; align-items: center; gap: .85rem; margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid rgba(10,10,10,.08); }
+.ctri-photo { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(10,10,10,.08); }
+.ctri-meta { text-align: left; }
+.ctri-name { font-size: 14px; font-weight: 700; color: var(--ink); margin: 0; }
+.ctri-credentials { font-size: 12px; color: var(--mid); margin: .15rem 0 0; }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Cap Trichologist",
+  "settings": [
+    { "type": "text", "id": "trichologist_name", "label": "Trichologist name (leave blank to hide attribution block)" },
+    { "type": "text", "id": "trichologist_credentials", "label": "Trichologist credentials" },
+    { "type": "image_picker", "id": "trichologist_photo", "label": "Trichologist photo" }
+  ],
+  "presets": [ { "name": "Cap Trichologist" } ]
+}
+{% endschema %}
