@@ -67,13 +67,7 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "Controls the SAVE90 launch-edition discount surfaces (PDP card, sticky bar, cart drawer reminder, URL auto-apply). Mike must also create SAVE90 in Shopify admin → Discounts as a £90 fixed-amount-off code with £179.99 minimum order."
-      },
-      {
-        "type": "number",
-        "id": "slots_claimed",
-        "label": "Slots claimed (out of 1,000)",
-        "default": 47
+        "content": "Controls the SAVE90 launch-edition discount surfaces (PDP card, sticky bar, cart drawer reminder, URL auto-apply). Mike must also create SAVE90 in Shopify admin → Discounts as a £90 fixed-amount-off code with £179.99 minimum order. Framing is 'UK Spring Launch — limited promotional pricing' rather than the original 'first 1,000 customers' (which contradicted the existing 10,000+ customer social proof)."
       },
       {
         "type": "checkbox",

@@ -44,11 +44,11 @@ The /discount/SAVE90 endpoint will return a "discount not found" error. Mike mus
 
 ### DO use
 
-- "**£90 off** our Launch Edition"
-- "**£90 off** for first 1,000 UK customers"
+- "**£90 off** — UK Spring Launch"
+- "**£90 off** our Pro Red Light Cap (UK promotional pricing)"
 - "**£90 off** — code SAVE90 at checkout"
 - "Get **£90 off** the Lumisca Pro Cap"
-- "Launch Edition — first 1,000 UK customers"
+- "Spring Launch — £90 off with code SAVE90"
 - "Drug-free hair regrowth — £89.99 with code SAVE90"
 - "Clinical 660nm + 850nm wavelengths — £89.99 launch price"
 
@@ -58,7 +58,7 @@ The /discount/SAVE90 endpoint will return a "discount not found" error. Mike mus
 - ~~"Half price"~~ — same reason.
 - ~~"60% off" / "70% off" / any stacked percentage claim~~ — the maths look great but read as deal-of-the-day, not Launch Edition.
 - ~~"FREE £90 voucher"~~ — sounds scammy. The £90 isn't free; it's a launch-edition discount.
-- ~~"Limited time only" without specifics~~ — pair urgency with a believable anchor (the "first 1,000 UK customers" cap is strong; a generic "limited time" isn't).
+- ~~"Limited time only" without specifics~~ — pair urgency with a believable anchor (the "Spring Launch" period is strong; a generic "limited time" isn't).
 - ~~"Doctor recommended"~~ unless we have a real practitioner endorsement on file. Currently the cap PDP says "wavelengths recommended by trichologists worldwide" — generic claim, legally safe. A specific named doctor endorsement requires their written permission.
 
 ### Tone
@@ -129,7 +129,7 @@ Without these set, the headline "was £349.99" / "was £459.98" / "was £559.97"
 
 Shopify admin → Online Store → Themes → Customize → Theme settings → "Phase 2 — SAVE90 Launch Edition"
 
-Manually bump `slots_claimed` from 47 toward 1,000 as launch orders land. There's no automated counter — keep this as honest as possible (don't over-inflate; buyers screenshot pages and notice).
+The launch framing is now "UK Spring Launch — limited promotional pricing" (not "first 1,000 UK customers", which contradicted the 10,000+ customer social proof elsewhere on the page). There is no slot counter to update — the "Promotional pricing ends soon" line on the discount card is static.
 
 ### 5. Toggle auto-apply if you change your mind
 

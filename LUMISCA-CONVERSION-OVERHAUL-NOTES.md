@@ -187,7 +187,7 @@ If any item above looks wrong, ping Claude with the page URL and what's broken.
 - Bundle picker: tier titles, sub copy, data-tv-* attrs all updated to Phase 2 numbers. Tier 2's separate "BEST VALUE" gold pill removed (the inline title now covers it).
 - Total Value box hardcoded values updated for Tier 1 active state (£349.99 → £179.99 / save £170 / 49%). Added a small footer line "Apply code SAVE90 at checkout for an extra £90 off."
 - Bonus-stack footer values updated to £349.99 → £179.99.
-- Replaced "Why we're £54.99 not £549" collapsible with new **Launch Edition discount card** (gold border, monospace SAVE90 pill, "Slot N of 1,000 claimed" counter from theme settings).
+- Replaced "Why we're £54.99 not £549" collapsible with new **Launch Edition discount card** (gold border, monospace SAVE90 pill, "Promotional pricing ends soon" tagline). Originally shipped with a "Slot N of 1,000 claimed" counter; that framing was retired (see "Framing fix" note below) because it contradicted the existing 10,000+ customer social proof elsewhere on the page.
 - Added new **"Why Launch Edition pricing?"** collapsible directly under the discount card (reuses `.cap-why-cheap` class for visual consistency).
 - Countdown timer: label `OFFER ENDS IN` → `Launch Edition ends in`. Inline JS `WINDOW_MS` extended from 3 hours to 48 hours.
 
@@ -195,7 +195,7 @@ If any item above looks wrong, ping Claude with the page URL and what's broken.
 Three study cards in a 1-col mobile / 3-col desktop grid: Lanzafame 2014 (PMID 24249354), Avci 2013 (PMID 24049929), Pillai 2017 (PMID 28748391). Each card opens its PubMed deep link in a new tab. Legal-safety disclaimer at the bottom: "Lumisca is not a medical device and does not diagnose, treat, or cure any condition. Studies cited reference low-level laser therapy as a category, not the Lumisca product specifically. Individual results vary." Slotted into `templates/product.json` between `benefits` ("Engineered for real results") and `cap-clinical-proof` (the 46.6% chart).
 
 #### `layout/theme.liquid`
-- Sticky `<div class="cap-launch-strip">` above the header with the `🎁 Launch Edition: £90 off with code SAVE90 — first 1,000 UK customers` message and a dismiss button. Hidden by default; revealed by JS unless dismissed within last 24h.
+- Sticky `<div class="cap-launch-strip">` above the header with the `🎁 UK Spring Launch: £90 off the Pro Red Light Cap — code SAVE90` message and a dismiss button. Hidden by default; revealed by JS unless dismissed within last 24h.
 - Exposed `autoApplySave90: true|false` from `settings.auto_apply_save90` to JS via the `window.LUMISCA` config object.
 
 #### `snippets/cart-drawer.liquid`
@@ -209,9 +209,9 @@ Three study cards in a 1-col mobile / 3-col desktop grid: Lanzafame 2014 (PMID 2
 - Site-wide CSS for `.cap-launch-strip` (black bar, gold SAVE90 emphasis, dismiss button, mobile font-size adjust).
 
 #### `config/settings_schema.json`
-- New theme settings panel **"Phase 2 — SAVE90 Launch Edition"** with two settings:
-  - `slots_claimed` (number, default 47)
+- New theme settings panel **"Phase 2 — SAVE90 Launch Edition"** with three settings (`slots_claimed` removed in framing fix):
   - `auto_apply_save90` (checkbox, default true)
+  - `duo_bundle_handle` (text, default `hair-skin-duo`)
 
 #### `templates/product.json`
 - Added `cap-science-studies` section entry + slotted into the order between `benefits` and `cap-clinical-proof`.
@@ -229,7 +229,7 @@ Three study cards in a 1-col mobile / 3-col desktop grid: Lanzafame 2014 (PMID 2
 | 2a | **Cap variant price** = £179.99 + **compare_at_price** = £349.99 | ✅ Done |
 | 2b | **Bundle pricing** (Tier 3 Complete Bundle £279.99 / £559.97 + Tier 2 Hair + Skin Duo £229.99 / £459.98) | ⚠️ See "Bundle pricing setup" below — Tier 2 needs a Shopify Bundles product to be created first |
 | 3 | **Verify LUMISCA10 settings** — combinations: NONE, NOT in Shopify featured discounts, used for email/cart-recovery only | ⏳ Pending |
-| 4 | **Update `slots_claimed` setting** as orders land (Theme settings → Phase 2 — SAVE90 Launch Edition) | ⏳ Manual ongoing |
+| 4 | ~~Update `slots_claimed` setting~~ | ❌ Removed — see "Framing fix" below. The "first 1,000 customers" framing contradicted 10,000+ social proof; replaced with "UK Spring Launch — limited promotional pricing" (no slot counter). |
 | 5 | **Verify PubMed PMIDs** in `sections/cap-science-studies.liquid` (24249354 / 24049929 / 28748391) resolve to the correct studies | ⏳ Pending |
 | 6 | **Confirm cap product images don't have AI watermarks** | ⏳ Pending |
 | 7 | **SEO meta description** updated from "60-day" to "90-day money-back guarantee" | ✅ Done |
