@@ -164,3 +164,99 @@ After `shopify theme push --store lumisca-2.myshopify.com --theme 198139117911 -
 6. **Trichologist section**: visible above FAQ, generic claim only (until Mike fills attribution settings).
 
 If any item above looks wrong, ping Claude with the page URL and what's broken.
+
+---
+
+## Phase 2 — Pricing reposition + SAVE90 launch edition + science section
+
+**Phase 2 commits on `main`:**
+- `4711f47` — Pricing reposition to £179.99 / £89.99 with SAVE90 code
+- `cee48f6` — SAVE90 launch edition framing (cards, sticky bar, cart drawer line, URL auto-apply, Why Launch Edition collapsible, countdown 48h reset)
+- `a0d5244` — Science section with 3 published PubMed studies
+- `(this commit)` — `marketing.md` ad-link templates + admin task list + this Phase 2 section
+
+**Reframe note**: Phase 2 was originally drafted around `WELCOME50 / 50% off`. The Patch issued mid-execution swapped to **`SAVE90 / £90 off`** (fixed-amount voucher). All in-codebase references were applied with the patch already merged — no `WELCOME50` or `50% off` strings remain anywhere added in Phase 2.
+
+### Phase 2 file-by-file
+
+#### `sections/product-main.liquid`
+- Hero price: removed the "SAVE £170" pill (per Patch) so the price block now reads `£179.99` with `£349.99` strikethrough only.
+- New `cap-save90-line` directly below the price: gold-bordered `✦ £89.99 with code SAVE90 — £90 off ✦`. Server-rendered dynamic from `(variant.price - 9000) | money`, so it tracks admin price changes.
+- Klarna sub-line: now dynamic at `(variant.price - 9000) / 3 | money` instead of the prior hardcoded `£18.33`.
+- Trust pill row: `CE Marked · 90-Day Guarantee · Free UK & IE Shipping · Klarna Available` → `CE Marked · Clinical Wavelengths · 90-Day Guarantee · Free UK Shipping · Klarna 3x £30`.
+- Bundle picker: tier titles, sub copy, data-tv-* attrs all updated to Phase 2 numbers. Tier 2's separate "BEST VALUE" gold pill removed (the inline title now covers it).
+- Total Value box hardcoded values updated for Tier 1 active state (£349.99 → £179.99 / save £170 / 49%). Added a small footer line "Apply code SAVE90 at checkout for an extra £90 off."
+- Bonus-stack footer values updated to £349.99 → £179.99.
+- Replaced "Why we're £54.99 not £549" collapsible with new **Launch Edition discount card** (gold border, monospace SAVE90 pill, "Slot N of 1,000 claimed" counter from theme settings).
+- Added new **"Why Launch Edition pricing?"** collapsible directly under the discount card (reuses `.cap-why-cheap` class for visual consistency).
+- Countdown timer: label `OFFER ENDS IN` → `Launch Edition ends in`. Inline JS `WINDOW_MS` extended from 3 hours to 48 hours.
+
+#### `sections/cap-science-studies.liquid` (new, cap-only)
+Three study cards in a 1-col mobile / 3-col desktop grid: Lanzafame 2014 (PMID 24249354), Avci 2013 (PMID 24049929), Pillai 2017 (PMID 28748391). Each card opens its PubMed deep link in a new tab. Legal-safety disclaimer at the bottom: "Lumisca is not a medical device and does not diagnose, treat, or cure any condition. Studies cited reference low-level laser therapy as a category, not the Lumisca product specifically. Individual results vary." Slotted into `templates/product.json` between `benefits` ("Engineered for real results") and `cap-clinical-proof` (the 46.6% chart).
+
+#### `layout/theme.liquid`
+- Sticky `<div class="cap-launch-strip">` above the header with the `🎁 Launch Edition: £90 off with code SAVE90 — first 1,000 UK customers` message and a dismiss button. Hidden by default; revealed by JS unless dismissed within last 24h.
+- Exposed `autoApplySave90: true|false` from `settings.auto_apply_save90` to JS via the `window.LUMISCA` config object.
+
+#### `snippets/cart-drawer.liquid`
+- New gold-tinted line at the top of the drawer body: `💎 Apply code SAVE90 at checkout for £90 off (Launch Edition)`. Renders for every visitor on every page.
+
+#### `assets/theme.js`
+- New `launchStrip` IIFE: reveals the sticky launch strip on every page unless dismissed within 24h via localStorage.
+- New `autoApplySave90` IIFE: redirects to `/discount/SAVE90?redirect=<current-path>` on first visit when either `?discount=SAVE90` is in the URL or the auto-apply theme setting is true. Skips when already on `/discount/`, `/checkouts`, or `/cart` paths. SessionStorage flag prevents loops.
+
+#### `assets/theme.css`
+- Site-wide CSS for `.cap-launch-strip` (black bar, gold SAVE90 emphasis, dismiss button, mobile font-size adjust).
+
+#### `config/settings_schema.json`
+- New theme settings panel **"Phase 2 — SAVE90 Launch Edition"** with two settings:
+  - `slots_claimed` (number, default 47)
+  - `auto_apply_save90` (checkbox, default true)
+
+#### `templates/product.json`
+- Added `cap-science-studies` section entry + slotted into the order between `benefits` and `cap-clinical-proof`.
+
+#### `marketing.md` (new, repo root)
+- Ad link templates for women / men / untargeted using the `/discount/SAVE90?redirect=` pattern.
+- Ad copy DO/DON'T list (use `£90 off`; avoid percentage framing).
+- Pre-launch verification checklist.
+
+### Mike's Phase 2 admin tasks (CRITICAL — discount code must exist before any paid traffic)
+
+1. **Create SAVE90 discount in Shopify admin** — see `marketing.md` § "Admin tasks" for full settings. Without this, any visitor reaching `/discount/SAVE90` will see a "code not valid" error and the auto-apply infrastructure won't work.
+2. **Set compare-at prices** on cap (£349.99) and bundle (£559.97) variants. Without these, the strikethrough RRP doesn't render natively.
+3. **Verify LUMISCA10 settings** — combinations: NONE, NOT in Shopify featured discounts, used for email/cart-recovery only.
+4. **Update `slots_claimed` setting** — Theme settings → Phase 2 — SAVE90 Launch Edition → bump from 47 toward 1,000 as orders land. Manual; no automated counter.
+5. **Verify PubMed PMIDs** in `sections/cap-science-studies.liquid` resolve to the correct studies. The IDs (24249354, 24049929, 28748391) are copied verbatim from the Phase 2 brief — if any were typo'd in the brief, the deep-links will land on the wrong study. Open each PubMed link, confirm the journal/year/author metadata matches the card copy, and tell me of any mismatches so we can fix.
+6. **Confirm cap product images don't have AI watermarks** — the bundle thumbnails on the picker pull from each product's admin `featured_image`. If watermarks are present, Mike replaces in admin (no code change needed).
+
+### Phase 2 verification (post-deploy)
+
+1. **All three audience variants render cleanly:**
+   - `https://lumisca.co.uk/products/pro-red-light-hair-growth-cap` — generic, route buttons visible, no banner, sticky launch strip visible
+   - `?audience=women` — women's banner visible, route buttons hidden, Sarah M. first review
+   - `?audience=men` — men's banner visible, route buttons hidden, Tom W. first review
+
+2. **Discount auto-apply via URL works:**
+   - `https://lumisca.co.uk/discount/SAVE90?redirect=/products/pro-red-light-hair-growth-cap` — redirects to PDP with SAVE90 in session
+   - Adding the cap to cart and proceeding to checkout shows £89.99 final (£179.99 - £90)
+   - Bundle (Tier 3) at checkout shows £189.99 final (£279.99 - £90)
+
+3. **Sticky bar dismiss persists 24h** — close it, reload, stays gone. Open in incognito after 24h, reappears.
+
+4. **Cart drawer SAVE90 line visible** when drawer is opened, regardless of cart state.
+
+5. **Science section** renders 3 study cards on cap PDP, with PubMed links resolving correctly. Disclaimer visible below the cards.
+
+6. **Other PDPs unchanged**:
+   - `/products/glow-red-light-face-mask` — original 3-line scarcity, no science studies, no launch card, no route buttons
+   - `/products/rest-heated-eye-mask` — same
+   - `/products/lumisca-complete-bundle` — same
+   - sticky launch strip + cart drawer SAVE90 line render on these pages too (intentional — they're site-wide, not cap-only)
+
+7. **Pricing display matches Mike's admin pricing**:
+   - Cap variant price in admin = £179.99 → headline matches
+   - Cap variant compare-at = £349.99 → strikethrough matches
+   - Bundle variant price = £279.99 → Tier 3 ATC adds £279.99 worth, SAVE90 brings it to £189.99
+
+If any item above looks wrong, ping Claude with the page URL, the actual symptom, and what was expected.
