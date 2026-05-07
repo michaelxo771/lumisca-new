@@ -29,6 +29,38 @@
     {%- render 'meta-tags' -%}
 
     {{ 'theme.css' | asset_url | stylesheet_tag }}
+    {{ 'audience-variants.css' | asset_url | stylesheet_tag }}
+
+    {%- comment -%}
+      Audience personalization: detect ?audience=women|men URL param, persist
+      via cookie (14d), and apply audience-women|audience-men|audience-generic
+      class to <html> BEFORE first paint so palette overrides land without FOUC.
+      Existing audience IIFE in product-main.liquid still handles PDP-specific
+      banner reveal + review ordering; this only manages the global body class.
+    {%- endcomment -%}
+    <script>
+    (function () {
+      var COOKIE = 'lumisca_audience';
+      var aud = '';
+      try {
+        var p = new URLSearchParams(window.location.search);
+        aud = (p.get('audience') || '').toLowerCase();
+      } catch (_) {}
+      if (aud !== 'women' && aud !== 'men') {
+        var m = document.cookie.match(/(?:^|; )lumisca_audience=([^;]*)/);
+        if (m) aud = decodeURIComponent(m[1]).toLowerCase();
+      } else {
+        try {
+          var d = new Date(); d.setTime(d.getTime() + 14 * 864e5);
+          document.cookie = COOKIE + '=' + aud + '; expires=' + d.toUTCString() + '; path=/; SameSite=Lax';
+        } catch (_) {}
+      }
+      var cls = 'audience-generic';
+      if (aud === 'women') cls = 'audience-women';
+      else if (aud === 'men') cls = 'audience-men';
+      document.documentElement.classList.add(cls);
+    })();
+    </script>
 
     <script>
       window.LUMISCA = {

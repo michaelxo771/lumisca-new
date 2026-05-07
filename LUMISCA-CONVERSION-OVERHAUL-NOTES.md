@@ -288,4 +288,79 @@ The Claude sandbox can't browse to lumisca.co.uk to verify deployed behaviour. M
    - Cap variant compare-at = £349.99 → strikethrough matches
    - Bundle variant price = £279.99 → Tier 3 ATC adds £279.99 worth, SAVE90 brings it to £189.99
 
+---
+
+## Audience personalization v2 (May 2026)
+
+Layered onto the Phase 1 audience-targeting (which only swapped the PDP intro line + reordered male reviews). v2 broadens this to subtle visual personalization across the whole site — palette, copy, review/FAQ ordering — without touching prices, science copy, regulatory claims, or anything functional.
+
+### Detection + persistence
+
+- A small inline script in `layout/theme.liquid` (just after `theme.css`) reads `?audience=women` or `?audience=men` from the URL, persists it in a `lumisca_audience` cookie for 14 days, and applies `audience-women` / `audience-men` / `audience-generic` class to `<html>` BEFORE first paint (no FOUC).
+- Variant CSS lives in `assets/audience-variants.css` and is gated entirely by these classes. Mike can find every variant override in this single file.
+- The Phase 1 audience IIFE on the cap PDP (banner reveal + review reorder) now sources its audience from the same `<html>` class, so it inherits cookie persistence too — visitors keep their variant when they navigate away from a tagged URL.
+
+### What's variant-specific
+
+| Surface | Women | Men | Generic |
+| --- | --- | --- | --- |
+| Announcement bar palette | Warm rose `#F5E6E0` on dark warm brown text | Charcoal `#2A2A2A` on warm cream text | Black on white (default) |
+| Announcement bar copy | "✨ UK Spring Launch — £90 off… Designed for thinning at the parting, postpartum, or menopausal hair loss. Code SAVE90." | "🎯 UK Spring Launch — £90 off… Reverse receding hairline and crown thinning. Code SAVE90." | Existing Mike-configured rotation |
+| PDP audience banner | Warm rose-gold accent | Bronze accent on dark | (no banner — self-routing buttons instead) |
+| Trust pill / regulatory accent | Rose-gold `#C9967C` | Darker bronze `#9A8050` | Brand gold `#B8924E` |
+| Reviews surfaced first | Sarah M. → Emma R. → Naomi W. | Tom W. → Connor S. → Mark P. | Existing order |
+| FAQ surfaced first | "Does it work for postpartum hair loss?", "Can I use this during menopause?", "Will it help with thinning at the parting?" | "Does it work on receding hairlines?", "How effective is it for crown thinning?", "Will it work if I'm already losing hair to male pattern baldness?" | (those entries hidden; existing FAQ unchanged) |
+| CTA button hover | Slightly warmer red `#B81E3E` | Slightly cooler red `#A41024` | Brand red |
+
+### What's the SAME across all variants (do not change per audience)
+
+- Product price (£179.99) and compare-at (£349.99)
+- Studies / science section (clinical research is gender-neutral)
+- Regulatory copy (CE Marked, wavelengths, etc. — only its accent colour shifts)
+- Bundle selector tiers + pricing
+- Countdown timer, 90-day guarantee, 10,000+ customer stat
+- SAVE90 discount logic and code
+
+### Mike's adjustment surface
+
+- **Announcement bar copy**: Theme Customizer → Announcement Bar section → "Audience-targeted overrides" → edit `Women's audience message` / `Men's audience message`. Leave blank to disable (default rotation re-appears for that variant).
+- **Variant palette / accent colours**: edit `assets/audience-variants.css`. The CSS variables at the top of the file (`--audience-accent`, `--audience-cta-hover`, etc.) are the levers; everything else inherits from them. Single file, well-commented.
+- **FAQ entries per variant**: the audience-specific entries live in `sections/product-faq.liquid` inside the cap PDP block, marked with `data-faq-audience="women"` or `data-faq-audience="men"`. Edit copy directly in Liquid; CSS gates visibility automatically.
+- **Reviewer priority**: `sections/product-main.liquid` audience IIFE near the bottom — `priority` array. Names must match `data-review-name` values rendered in `sections/product-reviews.liquid`.
+
+### Future enhancement — before/after photo gender prioritization
+
+The product gallery and Real Results scroll are currently fed from generic image assets that aren't tagged by gender. Reordering them per audience is deferred until either:
+
+1. Mike tags photos in admin (alt-text convention, e.g. `before-after-female-1`, `before-after-male-2`), OR
+2. Photos are re-uploaded with explicit gendered filename conventions
+
+Once tagged, the same `<html>` class hook can drive a sort similar to the review reorder. Flagged here so it doesn't get lost.
+
+### Verification — three-variant walkthrough
+
+After deploy, run all three in incognito (each in a fresh window so the cookie doesn't carry over):
+
+1. `/products/pro-red-light-hair-growth-cap?audience=women`
+   - Announcement bar: warm rose background, women's copy
+   - PDP banner: rose-gold tinted "For women: thinning at the parting…"
+   - Trust pills: rose-gold accent
+   - Reviews: Sarah M. first card
+   - FAQ: postpartum / menopause / parting questions surface above the rest
+
+2. `/products/pro-red-light-hair-growth-cap?audience=men`
+   - Announcement bar: charcoal background, men's copy
+   - PDP banner: bronze tinted "For men: thinning at the crown…"
+   - Trust pills: darker bronze accent
+   - Reviews: Tom W. first card
+   - FAQ: receding hairline / crown thinning / male pattern questions surface above the rest
+
+3. `/products/pro-red-light-hair-growth-cap` (no params, no cookie)
+   - Announcement bar: black/white default, Mike's configured rotation
+   - PDP: self-routing buttons visible, no audience banner, mixed review order
+   - Trust pills: brand gold
+   - FAQ: cap-specific deep-dive questions only, no audience-specific entries
+
+After visiting variant 1 or 2, navigating to a different page on the site (e.g. `/collections/all`) should keep the audience palette/copy active because of the cookie. Use a fresh incognito window per variant to test cleanly.
+
 If any item above looks wrong, ping Claude with the page URL, the actual symptom, and what was expected.

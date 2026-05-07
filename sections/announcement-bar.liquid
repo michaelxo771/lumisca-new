@@ -1,9 +1,20 @@
-{%- if section.blocks.size > 0 -%}
+{%- if section.blocks.size > 0 or section.settings.audience_women_text != blank or section.settings.audience_men_text != blank -%}
 <div class="ann" data-ann>
   <div class="container ann-inner">
+    {%- comment -%}
+      Audience-targeted overrides. Hidden by default; revealed (and the
+      generic blocks suppressed) by the audience class on <html>.
+      Defaults can be overridden per-store from the section settings.
+    {%- endcomment -%}
+    {%- if section.settings.audience_women_text != blank -%}
+      <span class="ann-item ann-audience" data-ann-item data-ann-audience="women">{{ section.settings.audience_women_text }}</span>
+    {%- endif -%}
+    {%- if section.settings.audience_men_text != blank -%}
+      <span class="ann-item ann-audience" data-ann-item data-ann-audience="men">{{ section.settings.audience_men_text }}</span>
+    {%- endif -%}
     {%- for block in section.blocks -%}
       <span
-        class="ann-item{% if forloop.first %} is-active{% endif %}"
+        class="ann-item ann-default{% if forloop.first %} is-active{% endif %}"
         data-ann-item
         {{ block.shopify_attributes }}
       >{{ block.settings.text }}</span>
@@ -13,7 +24,7 @@
 {%- endif -%}
 
 {%- stylesheet -%}
-.ann { background: #000000; color: #fff; font-size: 12px; letter-spacing: .15em; text-transform: uppercase; }
+.ann { background: #000000; color: #fff; font-size: 12px; letter-spacing: .15em; text-transform: uppercase; transition: background .25s, color .25s; }
 @media (min-width: 768px) { .ann { font-size: 13px; } }
 .ann-inner { position: relative; height: 40px; overflow: hidden; }
 .ann-item {
@@ -38,8 +49,34 @@
 (function () {
   var root = document.querySelector('[data-ann]');
   if (!root) return;
-  var items = root.querySelectorAll('[data-ann-item]');
+
+  /* Pick the rotation set: if the matching audience override exists,
+     use only that (single static message). Otherwise use the generic
+     blocks. Audience items are hidden via CSS until the matching
+     audience class is on <html>; we just have to remove the default
+     items from the rotation accordingly. */
+  var html = document.documentElement;
+  var audienceOverride = null;
+  if (html.classList.contains('audience-women')) {
+    audienceOverride = root.querySelector('[data-ann-audience="women"]');
+  } else if (html.classList.contains('audience-men')) {
+    audienceOverride = root.querySelector('[data-ann-audience="men"]');
+  }
+
+  var items;
+  if (audienceOverride) {
+    /* Drop default items from the active rotation by stripping
+       data-ann-item; CSS already hides them visually. */
+    var defaults = root.querySelectorAll('.ann-default');
+    defaults.forEach(function (el) { el.classList.remove('is-active'); });
+    audienceOverride.classList.add('is-active');
+    items = [audienceOverride];
+  } else {
+    items = root.querySelectorAll('.ann-default[data-ann-item]');
+  }
+
   if (items.length < 2) return;
+
   var i = 0;
   var paused = false;
   function tick() {
@@ -59,7 +96,28 @@
   "name": "Announcement Bar",
   "tag": "aside",
   "class": "announcement-section",
-  "settings": [],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Audience-targeted overrides"
+    },
+    {
+      "type": "paragraph",
+      "content": "When a visitor lands with ?audience=women or ?audience=men (or has the lumisca_audience cookie set from a prior visit), the matching message below replaces the default rotating blocks. Leave blank to show the default blocks regardless of audience."
+    },
+    {
+      "type": "text",
+      "id": "audience_women_text",
+      "label": "Women's audience message",
+      "default": "✨ UK Spring Launch — £90 off the Pro Red Light Cap. Designed for thinning at the parting, postpartum, or menopausal hair loss. Code SAVE90."
+    },
+    {
+      "type": "text",
+      "id": "audience_men_text",
+      "label": "Men's audience message",
+      "default": "🎯 UK Spring Launch — £90 off the Pro Red Light Cap. Reverse receding hairline and crown thinning. Code SAVE90."
+    }
+  ],
   "blocks": [
     {
       "type": "message",

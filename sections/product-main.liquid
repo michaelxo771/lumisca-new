@@ -1246,37 +1246,42 @@
 </script>
 
 <script>
-/* Cap PDP — audience-targeted hero. Reads ?audience=women|men on load,
+/* Cap PDP — audience-targeted hero. Reads audience from <html> class
+   (which is set by the head-script in layout/theme.liquid from either
+   the ?audience=women|men URL param or the lumisca_audience cookie),
    reveals the matching pre-rendered banner above the product rating,
-   and (for men) reorders the reviews grid so the first card is a male
-   testimonial (Tom W. → Connor S. → Mark P. fallback chain). Default
-   (no param, or unknown value) leaves the page exactly as rendered. */
+   and reorders the reviews grid so audience-matching reviewers
+   surface first. Default (no audience class / generic) leaves the
+   page exactly as rendered. */
 (function () {
   if (document.body.className.indexOf('template-product') === -1) return;
+  var html = document.documentElement;
   var audience = '';
-  try {
-    var params = new URLSearchParams(window.location.search);
-    audience = (params.get('audience') || '').toLowerCase();
-  } catch (_) { return; }
-  if (audience !== 'women' && audience !== 'men') return;
+  if (html.classList.contains('audience-women')) audience = 'women';
+  else if (html.classList.contains('audience-men')) audience = 'men';
+  if (!audience) return;
 
   var banner = document.querySelector('[data-cap-audience="' + audience + '"]');
   if (banner) { banner.hidden = false; banner.classList.add('is-visible'); }
 
   /* LUMISCA-CONVERSION-FIX (Problem 11A): hide the self-routing buttons
      when the visitor is already on a targeted variant. Generic visitors
-     (no audience param) early-returned above and see the buttons. */
+     (no audience class) early-returned above and see the buttons. */
   var routeBlock = document.querySelector('[data-cap-audience-route]');
   if (routeBlock) routeBlock.hidden = true;
 
-  if (audience === 'men') {
-    var grid = document.querySelector('.prev-grid');
-    if (!grid) return;
-    var maleNames = ['Tom W.', 'Connor S.', 'Mark P.'];
-    for (var i = 0; i < maleNames.length; i++) {
-      var match = grid.querySelector('[data-review-name="' + maleNames[i] + '"]');
-      if (match) { grid.insertBefore(match, grid.firstChild); break; }
-    }
+  /* Review reorder: surface audience-matching reviewers first.
+     Iterates the priority list in reverse so the first match ends up
+     as the first card in the grid. Doesn't hide non-matching cards —
+     they keep their original relative order below. */
+  var grid = document.querySelector('.prev-grid');
+  if (!grid) return;
+  var priority = audience === 'men'
+    ? ['Tom W.', 'Connor S.', 'Mark P.']
+    : ['Sarah M.', 'Emma R.', 'Naomi W.'];
+  for (var i = priority.length - 1; i >= 0; i--) {
+    var match = grid.querySelector('[data-review-name="' + priority[i] + '"]');
+    if (match) grid.insertBefore(match, grid.firstChild);
   }
 })();
 </script>
