@@ -13,6 +13,9 @@
     "benefits": {
       "type": "product-benefits"
     },
+    "cap-science-studies": {
+      "type": "cap-science-studies"
+    },
     "cap-clinical-proof": {
       "type": "cap-clinical-proof"
     },
@@ -92,6 +95,7 @@
     "main",
     "cap-press-bar",
     "benefits",
+    "cap-science-studies",
     "cap-clinical-proof",
     "timeline",
     "expert-quote",

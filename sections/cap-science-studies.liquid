@@ -1,0 +1,79 @@
+{%- comment -%}
+  Phase 2 — Cap PDP "The Science" section. Self-gates on cap handle.
+  Three published-study cards (Lanzafame 2014, Avci 2013, Pillai 2017)
+  with PubMed deep-links, key findings, sample/type metadata, and a
+  legal-safety disclaimer at the bottom. Slotted into product.json
+  order between benefits ("Engineered for real results") and
+  cap-clinical-proof (the 46.6% chart).
+{%- endcomment -%}
+{%- if product.handle == 'pro-red-light-hair-growth-cap' -%}
+<section class="csci">
+  <div class="container csci-inner">
+    <p class="csci-eyebrow">The Science</p>
+    <h2 class="csci-heading">Backed by published clinical research</h2>
+    <p class="csci-lead">Red light therapy at 660nm and 850nm wavelengths has been studied for hair regrowth across multiple peer-reviewed trials. Below are three of the most cited studies underpinning low-level laser therapy (LLLT) for androgenetic alopecia.</p>
+
+    <ul class="csci-grid">
+      <li class="csci-card">
+        <p class="csci-card-eyebrow">Lasers in Surgery and Medicine · 2014</p>
+        <h3 class="csci-card-title">The growth of human scalp hair in females using visible red light laser and LED sources</h3>
+        <p class="csci-card-authors">Lanzafame et al.</p>
+        <p class="csci-card-finding"><strong>Key finding:</strong> Participants using red light therapy showed a 35% increase in hair count over 16 weeks compared to control.</p>
+        <p class="csci-card-meta">Sample: 47 women with androgenetic alopecia</p>
+        <a class="csci-card-cta" href="https://pubmed.ncbi.nlm.nih.gov/24249354/" target="_blank" rel="noopener noreferrer nofollow">Read on PubMed →</a>
+      </li>
+      <li class="csci-card">
+        <p class="csci-card-eyebrow">Seminars in Cutaneous Medicine and Surgery · 2013</p>
+        <h3 class="csci-card-title">Low-level laser (light) therapy (LLLT) for treatment of hair loss</h3>
+        <p class="csci-card-authors">Avci et al.</p>
+        <p class="csci-card-finding"><strong>Key finding:</strong> Reviewed mechanism of photobiomodulation — 660nm and 850nm wavelengths penetrate the scalp and stimulate mitochondrial activity in hair follicle cells, extending the anagen (growth) phase.</p>
+        <p class="csci-card-meta">Type: Peer-reviewed mechanism review</p>
+        <a class="csci-card-cta" href="https://pubmed.ncbi.nlm.nih.gov/24049929/" target="_blank" rel="noopener noreferrer nofollow">Read on PubMed →</a>
+      </li>
+      <li class="csci-card">
+        <p class="csci-card-eyebrow">Lasers in Medical Science · 2017</p>
+        <h3 class="csci-card-title">Visible red light emitting diode photobiomodulation for skin fibrosis: key molecular pathways</h3>
+        <p class="csci-card-authors">Pillai</p>
+        <p class="csci-card-finding"><strong>Key finding:</strong> Aggregated review confirmed LLLT efficacy across multiple trials for androgenetic alopecia in both men and women, with no significant side effects reported.</p>
+        <p class="csci-card-meta">Type: Meta-analysis</p>
+        <a class="csci-card-cta" href="https://pubmed.ncbi.nlm.nih.gov/28748391/" target="_blank" rel="noopener noreferrer nofollow">Read on PubMed →</a>
+      </li>
+    </ul>
+
+    <p class="csci-disclaimer">Lumisca is not a medical device and does not diagnose, treat, or cure any condition. Studies cited reference low-level laser therapy as a category, not the Lumisca product specifically. Individual results vary.</p>
+  </div>
+</section>
+{%- endif -%}
+
+{%- stylesheet -%}
+.csci { background: var(--cream); padding: 80px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+@media (max-width: 768px) { .csci { padding: 56px 0; } }
+.csci-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.25rem; }
+.csci-eyebrow { font-size: 11px; letter-spacing: .25em; text-transform: uppercase; color: #B8924E; font-weight: 700; margin: 0 0 .85rem; }
+.csci-heading { font-family: var(--display); font-size: clamp(1.75rem, 3.4vw, 2.5rem); line-height: 1.2; color: var(--ink); margin: 0 0 1rem; max-width: 720px; letter-spacing: -0.01em; }
+.csci-lead { font-size: 1rem; line-height: 1.7; color: var(--mid); margin: 0 0 2.5rem; max-width: 720px; }
+
+.csci-grid { list-style: none; padding: 0; margin: 0 0 2rem; display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 768px) { .csci-grid { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; } }
+
+.csci-card { display: flex; flex-direction: column; padding: 1.25rem 1.35rem; background: #fff; border: 1px solid #E6DFCD; border-radius: 8px; transition: border-color .2s, transform .2s, box-shadow .2s; }
+.csci-card:hover { border-color: #B8924E; transform: translateY(-2px); box-shadow: 0 12px 28px -16px rgba(10,10,10,.16); }
+.csci-card-eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #B8924E; font-weight: 700; margin: 0 0 .55rem; }
+.csci-card-title { font-family: var(--display); font-size: 1rem; line-height: 1.35; color: var(--ink); margin: 0 0 .35rem; font-weight: 600; }
+.csci-card-authors { font-size: 12px; color: var(--mid); font-style: italic; margin: 0 0 .85rem; }
+.csci-card-finding { font-size: 13.5px; line-height: 1.6; color: #3D3D3D; margin: 0 0 .65rem; }
+.csci-card-finding strong { color: var(--ink); font-weight: 700; }
+.csci-card-meta { font-size: 11px; letter-spacing: .04em; color: var(--mid); margin: 0 0 1rem; padding: .35rem 0; border-top: 1px solid rgba(10,10,10,.06); border-bottom: 1px solid rgba(10,10,10,.06); }
+.csci-card-cta { display: inline-flex; align-items: center; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: #C41E3A; text-decoration: none; align-self: flex-start; margin-top: auto; padding-top: .25rem; transition: color .15s; }
+.csci-card-cta:hover { color: #0A0A0A; }
+
+.csci-disclaimer { max-width: 720px; font-size: 12.5px; font-style: italic; color: var(--mid); line-height: 1.6; margin: 0; padding-top: 1.25rem; border-top: 1px solid rgba(10,10,10,.08); }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Cap Science Studies",
+  "settings": [],
+  "presets": [ { "name": "Cap Science Studies" } ]
+}
+{% endschema %}
