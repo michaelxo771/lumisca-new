@@ -81,6 +81,13 @@
         "label": "Auto-apply SAVE90 on first visit",
         "info": "When enabled, first-time visitors are redirected through /discount/SAVE90 so the discount is in their Shopify session before they reach the cart. Disable to require manual code entry at checkout.",
         "default": true
+      },
+      {
+        "type": "text",
+        "id": "duo_bundle_handle",
+        "label": "Hair + Skin Duo bundle handle",
+        "info": "Product handle of the Shopify Bundles app product that combines Cap + Face Mask. Tier 2 of the cap PDP picker adds this single bundle product to cart. If blank or invalid, Tier 2 falls back to multi-item POST (cap + face mask as separate line items).",
+        "default": "hair-skin-duo"
       }
     ]
   }

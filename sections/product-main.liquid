@@ -372,6 +372,25 @@
             assign bundle_p = all_products[bundle_handle]
             assign bundle_v = bundle_p.selected_or_first_available_variant
             assign eye_p = all_products['rest-heated-eye-mask']
+
+            comment
+              Phase 2: Hair + Skin Duo bundle (Tier 2). Mike created this in
+              the Shopify Bundles app at fixed £229.99 / compare-at £459.98.
+              Handle is theme-settings driven (settings.duo_bundle_handle)
+              so admin can correct it without code if Shopify generated a
+              different slug than `hair-skin-duo`.
+              If duo_v.id resolves blank (handle wrong / product unpublished),
+              Tier 2 falls back to legacy multi-item POST so it stays functional
+              while Mike fixes the handle.
+            endcomment
+            assign duo_handle = settings.duo_bundle_handle | default: 'hair-skin-duo'
+            assign duo_p = all_products[duo_handle]
+            assign duo_v = duo_p.selected_or_first_available_variant
+            assign duo_mode = 'cap+face'
+            if duo_v.id != blank
+              assign duo_mode = 'duo'
+            endif
+
             comment
               Thumbnail sources — prefer admin-uploaded featured_image so they
               match what the customer sees on each product page; fall back to
@@ -386,6 +405,7 @@
           <div class="pvol" data-pvol data-cap-bundle
                data-cap-variant="{{ cap_v.id }}"
                data-face-variant="{{ face_v.id }}"
+               data-duo-variant="{{ duo_v.id }}"
                data-bundle-variant="{{ bundle_v.id }}">
             <p class="eyebrow" style="color: var(--mid);">Choose Your Pack</p>
             <div class="pvol-tiers">
@@ -414,14 +434,14 @@
                      data-tv-today-pence="22999"
                      data-tv-save-pence="22999"
                      data-tv-pct="50"
-                     data-add-mode="cap+face">
+                     data-add-mode="{{ duo_mode }}">
                 <input type="radio" name="pvol" value="hair-skin-duo">
                 <span class="pvol-radio" aria-hidden="true"></span>
                 <span class="pvol-body">
                   <span class="pvol-row"><span class="pvol-title">Hair + Skin Duo — Popular</span></span>
                   <span class="pvol-sub"><strong>£229.99</strong> · was £459.98</span>
                   <span class="pvol-secondary"><strong>£139.99</strong> with code SAVE90 — £90 off</span>
-                  <span class="pvol-microcopy">Best for: full red-light skincare routine. Adds Cap + Face Mask to your cart.</span>
+                  <span class="pvol-microcopy">Best for: full red-light skincare routine.</span>
                 </span>
                 <span class="pvol-thumbs" aria-hidden="true">
                   {%- if cap_thumb -%}<img class="pvol-thumb" src="{{ cap_thumb | image_url: width: 100 }}" alt="" loading="lazy" width="44" height="44">{%- else -%}<img class="pvol-thumb" src="{{ 'product-cap-solo.png' | asset_url }}" alt="" loading="lazy" width="44" height="44">{%- endif -%}
@@ -1090,9 +1110,11 @@
     var mode = tier.getAttribute('data-add-mode');
     var capV = parseInt(picker.getAttribute('data-cap-variant'), 10) || 0;
     var faceV = parseInt(picker.getAttribute('data-face-variant'), 10) || 0;
+    var duoV = parseInt(picker.getAttribute('data-duo-variant'), 10) || 0;
     var bundleV = parseInt(picker.getAttribute('data-bundle-variant'), 10) || 0;
     var items = [];
     if (mode === 'cap' && capV) items = [{ id: capV, quantity: 1 }];
+    else if (mode === 'duo' && duoV) items = [{ id: duoV, quantity: 1 }];
     else if (mode === 'cap+face' && capV && faceV) items = [{ id: capV, quantity: 1 }, { id: faceV, quantity: 1 }];
     else if (mode === 'bundle' && bundleV) items = [{ id: bundleV, quantity: 1 }];
     if (items.length === 0) return;
