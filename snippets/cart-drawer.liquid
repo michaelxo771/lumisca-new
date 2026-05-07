@@ -16,10 +16,25 @@
     </div>
 
     {%- comment -%}
-      PHASE 2: SAVE90 reminder — tiny gold-tinted line at the top of the
-      drawer body, shown for every visitor regardless of cart state.
+      PHASE 2: SAVE90 status line. Two states:
+        - applied:  ✓ confirmation when SAVE90 is already in the session/cart
+                    (visitor arrived via /discount/SAVE90?redirect=…).
+        - prompt:   reminder to enter SAVE90 at checkout when no discount yet.
+      Detection: scan cart.discount_applications for code/title == SAVE90.
+      Mirrored in assets/theme.js Cart.render() so JS re-renders stay in sync.
     {%- endcomment -%}
-    <p class="drawer-save90">💎 Apply code <strong>SAVE90</strong> at checkout for £90 off (UK Spring Launch)</p>
+    {%- assign save90_applied = false -%}
+    {%- for d in cart.discount_applications -%}
+      {%- assign d_code = d.code | default: d.title | upcase -%}
+      {%- if d_code == 'SAVE90' -%}{%- assign save90_applied = true -%}{%- endif -%}
+    {%- endfor -%}
+    <p class="drawer-save90{% if save90_applied %} is-applied{% endif %}" data-save90-line>
+      {%- if save90_applied -%}
+        <span aria-hidden="true">✓</span> <strong>SAVE90</strong> applied — £90 off at checkout (UK Spring Launch)
+      {%- else -%}
+        💎 Apply code <strong>SAVE90</strong> at checkout for £90 off (UK Spring Launch)
+      {%- endif -%}
+    </p>
 
     <div class="drawer-body" data-cart-body>
       {%- comment -%} Populated by JS. Initial SSR render below for no-JS and first paint. {%- endcomment -%}
@@ -83,6 +98,8 @@
 .cart-item-variant { font-family: var(--sans); font-size: 12px; font-weight: 400; color: var(--mid); letter-spacing: .02em; }
 .drawer-save90 { margin: 0; padding: .65rem 1.5rem; background: rgba(184,146,78,.08); border-bottom: 1px solid rgba(184,146,78,.2); font-size: 12px; color: var(--ink); text-align: center; line-height: 1.4; }
 .drawer-save90 strong { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .06em; font-weight: 700; }
+.drawer-save90.is-applied { background: rgba(35,165,90,.10); border-bottom-color: rgba(35,165,90,.28); color: #1f6f48; }
+.drawer-save90.is-applied strong { color: #1f6f48; }
 .cart-item-qty { margin-top: .75rem; display: flex; align-items: center; gap: .5rem; }
 .cart-item-qty > span { width: 32px; text-align: center; font-variant-numeric: tabular-nums; font-size: 14px; }
 .qty-btn { width: 36px; height: 36px; border: 1px solid var(--line); font-size: 18px; line-height: 1; }

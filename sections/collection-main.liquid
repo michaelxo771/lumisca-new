@@ -28,11 +28,25 @@
   </div>
 
   <div class="container section">
+    {%- comment -%}
+      Hide the Hair + Skin Duo Shopify Bundles product from collection pages.
+      It exists only as the cart payload behind the cap PDP Tier-2 picker —
+      surfacing it as a standalone tile would confuse buyers (placeholder
+      title, redundant with the cap+mask combo already pitched on the cap
+      PDP). Driven by settings.duo_bundle_handle so Mike can change/clear
+      it from theme settings without touching code. The cart-add flow on
+      the cap PDP uses all_products[handle] which is unaffected by this
+      filter — only the visible collection grid is gated.
+    {%- endcomment -%}
+    {%- assign hidden_handle = settings.duo_bundle_handle | default: '' | strip -%}
     <div class="grid grid-sm-2 grid-lg-4" data-collection-grid>
+      {%- assign visible_count = 0 -%}
       {%- for product in collection.products -%}
+        {%- if hidden_handle != blank and product.handle == hidden_handle -%}{%- continue -%}{%- endif -%}
+        {%- assign visible_count = visible_count | plus: 1 -%}
         {% render 'product-card', product: product %}
       {%- endfor -%}
-      {%- if collection.products.size == 0 -%}
+      {%- if visible_count == 0 -%}
         <p class="muted center" style="grid-column: 1/-1;">No products in this collection yet.</p>
       {%- endif -%}
     </div>

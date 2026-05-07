@@ -64,6 +64,7 @@
       var subtotal = $("[data-cart-subtotal]");
       count.forEach(function (n) { n.textContent = cart.item_count; n.classList.toggle("hidden", cart.item_count === 0); });
       if (subtotal) subtotal.textContent = formatMoney(cart.total_price);
+      this.renderSave90Line(cart);
       if (!body) return;
       if (cart.item_count === 0) {
         body.innerHTML = '<div class="cart-empty"><p class="eyebrow">Your cart is empty</p><p class="muted" style="max-width:260px;margin:.5rem auto 1.5rem;">Add a Lumisca device to start your at-home light therapy routine.</p><a href="/collections/all" class="btn btn-red">Shop The Collection</a></div>';
@@ -101,6 +102,29 @@
       }
       body.innerHTML = html;
       this.renderFreeShip(cart.total_price);
+    },
+    renderSave90Line: function (cart) {
+      // Mirrors snippets/cart-drawer.liquid SSR logic. Detects SAVE90 in either
+      // cart-level applications or per-line allocations and swaps prompt → ✓ confirmation.
+      var line = $("[data-save90-line]");
+      if (!line) return;
+      var applied = false;
+      var matches = function (label) {
+        return label && String(label).toUpperCase().indexOf('SAVE90') !== -1;
+      };
+      (cart.cart_level_discount_applications || []).forEach(function (d) {
+        if (matches(d.code) || matches(d.title)) applied = true;
+      });
+      (cart.items || []).forEach(function (it) {
+        (it.line_level_discount_allocations || it.discounts || []).forEach(function (d) {
+          var info = d.discount_application || d;
+          if (matches(info.code) || matches(info.title)) applied = true;
+        });
+      });
+      line.classList.toggle('is-applied', applied);
+      line.innerHTML = applied
+        ? '<span aria-hidden="true">✓</span> <strong>SAVE90</strong> applied — £90 off at checkout (UK Spring Launch)'
+        : '💎 Apply code <strong>SAVE90</strong> at checkout for £90 off (UK Spring Launch)';
     },
     renderFreeShip: function (cents) {
       var threshold = L.free_shipping_threshold || 5000;
