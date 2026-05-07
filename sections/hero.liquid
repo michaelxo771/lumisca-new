@@ -36,8 +36,21 @@
 
       <div class="hero-v2-ctas">
         {%- if section.settings.cta1_label != blank -%}
-          <a href="{{ section.settings.cta1_url | default: '/collections/all' }}" class="btn btn-red btn-xl">
+          {%- comment -%}
+            Phase 3 — primary hero CTA gets variant-specific copy.
+            Generic keeps the Mike-configured cta1_label (current default
+            "Shop the Collection"). Women / Men get conversion-tuned copy
+            that frames the click as the start of a regrowth journey.
+            URL stays the same — pure copy variant.
+          {%- endcomment -%}
+          <a href="{{ section.settings.cta1_url | default: '/collections/all' }}" class="btn btn-red btn-xl aud-only-generic">
             {{ section.settings.cta1_label }} {% render 'icon-arrow-right' %}
+          </a>
+          <a href="{{ section.settings.cta1_url | default: '/collections/all' }}" class="btn btn-red btn-xl aud-only-women">
+            Start My Hair Regrowth Journey {% render 'icon-arrow-right' %}
+          </a>
+          <a href="{{ section.settings.cta1_url | default: '/collections/all' }}" class="btn btn-red btn-xl aud-only-men">
+            Start Reversing Hair Loss {% render 'icon-arrow-right' %}
           </a>
         {%- endif -%}
         {%- if section.settings.cta2_label != blank -%}

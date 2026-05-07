@@ -17,6 +17,24 @@
         <div class="comparison-cell" role="columnheader">Other At-Home</div>
       </div>
 
+      {%- comment -%}
+        Phase 3 — audience-specific extra row at the top of the comparison
+        table. Hormone-Safe row for women, Drug-Free row for men. Generic
+        gets no extra row. Pre-rendered both, gated by .aud-only-*.
+      {%- endcomment -%}
+      <div class="comparison-row aud-only-women" role="row">
+        <div class="comparison-cell comparison-cell-label" role="cell" data-label="Feature">Hormone-Safe</div>
+        <div class="comparison-cell comparison-cell-lumisca" role="cell" data-label="LUMISCA">✓</div>
+        <div class="comparison-cell" role="cell" data-label="Salon">✓</div>
+        <div class="comparison-cell" role="cell" data-label="Other">✗ Minoxidil triggers initial shedding</div>
+      </div>
+      <div class="comparison-row aud-only-men" role="row">
+        <div class="comparison-cell comparison-cell-label" role="cell" data-label="Feature">Drug-Free Alternative</div>
+        <div class="comparison-cell comparison-cell-lumisca" role="cell" data-label="LUMISCA">✓</div>
+        <div class="comparison-cell" role="cell" data-label="Salon">✓</div>
+        <div class="comparison-cell" role="cell" data-label="Other">✗ Finasteride sexual side effects</div>
+      </div>
+
       {%- for block in section.blocks -%}
         <div class="comparison-row" role="row" {{ block.shopify_attributes }}>
           <div class="comparison-cell comparison-cell-label" role="cell" data-label="Feature">{{ block.settings.feature }}</div>
