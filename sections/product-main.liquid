@@ -116,16 +116,36 @@
       {%- comment -%} Info {%- endcomment -%}
       <div class="product-info" id="main-atc">
         {%- if handle == 'pro-red-light-hair-growth-cap' -%}
-          <p class="cap-audience" data-cap-audience="women" hidden><strong>For women:</strong> Experiencing thinning at the parting, postpartum shedding, or general hair loss? You're not alone — 1 in 3 women experience hair thinning. This is for you.</p>
-          <p class="cap-audience" data-cap-audience="men" hidden><strong>For men:</strong> Noticed thinning at the crown, receding temples, or hair getting weaker? You're in the right place — clinically-proven red light therapy for male pattern hair loss.</p>
           {%- comment -%}
-            LUMISCA-CONVERSION-FIX (Problem 11A): self-routing buttons for the
-            generic /no-audience-param/ variant. Server-rendered visible by
-            default; the audience JS at the bottom of this section hides this
-            block when ?audience=women|men is set. Two equally-weighted CTAs
-            so the buyer self-segments rather than being assumed-into.
+            Phase 3 hero banner — three pre-rendered variants gated by body
+            class via .aud-only-*. Replaces the Phase 1 short single-line
+            banner with rich audience-specific copy + tickbox bullets.
           {%- endcomment -%}
-          <div class="cap-audience-route" data-cap-audience-route>
+          <div class="aud-only-women aud-hero-banner">
+            <p class="aud-hero-banner-eyebrow">For women experiencing hair thinning</p>
+            <p class="aud-hero-banner-body">Whether it's postpartum shedding, menopausal thinning, hormonal hair loss, or thinning at the parting — you're not alone. 1 in 3 women experience hair thinning, and most aren't told there's a drug-free option that actually works.</p>
+            <ul class="aud-hero-banner-list">
+              <li>✓ Postpartum hair regrowth</li>
+              <li>✓ Menopausal thinning</li>
+              <li>✓ Thinning at the parting &amp; crown</li>
+            </ul>
+          </div>
+          <div class="aud-only-men aud-hero-banner">
+            <p class="aud-hero-banner-eyebrow">For men experiencing hair loss</p>
+            <p class="aud-hero-banner-body">Whether your hairline is receding, your crown is thinning, or you've been told "just shave it off" — you have another option. The same clinical wavelengths used in £400 dermatology clinics, now built into a discreet cap you can wear at home.</p>
+            <ul class="aud-hero-banner-list">
+              <li>✓ Receding hairline regrowth</li>
+              <li>✓ Crown &amp; vertex thinning</li>
+              <li>✓ Drug-free alternative to Finasteride</li>
+            </ul>
+          </div>
+
+          {%- comment -%}
+            Self-routing buttons render only on the generic variant (gated
+            by .aud-only-generic). Visitors arriving with ?audience=women|men
+            see the rich hero banner above instead.
+          {%- endcomment -%}
+          <div class="aud-only-generic cap-audience-route" data-cap-audience-route>
             <p class="cap-audience-route-q">Which experience matches you?</p>
             <div class="cap-audience-route-btns">
               <a href="?audience=women" class="cap-audience-route-btn" data-cap-audience-route-link="women">I'm a woman experiencing thinning</a>
@@ -177,10 +197,40 @@
           90-Day Guarantee + Free UK Shipping anchors from Phase 1.
         {%- endcomment -%}
         {%- if handle == 'pro-red-light-hair-growth-cap' -%}
-          <ul class="cap-trustbar" aria-label="Trust signals">
+          {%- comment -%}
+            Phase 3 — three pre-rendered trust pill variants. CSS gates
+            visibility via body class. The middle pill swaps per variant:
+              generic: Clinical Wavelengths
+              women:   Hormone-Safe
+              men:     Drug-Free
+            Other pills stay constant across variants for trust continuity.
+          {%- endcomment -%}
+          <ul class="cap-trustbar aud-only-generic" aria-label="Trust signals">
             <li>CE Marked</li>
             <li aria-hidden="true">·</li>
             <li>Clinical Wavelengths</li>
+            <li aria-hidden="true">·</li>
+            <li>90-Day Guarantee</li>
+            <li aria-hidden="true">·</li>
+            <li>Free UK Shipping</li>
+            <li aria-hidden="true">·</li>
+            <li>Klarna 3x £30</li>
+          </ul>
+          <ul class="cap-trustbar aud-only-women" aria-label="Trust signals">
+            <li>CE Marked</li>
+            <li aria-hidden="true">·</li>
+            <li>Hormone-Safe</li>
+            <li aria-hidden="true">·</li>
+            <li>90-Day Guarantee</li>
+            <li aria-hidden="true">·</li>
+            <li>Free UK Shipping</li>
+            <li aria-hidden="true">·</li>
+            <li>Klarna 3x £30</li>
+          </ul>
+          <ul class="cap-trustbar aud-only-men" aria-label="Trust signals">
+            <li>CE Marked</li>
+            <li aria-hidden="true">·</li>
+            <li>Drug-Free</li>
             <li aria-hidden="true">·</li>
             <li>90-Day Guarantee</li>
             <li aria-hidden="true">·</li>
@@ -854,12 +904,8 @@
 .pvol-thumb { width: 44px; height: 44px; border-radius: 8px; border: 1px solid rgba(10,10,10,.08); object-fit: cover; background: #fafafa; display: block; }
 @media (max-width: 480px) { .pvol-thumb { width: 32px; height: 32px; border-radius: 6px; } .pvol-thumbs { gap: .25rem; } }
 
-/* Audience-targeted banner (cap PDP) — hidden by default, JS reveals on
-   ?audience=women|men. Italic gold copy with thin grey rules above and
-   below for a quiet credibility cue. */
-.cap-audience { display: none; padding: .75rem 0; margin: .25rem 0 .5rem; border-top: 1px solid #EEEEEE; border-bottom: 1px solid #EEEEEE; font-style: italic; color: #B8924E; font-size: 13px; line-height: 1.5; text-align: center; }
-.cap-audience.is-visible { display: block; }
-.cap-audience strong { font-style: normal; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #B8924E; }
+/* (Phase 1 .cap-audience short-banner styles removed in Phase 3 — replaced
+   by the rich .aud-hero-banner CSS-gated variant blocks above the rating.) */
 
 /* Cap-only — self-routing audience CTAs (LUMISCA-CONVERSION-FIX Problem 11A).
    Visible by default on the generic /no-audience-param/ variant; the
@@ -1246,37 +1292,16 @@
 </script>
 
 <script>
-/* Cap PDP — audience-targeted hero. Reads ?audience=women|men on load,
-   reveals the matching pre-rendered banner above the product rating,
-   and (for men) reorders the reviews grid so the first card is a male
-   testimonial (Tom W. → Connor S. → Mark P. fallback chain). Default
-   (no param, or unknown value) leaves the page exactly as rendered. */
+/* Phase 3 — Meta pixel custom event tagging audience variant for ad-set
+   conversion analysis. Fires once per PDP page-view. Goes through
+   window.fbq if Meta Pixel is loaded; harmless no-op if not. */
 (function () {
   if (document.body.className.indexOf('template-product') === -1) return;
-  var audience = '';
-  try {
-    var params = new URLSearchParams(window.location.search);
-    audience = (params.get('audience') || '').toLowerCase();
-  } catch (_) { return; }
-  if (audience !== 'women' && audience !== 'men') return;
-
-  var banner = document.querySelector('[data-cap-audience="' + audience + '"]');
-  if (banner) { banner.hidden = false; banner.classList.add('is-visible'); }
-
-  /* LUMISCA-CONVERSION-FIX (Problem 11A): hide the self-routing buttons
-     when the visitor is already on a targeted variant. Generic visitors
-     (no audience param) early-returned above and see the buttons. */
-  var routeBlock = document.querySelector('[data-cap-audience-route]');
-  if (routeBlock) routeBlock.hidden = true;
-
-  if (audience === 'men') {
-    var grid = document.querySelector('.prev-grid');
-    if (!grid) return;
-    var maleNames = ['Tom W.', 'Connor S.', 'Mark P.'];
-    for (var i = 0; i < maleNames.length; i++) {
-      var match = grid.querySelector('[data-review-name="' + maleNames[i] + '"]');
-      if (match) { grid.insertBefore(match, grid.firstChild); break; }
-    }
+  var variant = 'generic';
+  if (document.body.classList.contains('audience-women')) variant = 'women';
+  else if (document.body.classList.contains('audience-men')) variant = 'men';
+  if (typeof window.fbq === 'function') {
+    try { window.fbq('trackCustom', 'AudienceVariantViewed', { variant: variant }); } catch (_) {}
   }
 })();
 </script>
