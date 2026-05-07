@@ -1,0 +1,172 @@
+/* ============================================================
+   Phase 3 — audience personalization variants
+   ------------------------------------------------------------
+   Single source of truth. Body gets exactly ONE of:
+     .audience-generic   (default, baked in via Liquid)
+     .audience-women     (set via inline JS in layout/theme.liquid
+                          when ?audience=women on current URL)
+     .audience-men       (same, ?audience=men)
+
+   Variant content is pre-rendered server-side wrapped in
+   `.aud-only-{generic,women,men}`. This file gates visibility +
+   defines per-variant CSS variables.
+
+   What lives here:
+   1. .aud-only-* visibility gates (the core mechanism)
+   2. CSS variables per variant (--aud-accent, --aud-cta-hover, etc.)
+   3. Announcement bar palette overrides
+   4. Hero banner palette
+   5. Trust pill palette
+   6. Timer accent
+   ============================================================ */
+
+/* ---------- 1. Variant visibility gates ------------------ */
+
+.aud-only-generic { display: none; }
+.aud-only-women   { display: none; }
+.aud-only-men     { display: none; }
+
+body.audience-generic .aud-only-generic,
+body.audience-women   .aud-only-women,
+body.audience-men     .aud-only-men { display: revert; }
+
+/* Some inline contexts want display:block instead of revert. Authors
+   can use .aud-only-* on a wrapper div for clean swaps. The default
+   `revert` lets the element fall back to its native display value
+   (so `.aud-only-women` on a `<p>` becomes block, on a `<span>` stays
+   inline, etc.) — Tailwind / utility-style consistent. */
+
+/* ---------- 2. Per-variant CSS variables ----------------- */
+
+:root {
+  --aud-accent: #B8924E;            /* brand gold (generic default) */
+  --aud-accent-soft: rgba(184, 146, 78, 0.10);
+  --aud-banner-bg: #FFFFFF;
+  --aud-banner-fg: #0A0A0A;
+  --aud-banner-border: #B8924E;
+  --aud-cta-hover: #A40D24;
+  --aud-pill-bg: transparent;
+  --aud-pill-border: rgba(184, 146, 78, 0.30);
+  --aud-pill-fg: var(--ink, #0A0A0A);
+}
+
+body.audience-women {
+  --aud-accent: #C9967C;            /* warm rose-gold */
+  --aud-accent-soft: rgba(201, 150, 124, 0.12);
+  --aud-banner-bg: #FCEEE8;
+  --aud-banner-fg: #4A2E2E;
+  --aud-banner-border: #C9967C;
+  --aud-cta-hover: #B81E3E;
+  --aud-pill-bg: rgba(252, 238, 232, 0.55);
+  --aud-pill-border: #C9967C;
+  --aud-pill-fg: #4A2E2E;
+}
+
+body.audience-men {
+  --aud-accent: #9A8050;            /* darker bronze */
+  --aud-accent-soft: rgba(154, 128, 80, 0.15);
+  --aud-banner-bg: #252525;
+  --aud-banner-fg: #F5EFE0;
+  --aud-banner-border: #9A8050;
+  --aud-cta-hover: #A41024;
+  --aud-pill-bg: #1F1F1F;
+  --aud-pill-border: #9A8050;
+  --aud-pill-fg: #F5EFE0;
+}
+
+/* ---------- 3. Announcement bar -------------------------- */
+
+/* Generic = current cream/gold default lives in announcement-bar.liquid.
+   Variants swap the palette via body class scoping. */
+
+body.audience-women .ann {
+  background: #F5E6E0;
+  color: #4A2E2E;
+  border-bottom: 1px solid rgba(201, 150, 124, 0.40);
+}
+body.audience-women .ann strong { color: #B8704C; }
+
+body.audience-men .ann {
+  background: #1F1F1F;
+  color: #F5EFE0;
+  border-bottom: 1px solid rgba(154, 128, 80, 0.50);
+}
+body.audience-men .ann strong { color: #C9A87C; }
+
+/* The audience announcement copy is rendered with normal-flow markup
+   (sub-line below). Override the rotating-item nowrap clipping so a
+   long single-line copy wraps cleanly on small viewports. */
+.ann-audience { white-space: normal; line-height: 1.35; }
+.ann-audience-sub { display: block; margin-top: .15rem; font-size: 11px; letter-spacing: .08em; opacity: .82; text-transform: none; font-weight: 400; }
+@media (min-width: 768px) { .ann-audience-sub { font-size: 12px; } }
+
+/* ---------- 4. Hero banner (FOR WOMEN / FOR MEN) --------- */
+
+.aud-hero-banner { padding: 1rem 1.1rem; margin: .5rem 0 1.25rem; background: var(--aud-banner-bg); color: var(--aud-banner-fg); border-left: 4px solid var(--aud-banner-border); border-radius: 4px; }
+.aud-hero-banner-eyebrow { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; font-weight: 700; margin: 0 0 .5rem; color: var(--aud-banner-border); }
+.aud-hero-banner-body { font-size: 14px; line-height: 1.55; margin: 0 0 .75rem; }
+.aud-hero-banner-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .35rem; }
+.aud-hero-banner-list li { font-size: 13px; line-height: 1.45; font-weight: 600; }
+@media (min-width: 768px) { .aud-hero-banner { padding: 1.15rem 1.35rem; } .aud-hero-banner-body { font-size: 15px; } }
+
+/* ---------- 5. Trust pill row ---------------------------- */
+
+body.audience-women .cap-trustbar,
+body.audience-men   .cap-trustbar {
+  background: var(--aud-pill-bg);
+  border-top-color: var(--aud-pill-border);
+  border-bottom-color: var(--aud-pill-border);
+  color: var(--aud-pill-fg);
+}
+body.audience-women .cap-regulatory-item svg,
+body.audience-men   .cap-regulatory-item svg {
+  color: var(--aud-accent);
+}
+
+/* Launch-edition card border tinted per variant (subtle). */
+body.audience-women .cap-launch-card,
+body.audience-men   .cap-launch-card { border-color: var(--aud-accent); }
+body.audience-women .cap-launch-eyebrow,
+body.audience-men   .cap-launch-eyebrow { color: var(--aud-accent); }
+
+/* ---------- 6. Timer accent ------------------------------ */
+
+body.audience-women .cap-timer { border-color: rgba(201, 150, 124, 0.45); }
+body.audience-women .cap-timer-digits { color: #C9967C; }
+body.audience-men   .cap-timer { border-color: rgba(154, 128, 80, 0.55); }
+body.audience-men   .cap-timer-digits { color: #C9A87C; }
+
+/* ---------- 7. CTA hover tonal shift --------------------- */
+
+body.audience-women .btn-red:hover,
+body.audience-women .btn-red:focus-visible,
+body.audience-men   .btn-red:hover,
+body.audience-men   .btn-red:focus-visible {
+  background: var(--aud-cta-hover);
+}
+
+/* ---------- 8. Subtitle (variant-tinted italic) ---------- */
+
+.cap-subtitle { font-style: italic; font-size: 14px; line-height: 1.4; margin: .25rem 0 .85rem; color: var(--aud-accent); }
+@media (min-width: 768px) { .cap-subtitle { font-size: 15px; } }
+
+/* ---------- 9. Reviews + FAQ ordering -------------------- */
+
+/* Audience-specific entries (data-aud="women|men") live in the same
+   parent and are gated by .aud-only-* wrappers OR the data-aud attr.
+   When the matching audience class is on body, surface them via flex
+   `order: -1` so they appear first without rewriting the loop. */
+body.audience-women .prev-grid > [data-aud="women"],
+body.audience-men   .prev-grid > [data-aud="men"]   { order: -1; }
+body.audience-women .accordion > [data-faq-aud="women"],
+body.audience-men   .accordion > [data-faq-aud="men"]   { order: -1; }
+body.audience-women .prev-grid,
+body.audience-men   .prev-grid,
+body.audience-women .accordion,
+body.audience-men   .accordion { display: flex; flex-direction: column; }
+@media (min-width: 640px) {
+  body.audience-women .prev-grid,
+  body.audience-men   .prev-grid {
+    display: grid; /* restore the multi-col grid on tablet+ but keep order honoured */
+  }
+}

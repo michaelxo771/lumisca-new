@@ -29,6 +29,7 @@
     {%- render 'meta-tags' -%}
 
     {{ 'theme.css' | asset_url | stylesheet_tag }}
+    {{ 'audience-variants.css' | asset_url | stylesheet_tag }}
 
     <script>
       window.LUMISCA = {
@@ -99,7 +100,25 @@
     /></noscript>
     {% comment %} End Meta Pixel {% endcomment %}
   </head>
-  <body class="template-{{ template.name | handle }}">
+  {%- render 'audience-detect' -%}
+  <body class="template-{{ template.name | handle }} audience-{{ current_audience }}">
+    {%- comment -%}
+      Phase 3 audience class swap — runs as the FIRST child of <body> so
+      CSS gates land before any non-<body> paint. Reads ?audience=women|men
+      from the CURRENT URL ONLY (no cookie). If matched, swaps the
+      "audience-generic" baseline class on <body> to "audience-women" or
+      "audience-men". Variant content is pre-rendered by Liquid; this just
+      flips which CSS gate is active.
+    {%- endcomment -%}
+    <script>
+    (function () {
+      var aud = '';
+      try { aud = (new URLSearchParams(location.search).get('audience') || '').toLowerCase(); } catch (_) {}
+      if (aud !== 'women' && aud !== 'men') return;
+      document.body.classList.remove('audience-generic');
+      document.body.classList.add('audience-' + aud);
+    })();
+    </script>
     <a class="skip-link" href="#main">Skip to content</a>
 
     {%- comment -%}
