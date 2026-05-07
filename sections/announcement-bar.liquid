@@ -1,52 +1,21 @@
-{%- comment -%}
-  Phase 3 — single announcement bar with three audience variants.
-  Generic = original block-based rotation (preserves Mike's customizations).
-  Women + Men = single static line with a sub-line beneath, gated by
-  body.audience-women / body.audience-men via aud-only-* wrappers.
-{%- endcomment -%}
+{%- if section.blocks.size > 0 -%}
 <div class="ann" data-ann>
   <div class="container ann-inner">
-
-    {%- comment -%} GENERIC variant — existing rotating blocks, unchanged behaviour. {%- endcomment -%}
-    {%- if section.blocks.size > 0 -%}
-      <div class="aud-only-generic ann-rotation">
-        {%- for block in section.blocks -%}
-          <span
-            class="ann-item{% if forloop.first %} is-active{% endif %}"
-            data-ann-item
-            {{ block.shopify_attributes }}
-          >{{ block.settings.text }}</span>
-        {%- endfor -%}
-      </div>
-    {%- endif -%}
-
-    {%- comment -%} WOMEN variant — single static line with sub-line. {%- endcomment -%}
-    <p class="aud-only-women ann-audience">
-      <span>{{ section.settings.audience_women_text | default: '✨ UK Spring Launch — £90 off the Pro Red Light Cap with code SAVE90' }}</span>
-      <span class="ann-audience-sub">{{ section.settings.audience_women_sub | default: 'Designed for thinning at the parting, postpartum & menopausal hair loss' }}</span>
-    </p>
-
-    {%- comment -%} MEN variant — single static line with sub-line. {%- endcomment -%}
-    <p class="aud-only-men ann-audience">
-      <span>{{ section.settings.audience_men_text | default: '🎯 UK Spring Launch — £90 off the Pro Red Light Cap with code SAVE90' }}</span>
-      <span class="ann-audience-sub">{{ section.settings.audience_men_sub | default: 'For receding hairlines, crown thinning & male pattern hair loss' }}</span>
-    </p>
-
+    {%- for block in section.blocks -%}
+      <span
+        class="ann-item{% if forloop.first %} is-active{% endif %}"
+        data-ann-item
+        {{ block.shopify_attributes }}
+      >{{ block.settings.text }}</span>
+    {%- endfor -%}
   </div>
 </div>
+{%- endif -%}
 
 {%- stylesheet -%}
-/* Generic palette — cream/gold brand default. Variant palettes
-   (women rose, men charcoal) live in assets/audience-variants.css
-   so all per-variant tone-shifts are in one place. */
-.ann { background: var(--cream, #F9F7F4); color: var(--ink, #0A0A0A); font-size: 12px; letter-spacing: .15em; text-transform: uppercase; border-bottom: 1px solid rgba(184, 146, 78, 0.18); transition: background .25s, color .25s, border-bottom-color .25s; }
+.ann { background: #000000; color: #fff; font-size: 12px; letter-spacing: .15em; text-transform: uppercase; }
 @media (min-width: 768px) { .ann { font-size: 13px; } }
-.ann-inner { position: relative; min-height: 40px; padding: .55rem 1rem; display: flex; align-items: center; justify-content: center; }
-
-/* Generic rotation — keeps the absolute-positioned cycle for Mike's
-   multi-message default. Women/Men variants render a single static line
-   in normal flow alongside, gated by body class via .aud-only-*. */
-.ann-rotation { position: relative; width: 100%; height: 24px; }
+.ann-inner { position: relative; height: 40px; overflow: hidden; }
 .ann-item {
   position: absolute;
   inset: 0;
@@ -63,19 +32,11 @@
   pointer-events: none;
 }
 .ann-item.is-active { opacity: 1; transform: translateY(0); pointer-events: auto; }
-.ann strong { color: var(--gold, #C9A84C); font-weight: 700; letter-spacing: .04em; }
-
-/* Audience static lines — normal-flow, allow wrap on mobile. */
-.ann-audience { margin: 0; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; font-weight: 500; line-height: 1.4; text-align: center; }
-@media (min-width: 768px) { .ann-audience { font-size: 13px; } }
 {%- endstylesheet -%}
 
 <script>
 (function () {
-  /* Rotation only runs for the generic variant (women/men render a
-     single static line). Skip if the page is on an audience variant. */
-  if (document.body.classList.contains('audience-women') || document.body.classList.contains('audience-men')) return;
-  var root = document.querySelector('[data-ann] .ann-rotation');
+  var root = document.querySelector('[data-ann]');
   if (!root) return;
   var items = root.querySelectorAll('[data-ann-item]');
   if (items.length < 2) return;
@@ -98,40 +59,7 @@
   "name": "Announcement Bar",
   "tag": "aside",
   "class": "announcement-section",
-  "settings": [
-    {
-      "type": "header",
-      "content": "Audience-targeted overrides"
-    },
-    {
-      "type": "paragraph",
-      "content": "Single static line shown to women / men visitors (when ?audience=women or ?audience=men is in the URL). Generic visitors see Mike's rotating Message blocks below. Each main line should be under ~80 chars; the sub-line under ~70."
-    },
-    {
-      "type": "text",
-      "id": "audience_women_text",
-      "label": "Women's main line",
-      "default": "✨ UK Spring Launch — £90 off the Pro Red Light Cap with code SAVE90"
-    },
-    {
-      "type": "text",
-      "id": "audience_women_sub",
-      "label": "Women's sub-line",
-      "default": "Designed for thinning at the parting, postpartum & menopausal hair loss"
-    },
-    {
-      "type": "text",
-      "id": "audience_men_text",
-      "label": "Men's main line",
-      "default": "🎯 UK Spring Launch — £90 off the Pro Red Light Cap with code SAVE90"
-    },
-    {
-      "type": "text",
-      "id": "audience_men_sub",
-      "label": "Men's sub-line",
-      "default": "For receding hairlines, crown thinning & male pattern hair loss"
-    }
-  ],
+  "settings": [],
   "blocks": [
     {
       "type": "message",
