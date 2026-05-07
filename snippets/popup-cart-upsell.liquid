@@ -1,4 +1,22 @@
 {%- assign upsell_bundle = all_products[settings.bundle_product_handle] -%}
+{%- liquid
+  comment
+    Phase 2 fix: pull bundle pricing live from the admin product so the
+    upsell popup price never drifts from the PDP. Falls back to the
+    current Phase 2 hardcoded values if all_products lookup is empty.
+  endcomment
+  assign upsell_price = 27999
+  assign upsell_compare = 55997
+  if upsell_bundle != blank
+    if upsell_bundle.price != blank and upsell_bundle.price > 0
+      assign upsell_price = upsell_bundle.price
+    endif
+    if upsell_bundle.compare_at_price != blank and upsell_bundle.compare_at_price > 0
+      assign upsell_compare = upsell_bundle.compare_at_price
+    endif
+  endif
+  assign upsell_save = upsell_compare | minus: upsell_price
+-%}
 <div class="popup popup-upsell" data-upsell-popup role="dialog" aria-label="Upgrade to bundle" aria-hidden="true">
   <div class="popup-backdrop"></div>
   <div class="popup-dialog popup-upsell-card">
@@ -11,9 +29,9 @@
         {%- endif -%}
       </div>
       <div style="flex:1; min-width:0;">
-        <p class="eyebrow" style="color: var(--red);">Upgrade &amp; Save £174</p>
-        <h3 class="upsell-title">Add the other 2 devices and save 58%</h3>
-        <p class="muted" style="font-size: 13px;">Upgrade to the Complete Bundle for just £124.99 — a single purchase for hair, skin and sleep.</p>
+        <p class="eyebrow" style="color: var(--red);">Upgrade &amp; Save {{ upsell_save | money_without_trailing_zeros }}</p>
+        <h3 class="upsell-title">Add the other 2 devices for the full system</h3>
+        <p class="muted" style="font-size: 13px;">Upgrade to the Complete Bundle for {{ upsell_price | money }} — a single purchase for hair, skin and sleep.</p>
       </div>
       <button type="button" class="upsell-close" data-popup-close aria-label="Close">{% render 'icon-close' %}</button>
     </div>

@@ -6,7 +6,7 @@
         "m1": {
           "type": "message",
           "settings": {
-            "text": "🎉 50% OFF EVERYTHING — Code LUMISCA10 at checkout"
+            "text": "🎁 UK Spring Launch — £90 off the Pro Red Light Cap with code SAVE90"
           }
         },
         "m2": {
@@ -174,11 +174,12 @@
         "c1": {
           "type": "card",
           "settings": {
+            "product_handle": "pro-red-light-hair-growth-cap",
             "image_filename": "product-cap-solo.png",
             "title": "Pro Red Light Hair Growth Cap",
             "tagline": "Clinic-grade hair regrowth, built into a cap",
-            "price": 6499,
-            "compare_at_price": 12999,
+            "price": 17999,
+            "compare_at_price": 34999,
             "rating": "4.9",
             "review_count": "1,284 reviews",
             "url": "/products/pro-red-light-hair-growth-cap",
@@ -190,6 +191,7 @@
         "c2": {
           "type": "card",
           "settings": {
+            "product_handle": "glow-red-light-face-mask",
             "image_filename": "product-mask-solo.png",
             "title": "Glow Red Light Face Mask",
             "tagline": "Salon-grade skincare, 10 minutes a day",
@@ -206,6 +208,7 @@
         "c3": {
           "type": "card",
           "settings": {
+            "product_handle": "rest-heated-eye-mask",
             "image_filename": "product-eye-mask-solo.png",
             "title": "Rest Heated Eye Mask",
             "tagline": "Deeper sleep in 10 minutes",
@@ -222,11 +225,12 @@
         "c4": {
           "type": "card",
           "settings": {
+            "product_handle": "lumisca-complete-bundle",
             "image_filename": "product-duo-side.png",
             "title": "The Complete Lumisca Bundle",
             "tagline": "All three devices — hair, skin, sleep",
-            "price": 12499,
-            "compare_at_price": 29997,
+            "price": 27999,
+            "compare_at_price": 55997,
             "rating": "4.9",
             "review_count": "2,847 reviews",
             "url": "/products/lumisca-complete-bundle",
@@ -245,7 +249,7 @@
       "settings": {
         "eyebrow": "The Lumisca Collection",
         "heading": "Clinic-grade devices, designed for your sofa.",
-        "lead": "Three devices that cover hair, skin and sleep — or bundle them together and save over £175."
+        "lead": "Three devices that cover hair, skin and sleep — or bundle them together and save over £280."
       }
     },
     "lifestyle-editorial": {
@@ -482,7 +486,7 @@
           "type": "row",
           "settings": {
             "feature": "Cost",
-            "lumisca": "£64.99 one-time",
+            "lumisca": "£179.99 one-time",
             "salon": "£2,400+/year",
             "other": "£30–200"
           }
@@ -637,10 +641,10 @@
       "type": "sticky-buy-bar",
       "settings": {
         "title": "LUMISCA COMPLETE BUNDLE",
-        "price": "£124.99",
-        "compare_at_price": "was £299.97",
+        "price": "£279.99",
+        "compare_at_price": "was £559.97",
         "cta_label": "Add Bundle To Cart",
-        "mobile_cta_label": "SHOP THE BUNDLE — £124.99 (50% OFF)",
+        "mobile_cta_label": "SHOP THE BUNDLE — £189.99 with code SAVE90",
         "cta_url": "/products/lumisca-complete-bundle"
       }
     },

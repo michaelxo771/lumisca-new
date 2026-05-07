@@ -97,7 +97,7 @@
       html += "</ul>";
       var hasBundle = cart.items.some(function (i) { return i.handle === L.bundle_handle; });
       if (!hasBundle && cart.item_count > 0 && cart.item_count < 3) {
-        html += '<div class="cart-upsell"><p class="eyebrow" style="color:var(--gold)">Upgrade &amp; Save £174</p><h3>Go Complete — save 58%</h3><p style="color:rgba(249,247,244,.7)">All 3 devices for just £124.99.</p><a class="btn btn-red btn-block" href="/products/' + L.bundle_handle + '">View The Bundle</a></div>';
+        html += '<div class="cart-upsell"><p class="eyebrow" style="color:var(--gold)">Upgrade to the full system</p><h3>Hair, skin and sleep — together</h3><p style="color:rgba(249,247,244,.7)">All 3 devices in one bundle. Save with SAVE90 at checkout.</p><a class="btn btn-red btn-block" href="/products/' + L.bundle_handle + '">View The Bundle</a></div>';
       }
       body.innerHTML = html;
       this.renderFreeShip(cart.total_price);

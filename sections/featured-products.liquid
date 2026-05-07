@@ -18,6 +18,30 @@
           assign is_featured = block.settings.is_featured
           assign price_p = block.settings.price | default: 0
           assign compare_p = block.settings.compare_at_price | default: 0
+          assign card_title = block.settings.title
+
+          comment
+            Phase 2 fix: when product_handle is set on a card block, override
+            the hardcoded price/compare_at_price/url with live admin data.
+            Mike updates a product price in admin once, every homepage card
+            for that product picks up the change automatically. Hardcoded
+            settings stay as fallback for cards that don't link a product.
+          endcomment
+          if block.settings.product_handle != blank
+            assign linked_product = all_products[block.settings.product_handle]
+            if linked_product != blank
+              if linked_product.price != blank
+                assign price_p = linked_product.price
+              endif
+              if linked_product.compare_at_price != blank and linked_product.compare_at_price > 0
+                assign compare_p = linked_product.compare_at_price
+              endif
+              if href == '#' or href == ''
+                assign href = linked_product.url
+              endif
+            endif
+          endif
+
           assign saved_pence = 0
           assign saved_pct = 0
           if compare_p > price_p
@@ -31,14 +55,14 @@
         <a href="{{ href }}" class="featured-v2-card{% if is_featured %} featured-v2-card-gold{% endif %}" {{ block.shopify_attributes }}>
           <div class="featured-v2-media">
             {%- if img != blank -%}
-              <img src="{{ img | asset_url }}" alt="{{ block.settings.title | escape }}" loading="lazy" width="720" height="720">
+              <img src="{{ img | asset_url }}" alt="{{ card_title | escape }}" loading="lazy" width="720" height="720">
             {%- else -%}
               {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
             {%- endif -%}
 
             {%- if saved_pct > 0 -%}
               {%- if is_featured -%}
-                <span class="featured-v2-badge-bundle">SAVE £{{ saved_pence | money_without_currency }}</span>
+                <span class="featured-v2-badge-bundle">SAVE {{ saved_pence | money_without_trailing_zeros }}</span>
               {%- else -%}
                 <span class="featured-v2-badge">{{ saved_pct }}% OFF</span>
               {%- endif -%}
@@ -49,13 +73,13 @@
               {% render 'star-rating', rating: 5, size: 'sm' %}
               <span class="muted">{{ block.settings.rating | default: '4.9' }} ({{ block.settings.review_count | default: '1,284' }})</span>
             </div>
-            <h3 class="featured-v2-title">{{ block.settings.title }}</h3>
+            <h3 class="featured-v2-title">{{ card_title }}</h3>
             <p class="featured-v2-sub muted">{{ block.settings.tagline }}</p>
 
             <div class="featured-v2-price">
-              <span class="price-now">£{{ price_gbp }}</span>
+              <span class="price-now">{{ price_p | money }}</span>
               {%- if compare_p > price_p -%}
-                <span class="price-was">£{{ compare_gbp }}</span>
+                <span class="price-was">{{ compare_p | money }}</span>
               {%- endif -%}
             </div>
 
@@ -126,8 +150,9 @@
         { "type": "text", "id": "image_filename", "label": "Asset filename", "default": "product-cap-solo.png" },
         { "type": "text", "id": "title", "label": "Product title", "default": "Pro Red Light Hair Growth Cap" },
         { "type": "text", "id": "tagline", "label": "Tagline", "default": "Clinic-grade hair regrowth, built into a cap" },
-        { "type": "number", "id": "price", "label": "Now price in pence", "default": 6499 },
-        { "type": "number", "id": "compare_at_price", "label": "Was price in pence", "default": 12999 },
+        { "type": "text", "id": "product_handle", "label": "Linked product handle (live pricing)", "info": "When set, overrides the hardcoded price / compare-at / URL below with the live admin product. Leave blank to use hardcoded fallback." },
+        { "type": "number", "id": "price", "label": "Fallback price in pence (used only if product handle is blank/invalid)", "default": 6499 },
+        { "type": "number", "id": "compare_at_price", "label": "Fallback was-price in pence", "default": 12999 },
         { "type": "text", "id": "rating", "label": "Rating", "default": "4.9" },
         { "type": "text", "id": "review_count", "label": "Review count", "default": "1,284 reviews" },
         { "type": "url", "id": "url", "label": "Product URL" },
@@ -143,10 +168,10 @@
       "name": "Featured Products",
       "category": "Products",
       "blocks": [
-        { "type": "card", "settings": { "image_filename": "product-cap-solo.png",      "title": "Pro Red Light Hair Growth Cap", "tagline": "Clinic-grade hair regrowth, built into a cap", "price": 6499,  "compare_at_price": 12999, "rating": "4.9", "review_count": "1,284 reviews", "url": "/products/pro-red-light-hair-growth-cap", "is_featured": false, "stock_left": "23", "social_proof": "47 bought in the last 24 hours" } },
-        { "type": "card", "settings": { "image_filename": "product-mask-solo.png",     "title": "Glow Red Light Face Mask",       "tagline": "Salon-grade skincare, 10 minutes a day",       "price": 5499,  "compare_at_price": 10999, "rating": "4.9", "review_count": "962 reviews",   "url": "/products/glow-red-light-face-mask",       "is_featured": false, "stock_left": "31", "social_proof": "38 bought in the last 24 hours" } },
-        { "type": "card", "settings": { "image_filename": "product-eye-mask-solo.png", "title": "Rest Heated Eye Mask",           "tagline": "Deeper sleep in 10 minutes",                  "price": 2999,  "compare_at_price": 5999,  "rating": "4.8", "review_count": "734 reviews",   "url": "/products/rest-heated-eye-mask",           "is_featured": false, "stock_left": "48", "social_proof": "29 bought in the last 24 hours" } },
-        { "type": "card", "settings": { "image_filename": "product-duo-side.png",      "title": "The Complete Lumisca Bundle",    "tagline": "All three devices — hair, skin, sleep",       "price": 12499, "compare_at_price": 29997, "rating": "4.9", "review_count": "2,847 reviews", "url": "/products/lumisca-complete-bundle",        "is_featured": true,  "stock_left": "12", "social_proof": "62 bought in the last 24 hours" } }
+        { "type": "card", "settings": { "product_handle": "pro-red-light-hair-growth-cap", "image_filename": "product-cap-solo.png",      "title": "Pro Red Light Hair Growth Cap", "tagline": "Clinic-grade hair regrowth, built into a cap", "price": 17999, "compare_at_price": 34999, "rating": "4.9", "review_count": "1,284 reviews", "url": "/products/pro-red-light-hair-growth-cap", "is_featured": false, "stock_left": "23", "social_proof": "47 bought in the last 24 hours" } },
+        { "type": "card", "settings": { "product_handle": "glow-red-light-face-mask",     "image_filename": "product-mask-solo.png",     "title": "Glow Red Light Face Mask",       "tagline": "Salon-grade skincare, 10 minutes a day",       "price": 5499,  "compare_at_price": 10999, "rating": "4.9", "review_count": "962 reviews",   "url": "/products/glow-red-light-face-mask",       "is_featured": false, "stock_left": "31", "social_proof": "38 bought in the last 24 hours" } },
+        { "type": "card", "settings": { "product_handle": "rest-heated-eye-mask",         "image_filename": "product-eye-mask-solo.png", "title": "Rest Heated Eye Mask",           "tagline": "Deeper sleep in 10 minutes",                  "price": 2999,  "compare_at_price": 5999,  "rating": "4.8", "review_count": "734 reviews",   "url": "/products/rest-heated-eye-mask",           "is_featured": false, "stock_left": "48", "social_proof": "29 bought in the last 24 hours" } },
+        { "type": "card", "settings": { "product_handle": "lumisca-complete-bundle",      "image_filename": "product-duo-side.png",      "title": "The Complete Lumisca Bundle",    "tagline": "All three devices — hair, skin, sleep",       "price": 27999, "compare_at_price": 55997, "rating": "4.9", "review_count": "2,847 reviews", "url": "/products/lumisca-complete-bundle",        "is_featured": true,  "stock_left": "12", "social_proof": "62 bought in the last 24 hours" } }
       ]
     }
   ]
