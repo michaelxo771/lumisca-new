@@ -646,24 +646,6 @@
   /* Initial cart load to sync count */
   Cart.fetch().then(function (cart) { Cart.render(cart); }).catch(function () {});
 
-  /* Phase 2 — SAVE90 launch-edition sticky bar:
-     reveal on every page unless dismissed within the last 24h. */
-  (function launchStrip() {
-    var strip = document.querySelector('[data-cap-launch-strip]');
-    if (!strip) return;
-    var KEY = 'lumisca_save90_strip_dismissed_at';
-    var TTL_MS = 24 * 60 * 60 * 1000;
-    var dismissed = 0;
-    try { dismissed = parseInt(localStorage.getItem(KEY), 10) || 0; } catch (_) {}
-    if (dismissed && Date.now() - dismissed < TTL_MS) return;
-    strip.hidden = false;
-    var btn = strip.querySelector('[data-cap-launch-strip-close]');
-    if (btn) btn.addEventListener('click', function () {
-      strip.hidden = true;
-      try { localStorage.setItem(KEY, String(Date.now())); } catch (_) {}
-    });
-  })();
-
   /* Phase 2 — SAVE90 URL auto-apply.
      Triggers on either:
        (a) ?discount=SAVE90 in the URL (always honoured), or

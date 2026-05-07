@@ -14,14 +14,9 @@
       "settings": {
         "cta_url": "/collections/all"
       }
-    },
-    "announcement-bar": {
-      "type": "announcement-bar",
-      "settings": {}
     }
   },
   "order": [
-    "announcement-bar",
     "hero",
     "mission",
     "values",

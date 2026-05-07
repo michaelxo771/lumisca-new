@@ -8,14 +8,9 @@
     },
     "content": {
       "type": "page-content"
-    },
-    "announcement-bar": {
-      "type": "announcement-bar",
-      "settings": {}
     }
   },
   "order": [
-    "announcement-bar",
     "hero",
     "content"
   ]

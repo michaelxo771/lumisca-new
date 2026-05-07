@@ -1,95 +1,38 @@
-{%- if section.blocks.size > 0 or section.settings.audience_women_text != blank or section.settings.audience_men_text != blank -%}
-<div class="ann" data-ann>
+{%- comment -%}
+  Single site-wide announcement bar, rendered from layout/theme.liquid above
+  the header. The visual variant is gated by the audience class on <html>
+  (set by the head-script in layout/theme.liquid from the CURRENT URL's
+  ?audience=women|men param — no cookie / no carryover). Each variant has a
+  one-line static message; no rotation, no marquee — copy must fit a single
+  ~100-char line. Mike edits all three lines from Theme Customizer.
+{%- endcomment -%}
+
+<aside class="ann" data-ann role="region" aria-label="Site announcement">
   <div class="container ann-inner">
-    {%- comment -%}
-      Audience-targeted overrides. Hidden by default; revealed (and the
-      generic blocks suppressed) by the audience class on <html>.
-      Defaults can be overridden per-store from the section settings.
-    {%- endcomment -%}
+    <p class="ann-msg ann-generic">{{ section.settings.generic_text }}</p>
     {%- if section.settings.audience_women_text != blank -%}
-      <span class="ann-item ann-audience" data-ann-item data-ann-audience="women">{{ section.settings.audience_women_text }}</span>
+      <p class="ann-msg ann-audience" data-ann-audience="women">{{ section.settings.audience_women_text }}</p>
     {%- endif -%}
     {%- if section.settings.audience_men_text != blank -%}
-      <span class="ann-item ann-audience" data-ann-item data-ann-audience="men">{{ section.settings.audience_men_text }}</span>
+      <p class="ann-msg ann-audience" data-ann-audience="men">{{ section.settings.audience_men_text }}</p>
     {%- endif -%}
-    {%- for block in section.blocks -%}
-      <span
-        class="ann-item ann-default{% if forloop.first %} is-active{% endif %}"
-        data-ann-item
-        {{ block.shopify_attributes }}
-      >{{ block.settings.text }}</span>
-    {%- endfor -%}
   </div>
-</div>
-{%- endif -%}
+</aside>
 
 {%- stylesheet -%}
-.ann { background: #000000; color: #fff; font-size: 12px; letter-spacing: .15em; text-transform: uppercase; transition: background .25s, color .25s; }
-@media (min-width: 768px) { .ann { font-size: 13px; } }
-.ann-inner { position: relative; height: 40px; overflow: hidden; }
-.ann-item {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 1rem;
-  text-align: center;
-  font-weight: 500;
-  white-space: nowrap;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 300ms ease, transform 300ms ease;
-  pointer-events: none;
-}
-.ann-item.is-active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+/* Default (generic / no audience class) — cream/gold brand palette. The
+   audience-women / audience-men palette overrides live in
+   assets/audience-variants.css so all per-variant tone-shifts are in one place. */
+.ann { background: var(--cream, #F9F7F4); color: var(--ink, #0A0A0A); border-bottom: 1px solid rgba(184, 146, 78, 0.18); transition: background .25s, color .25s; }
+.ann-inner { display: flex; align-items: center; justify-content: center; min-height: 40px; padding: .55rem 1rem; }
+.ann-msg { margin: 0; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; font-weight: 500; line-height: 1.35; text-align: center; }
+@media (min-width: 768px) { .ann-msg { font-size: 13px; white-space: nowrap; } }
+.ann-msg strong { color: var(--gold, #C9A84C); font-weight: 700; letter-spacing: .04em; }
+
+/* Audience variants are hidden by default; revealed via the <html> class
+   (see audience-variants.css). Keep the generic visible by default. */
+.ann-audience { display: none; }
 {%- endstylesheet -%}
-
-<script>
-(function () {
-  var root = document.querySelector('[data-ann]');
-  if (!root) return;
-
-  /* Pick the rotation set: if the matching audience override exists,
-     use only that (single static message). Otherwise use the generic
-     blocks. Audience items are hidden via CSS until the matching
-     audience class is on <html>; we just have to remove the default
-     items from the rotation accordingly. */
-  var html = document.documentElement;
-  var audienceOverride = null;
-  if (html.classList.contains('audience-women')) {
-    audienceOverride = root.querySelector('[data-ann-audience="women"]');
-  } else if (html.classList.contains('audience-men')) {
-    audienceOverride = root.querySelector('[data-ann-audience="men"]');
-  }
-
-  var items;
-  if (audienceOverride) {
-    /* Drop default items from the active rotation by stripping
-       data-ann-item; CSS already hides them visually. */
-    var defaults = root.querySelectorAll('.ann-default');
-    defaults.forEach(function (el) { el.classList.remove('is-active'); });
-    audienceOverride.classList.add('is-active');
-    items = [audienceOverride];
-  } else {
-    items = root.querySelectorAll('.ann-default[data-ann-item]');
-  }
-
-  if (items.length < 2) return;
-
-  var i = 0;
-  var paused = false;
-  function tick() {
-    if (paused) return;
-    items[i].classList.remove('is-active');
-    i = (i + 1) % items.length;
-    items[i].classList.add('is-active');
-  }
-  setInterval(tick, 4000);
-  root.addEventListener('mouseenter', function () { paused = true; });
-  root.addEventListener('mouseleave', function () { paused = false; });
-})();
-</script>
 
 {% schema %}
 {
@@ -99,45 +42,33 @@
   "settings": [
     {
       "type": "header",
-      "content": "Audience-targeted overrides"
+      "content": "Announcement copy"
     },
     {
       "type": "paragraph",
-      "content": "When a visitor lands with ?audience=women or ?audience=men (or has the lumisca_audience cookie set from a prior visit), the matching message below replaces the default rotating blocks. Leave blank to show the default blocks regardless of audience."
+      "content": "One static line per visitor segment. Keep each under ~100 characters so it fits without wrapping on desktop. The audience messages render only when the visitor lands with ?audience=women or ?audience=men in the URL (no cookie persistence — each page evaluates fresh)."
+    },
+    {
+      "type": "text",
+      "id": "generic_text",
+      "label": "Default message (everyone)",
+      "default": "🎁 UK Spring Launch — £90 off the Pro Red Light Cap with code SAVE90"
     },
     {
       "type": "text",
       "id": "audience_women_text",
       "label": "Women's audience message",
-      "default": "✨ UK Spring Launch — £90 off the Pro Red Light Cap. Designed for thinning at the parting, postpartum, or menopausal hair loss. Code SAVE90."
+      "default": "✨ UK Spring Launch — £90 off with code SAVE90 — designed for women's thinning"
     },
     {
       "type": "text",
       "id": "audience_men_text",
       "label": "Men's audience message",
-      "default": "🎯 UK Spring Launch — £90 off the Pro Red Light Cap. Reverse receding hairline and crown thinning. Code SAVE90."
+      "default": "🎯 UK Spring Launch — £90 off with code SAVE90 — for receding & crown thinning"
     }
   ],
-  "blocks": [
-    {
-      "type": "message",
-      "name": "Message",
-      "settings": [
-        { "type": "text", "id": "text", "label": "Message", "default": "🎁 UK Spring Launch — £90 off the Pro Red Light Cap with code SAVE90" }
-      ]
-    }
-  ],
-  "max_blocks": 6,
   "presets": [
-    {
-      "name": "Announcement Bar",
-      "blocks": [
-        { "type": "message", "settings": { "text": "🎁 UK Spring Launch — £90 off the Pro Red Light Cap with code SAVE90" } },
-        { "type": "message", "settings": { "text": "🚚 Free UK shipping on all orders" } },
-        { "type": "message", "settings": { "text": "⭐ 10,000+ UK customers · 4.9/5 average rating" } },
-        { "type": "message", "settings": { "text": "✓ 60-day money-back guarantee on every device" } }
-      ]
-    }
+    { "name": "Announcement Bar" }
   ]
 }
 {% endschema %}

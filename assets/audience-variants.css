@@ -1,10 +1,11 @@
 /* ============================================================
    Lumisca audience personalization — visual variants
    ------------------------------------------------------------
-   Driven by `audience-women`, `audience-men`, or `audience-generic`
-   class set on <html> by the inline script in layout/theme.liquid.
-   The class is sourced from ?audience=women|men URL params and
-   persisted via the `lumisca_audience` cookie for 14 days.
+   Driven by `audience-women` or `audience-men` class set on <html>
+   by the inline script in layout/theme.liquid. The class is read
+   from the CURRENT URL's ?audience=women|men param ONLY — no
+   cookie, no carryover. Each page evaluates fresh, so navigating
+   away from a tagged URL drops the class immediately.
 
    What lives here:
    1. Announcement bar palette per variant
@@ -52,33 +53,30 @@ html.audience-men {
 
 /* ---------- 1. Announcement bar -------------------------- */
 
-/* Default / generic — keeps the existing black/white palette set
-   inside sections/announcement-bar.liquid stylesheet. */
+/* Default (no audience class) keeps the cream/gold palette defined inside
+   sections/announcement-bar.liquid. The audience classes swap palette and
+   reveal the matching <p data-ann-audience="…">, hiding the generic line.
+   Single-line static — no rotation, no marquee. */
 
 html.audience-women .ann {
-  background: #F5E6E0;              /* warm rose */
-  color: #5A2C1F;                   /* dark warm brown for AA contrast */
+  background: #F5E6E0;            /* warm rose */
+  color: #5A2C1F;                 /* dark warm brown for AA contrast */
+  border-bottom-color: rgba(201, 150, 124, 0.35);
 }
+html.audience-women .ann .ann-msg strong { color: #B8704C; }
 
 html.audience-men .ann {
-  background: #2A2A2A;              /* dark charcoal */
-  color: #F5EFE6;                   /* warm cream */
+  background: #2A2A2A;            /* charcoal */
+  color: #F5EFE6;                 /* warm cream */
+  border-bottom-color: rgba(154, 128, 80, 0.45);
 }
+html.audience-men .ann .ann-msg strong { color: #D9B57E; }
 
-/* Audience-specific override items live inside .ann. They're hidden
-   by default and revealed by the matching audience class. The
-   announcement-bar JS picks the first VISIBLE .ann-item to start the
-   rotation, so unhiding the audience item bumps it to the front. */
-.ann .ann-audience { display: none; }
-html.audience-women .ann .ann-audience[data-ann-audience="women"] { display: flex; }
-html.audience-men   .ann .ann-audience[data-ann-audience="men"]   { display: flex; }
-
-/* When an audience override is present, hide the dynamic blocks so
-   the rotation pins on the targeted message. Mike can still edit
-   the per-audience copy from the section settings; the default
-   blocks remain visible to generic visitors. */
-html.audience-women .ann .ann-default,
-html.audience-men   .ann .ann-default { display: none; }
+/* Hide the generic line and reveal the matching audience line. */
+html.audience-women .ann .ann-generic,
+html.audience-men   .ann .ann-generic { display: none; }
+html.audience-women .ann .ann-audience[data-ann-audience="women"] { display: block; }
+html.audience-men   .ann .ann-audience[data-ann-audience="men"]   { display: block; }
 
 /* ---------- 2. PDP audience banner refinement ------------ */
 

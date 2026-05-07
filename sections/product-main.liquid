@@ -1247,12 +1247,13 @@
 
 <script>
 /* Cap PDP — audience-targeted hero. Reads audience from <html> class
-   (which is set by the head-script in layout/theme.liquid from either
-   the ?audience=women|men URL param or the lumisca_audience cookie),
+   (set by the head-script in layout/theme.liquid from the CURRENT
+   URL's ?audience=women|men param — no cookie / no carryover, so the
+   class is only present when the param is on the page being viewed),
    reveals the matching pre-rendered banner above the product rating,
    and reorders the reviews grid so audience-matching reviewers
-   surface first. Default (no audience class / generic) leaves the
-   page exactly as rendered. */
+   surface first. Default (no audience class) leaves the page exactly
+   as rendered. */
 (function () {
   if (document.body.className.indexOf('template-product') === -1) return;
   var html = document.documentElement;

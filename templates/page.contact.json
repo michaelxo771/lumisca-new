@@ -10,14 +10,9 @@
     },
     "form": {
       "type": "contact-form"
-    },
-    "announcement-bar": {
-      "type": "announcement-bar",
-      "settings": {}
     }
   },
   "order": [
-    "announcement-bar",
     "hero",
     "form"
   ]

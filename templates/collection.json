@@ -5,14 +5,9 @@
     },
     "trust": {
       "type": "trust-bar"
-    },
-    "announcement-bar": {
-      "type": "announcement-bar",
-      "settings": {}
     }
   },
   "order": [
-    "announcement-bar",
     "main",
     "trust"
   ]

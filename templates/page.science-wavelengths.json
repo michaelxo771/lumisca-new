@@ -1,6 +1,5 @@
 {
   "sections": {
-    "announcement-bar": { "type": "announcement-bar", "settings": {} },
     "main": {
       "type": "article-longform",
       "blocks": {
@@ -44,5 +43,5 @@
       }
     }
   },
-  "order": ["announcement-bar", "main"]
+  "order": ["main"]
 }

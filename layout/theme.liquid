@@ -32,33 +32,22 @@
     {{ 'audience-variants.css' | asset_url | stylesheet_tag }}
 
     {%- comment -%}
-      Audience personalization: detect ?audience=women|men URL param, persist
-      via cookie (14d), and apply audience-women|audience-men|audience-generic
-      class to <html> BEFORE first paint so palette overrides land without FOUC.
-      Existing audience IIFE in product-main.liquid still handles PDP-specific
-      banner reveal + review ordering; this only manages the global body class.
+      Audience personalization: read ?audience=women|men FROM THE CURRENT URL
+      ONLY and apply the matching audience class to <html> before first paint.
+      No cookie, no carryover — navigating to a URL without the param drops the
+      class immediately. Each page evaluates audience freshly so women's
+      styling on /products/...?audience=women does not leak onto /collections
+      or the homepage on subsequent navigation.
     {%- endcomment -%}
     <script>
     (function () {
-      var COOKIE = 'lumisca_audience';
       var aud = '';
       try {
         var p = new URLSearchParams(window.location.search);
         aud = (p.get('audience') || '').toLowerCase();
       } catch (_) {}
-      if (aud !== 'women' && aud !== 'men') {
-        var m = document.cookie.match(/(?:^|; )lumisca_audience=([^;]*)/);
-        if (m) aud = decodeURIComponent(m[1]).toLowerCase();
-      } else {
-        try {
-          var d = new Date(); d.setTime(d.getTime() + 14 * 864e5);
-          document.cookie = COOKIE + '=' + aud + '; expires=' + d.toUTCString() + '; path=/; SameSite=Lax';
-        } catch (_) {}
-      }
-      var cls = 'audience-generic';
-      if (aud === 'women') cls = 'audience-women';
-      else if (aud === 'men') cls = 'audience-men';
-      document.documentElement.classList.add(cls);
+      if (aud === 'women') document.documentElement.classList.add('audience-women');
+      else if (aud === 'men') document.documentElement.classList.add('audience-men');
     })();
     </script>
 
@@ -135,16 +124,13 @@
     <a class="skip-link" href="#main">Skip to content</a>
 
     {%- comment -%}
-      PHASE 2: SAVE90 launch-edition sticky bar above the header. Dismissable;
-      stays hidden via localStorage for 24h once dismissed. Cap-friendly copy
-      that references the £90-off code; benign on every page.
+      Single site-wide announcement bar above the header. Replaces the prior
+      duplicate setup where the cap-launch-strip rendered above the header AND
+      the announcement-bar section rendered inside content_for_layout below
+      the header. Now it's one bar in one place. Audience copy + palette swap
+      is handled inside sections/announcement-bar.liquid + audience-variants.css.
     {%- endcomment -%}
-    <div class="cap-launch-strip" data-cap-launch-strip hidden>
-      <div class="container cap-launch-strip-inner">
-        <span class="cap-launch-strip-msg">🎁 UK Spring Launch: <strong>£90 off</strong> the Pro Red Light Cap — code <strong>SAVE90</strong></span>
-        <button type="button" class="cap-launch-strip-close" data-cap-launch-strip-close aria-label="Dismiss launch banner">×</button>
-      </div>
-    </div>
+    {% section 'announcement-bar' %}
 
     {% section 'header' %}
 

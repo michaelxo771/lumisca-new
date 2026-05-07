@@ -296,9 +296,9 @@ Layered onto the Phase 1 audience-targeting (which only swapped the PDP intro li
 
 ### Detection + persistence
 
-- A small inline script in `layout/theme.liquid` (just after `theme.css`) reads `?audience=women` or `?audience=men` from the URL, persists it in a `lumisca_audience` cookie for 14 days, and applies `audience-women` / `audience-men` / `audience-generic` class to `<html>` BEFORE first paint (no FOUC).
+- A small inline script in `layout/theme.liquid` (just after `theme.css`) reads `?audience=women` or `?audience=men` from the CURRENT URL ONLY and applies the matching `audience-women` / `audience-men` class to `<html>` BEFORE first paint (no FOUC). NO cookie persistence — each page evaluates fresh, so navigating to a URL without the param drops the class immediately.
 - Variant CSS lives in `assets/audience-variants.css` and is gated entirely by these classes. Mike can find every variant override in this single file.
-- The Phase 1 audience IIFE on the cap PDP (banner reveal + review reorder) now sources its audience from the same `<html>` class, so it inherits cookie persistence too — visitors keep their variant when they navigate away from a tagged URL.
+- The Phase 1 audience IIFE on the cap PDP (banner reveal + review reorder) sources its audience from the same `<html>` class. Because the class is set from the current URL only, the PDP banner only reveals when the visitor is currently on a `?audience=…` URL — there's no carryover from prior visits.
 
 ### What's variant-specific
 
@@ -339,7 +339,7 @@ Once tagged, the same `<html>` class hook can drive a sort similar to the review
 
 ### Verification — three-variant walkthrough
 
-After deploy, run all three in incognito (each in a fresh window so the cookie doesn't carry over):
+After deploy, run all three in any browser (no incognito needed — the audience class is now URL-only with no cookie persistence, so navigation between variants is clean):
 
 1. `/products/pro-red-light-hair-growth-cap?audience=women`
    - Announcement bar: warm rose background, women's copy
@@ -355,12 +355,12 @@ After deploy, run all three in incognito (each in a fresh window so the cookie d
    - Reviews: Tom W. first card
    - FAQ: receding hairline / crown thinning / male pattern questions surface above the rest
 
-3. `/products/pro-red-light-hair-growth-cap` (no params, no cookie)
-   - Announcement bar: black/white default, Mike's configured rotation
+3. `/products/pro-red-light-hair-growth-cap` (no params)
+   - Announcement bar: cream/gold default, single static line
    - PDP: self-routing buttons visible, no audience banner, mixed review order
    - Trust pills: brand gold
    - FAQ: cap-specific deep-dive questions only, no audience-specific entries
 
-After visiting variant 1 or 2, navigating to a different page on the site (e.g. `/collections/all`) should keep the audience palette/copy active because of the cookie. Use a fresh incognito window per variant to test cleanly.
+After visiting variant 1 or 2, navigating to a different page (e.g. `/` or `/collections/all`) should DROP the audience styling and revert to the generic palette/copy immediately, because the audience class is sourced from the current URL only — no cookie persistence.
 
 If any item above looks wrong, ping Claude with the page URL, the actual symptom, and what was expected.
