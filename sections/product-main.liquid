@@ -172,19 +172,21 @@
         {%- endif -%}
 
         {%- comment -%}
-          LUMISCA-CONVERSION-FIX (Problem 3 #7): trust pill row copy updated to
-          CE Marked / 90-Day Guarantee / Free UK & IE Shipping / Klarna Available.
-          Old copy: Clinically Proven / Drug-Free Formula / 90-Day Guarantee / Free UK Shipping.
+          PHASE 2: trust pill row updated to surface CE Marked + Clinical
+          Wavelengths + Klarna 3x £30 (post-SAVE90 cap split). Preserves
+          90-Day Guarantee + Free UK Shipping anchors from Phase 1.
         {%- endcomment -%}
         {%- if handle == 'pro-red-light-hair-growth-cap' -%}
           <ul class="cap-trustbar" aria-label="Trust signals">
             <li>CE Marked</li>
             <li aria-hidden="true">·</li>
+            <li>Clinical Wavelengths</li>
+            <li aria-hidden="true">·</li>
             <li>90-Day Guarantee</li>
             <li aria-hidden="true">·</li>
-            <li>Free UK &amp; IE Shipping</li>
+            <li>Free UK Shipping</li>
             <li aria-hidden="true">·</li>
-            <li>Klarna Available</li>
+            <li>Klarna 3x £30</li>
           </ul>
         {%- endif -%}
 
@@ -197,22 +199,31 @@
         <div class="product-price">
           <span class="product-price-now">{{ product.price | money }}</span>
           {%- if handle == 'pro-red-light-hair-growth-cap' and product.compare_at_price == blank -%}
-            <span class="product-price-was">£109.99</span>
-            <span class="badge cap-save-pill">SAVE £55</span>
+            <span class="product-price-was">£349.99</span>
           {%- elsif product.compare_at_price > product.price -%}
             <span class="product-price-was">{{ product.compare_at_price | money }}</span>
-            {%- assign saved = product.compare_at_price | minus: product.price -%}
-            {%- assign saved_pct = saved | times: 100.0 | divided_by: product.compare_at_price | round -%}
-            {%- if handle == 'pro-red-light-hair-growth-cap' -%}
-              <span class="badge cap-save-pill">SAVE {{ saved | money_without_trailing_zeros }}</span>
-            {%- else -%}
+            {%- if handle != 'pro-red-light-hair-growth-cap' -%}
+              {%- assign saved = product.compare_at_price | minus: product.price -%}
+              {%- assign saved_pct = saved | times: 100.0 | divided_by: product.compare_at_price | round -%}
               <span class="badge badge-red">Save {{ saved_pct }}% · {{ saved | money }}</span>
             {%- endif -%}
           {%- endif -%}
         </div>
 
+        {%- comment -%}
+          PHASE 2: SAVE90 with-code line. Per-page dynamic from variant.price
+          (subtract £90 fixed, render via money filter). Decoupled from the
+          hero pill — patch removed the "SAVE £170" pill to avoid stacking
+          two save numbers on the price block.
+        {%- endcomment -%}
         {%- if handle == 'pro-red-light-hair-growth-cap' -%}
-          <p class="cap-klarna"><span class="cap-klarna-dot" aria-hidden="true"></span>Or 3 interest-free payments of £18.33 with Klarna</p>
+          {%- assign save90_pence = product.price | minus: 9000 -%}
+          {%- assign klarna_per_pence = save90_pence | divided_by: 3 -%}
+          <p class="cap-save90-line"><span class="cap-save90-flourish" aria-hidden="true">✦</span> {{ save90_pence | money }} with code <strong>SAVE90</strong> — £90 off <span class="cap-save90-flourish" aria-hidden="true">✦</span></p>
+        {%- endif -%}
+
+        {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+          <p class="cap-klarna"><span class="cap-klarna-dot" aria-hidden="true"></span>Or 3 interest-free payments of {{ klarna_per_pence | money }} with Klarna</p>
           {%- comment -%}
             LUMISCA-CONVERSION-FIX (Problem 2): "Why we're £54.99 not £549"
             collapsible. Closed by default on mobile, expandable. Three honest
@@ -368,16 +379,18 @@
             <div class="pvol-tiers">
               <label class="pvol-tier is-active"
                      data-tier="cap-only"
-                     data-tv-rrp-pence="17197"
+                     data-tv-rrp-pence="34999"
                      data-tv-today-pence="{{ product.price }}"
-                     data-tv-save-pence="11698"
-                     data-tv-pct="68"
+                     data-tv-save-pence="17000"
+                     data-tv-pct="49"
                      data-add-mode="cap">
                 <input type="radio" name="pvol" value="cap-only" checked>
                 <span class="pvol-radio" aria-hidden="true"></span>
                 <span class="pvol-body">
                   <span class="pvol-row"><span class="pvol-title">Just the Cap</span></span>
-                  <span class="pvol-sub"><strong>{{ product.price | money }}</strong> · Best for single user</span>
+                  <span class="pvol-sub"><strong>{{ product.price | money }}</strong> · was £349.99</span>
+                  <span class="pvol-secondary"><strong>{{ product.price | minus: 9000 | money }}</strong> with code SAVE90 — £90 off</span>
+                  <span class="pvol-microcopy">Best for: trying it out</span>
                 </span>
                 <span class="pvol-thumbs" aria-hidden="true">
                   {%- if cap_thumb -%}<img class="pvol-thumb" src="{{ cap_thumb | image_url: width: 100 }}" alt="" loading="lazy" width="44" height="44">{%- else -%}<img class="pvol-thumb" src="{{ 'product-cap-solo.png' | asset_url }}" alt="" loading="lazy" width="44" height="44">{%- endif -%}
@@ -385,21 +398,18 @@
               </label>
               <label class="pvol-tier"
                      data-tier="hair-skin-duo"
-                     data-tv-rrp-pence="28196"
-                     data-tv-today-pence="10998"
-                     data-tv-save-pence="17198"
-                     data-tv-pct="61"
+                     data-tv-rrp-pence="45998"
+                     data-tv-today-pence="22999"
+                     data-tv-save-pence="22999"
+                     data-tv-pct="50"
                      data-add-mode="cap+face">
                 <input type="radio" name="pvol" value="hair-skin-duo">
                 <span class="pvol-radio" aria-hidden="true"></span>
                 <span class="pvol-body">
-                  <span class="pvol-row">
-                    <span class="pvol-title">Hair + Skin Duo — Best Value</span>
-                    <span class="pvol-badge">BEST VALUE</span>
-                  </span>
-                  <span class="pvol-sub"><strong>£109.98</strong> · Pro Hair Growth Cap + Glow Face Mask (skincare)</span>
-                  <span class="pvol-secondary">Save £172 vs RRP · Free shipping</span>
-                  <span class="pvol-microcopy">Adds Cap + Face Mask to your cart</span>
+                  <span class="pvol-row"><span class="pvol-title">Hair + Skin Duo — Popular</span></span>
+                  <span class="pvol-sub"><strong>£229.99</strong> · was £459.98</span>
+                  <span class="pvol-secondary"><strong>£139.99</strong> with code SAVE90 — £90 off</span>
+                  <span class="pvol-microcopy">Best for: full red-light skincare routine. Adds Cap + Face Mask to your cart.</span>
                 </span>
                 <span class="pvol-thumbs" aria-hidden="true">
                   {%- if cap_thumb -%}<img class="pvol-thumb" src="{{ cap_thumb | image_url: width: 100 }}" alt="" loading="lazy" width="44" height="44">{%- else -%}<img class="pvol-thumb" src="{{ 'product-cap-solo.png' | asset_url }}" alt="" loading="lazy" width="44" height="44">{%- endif -%}
@@ -408,17 +418,18 @@
               </label>
               <label class="pvol-tier"
                      data-tier="complete"
-                     data-tv-rrp-pence="36195"
-                     data-tv-today-pence="12499"
-                     data-tv-save-pence="23696"
-                     data-tv-pct="65"
+                     data-tv-rrp-pence="55997"
+                     data-tv-today-pence="27999"
+                     data-tv-save-pence="27998"
+                     data-tv-pct="50"
                      data-add-mode="bundle">
                 <input type="radio" name="pvol" value="complete">
                 <span class="pvol-radio" aria-hidden="true"></span>
                 <span class="pvol-body">
-                  <span class="pvol-row"><span class="pvol-title">Complete System — Maximum Results</span></span>
-                  <span class="pvol-sub"><strong>£124.99</strong> · Hair Growth Cap + Glow Face Mask (skin) + Rest Eye Mask</span>
-                  <span class="pvol-secondary">Save £237 vs RRP · Free shipping + priority</span>
+                  <span class="pvol-row"><span class="pvol-title">Complete Bundle — Maximum Results</span></span>
+                  <span class="pvol-sub"><strong>£279.99</strong> · was £559.97</span>
+                  <span class="pvol-secondary"><strong>£189.99</strong> with code SAVE90 — £90 off</span>
+                  <span class="pvol-microcopy">Best for: hair, skin, and recovery — full system.</span>
                 </span>
                 <span class="pvol-thumbs" aria-hidden="true">
                   {%- if cap_thumb -%}<img class="pvol-thumb" src="{{ cap_thumb | image_url: width: 100 }}" alt="" loading="lazy" width="44" height="44">{%- else -%}<img class="pvol-thumb" src="{{ 'product-cap-solo.png' | asset_url }}" alt="" loading="lazy" width="44" height="44">{%- endif -%}
@@ -471,9 +482,10 @@
 
         {%- if handle == 'pro-red-light-hair-growth-cap' -%}
           <div class="cap-totalvalue">
-            <div class="cap-tv-row"><span class="cap-tv-label">Total Value:</span><span class="cap-tv-strike" data-cap-tv-strike>£171.97</span></div>
-            <div class="cap-tv-row cap-tv-today"><span class="cap-tv-label">Today:</span><span class="cap-tv-amount" data-cap-tv-amount>£54.99</span></div>
-            <div class="cap-tv-row cap-tv-save"><span class="cap-tv-label">You save:</span><span class="cap-tv-savings" data-cap-tv-savings>£117 (68% OFF)</span></div>
+            <div class="cap-tv-row"><span class="cap-tv-label">Total Value:</span><span class="cap-tv-strike" data-cap-tv-strike>£349.99</span></div>
+            <div class="cap-tv-row cap-tv-today"><span class="cap-tv-label">Today:</span><span class="cap-tv-amount" data-cap-tv-amount>£179.99</span></div>
+            <div class="cap-tv-row cap-tv-save"><span class="cap-tv-label">You save:</span><span class="cap-tv-savings" data-cap-tv-savings>£170 (49% OFF)</span></div>
+            <p class="cap-tv-foot">Apply code <strong>SAVE90</strong> at checkout for an extra £90 off.</p>
           </div>
         {%- endif -%}
 
@@ -566,7 +578,7 @@
                 </div>
               </li>
             </ul>
-            <p class="cap-bonus-footer"><span class="cap-bonus-footer-label">TOTAL VALUE:</span> <span class="cap-bonus-strike" data-cap-bonus-strike>£171.97</span> &nbsp;→&nbsp; <span class="cap-bonus-footer-label">YOURS TODAY:</span> <span class="cap-bonus-today" data-cap-bonus-today>£54.99</span></p>
+            <p class="cap-bonus-footer"><span class="cap-bonus-footer-label">TOTAL VALUE:</span> <span class="cap-bonus-strike" data-cap-bonus-strike>£349.99</span> &nbsp;→&nbsp; <span class="cap-bonus-footer-label">YOURS TODAY:</span> <span class="cap-bonus-today" data-cap-bonus-today>£179.99</span></p>
           </section>
         {%- endif -%}
 
@@ -760,6 +772,13 @@
 .cap-trio-n { font-family: var(--display); font-size: 1.2rem; font-weight: 700; color: var(--ink); line-height: 1; }
 @media (min-width: 640px) { .cap-trio-n { font-size: 1.35rem; } }
 .cap-trio-l { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--mid); font-weight: 600; }
+
+/* Phase 2 — SAVE90 with-code line under hero price */
+.cap-save90-line { display: flex; align-items: center; justify-content: center; gap: .35rem; margin: .25rem 0 .5rem; padding: .5rem .75rem; background: rgba(184,146,78,.08); border: 1px solid rgba(184,146,78,.28); border-radius: 6px; font-size: 14px; color: var(--ink); font-weight: 600; line-height: 1.3; text-align: center; }
+.cap-save90-line strong { font-weight: 800; letter-spacing: .04em; }
+.cap-save90-flourish { color: #B8924E; font-size: 13px; line-height: 1; }
+.cap-tv-foot { margin: .5rem 0 0; font-size: 12px; color: var(--mid); text-align: center; line-height: 1.4; }
+.cap-tv-foot strong { color: var(--ink); font-weight: 700; letter-spacing: .03em; }
 
 /* Cap-only — regulatory trust strip (LUMISCA-CONVERSION-FIX Problem 1) */
 .cap-regulatory { list-style: none; padding: .65rem 0; margin: .5rem 0 .25rem; display: flex; flex-wrap: wrap; gap: .35rem .85rem; border-top: 1px solid #EEEEEE; border-bottom: 1px solid #EEEEEE; font-size: 11px; letter-spacing: .04em; color: var(--ink); font-weight: 600; }
