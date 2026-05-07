@@ -1,6 +1,7 @@
 {
   "sections": {
+    "announcement-bar": { "type": "announcement-bar", "settings": {} },
     "quiz": { "type": "quiz-flow", "settings": {} }
   },
-  "order": ["quiz"]
+  "order": ["announcement-bar", "quiz"]
 }

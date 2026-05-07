@@ -1,5 +1,9 @@
 {
   "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {}
+    },
     "main": {
       "type": "product-main"
     },
@@ -87,6 +91,7 @@
     }
   },
   "order": [
+    "announcement-bar",
     "main",
     "cap-press-bar",
     "benefits",

@@ -10,9 +10,14 @@
     },
     "collections": {
       "type": "collection-list"
+    },
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {}
     }
   },
   "order": [
+    "announcement-bar",
     "hero",
     "collections"
   ]

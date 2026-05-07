@@ -10,9 +10,14 @@
     },
     "main": {
       "type": "faq-page"
+    },
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {}
     }
   },
   "order": [
+    "announcement-bar",
     "hero",
     "main"
   ]

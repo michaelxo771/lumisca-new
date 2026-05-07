@@ -1,5 +1,6 @@
 {
   "sections": {
+    "announcement-bar": { "type": "announcement-bar", "settings": {} },
     "hero": {
       "type": "science-hero",
       "settings": {
@@ -40,6 +41,7 @@
     }
   },
   "order": [
+    "announcement-bar",
     "hero",
     "intro",
     "foundations",

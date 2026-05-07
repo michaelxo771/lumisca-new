@@ -288,79 +288,28 @@ The Claude sandbox can't browse to lumisca.co.uk to verify deployed behaviour. M
    - Cap variant compare-at = £349.99 → strikethrough matches
    - Bundle variant price = £279.99 → Tier 3 ATC adds £279.99 worth, SAVE90 brings it to £189.99
 
+If any item above looks wrong, ping Claude with the page URL, the actual symptom, and what was expected.
+
 ---
 
-## Audience personalization v2 (May 2026)
+## Audience personalization v2 — REVERTED (May 2026)
 
-Layered onto the Phase 1 audience-targeting (which only swapped the PDP intro line + reordered male reviews). v2 broadens this to subtle visual personalization across the whole site — palette, copy, review/FAQ ordering — without touching prices, science copy, regulatory claims, or anything functional.
+**Status: REVERTED.** Visual personalization (announcement bar colours, trust pill tints, audience-specific FAQ/review ordering, palette-per-variant) was attempted but introduced display bugs that couldn't be cleanly fixed:
 
-### Detection + persistence
+- Duplicate announcement bars (one above the header from the cap-launch-strip, one below from `content_for_layout`)
+- Black instead of cream/gold on generic visitors
+- Cut-off / marquee-scrolling audience copy
+- Audience class persisting across navigation via cookie, leaking the women's variant onto the homepage and other pages
+- "FOR WOMEN" PDP banner showing on generic URLs as a downstream effect of the cookie carryover
 
-- A small inline script in `layout/theme.liquid` (just after `theme.css`) reads `?audience=women` or `?audience=men` from the CURRENT URL ONLY and applies the matching `audience-women` / `audience-men` class to `<html>` BEFORE first paint (no FOUC). NO cookie persistence — each page evaluates fresh, so navigating to a URL without the param drops the class immediately.
-- Variant CSS lives in `assets/audience-variants.css` and is gated entirely by these classes. Mike can find every variant override in this single file.
-- The Phase 1 audience IIFE on the cap PDP (banner reveal + review reorder) sources its audience from the same `<html>` class. Because the class is set from the current URL only, the PDP banner only reveals when the visitor is currently on a `?audience=…` URL — there's no carryover from prior visits.
+Two follow-up fix attempts (commits `c75a1e7` and `25b48fc`) didn't fully resolve all of these on the live theme, and the site was scheduled to go live to ad traffic. To unblock the launch, BOTH commits were reverted in a single revert commit, returning the site to the stable Phase 1 + Phase 2 baseline.
 
-### What's variant-specific
+**Future attempt should be done from scratch** with proper component scoping rather than additive CSS overrides:
 
-| Surface | Women | Men | Generic |
-| --- | --- | --- | --- |
-| Announcement bar palette | Warm rose `#F5E6E0` on dark warm brown text | Charcoal `#2A2A2A` on warm cream text | Black on white (default) |
-| Announcement bar copy | "✨ UK Spring Launch — £90 off… Designed for thinning at the parting, postpartum, or menopausal hair loss. Code SAVE90." | "🎯 UK Spring Launch — £90 off… Reverse receding hairline and crown thinning. Code SAVE90." | Existing Mike-configured rotation |
-| PDP audience banner | Warm rose-gold accent | Bronze accent on dark | (no banner — self-routing buttons instead) |
-| Trust pill / regulatory accent | Rose-gold `#C9967C` | Darker bronze `#9A8050` | Brand gold `#B8924E` |
-| Reviews surfaced first | Sarah M. → Emma R. → Naomi W. | Tom W. → Connor S. → Mark P. | Existing order |
-| FAQ surfaced first | "Does it work for postpartum hair loss?", "Can I use this during menopause?", "Will it help with thinning at the parting?" | "Does it work on receding hairlines?", "How effective is it for crown thinning?", "Will it work if I'm already losing hair to male pattern baldness?" | (those entries hidden; existing FAQ unchanged) |
-| CTA button hover | Slightly warmer red `#B81E3E` | Slightly cooler red `#A41024` | Brand red |
+- A separate dedicated branch
+- Tested in a development theme first (Shopify allows duplicate themes for staging)
+- Only deployed to live once verified working in dev
+- Audience class sourced server-side if possible (Shopify Liquid has no native query-string access — would require a different pattern such as URL-routed templates, persistent session via Shopify's customer object, or an app-injected variable)
+- Single source-of-truth for the announcement bar (rendered exactly once, in one place)
 
-### What's the SAME across all variants (do not change per audience)
-
-- Product price (£179.99) and compare-at (£349.99)
-- Studies / science section (clinical research is gender-neutral)
-- Regulatory copy (CE Marked, wavelengths, etc. — only its accent colour shifts)
-- Bundle selector tiers + pricing
-- Countdown timer, 90-day guarantee, 10,000+ customer stat
-- SAVE90 discount logic and code
-
-### Mike's adjustment surface
-
-- **Announcement bar copy**: Theme Customizer → Announcement Bar section → "Audience-targeted overrides" → edit `Women's audience message` / `Men's audience message`. Leave blank to disable (default rotation re-appears for that variant).
-- **Variant palette / accent colours**: edit `assets/audience-variants.css`. The CSS variables at the top of the file (`--audience-accent`, `--audience-cta-hover`, etc.) are the levers; everything else inherits from them. Single file, well-commented.
-- **FAQ entries per variant**: the audience-specific entries live in `sections/product-faq.liquid` inside the cap PDP block, marked with `data-faq-audience="women"` or `data-faq-audience="men"`. Edit copy directly in Liquid; CSS gates visibility automatically.
-- **Reviewer priority**: `sections/product-main.liquid` audience IIFE near the bottom — `priority` array. Names must match `data-review-name` values rendered in `sections/product-reviews.liquid`.
-
-### Future enhancement — before/after photo gender prioritization
-
-The product gallery and Real Results scroll are currently fed from generic image assets that aren't tagged by gender. Reordering them per audience is deferred until either:
-
-1. Mike tags photos in admin (alt-text convention, e.g. `before-after-female-1`, `before-after-male-2`), OR
-2. Photos are re-uploaded with explicit gendered filename conventions
-
-Once tagged, the same `<html>` class hook can drive a sort similar to the review reorder. Flagged here so it doesn't get lost.
-
-### Verification — three-variant walkthrough
-
-After deploy, run all three in any browser (no incognito needed — the audience class is now URL-only with no cookie persistence, so navigation between variants is clean):
-
-1. `/products/pro-red-light-hair-growth-cap?audience=women`
-   - Announcement bar: warm rose background, women's copy
-   - PDP banner: rose-gold tinted "For women: thinning at the parting…"
-   - Trust pills: rose-gold accent
-   - Reviews: Sarah M. first card
-   - FAQ: postpartum / menopause / parting questions surface above the rest
-
-2. `/products/pro-red-light-hair-growth-cap?audience=men`
-   - Announcement bar: charcoal background, men's copy
-   - PDP banner: bronze tinted "For men: thinning at the crown…"
-   - Trust pills: darker bronze accent
-   - Reviews: Tom W. first card
-   - FAQ: receding hairline / crown thinning / male pattern questions surface above the rest
-
-3. `/products/pro-red-light-hair-growth-cap` (no params)
-   - Announcement bar: cream/gold default, single static line
-   - PDP: self-routing buttons visible, no audience banner, mixed review order
-   - Trust pills: brand gold
-   - FAQ: cap-specific deep-dive questions only, no audience-specific entries
-
-After visiting variant 1 or 2, navigating to a different page (e.g. `/` or `/collections/all`) should DROP the audience styling and revert to the generic palette/copy immediately, because the audience class is sourced from the current URL only — no cookie persistence.
-
-If any item above looks wrong, ping Claude with the page URL, the actual symptom, and what was expected.
+For now, the "FOR WOMEN" / "FOR MEN" PDP banner per audience variant (Phase 1 behaviour) is sufficient personalization. The audience IIFE on the cap PDP still reads `?audience=` from the URL and reveals the matching banner + reorders the male reviews — that part was always working and is unaffected by the revert.

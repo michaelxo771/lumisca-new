@@ -2,9 +2,14 @@
   "sections": {
     "main": {
       "type": "search-main"
+    },
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {}
     }
   },
   "order": [
+    "announcement-bar",
     "main"
   ]
 }
