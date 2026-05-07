@@ -313,3 +313,91 @@ Two follow-up fix attempts (commits `c75a1e7` and `25b48fc`) didn't fully resolv
 - Single source-of-truth for the announcement bar (rendered exactly once, in one place)
 
 For now, the "FOR WOMEN" / "FOR MEN" PDP banner per audience variant (Phase 1 behaviour) is sufficient personalization. The audience IIFE on the cap PDP still reads `?audience=` from the URL and reveals the matching banner + reorders the male reviews — that part was always working and is unaffected by the revert.
+
+---
+
+## Phase 3 — audience personalization v3 (May 2026)
+
+Rebuilt from scratch on a separate, clean foundation after the v2 revert. Lessons applied:
+
+- Single source-of-truth detection layer (`snippets/audience-detect.liquid`)
+- Pre-rendered server-side variant content gated by CSS class — no JS swaps content
+- One announcement bar element, never duplicated
+- No cookie persistence — current URL is the only audience source
+
+### Architecture
+
+| Layer | File | Role |
+| --- | --- | --- |
+| Detect | `snippets/audience-detect.liquid` | Sets `current_audience='generic'` server-side. Documents the constraint that Shopify Liquid has no native query-string access. |
+| Body class | `layout/theme.liquid` | `<body class="... audience-generic">` baked in via Liquid. A 6-line inline `<script>` immediately after `<body>` reads `?audience=` from the current URL only and swaps the class to `audience-women` / `audience-men` if matched. No cookie. |
+| Visibility gates | `assets/audience-variants.css` | `.aud-only-{generic,women,men}` show/hide rules + per-variant CSS variables (`--aud-accent`, `--aud-banner-bg/-fg/-border`, `--aud-cta-hover`, `--aud-pill-*`) + announcement / hero / trust pill / timer / CTA palette overrides + reviews/FAQ `order: -1` for the matching variant. |
+| Variant content | Section files (announcement-bar / product-main / product-reviews / product-faq / product-timeline / comparison / cap-science-studies / hero) | Each section pre-renders all three variants wrapped in `.aud-only-*`. Generic kept identical to pre-Phase-3 markup wherever possible. |
+
+### Per-section variants
+
+| Surface | Generic | Women | Men |
+| --- | --- | --- | --- |
+| Announcement bar palette | cream/gold | warm rose `#F5E6E0` + dark warm brown text | charcoal `#1F1F1F` + warm cream + gold accent |
+| Announcement copy | Mike's rotating blocks | Single line + sub-line | Single line + sub-line |
+| PDP hero banner | self-routing buttons | Rich rose-tinted "FOR WOMEN" with 3 ✓ bullets | Rich charcoal-bronze "FOR MEN" with 3 ✓ bullets |
+| Product subtitle | "Clinical hair regrowth, designed for at-home use" | "The hair regrowth system trusted by thousands of UK women" | "Clinical-grade regrowth for men who want their hair back" |
+| Product description | Shopify-admin truncated | bespoke 4-paragraph + 4 ✓ bullets | bespoke 4-paragraph + 4 ✓ bullets |
+| Trust pills | "Clinical Wavelengths" middle pill | "Hormone-Safe" middle pill | "Drug-Free" middle pill |
+| Trust pill palette | brand gold border | rose-gold border + soft pink fill | bronze border + dark charcoal fill, cream text |
+| Reviews surfaced first | existing mixed order | Hannah K. → Diane S. → Rachel T. → existing female reviewers | Marcus L. → James P. → Daniel R. → existing male reviewers |
+| FAQ surfaced first | existing order | postpartum / breastfeeding / menopausal / parting | receding / crown / Fin+Min combo / male pattern |
+| Timeline copy | existing | women-specific (pillow / parting) | men-specific (hairline / crown) |
+| Comparison extra row | none | "Hormone-Safe" row | "Drug-Free Alternative" row |
+| Science section lead | existing | 47-woman trial + 37% hair count framing | male and female pattern framing |
+| Timer accent | red | rose-gold | bronze |
+| CTA hover red | brand red | warmer red `#B81E3E` | cooler red `#A41024` |
+| Hero homepage CTA | Mike's label ("Shop the Collection") | "Start My Hair Regrowth Journey" | "Start Reversing Hair Loss" |
+| Primary ATC button | "ADD TO CART · £179.99" — same across all variants | same | same |
+
+### What stays the same across all variants
+
+- Product price (£179.99) and compare-at (£349.99)
+- Studies / science cards (gender-neutral clinical research)
+- Regulatory copy (CE Marked, wavelengths, etc.)
+- Bundle selector tiers + pricing
+- Countdown timer numbers, 90-day guarantee, 10,000+ customer stat
+- SAVE90 discount logic and code
+- Primary ATC button label (intentional: same product, same price, no variant framing on the conversion-critical button)
+
+### Mike's adjustment surface
+
+| What | Where |
+| --- | --- |
+| Announcement copy (women / men main + sub) | Theme Customizer → Announcement Bar → "Audience-targeted overrides" |
+| Variant palette / accent colours | `assets/audience-variants.css` — CSS variables at the top of the file |
+| Hero banner copy (eyebrow / body / bullets) | `sections/product-main.liquid` (search `.aud-hero-banner`) |
+| Product subtitle | `sections/product-main.liquid` (search `.cap-subtitle`) |
+| Product description copy | `sections/product-main.liquid` (search `.cap-aud-desc`) |
+| Trust pill middle-label per variant | `sections/product-main.liquid` (search `.cap-trustbar`) |
+| Reviews per variant | `sections/product-reviews.liquid` (search `aud_reviews =`) — pipe + `;;` delimited |
+| FAQ per variant | `sections/product-faq.liquid` — entries marked with `data-faq-aud="women|men"` |
+| Timeline copy per variant | `sections/product-timeline.liquid` (search `aud-only-women`) |
+| Comparison row per variant | `sections/comparison.liquid` (search `aud-only-women`) |
+| Hero homepage CTA copy | `sections/hero.liquid` (search `aud-only-`) |
+| Science section lead per variant | `sections/cap-science-studies.liquid` (search `csci-lead aud-only`) |
+
+### Meta Pixel + Conversions API
+
+A custom event `AudienceVariantViewed` fires once per cap PDP view with `{ variant: 'women'|'men'|'generic' }`. Browser-side via `fbq('trackCustom', ...)`. **Server-side (CAPI) mirroring is NOT wired** — Shopify's Meta sales channel auto-Web-Pixel forwards standard events (ViewContent / AddToCart / Purchase) but does not auto-forward `trackCustom` calls. To get this event into the CAPI conversion graph, Mike will need either a Shopify app that mirrors custom events, or a server-side Conversions API endpoint that listens for the same payload. For ad-set conversion analysis on the variant level, browser-side is sufficient — Meta Ads Manager will see the event and let you build audiences from it.
+
+### Future enhancement — image gender prioritization
+
+The product gallery and Real Results scroll currently aren't tagged by gender. Reordering them per audience is deferred until either Mike tags photos in admin (alt-text convention, e.g. `before-after-female-1`) or photos are re-uploaded with explicit gendered filenames. Once tagged, the same `body.audience-*` hook can drive a sort similar to the review reorder (CSS `order` with a tagged attribute on each `<img>` wrapper).
+
+### Verification — clean three-variant walkthrough
+
+After deploy, run all three in any browser (no incognito needed — body class is URL-only with zero persistence, so navigation between variants is clean):
+
+1. `/` (no params) — body has `audience-generic`, ONE announcement bar (cream/gold), no FOR WOMEN/MEN banners anywhere, hero CTA = Mike's configured label.
+2. `/products/pro-red-light-hair-growth-cap?audience=women` — body has `audience-women`, announcement bar warm rose with women's copy + sub-line, FOR WOMEN rose-tinted hero banner, women's subtitle / description / trust pills / reviews / FAQ / timeline / comparison row / science lead all visible.
+3. Click home from variant 2 → body reverts to `audience-generic` immediately, no carryover.
+4. `/products/pro-red-light-hair-growth-cap?audience=men` — body has `audience-men`, announcement bar charcoal with men's copy + sub-line, FOR MEN bronze-on-charcoal hero banner, men's subtitle / description / trust pills / reviews / FAQ / timeline / comparison row / science lead all visible.
+5. `/products/pro-red-light-hair-growth-cap` (no params) — generic everywhere, self-routing buttons visible.
+6. Confirm exactly ONE `.ann` element in DOM on every variant.
+7. Confirm Phase 2 SAVE90 functionality still works on all three variants.
