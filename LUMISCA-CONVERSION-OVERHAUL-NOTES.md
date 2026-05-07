@@ -221,16 +221,45 @@ Three study cards in a 1-col mobile / 3-col desktop grid: Lanzafame 2014 (PMID 2
 - Ad copy DO/DON'T list (use `£90 off`; avoid percentage framing).
 - Pre-launch verification checklist.
 
-### Mike's Phase 2 admin tasks (CRITICAL — discount code must exist before any paid traffic)
+### Mike's Phase 2 admin tasks (status as of last session)
 
-1. **Create SAVE90 discount in Shopify admin** — see `marketing.md` § "Admin tasks" for full settings. Without this, any visitor reaching `/discount/SAVE90` will see a "code not valid" error and the auto-apply infrastructure won't work.
-2. **Set compare-at prices** on cap (£349.99) and bundle (£559.97) variants. Without these, the strikethrough RRP doesn't render natively.
-3. **Verify LUMISCA10 settings** — combinations: NONE, NOT in Shopify featured discounts, used for email/cart-recovery only.
-4. **Update `slots_claimed` setting** — Theme settings → Phase 2 — SAVE90 Launch Edition → bump from 47 toward 1,000 as orders land. Manual; no automated counter.
-5. **Verify PubMed PMIDs** in `sections/cap-science-studies.liquid` resolve to the correct studies. The IDs (24249354, 24049929, 28748391) are copied verbatim from the Phase 2 brief — if any were typo'd in the brief, the deep-links will land on the wrong study. Open each PubMed link, confirm the journal/year/author metadata matches the card copy, and tell me of any mismatches so we can fix.
-6. **Confirm cap product images don't have AI watermarks** — the bundle thumbnails on the picker pull from each product's admin `featured_image`. If watermarks are present, Mike replaces in admin (no code change needed).
+| # | Task | Status |
+| --- | --- | --- |
+| 1 | **Create SAVE90 discount** (£90 fixed-amount, £179.99 minimum, no combinations, 1 use per customer, applies to all products) | ✅ Done |
+| 2a | **Cap variant price** = £179.99 + **compare_at_price** = £349.99 | ✅ Done |
+| 2b | **Bundle pricing** (Tier 3 Complete Bundle £279.99 / £559.97 + Tier 2 Hair + Skin Duo £229.99 / £459.98) | ⚠️ See "Bundle pricing setup" below — Tier 2 needs a Shopify Bundles product to be created first |
+| 3 | **Verify LUMISCA10 settings** — combinations: NONE, NOT in Shopify featured discounts, used for email/cart-recovery only | ⏳ Pending |
+| 4 | **Update `slots_claimed` setting** as orders land (Theme settings → Phase 2 — SAVE90 Launch Edition) | ⏳ Manual ongoing |
+| 5 | **Verify PubMed PMIDs** in `sections/cap-science-studies.liquid` (24249354 / 24049929 / 28748391) resolve to the correct studies | ⏳ Pending |
+| 6 | **Confirm cap product images don't have AI watermarks** | ⏳ Pending |
+| 7 | **SEO meta description** updated from "60-day" to "90-day money-back guarantee" | ✅ Done |
 
-### Phase 2 verification (post-deploy)
+### Bundle pricing setup — what's needed for Tier 2 + Tier 3
+
+**Tier 3 — Complete Bundle (£279.99 / £559.97)** — Standard product update.
+- If the bundle is a normal Shopify product: admin → Products → Lumisca Complete Bundle → set Price £279.99, Compare-at £559.97. Done.
+- If the bundle is configured via the Shopify Bundles app: Apps → Shopify Bundles → find Lumisca Complete Bundle → edit pricing there.
+- The theme already wires Tier 3 to `all_products[settings.bundle_product_handle]`, so the new price flows through automatically with no code change.
+
+**Tier 2 — Hair + Skin Duo (£229.99 / £459.98)** — **Needs a new bundle product created in Shopify Bundles app** before code wiring can complete.
+
+Current implementation: Tier 2 is NOT a product. The theme does a multi-item POST adding cap + face mask as two separate line items at checkout. There's no "Duo" SKU. So the displayed `£229.99` doesn't match what Shopify charges (which is the sum of cap variant price + face mask variant price).
+
+To fix:
+1. Apps → **Shopify Bundles** → **Create bundle**
+2. Bundle name: `Hair + Skin Duo` — note the auto-generated handle (usually `hair-skin-duo`)
+3. Components: Pro Red Light Hair Growth Cap (qty 1) + Glow Red Light Face Mask (qty 1)
+4. **Pricing model**: Fixed price (NOT "sum of components minus %")
+5. **Price**: £229.99
+6. **Compare-at price**: £459.98
+7. Publish to Online Store sales channel
+8. Once created, paste the bundle's product handle here — Claude Code will then update Tier 2's cart-add logic to use that bundle product instead of multi-item POST. About 8 lines of code, single follow-up commit.
+
+After that change ships, Tier 2 customers will see a single "Hair + Skin Duo" line item in their cart at £229.99 (or £139.99 with SAVE90), instead of two separate line items totalling whatever cap + face individual prices add to.
+
+### Live verification (Phase 2)
+
+The Claude sandbox can't browse to lumisca.co.uk to verify deployed behaviour. Mike runs through this checklist on the deployed theme after `shopify theme push`:
 
 1. **All three audience variants render cleanly:**
    - `https://lumisca.co.uk/products/pro-red-light-hair-growth-cap` — generic, route buttons visible, no banner, sticky launch strip visible
