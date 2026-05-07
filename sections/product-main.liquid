@@ -232,8 +232,11 @@
           <div class="cap-launch-card">
             <p class="cap-launch-eyebrow">Launch Edition · UK Spring Promotion</p>
             <p class="cap-launch-headline"><strong>£90 off</strong> — limited-time launch pricing</p>
-            <p class="cap-launch-code">Use code <strong>SAVE90</strong> at checkout</p>
-            <p class="cap-launch-applied">✓ Auto-applied at checkout — no need to copy</p>
+            <p class="cap-launch-code-label">Use this code at checkout</p>
+            <button type="button" class="cap-launch-copy" data-cap-launch-copy data-code="SAVE90" aria-label="Copy code SAVE90 to clipboard">
+              <span class="cap-launch-code-chip" aria-hidden="true">SAVE90</span>
+              <span class="cap-launch-copy-action" data-cap-copy-label>Tap to copy</span>
+            </button>
             <p class="cap-launch-slots">Promotional pricing ends soon</p>
           </div>
           {%- comment -%}
@@ -817,9 +820,15 @@
 .cap-launch-eyebrow { font-size: 10px; letter-spacing: .25em; text-transform: uppercase; font-weight: 700; color: #B8924E; margin: 0 0 .5rem; }
 .cap-launch-headline { font-family: var(--display); font-size: 1.1rem; line-height: 1.35; color: var(--ink); margin: 0 0 .65rem; }
 .cap-launch-headline strong { color: #C41E3A; }
-.cap-launch-code { font-size: 13px; color: var(--ink); margin: 0 0 .25rem; }
-.cap-launch-code strong { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .08em; padding: .1rem .4rem; background: #fff; border: 1px solid #B8924E; border-radius: 4px; font-weight: 700; }
-.cap-launch-applied { font-size: 11px; color: #1f7d4f; margin: 0 0 .65rem; font-weight: 600; }
+.cap-launch-code-label { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--mid); font-weight: 600; margin: 0 0 .5rem; }
+.cap-launch-copy { display: inline-flex; align-items: center; gap: .5rem; background: #fff; border: 1.5px dashed #B8924E; border-radius: 6px; padding: .55rem .85rem; cursor: pointer; transition: background .18s, border-color .18s, transform .12s; margin: 0 0 .65rem; }
+.cap-launch-copy:hover { background: rgba(184,146,78,.06); }
+.cap-launch-copy:active { transform: scale(.98); }
+.cap-launch-copy:focus-visible { outline: 2px solid #B8924E; outline-offset: 2px; }
+.cap-launch-copy.is-copied { border-style: solid; border-color: #1f7d4f; background: rgba(35,165,90,.08); }
+.cap-launch-code-chip { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .12em; font-weight: 700; font-size: 16px; color: var(--ink); }
+.cap-launch-copy-action { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: #B8924E; }
+.cap-launch-copy.is-copied .cap-launch-copy-action { color: #1f7d4f; }
 .cap-launch-slots { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); font-weight: 600; margin: 0; padding-top: .5rem; border-top: 1px solid rgba(184,146,78,.25); }
 .cap-why-cheap-body p { font-size: 12.5px; color: #3D3D3D; line-height: 1.55; margin: 0 0 .55rem; }
 .cap-why-cheap-body p:last-child { margin-bottom: 0; }
@@ -1201,6 +1210,38 @@
   } else {
     start();
   }
+})();
+</script>
+
+<script>
+/* Cap PDP — Tap-to-copy SAVE90 code on the Launch Edition card. Cold-traffic
+   buyers see £179.99 anchor, hit the copy button, paste at checkout — the
+   "I earned £90 off" feeling lifts conversion vs. silently auto-applied. */
+(function () {
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-cap-launch-copy]');
+    if (!btn) return;
+    var code = btn.getAttribute('data-code') || 'SAVE90';
+    var label = btn.querySelector('[data-cap-copy-label]');
+    var done = function (ok) {
+      if (label) label.textContent = ok ? 'Copied' : 'Copy failed';
+      btn.classList.toggle('is-copied', !!ok);
+      setTimeout(function () {
+        if (label) label.textContent = 'Tap to copy';
+        btn.classList.remove('is-copied');
+      }, 2000);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code).then(function () { done(true); }, function () { done(false); });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = code; ta.setAttribute('readonly', '');
+      ta.style.position = 'absolute'; ta.style.left = '-9999px';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(true); } catch (_) { done(false); }
+      document.body.removeChild(ta);
+    }
+  });
 })();
 </script>
 

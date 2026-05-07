@@ -67,14 +67,14 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "Controls the SAVE90 launch-edition discount surfaces (PDP card, sticky bar, cart drawer reminder, URL auto-apply). Mike must also create SAVE90 in Shopify admin → Discounts as a £90 fixed-amount-off code with £179.99 minimum order. Framing is 'UK Spring Launch — limited promotional pricing' rather than the original 'first 1,000 customers' (which contradicted the existing 10,000+ customer social proof)."
+        "content": "Controls the SAVE90 launch-edition discount surfaces (PDP card, sticky bar, cart drawer reminder). Mike must also create SAVE90 in Shopify admin → Discounts as a £90 fixed-amount-off code with £179.99 minimum order. Framing is 'UK Spring Launch — limited promotional pricing'. STRATEGIC DEFAULT: cold traffic enters the PDP without auto-applying — they see the £179.99 anchor and copy/type SAVE90 manually for the conversion lift. Auto-apply is reserved for warm traffic (retargeting, email automation, abandoned-cart) by linking through /discount/SAVE90?redirect=… directly — that flow is unchanged regardless of this setting."
       },
       {
         "type": "checkbox",
         "id": "auto_apply_save90",
-        "label": "Auto-apply SAVE90 on first visit",
-        "info": "When enabled, first-time visitors are redirected through /discount/SAVE90 so the discount is in their Shopify session before they reach the cart. Disable to require manual code entry at checkout.",
-        "default": true
+        "label": "Force auto-apply SAVE90 on every first visit (NOT recommended)",
+        "info": "OFF (default): cold visitors see £179.99 anchor + SAVE90 copy code on the PDP, type at checkout. Warm/recovery URLs (/discount/SAVE90?redirect=…) still auto-apply for those audiences. ON: every first-time visitor is redirected through /discount/SAVE90 — overrides the cold-traffic strategy. Only enable to revert to the original auto-apply behaviour.",
+        "default": false
       },
       {
         "type": "text",

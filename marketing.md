@@ -1,42 +1,58 @@
 # Lumisca Marketing — Ad Link Templates & Copy Guidance
 
-Last updated: Phase 2 launch.
+Last updated: Phase 2 follow-up — cold/warm URL split.
 
 ---
 
-## Pre-applying SAVE90 via URL
+## Strategic split — cold traffic vs. warm traffic
 
-Use Shopify's native discount-redirect URL pattern. When a visitor clicks one of these, Shopify stores the SAVE90 code in their session BEFORE they see the PDP. The price displayed at checkout is already £90 lower, so the buyer never has to copy/paste a code — friction removed, conversion lifts vs. asking for code entry.
+Two URL patterns. Use them deliberately depending on the audience.
 
-### Templates
+**COLD TRAFFIC** (Meta prospecting, cold audiences, lookalike, broad targeting): use the direct PDP link. The customer sees the £179.99 anchor and the prominent SAVE90 callout, types the code manually at checkout for the dopamine hit and conversion lift.
 
-**Women's audiences (Meta, Google, TikTok)**
+**WARM TRAFFIC** (retargeting, abandoned-cart emails, email automation, returning visitors): use the /discount/SAVE90 auto-apply URL. These customers already trust the brand and just need friction removed.
+
+Why the split: pre-applying on cold traffic kills the £179.99 → £89.99 transition. The discount becomes invisible — by the time they reach checkout the price was "always" £89.99 in their mental model. Asking the cold buyer to type six characters creates ownership of the deal. On warm traffic the calculus flips: the buyer already knows the price, and friction removal beats the dopamine hit.
+
+### Cold-traffic templates (default)
+
+Women's audiences:
+```
+https://lumisca.co.uk/products/pro-red-light-hair-growth-cap?audience=women
+```
+
+Men's audiences:
+```
+https://lumisca.co.uk/products/pro-red-light-hair-growth-cap?audience=men
+```
+
+Untargeted / lookalike / branded / unspecified:
+```
+https://lumisca.co.uk/products/pro-red-light-hair-growth-cap
+```
+
+### Warm-traffic templates (retargeting + email + SMS only)
+
+Retargeting — women:
 ```
 https://lumisca.co.uk/discount/SAVE90?redirect=/products/pro-red-light-hair-growth-cap?audience=women
 ```
 
-**Men's audiences**
+Retargeting — men:
 ```
 https://lumisca.co.uk/discount/SAVE90?redirect=/products/pro-red-light-hair-growth-cap?audience=men
 ```
 
-**Untargeted / lookalike / branded / general retargeting**
+Retargeting / email / SMS — untargeted:
 ```
 https://lumisca.co.uk/discount/SAVE90?redirect=/products/pro-red-light-hair-growth-cap
 ```
 
-### Why these URLs convert better than "use code SAVE90 at checkout"
-
-Asking the buyer to copy a code at checkout introduces three friction points:
-1. They have to remember to do it.
-2. They have to scroll back / open another tab to find it.
-3. If they enter it wrong, they see an error and may abandon.
-
-The /discount/ URL pattern bypasses all three. Shopify applies the discount server-side on the first request, stores it in the session for subsequent navigation, and the buyer sees the discounted price as if it's just the regular price. The "code" framing on the PDP becomes a reassurance rather than an action item ("use SAVE90 at checkout — already applied").
+When a visitor clicks one of the /discount/ URLs, Shopify stores SAVE90 in their session before they see the PDP. The cart drawer shows £89.99 with a green ✓ "SAVE90 applied" line, and checkout total is already discounted — no manual code entry needed.
 
 ### What happens if SAVE90 isn't created in admin
 
-The /discount/SAVE90 endpoint will return a "discount not found" error. Mike must create the code in Shopify admin → Discounts before going live. See "Admin tasks" below.
+Both URL patterns assume SAVE90 exists in Shopify admin. The /discount/SAVE90 endpoint will return a "discount not found" error. The cold-PDP path will display the code on the page but the customer's manual entry will be rejected at checkout. Mike must create the code in Shopify admin → Discounts before going live. See "Admin tasks" below.
 
 ---
 
@@ -73,10 +89,10 @@ The £90-off framing positions the discount as a fixed-value Launch Edition offe
 | --- | --- | --- |
 | `?audience=women` | Reveals "FOR WOMEN" gold banner; reviews stay default | Use for female-targeted ad sets |
 | `?audience=men` | Reveals "FOR MEN" banner; first review swapped to Tom W. | Use for male-targeted ad sets |
-| `?discount=SAVE90` | Auto-redirects through /discount/SAVE90 to apply code in session | Optional — the /discount/ URL pattern above already does this. Use this param if you ever need to chain it onto a non-discount-prefixed URL |
+| `?discount=SAVE90` | Forces the auto-apply redirect even on direct PDP URLs | Optional escape hatch. Equivalent to using the /discount/ prefix. Don't use on cold traffic — defeats the cold-traffic strategy |
 | (no params) | Generic variant — shows "Which experience matches you?" self-routing buttons | Default landing for branded/organic search traffic |
 
-You can combine params: `…?audience=women&discount=SAVE90` works for women's ad URLs without using the /discount/ prefix, but the /discount/ prefix is faster (one fewer client-side redirect).
+The /discount/ prefix is the canonical way to auto-apply on warm traffic. The `?discount=SAVE90` query param is supported as a fallback for systems that can't construct /discount/-prefixed URLs.
 
 ---
 
@@ -131,9 +147,12 @@ Shopify admin → Online Store → Themes → Customize → Theme settings → "
 
 The launch framing is now "UK Spring Launch — limited promotional pricing" (not "first 1,000 UK customers", which contradicted the 10,000+ customer social proof elsewhere on the page). There is no slot counter to update — the "Promotional pricing ends soon" line on the discount card is static.
 
-### 5. Toggle auto-apply if you change your mind
+### 5. Auto-apply theme setting (leave OFF for the cold-traffic strategy)
 
-Same theme settings panel as above. The `auto_apply_save90` checkbox controls whether first-time visitors are auto-redirected through /discount/SAVE90 even without the URL param. Default: on. Disable if you want to require manual code entry at checkout (lower conversion, but higher perceived "deal value" because the buyer remembers using a code).
+Same theme settings panel as above. The `auto_apply_save90` checkbox is now **OFF by default**, which is the recommended state for the current cold/warm split.
+
+- **OFF (default, recommended):** cold visitors see the £179.99 anchor on the PDP and the prominent SAVE90 copy chip. Warm/recovery URLs (`/discount/SAVE90?redirect=…`) still auto-apply for retargeting + email + SMS audiences. This is the cold-traffic strategy.
+- **ON:** every first-time visitor — cold or warm — is redirected through /discount/SAVE90. Overrides the cold-traffic strategy. Only flip this back on if testing shows the silent-auto-apply variant outperforms manual entry on cold spend (it usually doesn't, in this category).
 
 ---
 
@@ -145,11 +164,13 @@ Before flipping the first paid traffic spend window:
 - [ ] Compare-at prices set on cap / bundle in admin
 - [ ] Test order: cap + SAVE90 at checkout charges £89.99 final
 - [ ] Test order: bundle + SAVE90 at checkout charges £189.99 final
-- [ ] /discount/SAVE90?redirect=/products/pro-red-light-hair-growth-cap auto-applies discount + lands on PDP
+- [ ] **Cold path:** /products/pro-red-light-hair-growth-cap shows £179.99, SAVE90 copy chip visible, ATC opens drawer with £179.99 + 💎 prompt, manually typing SAVE90 at checkout reduces total to £89.99
+- [ ] **Warm path:** /discount/SAVE90?redirect=/products/pro-red-light-hair-growth-cap stores discount in session, ATC opens drawer with £89.99 + ✓ "SAVE90 applied" line, checkout total already £89.99
+- [ ] Tap-to-copy chip on cap PDP changes label to "Copied" for ~2s after tap, copies SAVE90 to clipboard
 - [ ] /products/pro-red-light-hair-growth-cap?audience=women shows women's banner + Sarah M. first review
 - [ ] /products/pro-red-light-hair-growth-cap?audience=men shows men's banner + Tom W. first review (or Connor S. / Mark P. fallback)
 - [ ] /products/pro-red-light-hair-growth-cap (no params) shows the self-routing buttons
 - [ ] Sticky launch strip above header shows on first visit, dismisses for 24h on close
-- [ ] Cart drawer SAVE90 line visible when cart is opened
+- [ ] Theme setting `auto_apply_save90` is OFF in the published theme
 - [ ] Science section renders the 3 study cards with PubMed links resolving correctly
 - [ ] Disclaimer ("Lumisca is not a medical device…") visible below the science cards
