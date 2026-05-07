@@ -160,9 +160,50 @@
 
         <h1 class="product-title">{{ product.title }}</h1>
         {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+          {%- comment -%}
+            Phase 3 — variant-specific subtitle line under the H1. Tinted
+            italic copy. Pre-rendered all three; CSS gates visibility.
+          {%- endcomment -%}
+          <p class="aud-only-generic cap-subtitle">Clinical hair regrowth, designed for at-home use</p>
+          <p class="aud-only-women cap-subtitle">The hair regrowth system trusted by thousands of UK women</p>
+          <p class="aud-only-men cap-subtitle">Clinical-grade regrowth for men who want their hair back</p>
           <p class="cap-subhead">The Drug-Free Hair Growth System Going Viral in the UK.<br>Clinically proven red light therapy. 10 minutes a day.<br>Visible results in 8&ndash;12 weeks.</p>
         {%- endif -%}
-        <p class="muted product-desc">{{ product.description | strip_html | truncatewords: 40 }}</p>
+        {%- comment -%}
+          Phase 3 — variant-specific product description. Generic keeps
+          the truncated Shopify description (Mike-editable in admin); women
+          + men render full bespoke copy + tickbox bullets, gated by
+          .aud-only-* wrappers.
+        {%- endcomment -%}
+        {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+          <div class="aud-only-generic">
+            <p class="muted product-desc">{{ product.description | strip_html | truncatewords: 40 }}</p>
+          </div>
+          <div class="aud-only-women cap-aud-desc">
+            <p><strong>The drug-free hair regrowth system designed for women's hair loss patterns.</strong></p>
+            <p>If you've noticed more hair in the shower drain, on your pillow, or your parting widening — you're not imagining it. Female hair thinning affects 1 in 3 women, and most treatments were designed for men.</p>
+            <p>The Lumisca Pro Red Light Cap uses clinical 660nm + 850nm wavelengths to stimulate dormant hair follicles at the scalp level — the same technology used in £400 dermatology sessions, now available to use from home in 10 minutes a day.</p>
+            <ul class="cap-aud-desc-list">
+              <li>✓ Drug-free — no Minoxidil, no hormonal interference</li>
+              <li>✓ Safe to use during breastfeeding (consult your doctor)</li>
+              <li>✓ Visible results in 8–12 weeks</li>
+              <li>✓ Designed to fit smaller head sizes comfortably</li>
+            </ul>
+          </div>
+          <div class="aud-only-men cap-aud-desc">
+            <p><strong>Clinical hair regrowth without the prescription.</strong></p>
+            <p>Tried Finasteride and worried about side effects? Used Minoxidil and saw nothing? You're not the only one — and there's a third option most men don't know about.</p>
+            <p>The Lumisca Pro Red Light Cap uses clinical 660nm + 850nm wavelengths to reactivate dormant hair follicles at the scalp level. Same technology trusted by dermatology clinics, now in a cap you can wear while making coffee.</p>
+            <ul class="cap-aud-desc-list">
+              <li>✓ Drug-free — no Finasteride side effects, no Minoxidil sensitivity</li>
+              <li>✓ Targets receding hairlines and crown thinning specifically</li>
+              <li>✓ Visible results in 8–12 weeks</li>
+              <li>✓ Discreet — looks like a regular black cap</li>
+            </ul>
+          </div>
+        {%- else -%}
+          <p class="muted product-desc">{{ product.description | strip_html | truncatewords: 40 }}</p>
+        {%- endif -%}
 
         {%- comment -%}
           LUMISCA-CONVERSION-FIX (Problem 1): regulatory trust strip immediately

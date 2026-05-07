@@ -37,10 +37,30 @@
           <li class="ptl-step ptl-step-peak"><span class="ptl-dot"></span><p class="ptl-when">Week 8–12</p><h3 class="ptl-title">Hair density</h3><p class="ptl-body">Cap results arrive last and compound the longest.</p></li>
           <li class="ptl-step"><span class="ptl-dot"></span><p class="ptl-when">Month 6+</p><h3 class="ptl-title">Full transformation</h3><p class="ptl-body">All three routines compounded into one daily habit.</p></li>
         {%- else -%}
-          <li class="ptl-step"><span class="ptl-dot"></span><p class="ptl-when">Week 1–2</p><h3 class="ptl-title">First sessions</h3><p class="ptl-body">Scalp feels warmed and circulation increases. Some users report reduced scalp tension.</p></li>
-          <li class="ptl-step ptl-step-peak"><span class="ptl-dot"></span><p class="ptl-when">Week 4–6</p><h3 class="ptl-title">Reduced shedding</h3><p class="ptl-body">You'll notice less hair in the shower drain and on your pillow.</p></li>
-          <li class="ptl-step ptl-step-peak"><span class="ptl-dot"></span><p class="ptl-when">Week 8–12</p><h3 class="ptl-title">Visible density</h3><p class="ptl-body">Fine baby hairs emerging at hairline and crown. Existing hair looks thicker.</p></li>
-          <li class="ptl-step"><span class="ptl-dot"></span><p class="ptl-when">Month 6+</p><h3 class="ptl-title">Transformation</h3><p class="ptl-body">Complete cycle of new growth. Photos side-by-side show the difference.</p></li>
+          {%- comment -%}
+            Phase 3 — three pre-rendered hair timeline variants gated by
+            .aud-only-* on the wrapping <ol> ancestor. Liquid can't gate a
+            <li> sequence cleanly, so each variant gets its own four-step
+            block. CSS hides the non-matching variant.
+          {%- endcomment -%}
+          <span class="aud-only-generic" style="display:contents;">
+            <li class="ptl-step"><span class="ptl-dot"></span><p class="ptl-when">Week 1–2</p><h3 class="ptl-title">First sessions</h3><p class="ptl-body">Scalp feels warmed and circulation increases. Some users report reduced scalp tension.</p></li>
+            <li class="ptl-step ptl-step-peak"><span class="ptl-dot"></span><p class="ptl-when">Week 4–6</p><h3 class="ptl-title">Reduced shedding</h3><p class="ptl-body">You'll notice less hair in the shower drain and on your pillow.</p></li>
+            <li class="ptl-step ptl-step-peak"><span class="ptl-dot"></span><p class="ptl-when">Week 8–12</p><h3 class="ptl-title">Visible density</h3><p class="ptl-body">Fine baby hairs emerging at hairline and crown. Existing hair looks thicker.</p></li>
+            <li class="ptl-step"><span class="ptl-dot"></span><p class="ptl-when">Month 6+</p><h3 class="ptl-title">Transformation</h3><p class="ptl-body">Complete cycle of new growth. Photos side-by-side show the difference.</p></li>
+          </span>
+          <span class="aud-only-women" style="display:contents;">
+            <li class="ptl-step"><span class="ptl-dot"></span><p class="ptl-when">Week 1–2</p><h3 class="ptl-title">First sessions</h3><p class="ptl-body">Scalp feels warmed and circulation increases. Many women report reduced scalp tension and tightness.</p></li>
+            <li class="ptl-step ptl-step-peak"><span class="ptl-dot"></span><p class="ptl-when">Week 4–6</p><h3 class="ptl-title">Reduced shedding</h3><p class="ptl-body">You'll notice less hair on your pillow, in the shower drain, and on your hairbrush.</p></li>
+            <li class="ptl-step ptl-step-peak"><span class="ptl-dot"></span><p class="ptl-when">Week 8–12</p><h3 class="ptl-title">Visible density</h3><p class="ptl-body">Fine baby hairs emerging at the parting, hairline, and crown. Existing hair feels thicker.</p></li>
+            <li class="ptl-step"><span class="ptl-dot"></span><p class="ptl-when">Month 6+</p><h3 class="ptl-title">Transformation</h3><p class="ptl-body">Your hairdresser will notice. Parting looks fuller, hairline more defined.</p></li>
+          </span>
+          <span class="aud-only-men" style="display:contents;">
+            <li class="ptl-step"><span class="ptl-dot"></span><p class="ptl-when">Week 1–2</p><h3 class="ptl-title">First sessions</h3><p class="ptl-body">Scalp feels warmed and circulation increases. Some men report reduced scalp tightness.</p></li>
+            <li class="ptl-step ptl-step-peak"><span class="ptl-dot"></span><p class="ptl-when">Week 4–6</p><h3 class="ptl-title">Reduced shedding</h3><p class="ptl-body">Fewer hairs on the pillow and in the sink. Loss patterns slow.</p></li>
+            <li class="ptl-step ptl-step-peak"><span class="ptl-dot"></span><p class="ptl-when">Week 8–12</p><h3 class="ptl-title">Visible regrowth</h3><p class="ptl-body">Fine new hairs emerging at the hairline and crown. Existing hair appears denser.</p></li>
+            <li class="ptl-step"><span class="ptl-dot"></span><p class="ptl-when">Month 6+</p><h3 class="ptl-title">Transformation</h3><p class="ptl-body">Hairline pulled forward, crown filled in. Photos look noticeably different.</p></li>
+          </span>
       {%- endcase -%}
     </ol>
   </div>

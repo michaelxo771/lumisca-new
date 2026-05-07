@@ -46,7 +46,58 @@
     </div>
 
     <ul class="prev-grid">
-      {%- assign reviews_by_cat_hair  = 'Sarah M.,Manchester,12 March 2026,Genuinely thicker hair after 12 weeks,"I had given up. Started seeing baby hairs at week 6, real density by week 10. My hairdresser noticed before I told her."|Emma R.,Dublin,22 February 2026,Skeptical husband now uses it every day,"Bought the cap for him as a joke gift. Three months later he is the one reminding me to charge it. His hairline is genuinely filling in."|Tom W.,Reading,15 January 2026,Visible difference at 8 weeks,"Crown was thinning. By week 8 I could see new growth in the parting. Wife noticed before I told her."|Connor S.,Aberdeen,10 December 2025,Cap is the only thing that worked,"Tried Minoxidil for 2 years, finasteride for 1, dermarolling for 6 months. This is the only thing that has actually given me back hair."|Mark P.,Cardiff,4 February 2026,Easy to actually use,"I have a million grooming gadgets I never use. This one I actually do because it is literally just a cap. Wear while making coffee, done."|Naomi W.,Wolverhampton,4 November 2025,60-day guarantee is the truth,"Was about to return it at week 4 because nothing was happening. Stuck with it. By week 9 I was telling everyone about it."' -%}
+      {%- comment -%}
+        Phase 3 — six new audience-tagged hair reviews rendered as
+        explicit <li> blocks BEFORE the encoded loop below. Each carries
+        data-aud="women|men" so audience-variants.css can apply
+        order: -1 on the matching variant, surfacing them first. They
+        also stay visible (in default order) on non-matching variants,
+        contributing to the "10,000+ customers" social proof regardless.
+
+        Rendered only on the cap PDP so other product reviews stay clean.
+      {%- endcomment -%}
+      {%- if cat == 'hair' and handle == 'pro-red-light-hair-growth-cap' -%}
+        {%- assign aud_reviews = 'Hannah K.|Bristol|14 March 2026|Postpartum thinning reversed in 3 months|I was losing handfuls after my second baby — my parting was widening and I was terrified. Started Lumisca at 4 months postpartum. By month 3 there was visible regrowth at my hairline. My hairdresser noticed before I told her.|women;;Diane S.|Edinburgh|2 March 2026|Menopausal thinning — finally something that works|55 and watching my hair get thinner every year. Tried collagen biotin every supplement. Lumisca is the only thing that has actually shown results. Six months in and my crown coverage is genuinely better.|women;;Rachel T.|Leeds|11 February 2026|Hormonal thinning + perimenopause|Diagnosed with hormonal hair loss at 42. My GP offered Minoxidil but I did not want to be on it forever. The cap was a gentler option and 4 months in I have new growth at the temples. Still using it daily.|women;;Marcus L.|Birmingham|6 March 2026|Receding hairline filling back in|Hairline started receding in my late 20s full panic by 32. Tried Finasteride for 6 months hated the side effects. The cap is the first thing that has actually pulled my hairline forward. Density at the temples is back.|men;;James P.|Cardiff|22 February 2026|Crown thinning gone after 5 months|My crown was getting that monk spot look at 35. Wife noticed it in photos. Started Lumisca used it religiously every other day. By month 5 the bald spot was visibly smaller. Still going.|men;;Daniel R.|Newcastle|9 February 2026|Better than Finasteride no side effects|Was on Finasteride for a year — worked but I hated the brain fog. Switched to the cap to come off Fin. 6 months later my hair is holding and I am clear-headed. Wish I had done this first.|men' -%}
+        {%- assign aud_review_rows = aud_reviews | split: ';;' -%}
+        {%- for row in aud_review_rows -%}
+          {%- assign p = row | split: '|' -%}
+          {%- assign aud_initial = p[0] | slice: 0, 1 | upcase -%}
+          <li class="prev-card" data-review-name="{{ p[0] }}" data-aud="{{ p[5] }}">
+            <div class="prev-stars" aria-label="Rated 5 out of 5">
+              {%- for i in (1..5) -%}
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.1 6.3 7 1-5.05 4.9 1.2 6.9L12 17.8l-6.25 3.3 1.2-6.9L1.9 9.3l7-1L12 2z"/></svg>
+              {%- endfor -%}
+            </div>
+            <h3 class="prev-headline">{{ p[3] }}</h3>
+            <p class="prev-body">{{ p[4] }}</p>
+            <div class="prev-footer">
+              <div class="prev-avatar" aria-hidden="true">
+                <svg viewBox="0 0 40 40" width="40" height="40">
+                  <circle cx="20" cy="20" r="20" fill="#FAF6EF"/>
+                  <text x="20" y="26" text-anchor="middle" font-family="Playfair Display, Georgia, serif" font-size="17" font-weight="700" fill="#B8924E">{{ aud_initial }}</text>
+                </svg>
+              </div>
+              <div class="prev-meta">
+                <p class="prev-name">{{ p[0] }}</p>
+                <p class="prev-sub">{{ p[1] }} · {{ p[2] }}</p>
+              </div>
+              <span class="prev-verified" title="Verified buyer">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>
+                <span>Verified</span>
+              </span>
+            </div>
+          </li>
+        {%- endfor -%}
+      {%- endif -%}
+
+      {%- comment -%}
+        Existing pre-Phase-3 reviewers — name lookup applies data-aud so
+        Sarah / Emma / Tom / Connor etc. also reorder on the matching
+        variant. Names not in either list render without data-aud (no reorder).
+      {%- endcomment -%}
+      {%- assign female_review_names = '|Sarah M.|Emma R.|Naomi W.|Claire B.|Priya S.|Sophie A.|Helena B.|Aisha M.|Beth A.|Yasmine T.|Megan H.|Yasmin H.|Hannah K.|Olivia W.|Rachel T.|' -%}
+      {%- assign male_review_names = '|Tom W.|Connor S.|Mark P.|James T.|David L.|Adam J.|Patrick D.|Theo C.|Ben K.|James P.|Marcus L.|Daniel R.|' -%}
+      {%- assign reviews_by_cat_hair  = 'Sarah M.,Manchester,12 March 2026,Genuinely thicker hair after 12 weeks,"I had given up. Started seeing baby hairs at week 6 real density by week 10. My hairdresser noticed before I told her."|Emma R.,Dublin,22 February 2026,Skeptical husband now uses it every day,"Bought the cap for him as a joke gift. Three months later he is the one reminding me to charge it. His hairline is genuinely filling in."|Tom W.,Reading,15 January 2026,Visible difference at 8 weeks,"Crown was thinning. By week 8 I could see new growth in the parting. Wife noticed before I told her."|Connor S.,Aberdeen,10 December 2025,Cap is the only thing that worked,"Tried Minoxidil for 2 years finasteride for 1 dermarolling for 6 months. This is the only thing that has actually given me back hair."|Mark P.,Cardiff,4 February 2026,Easy to actually use,"I have a million grooming gadgets I never use. This one I actually do because it is literally just a cap. Wear while making coffee done."|Naomi W.,Wolverhampton,4 November 2025,60-day guarantee is the truth,"Was about to return it at week 4 because nothing was happening. Stuck with it. By week 9 I was telling everyone about it."' -%}
       {%- assign reviews_by_cat_face  = 'Claire B.,Edinburgh,8 March 2026,Salon-quality skin from my sofa,"I was spending £80 a month on facials. The face mask paid for itself in the first month."|Priya S.,London,18 February 2026,Finally something that works,"I have tried every retinol, every serum, every viral TikTok product. This is the only thing that has made a visible difference to my fine lines. Eight weeks in."|Sophie A.,Leeds,9 February 2026,Better than the £400 clinic version,"Was about to book a course of red light at my dermatologist (£1,200 total). Tried the mask first. Saw the same results in month 2. Cancelled the booking."|Helena B.,Bath,14 December 2025,Genuinely better than Botox for me,"I had been getting Botox for 4 years. Switched to this for 6 months. My skin looks better and I have saved £1,800."|Aisha M.,Manchester,9 January 2026,Skin texture transformation,"My pores look smaller, my skin reflects light differently. I genuinely look like I am wearing makeup when I am not."|Theo C.,Sheffield,19 November 2025,Acne scars fading after years,"Three months of nightly mask use and my teenage acne scars are noticeably lighter. First time anything has worked."' -%}
       {%- assign reviews_by_cat_eye   = 'James T.,Birmingham,5 March 2026,Sleeping through the night for the first time in years,"15 minutes before bed and I am out. The warmth alone is calming, but something about it actually shifts my whole nervous system."|David L.,Bristol,14 February 2026,Worth it for the migraines alone,"I bought it for sleep but I have noticed my tension headaches are basically gone."|Adam J.,Nottingham,30 December 2025,Sleep score up 40 points,"I track my sleep on Whoop. Average recovery score went from 52 to 79 in 6 weeks."|Beth A.,Norwich,6 December 2025,Anxiety relief I was not expecting,"Bought it for sleep but the heat and the light together has become my evening anxiety reset."|Yasmine T.,Bristol,25 October 2025,Have not worn concealer in weeks,"Two months of nightly eye mask use and my undereye circles are 70% gone."|Patrick D.,Cork,28 November 2025,Worth it just for the eye mask,"The cap and face mask are great but honestly the eye mask alone is worth it. I sleep like I did when I was 19."' -%}
       {%- assign reviews_by_cat_bundle = 'Rachel T.,Glasgow,28 February 2026,The bundle is the move,"Bought all three after my friend would not shut up about hers. Six weeks in: hair fuller, skin glowing, sleeping better."|Olivia W.,Sheffield,25 January 2026,Only regret is not buying the bundle,"Bought the face mask, loved it, ordered the cap a month later, ordered the eye mask a month after that. Should have just bought the bundle."|Ben K.,Cambridge,8 October 2025,Bundle pays for itself,"Maths checks out — the bundle saves you basically the price of the eye mask. No-brainer if you want all three."|Megan H.,Belfast,27 December 2025,Best Christmas gift I have given,"Bought the bundle for my mum. She was 62 and sceptical. Now she has converted half the WhatsApp group."|Yasmin H.,Liverpool,19 January 2026,60-day guarantee made me try it,"Would not have risked £125 without the guarantee. Used daily for 8 weeks, never thought about returning."|Hannah K.,Newcastle,30 January 2026,Takes longer than I thought,"Do not expect overnight results. I was about to give up at week 4 but stuck with it. By week 10 the difference was undeniable."' -%}
@@ -64,7 +115,11 @@
         {%- assign body_raw = parts[4] | default: '' -%}
         {%- assign body = body_raw | remove: '"' -%}
         {%- assign initial = parts[0] | slice: 0, 1 | upcase -%}
-        <li class="prev-card" data-review-name="{{ parts[0] }}">
+        {%- assign existing_aud = '' -%}
+        {%- assign name_lookup = '|' | append: parts[0] | append: '|' -%}
+        {%- if female_review_names contains name_lookup -%}{%- assign existing_aud = 'women' -%}{%- endif -%}
+        {%- if male_review_names contains name_lookup -%}{%- assign existing_aud = 'men' -%}{%- endif -%}
+        <li class="prev-card" data-review-name="{{ parts[0] }}"{% if existing_aud != blank %} data-aud="{{ existing_aud }}"{% endif %}>
           <div class="prev-stars" aria-label="Rated 5 out of 5">
             {%- for i in (1..5) -%}
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.1 6.3 7 1-5.05 4.9 1.2 6.9L12 17.8l-6.25 3.3 1.2-6.9L1.9 9.3l7-1L12 2z"/></svg>

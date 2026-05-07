@@ -150,6 +150,14 @@ body.audience-men   .btn-red:focus-visible {
 .cap-subtitle { font-style: italic; font-size: 14px; line-height: 1.4; margin: .25rem 0 .85rem; color: var(--aud-accent); }
 @media (min-width: 768px) { .cap-subtitle { font-size: 15px; } }
 
+/* ---------- 8b. Audience-specific description ----------- */
+
+.cap-aud-desc { font-size: 14.5px; line-height: 1.6; color: var(--ink, #0A0A0A); margin: 0 0 1rem; }
+.cap-aud-desc p { margin: 0 0 .85rem; }
+.cap-aud-desc strong { font-weight: 700; color: var(--ink, #0A0A0A); }
+.cap-aud-desc-list { list-style: none; padding: 0; margin: .25rem 0 0; display: flex; flex-direction: column; gap: .35rem; }
+.cap-aud-desc-list li { font-size: 13.5px; line-height: 1.45; font-weight: 600; }
+
 /* ---------- 9. Reviews + FAQ ordering -------------------- */
 
 /* Audience-specific entries (data-aud="women|men") live in the same
