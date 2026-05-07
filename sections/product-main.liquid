@@ -225,20 +225,32 @@
         {%- if handle == 'pro-red-light-hair-growth-cap' -%}
           <p class="cap-klarna"><span class="cap-klarna-dot" aria-hidden="true"></span>Or 3 interest-free payments of {{ klarna_per_pence | money }} with Klarna</p>
           {%- comment -%}
-            LUMISCA-CONVERSION-FIX (Problem 2): "Why we're £54.99 not £549"
-            collapsible. Closed by default on mobile, expandable. Three honest
-            DTC reasons. Cap-only.
+            PHASE 2: Launch Edition discount card. Sits directly under the
+            price block. Slots-claimed counter is a global theme setting so
+            Mike can manually update as orders come in.
+          {%- endcomment -%}
+          <div class="cap-launch-card">
+            <p class="cap-launch-eyebrow">Launch Edition · UK Premiere</p>
+            <p class="cap-launch-headline"><strong>£90 off</strong> for our first 1,000 UK customers</p>
+            <p class="cap-launch-code">Use code <strong>SAVE90</strong> at checkout</p>
+            <p class="cap-launch-applied">✓ Auto-applied at checkout — no need to copy</p>
+            <p class="cap-launch-slots">Slot {{ settings.slots_claimed | default: 47 }} of 1,000 claimed</p>
+          </div>
+          {%- comment -%}
+            PHASE 2: "Why Launch Edition?" collapsible replaces the prior
+            "Why we're £54.99 not £549" copy. Same .cap-why-cheap class for
+            visual consistency. Closed by default on mobile.
           {%- endcomment -%}
           <details class="cap-why-cheap">
-            <summary class="cap-why-cheap-summary">Why we're £54.99, not £549<span class="cap-why-cheap-chev" aria-hidden="true">+</span></summary>
-            <ul class="cap-why-cheap-list">
-              <li><strong>Direct-to-consumer.</strong> No salon margin, no retail middleman.</li>
-              <li><strong>Streamlined components.</strong> One cap, no add-ons you don't need.</li>
-              <li><strong>Volume manufacturing.</strong> Savings passed to UK customers, not investors.</li>
-            </ul>
+            <summary class="cap-why-cheap-summary">Why Launch Edition pricing?<span class="cap-why-cheap-chev" aria-hidden="true">+</span></summary>
+            <div class="cap-why-cheap-body">
+              <p>Lumisca is launching across UK &amp; Ireland this year. To reward our first 1,000 customers — the people helping us build the brand — we're offering £90 off our retail price.</p>
+              <p>Once the launch period ends, the cap returns to £179.99 RRP. Your code <strong>SAVE90</strong> locks in launch pricing for first-time buyers.</p>
+              <p>→ Why we can offer this: direct-to-consumer, no retail margin, no salon mark-up, UK warehouse fulfilment.</p>
+            </div>
           </details>
           <div class="cap-timer" data-cap-timer aria-live="off">
-            <span class="cap-timer-label">⏰ OFFER ENDS IN</span>
+            <span class="cap-timer-label">⏰ Launch Edition ends in</span>
             <span class="cap-timer-digits"><span data-cap-h>00</span>:<span data-cap-m>00</span>:<span data-cap-s>00</span></span>
           </div>
           <ul class="cap-stats-trio" aria-label="Trust stats">
@@ -780,6 +792,19 @@
 .cap-tv-foot { margin: .5rem 0 0; font-size: 12px; color: var(--mid); text-align: center; line-height: 1.4; }
 .cap-tv-foot strong { color: var(--ink); font-weight: 700; letter-spacing: .03em; }
 
+/* Phase 2 — Launch Edition discount card */
+.cap-launch-card { padding: 1rem 1.1rem; margin: .25rem 0 .75rem; background: linear-gradient(180deg, rgba(184,146,78,.08), rgba(184,146,78,.04)); border: 1.5px solid #B8924E; border-radius: 8px; text-align: center; }
+.cap-launch-eyebrow { font-size: 10px; letter-spacing: .25em; text-transform: uppercase; font-weight: 700; color: #B8924E; margin: 0 0 .5rem; }
+.cap-launch-headline { font-family: var(--display); font-size: 1.1rem; line-height: 1.35; color: var(--ink); margin: 0 0 .65rem; }
+.cap-launch-headline strong { color: #C41E3A; }
+.cap-launch-code { font-size: 13px; color: var(--ink); margin: 0 0 .25rem; }
+.cap-launch-code strong { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .08em; padding: .1rem .4rem; background: #fff; border: 1px solid #B8924E; border-radius: 4px; font-weight: 700; }
+.cap-launch-applied { font-size: 11px; color: #1f7d4f; margin: 0 0 .65rem; font-weight: 600; }
+.cap-launch-slots { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); font-weight: 600; margin: 0; padding-top: .5rem; border-top: 1px solid rgba(184,146,78,.25); }
+.cap-why-cheap-body p { font-size: 12.5px; color: #3D3D3D; line-height: 1.55; margin: 0 0 .55rem; }
+.cap-why-cheap-body p:last-child { margin-bottom: 0; }
+.cap-why-cheap-body strong { color: var(--ink); font-weight: 700; }
+
 /* Cap-only — regulatory trust strip (LUMISCA-CONVERSION-FIX Problem 1) */
 .cap-regulatory { list-style: none; padding: .65rem 0; margin: .5rem 0 .25rem; display: flex; flex-wrap: wrap; gap: .35rem .85rem; border-top: 1px solid #EEEEEE; border-bottom: 1px solid #EEEEEE; font-size: 11px; letter-spacing: .04em; color: var(--ink); font-weight: 600; }
 .cap-regulatory-item { display: inline-flex; align-items: center; gap: .35rem; line-height: 1.25; }
@@ -1109,7 +1134,9 @@
   var el = document.querySelector('[data-cap-timer]');
   if (!el) return;
   var KEY = 'lumisca_cap_offer_end';
-  var WINDOW_MS = 3 * 60 * 60 * 1000;
+  /* Phase 2: extended to 48h cycles per the launch-edition framing.
+     Was 3h. Stored end-time persists across reloads via localStorage. */
+  var WINDOW_MS = 48 * 60 * 60 * 1000;
   var URGENT_MS = 30 * 60 * 1000;
   function pad(n) { return String(n).padStart(2, '0'); }
   function freshEnd() {

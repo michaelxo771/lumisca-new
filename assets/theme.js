@@ -621,4 +621,67 @@
 
   /* Initial cart load to sync count */
   Cart.fetch().then(function (cart) { Cart.render(cart); }).catch(function () {});
+
+  /* Phase 2 — SAVE90 launch-edition sticky bar:
+     reveal on every page unless dismissed within the last 24h. */
+  (function launchStrip() {
+    var strip = document.querySelector('[data-cap-launch-strip]');
+    if (!strip) return;
+    var KEY = 'lumisca_save90_strip_dismissed_at';
+    var TTL_MS = 24 * 60 * 60 * 1000;
+    var dismissed = 0;
+    try { dismissed = parseInt(localStorage.getItem(KEY), 10) || 0; } catch (_) {}
+    if (dismissed && Date.now() - dismissed < TTL_MS) return;
+    strip.hidden = false;
+    var btn = strip.querySelector('[data-cap-launch-strip-close]');
+    if (btn) btn.addEventListener('click', function () {
+      strip.hidden = true;
+      try { localStorage.setItem(KEY, String(Date.now())); } catch (_) {}
+    });
+  })();
+
+  /* Phase 2 — SAVE90 URL auto-apply.
+     Triggers on either:
+       (a) ?discount=SAVE90 in the URL (always honoured), or
+       (b) the auto_apply_save90 theme setting being true and no
+           sessionStorage flag yet (first visit auto-redirect).
+     Redirects through /discount/SAVE90?redirect=current-path so Shopify
+     stores the discount in the session. SessionStorage flag prevents
+     redirect loops within the same browsing session. */
+  (function autoApplySave90() {
+    var KEY = 'lumisca_save90_session_applied';
+    var alreadyApplied = false;
+    try { alreadyApplied = sessionStorage.getItem(KEY) === '1'; } catch (_) {}
+    if (alreadyApplied) return;
+
+    var params, urlParam = '';
+    try {
+      params = new URLSearchParams(window.location.search);
+      urlParam = (params.get('discount') || '').toUpperCase();
+    } catch (_) { return; }
+
+    var fromParam = urlParam === 'SAVE90';
+    var fromAutoApply = !!(window.LUMISCA && window.LUMISCA.autoApplySave90);
+    if (!fromParam && !fromAutoApply) return;
+
+    /* Don't redirect if we're already on a /discount/ URL or a checkout
+       page — Shopify handles those itself. */
+    if (window.location.pathname.indexOf('/discount/') === 0) return;
+    if (window.location.pathname.indexOf('/checkouts') === 0) return;
+    if (window.location.pathname.indexOf('/cart') === 0) return;
+
+    try { sessionStorage.setItem(KEY, '1'); } catch (_) {}
+
+    var redirect = window.location.pathname;
+    if (window.location.search) {
+      /* Strip the discount= param from the redirect target so we don't
+         re-trigger the loop after Shopify bounces us back. */
+      try {
+        params.delete('discount');
+        var rest = params.toString();
+        if (rest) redirect += '?' + rest;
+      } catch (_) { redirect += window.location.search; }
+    }
+    window.location.replace('/discount/SAVE90?redirect=' + encodeURIComponent(redirect));
+  })();
 })();

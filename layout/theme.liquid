@@ -42,6 +42,7 @@
         money_format: {{ shop.money_format | json }},
         free_shipping_threshold: {{ settings.free_shipping_threshold | default: 50 | times: 100 }},
         bundle_handle: {{ settings.bundle_product_handle | default: 'lumisca-complete-bundle' | json }},
+        autoApplySave90: {%- if settings.auto_apply_save90 == false -%}false{%- else -%}true{%- endif -%},
         strings: {
           added_to_cart: {{ 'cart.added' | t | json }},
           free_shipping_unlocked: {{ 'cart.free_shipping_unlocked' | t | json }},
@@ -100,6 +101,18 @@
   </head>
   <body class="template-{{ template.name | handle }}">
     <a class="skip-link" href="#main">Skip to content</a>
+
+    {%- comment -%}
+      PHASE 2: SAVE90 launch-edition sticky bar above the header. Dismissable;
+      stays hidden via localStorage for 24h once dismissed. Cap-friendly copy
+      that references the £90-off code; benign on every page.
+    {%- endcomment -%}
+    <div class="cap-launch-strip" data-cap-launch-strip hidden>
+      <div class="container cap-launch-strip-inner">
+        <span class="cap-launch-strip-msg">🎁 Launch Edition: <strong>£90 off</strong> with code <strong>SAVE90</strong> — first 1,000 UK customers</span>
+        <button type="button" class="cap-launch-strip-close" data-cap-launch-strip-close aria-label="Dismiss launch banner">×</button>
+      </div>
+    </div>
 
     {% section 'header' %}
 

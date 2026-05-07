@@ -61,5 +61,27 @@
       { "type": "url", "id": "social_tiktok", "label": "TikTok URL" },
       { "type": "url", "id": "social_instagram", "label": "Instagram URL" }
     ]
+  },
+  {
+    "name": "Phase 2 — SAVE90 Launch Edition",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Controls the SAVE90 launch-edition discount surfaces (PDP card, sticky bar, cart drawer reminder, URL auto-apply). Mike must also create SAVE90 in Shopify admin → Discounts as a £90 fixed-amount-off code with £179.99 minimum order."
+      },
+      {
+        "type": "number",
+        "id": "slots_claimed",
+        "label": "Slots claimed (out of 1,000)",
+        "default": 47
+      },
+      {
+        "type": "checkbox",
+        "id": "auto_apply_save90",
+        "label": "Auto-apply SAVE90 on first visit",
+        "info": "When enabled, first-time visitors are redirected through /discount/SAVE90 so the discount is in their Shopify session before they reach the cart. Disable to require manual code entry at checkout.",
+        "default": true
+      }
+    ]
   }
 ]
