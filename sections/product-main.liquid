@@ -328,7 +328,7 @@
         {%- unless handle == 'pro-red-light-hair-growth-cap' -%}
           <ul class="product-scarcity">
             <li class="product-scarcity-red">⚠️ Only {{ stock }} units remaining</li>
-            <li>🔥 <strong>{{ sold_24h }} people</strong> bought this in the last 24 hours</li>
+            <li>🔥 Trending — top seller this week</li>
             <li class="muted">👁 <strong style="color:var(--ink);">{{ viewing_now }} people</strong> viewing this right now</li>
             {%- comment -%} Removed 2026-04-26 — UX cleanup (false-urgency reduction). Uncomment to restore the rolling delivery countdown. {%- endcomment -%}
             {%- comment -%}<li data-dispatch-text></li>{%- endcomment -%}
@@ -568,7 +568,7 @@
           {%- endif -%}
 
           <button type="submit" class="btn btn-red btn-xl btn-block product-atc" data-atc-btn data-main-atc>
-            {% if current_variant.available %}{{ 'product.add_to_cart' | t }} · <span data-atc-total>{{ product.price | money }}</span>{% else %}{{ 'product.sold_out' | t }}{% endif %}
+            {% if current_variant.available %}{{ 'product.add_to_cart' | t }}{% else %}{{ 'product.sold_out' | t }}{% endif %}
             {% render 'icon-arrow-right' %}
           </button>
 
@@ -588,7 +588,7 @@
         {%- if handle == 'pro-red-light-hair-growth-cap' -%}
           <ul class="product-scarcity">
             <li class="product-scarcity-red">⚠️ Limited UK stock — restocking in 2 weeks</li>
-            <li>🔥 Trending this week — <strong>{{ sold_24h }} customers</strong> ordered</li>
+            <li>🔥 {{ section.settings.trending_label | default: 'Trending — most popular this week' }}</li>
           </ul>
         {%- endif -%}
 
@@ -1112,15 +1112,25 @@
   function applyTier(tier) {
     var rrp = parseInt(tier.getAttribute('data-tv-rrp-pence'), 10) || 0;
     var today = parseInt(tier.getAttribute('data-tv-today-pence'), 10) || 0;
-    var save = parseInt(tier.getAttribute('data-tv-save-pence'), 10) || 0;
-    var pct = parseInt(tier.getAttribute('data-tv-pct'), 10) || 0;
+
+    /* SAVE90 is a flat £90 (9000 pence) off the regular tier price,
+       not a percentage. Re-derive `save` and `pct` from
+       (rrp − with_code) so the savings narrative is internally
+       consistent across all three tiers (cap / duo / complete). The
+       data-tv-save-pence and data-tv-pct attributes on the tier
+       elements are kept for backwards compatibility but are NOT used
+       here — JS computes everything from rrp + today. */
+    var SAVE90_PENCE = 9000;
+    var withCode = Math.max(0, today - SAVE90_PENCE);
+    var save = Math.max(0, rrp - withCode);
+    var pct = rrp > 0 ? Math.round(save * 100 / rrp) : 0;
 
     setText('[data-cap-tv-strike]', fmt(rrp));
     setText('[data-cap-tv-amount]', fmt(today));
+    setText('[data-cap-tv-with-code]', fmt(withCode));
     setText('[data-cap-tv-savings]', fmt(save) + ' (' + pct + '% OFF)');
     setText('[data-cap-bonus-strike]', fmt(rrp));
     setText('[data-cap-bonus-today]', fmt(today));
-    setText('[data-atc-total]', fmt(today));
 
     var tiers = picker.querySelectorAll('.pvol-tier');
     for (var i = 0; i < tiers.length; i++) tiers[i].classList.remove('is-active');
@@ -1362,6 +1372,20 @@
       "max": 50,
       "step": 1,
       "default": 23
+    },
+    {
+      "type": "header",
+      "content": "Cap PDP — social-proof copy"
+    },
+    {
+      "type": "paragraph",
+      "content": "The trending line under the ATC button. Avoid specific customer counts that contradict the displayed review count or other social-proof numbers — vague is more defensible."
+    },
+    {
+      "type": "text",
+      "id": "trending_label",
+      "label": "Trending line",
+      "default": "Trending — most popular this week"
     }
   ]
 }

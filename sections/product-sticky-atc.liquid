@@ -16,13 +16,15 @@
       {%- endif -%}
     </div>
     <div class="psa-copy">
+      {%- comment -%}
+        Sticky mobile bar — product name only. Price intentionally
+        omitted: the bundle picker above lets the visitor select cap /
+        duo / complete tiers, each with its own price. Showing the
+        product.price (cap price only) here mismatches the selected
+        tier and creates confusion. The ATC button submits the
+        currently-selected variant whichever it is.
+      {%- endcomment -%}
       <p class="psa-name">{{ product.title }}</p>
-      <p class="psa-price">
-        <span class="psa-now">{{ product.price | money }}</span>
-        {%- if product.compare_at_price > product.price -%}
-          <span class="psa-was">{{ product.compare_at_price | money }}</span>
-        {%- endif -%}
-      </p>
     </div>
     <form action="{{ routes.cart_add_url }}" method="post" class="psa-form" data-product-form>
       <input type="hidden" name="id" value="{{ current_variant.id }}">
