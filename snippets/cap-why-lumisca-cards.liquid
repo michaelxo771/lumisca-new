@@ -1,0 +1,39 @@
+{%- comment -%}
+  Cap PDP — quick "Why Lumisca" benefits surfaced above the bundle
+  picker so mobile buyers see the key value props without expanding any
+  collapsible tabs. Three cards, horizontal on desktop, stacked on mobile.
+{%- endcomment -%}
+<section class="cap-why" aria-label="Why thousands of UK customers choose Lumisca">
+  <h2 class="cap-why-h">Why thousands of UK customers choose Lumisca</h2>
+  <ul class="cap-why-grid">
+    <li class="cap-why-card">
+      <span class="cap-why-icon" aria-hidden="true">⚡</span>
+      <h3 class="cap-why-title">Clinical-grade LEDs</h3>
+      <p class="cap-why-body">660nm + 850nm wavelengths — the exact frequencies used in £400 dermatology sessions, now in a discreet cap.</p>
+    </li>
+    <li class="cap-why-card">
+      <span class="cap-why-icon" aria-hidden="true">⏱</span>
+      <h3 class="cap-why-title">10 minutes, hands-free</h3>
+      <p class="cap-why-body">Wear it while making coffee or scrolling. Built-in timer auto-shuts. Just 4–5 sessions per week for visible results.</p>
+    </li>
+    <li class="cap-why-card">
+      <span class="cap-why-icon" aria-hidden="true">✓</span>
+      <h3 class="cap-why-title">Drug-free, no side effects</h3>
+      <p class="cap-why-body">No Minoxidil, no Finasteride, no pills. Works on thinning, receding, and pattern hair loss.</p>
+    </li>
+  </ul>
+</section>
+
+{%- stylesheet -%}
+.cap-why { margin: 1.25rem 0 1.5rem; padding: 1.25rem 1.1rem; background: var(--cream, #F9F7F4); border: 1px solid rgba(184, 146, 78, 0.22); border-radius: 10px; }
+@media (min-width: 768px) { .cap-why { padding: 1.5rem 1.4rem; margin: 1.5rem 0 1.75rem; } }
+.cap-why-h { font-family: var(--display); font-size: 1.05rem; line-height: 1.3; margin: 0 0 1rem; color: var(--ink, #0A0A0A); text-align: center; }
+@media (min-width: 768px) { .cap-why-h { font-size: 1.15rem; margin-bottom: 1.25rem; } }
+.cap-why-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 768px) { .cap-why-grid { grid-template-columns: repeat(3, 1fr); gap: 1.1rem; } }
+.cap-why-card { display: flex; flex-direction: column; gap: .4rem; padding: .85rem .9rem; background: #fff; border: 1px solid rgba(0, 0, 0, 0.06); border-radius: 8px; }
+@media (min-width: 768px) { .cap-why-card { padding: 1rem; } }
+.cap-why-icon { font-size: 22px; line-height: 1; color: #B8924E; }
+.cap-why-title { font-family: var(--display); font-size: 0.98rem; line-height: 1.25; margin: 0; color: var(--ink, #0A0A0A); }
+.cap-why-body { font-size: 13px; line-height: 1.5; color: var(--mid, #6B6B6B); margin: 0; }
+{%- endstylesheet -%}

@@ -344,3 +344,45 @@ For now the site stays on the stable Phase 1 + Phase 2 baseline:
 - Single cream-on-black announcement bar rendering inside `content_for_layout` per template JSONs (with all of Mike's customized message blocks intact).
 - Catalog / navigation menu intact.
 - Site is in the same state as it was at commit `1989b19`.
+
+---
+
+## Cap PDP conversion-flaw fix batch (May 2026)
+
+Targeted fixes after a live audit. Single commit. Items 7, 8, 9, 10 from the original audit (press logos, "100% clinically studied" stat, popup name, bundle thumbnails) skipped per Mike's call. Item 16 (review count realism) skipped per Mike's "don't touch the reviews" directive — review files left untouched.
+
+| # | Fix | Result |
+| --- | --- | --- |
+| 1 | Countdown timer stuck at 00:00:00 | Label changed to "⏰ Launch pricing ends in". `tick()` now runs immediately on script load (before IntersectionObserver fires) so first paint shows real digits — never 00:00:00. Rolling 48h reset logic was already in place via `freshEnd()` in localStorage. |
+| 2 | Conflicting 60-day vs 90-day guarantee | Bulk-replaced every `60-day` / `60 day` / `60 days` / `60-Day` (case variants) with `90-day` / `90 day` / `90 days` / `90-Day` across 18 theme files (sections, snippets, templates, layout, locales). Review files explicitly skipped per directive. After replace, grep for `60.day` / `60 day` outside review files returns zero. |
+| 3 | Session time 25 vs 10 min contradiction | `sections/product-faq.liquid` "How long per session?" → "10 minutes per session, 4–5 times per week. Built-in timer stops the session automatically." `sections/faq-strip.liquid` "How often should I use it?" → "Each session is 10 minutes with auto-shutoff." Other 25-min refs (bundle context, "10–25 minutes" range covering all three devices) preserved as legitimate. |
+| 5 | Self-routing buttons gating | Verified — already correct. Markup renders by default; the audience IIFE in `sections/product-main.liquid` sets `routeBlock.hidden = true` on `?audience=women|men`. Generic visitors see the buttons; audience visitors don't. No change. |
+| 11 | Quantity selector | Wrapped the `.product-qty-row` in a Liquid `{%- if handle == 'pro-red-light-hair-growth-cap' -%}` gate. Cap PDP renders a hidden `<input type="hidden" name="quantity" value="1">` instead. Other PDPs (face / eye / bundle) keep the visible +/− selector. |
+| 12 | Value-math two-narrative confusion | Restructured the "Total Value" callout. Was: £349.99 strikethrough → £179.99 today + "save £170 (49% OFF)" + "Apply SAVE90 for an extra £90". Now: dynamically Liquid-computed Total Value (admin compare-at) → Regular Price (admin price, struck) → With Code SAVE90 (admin price minus £90) → You Save: £xxx (yy% OFF). Footer reads "Code SAVE90 auto-eligible at checkout — UK Spring Launch." Maths flow with admin pricing automatically. At current pricing: £349.99 → £89.99 with code → £260 saved (74% OFF). |
+| 13 | Exit popup offering LUMISCA10 | Rewrote `snippets/popup-exit.liquid`. Now: title "Wait — your £90 discount is still active", body promotes SAVE90 / £90 off / UK Spring Launch, primary CTA links to the cap PDP, secondary "No thanks, I'll come back later". Removed the email-capture form entirely — SAVE90 is a public code, no need to gate it behind email. LUMISCA10 stays alive in Shopify Admin → Discounts for use in welcome / abandoned-cart / win-back email automation only. |
+| 14 | Key benefits buried in tabs | New snippet `snippets/cap-why-lumisca-cards.liquid` rendered above the "Choose Your Pack" bundle picker on the cap PDP. Three cards: ⚡ Clinical-grade LEDs, ⏱ 10 minutes hands-free, ✓ Drug-free no side effects. Stacked on mobile, 3-up on desktop. Existing description tabs left intact for visitors who want more detail. |
+| 17 | Unattributed trichologist quote | Rewrote `sections/cap-trichologist.liquid`. Eyebrow now reads "Why trichologists trust these wavelengths". Body is a brand statement, no quote framing: "The 660nm and 850nm wavelengths used in the Lumisca Pro Cap are the same wavelengths backed by published clinical research and used in professional dermatology settings." `<blockquote>` replaced with `<p>`. Attribution block (name / credentials / photo) preserved — Mike can fill it in via Theme Customizer when a real trichologist endorsement is on file. |
+
+### Fix 15 — TODO (Mike admin task, NOT theme code)
+
+**Reorder product Media in Shopify admin.** Drag the before/after results image (timelinemen.png / realresults.men.png) to position 2, right after the hero "RED LIGHT THERAPY CAP" creative. Currently buried at position 5+ where it misses its conversion impact. ~2-minute admin fix:
+
+1. Shopify admin → Products → Pro Red Light Hair Growth Cap → Media
+2. Drag before/after image to position 2
+3. Save
+
+No theme-side code change can do this — Shopify admin is the only entry point for media ordering on a single product.
+
+### Verification after deploy
+
+- [ ] `/products/pro-red-light-hair-growth-cap` loads cleanly
+- [ ] Countdown timer shows live digits (NOT 00:00:00) and counts down
+- [ ] HTML search for `60 day` / `60-day` / `60-Day` outside review files returns zero
+- [ ] HTML search for `25 minute` related to session length returns only the bundle "10–25 minutes" range (legitimate)
+- [ ] New "Why thousands of UK customers choose Lumisca" 3-card section visible above the bundle picker
+- [ ] No quantity selector visible on cap PDP (hidden input still submits qty=1)
+- [ ] Value-math shows £349.99 → £89.99 with code, £260 saved (74% OFF) at current admin pricing
+- [ ] Exit popup mentions SAVE90, no email field, no LUMISCA10 reference
+- [ ] Trichologist section eyebrow reads "Why trichologists trust these wavelengths" — no quote framing
+- [ ] Self-routing buttons appear on `?audience=` empty URL only; hidden on `?audience=women|men`
+- [ ] All three audience variants (no-param / women / men) test cleanly

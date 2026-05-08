@@ -3,25 +3,13 @@
   <div class="popup-dialog popup-exit-dialog">
     <button type="button" class="popup-close" data-popup-close aria-label="Close">{% render 'icon-close' %}</button>
     <div class="popup-body">
-      <p class="eyebrow" style="color: var(--gold);">Wait — before you go</p>
-      <div data-popup-main>
-        <h2 class="display-md" style="margin-bottom: 1rem; line-height: 1.2;">
-          Here's <span style="color: var(--red);">10% off</span>.<br>On the house.
-        </h2>
-        <p class="muted" style="line-height: 1.65; margin-bottom: 1.5rem;">Zero risk — try your Lumisca for 60 days. If you don't see results, we'll refund you in full.</p>
-        <form data-popup-form style="display:flex; flex-direction:column; gap:.75rem;">
-          <label>
-            <span class="sr-only">Email address</span>
-            <input type="email" required placeholder="Your email address" class="popup-input">
-          </label>
-          <button type="submit" class="btn btn-red btn-block">Claim My 10% Off</button>
-        </form>
-        <button type="button" class="popup-decline" data-popup-close>No thanks, I'll pay full price.</button>
-      </div>
-      <div data-popup-success class="hidden">
-        <h2 class="display-md" style="margin-bottom: 1rem;">Code on its way.</h2>
-        <p class="muted" style="line-height: 1.65;">Check your inbox for <strong style="color: var(--gold);">{{ settings.welcome_discount_code }}</strong> — good for 10% off your first order.</p>
-      </div>
+      <p class="eyebrow" style="color: var(--gold);">Wait — your £90 discount is still active</p>
+      <h2 class="display-md" style="margin-bottom: 1rem; line-height: 1.2;">
+        <span style="color: var(--red);">£90 off</span> the Pro Red Light Cap
+      </h2>
+      <p class="muted" style="line-height: 1.65; margin-bottom: 1.5rem;">Use code <strong style="color: var(--gold); letter-spacing: .05em;">SAVE90</strong> at checkout to save £90 on the Pro Red Light Cap. UK Spring Launch pricing — won't be back.</p>
+      <a href="/products/pro-red-light-hair-growth-cap" class="btn btn-red btn-block">Shop with £90 off</a>
+      <button type="button" class="popup-decline" data-popup-close>No thanks, I'll come back later</button>
     </div>
   </div>
 </div>
@@ -30,8 +18,5 @@
 .popup-exit-dialog { max-width: 480px; padding: 3rem 2rem; text-align: center; }
 @media (min-width: 640px) { .popup-exit-dialog { padding: 3rem; } }
 .popup-exit-dialog .popup-body { max-width: 360px; margin: 0 auto; }
-.popup-exit-dialog .popup-input { width: 100%; height: 48px; background: transparent; border: 1px solid var(--cream); color: var(--cream); padding: 0 1rem; outline: none; border-radius: 6px; }
-.popup-exit-dialog .popup-input::placeholder { color: rgba(249,247,244,.5); }
-.popup-exit-dialog .popup-input:focus { border-color: var(--gold); }
 .popup-decline { margin-top: 1rem; font-size: 12px; color: rgba(249,247,244,.5); text-decoration: underline; text-underline-offset: 4px; background: none; border: 0; cursor: pointer; }
 {%- endstylesheet -%}

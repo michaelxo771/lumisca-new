@@ -253,7 +253,7 @@
             </div>
           </details>
           <div class="cap-timer" data-cap-timer aria-live="off">
-            <span class="cap-timer-label">⏰ Launch Edition ends in</span>
+            <span class="cap-timer-label">⏰ Launch pricing ends in</span>
             <span class="cap-timer-digits"><span data-cap-h>00</span>:<span data-cap-m>00</span>:<span data-cap-s>00</span></span>
           </div>
           <ul class="cap-stats-trio" aria-label="Trust stats">
@@ -311,11 +311,11 @@
           </div>
         {%- endif -%}
 
-        {%- comment -%} v2 dedupe: top pill row removed on cap PDP (replaced by the .cap-trustbar above-fold bar near the H1). Other products keep this row unchanged with original 60-day copy. {%- endcomment -%}
+        {%- comment -%} v2 dedupe: top pill row removed on cap PDP (replaced by the .cap-trustbar above-fold bar near the H1). Other products keep this row unchanged with original 90-day copy. {%- endcomment -%}
         {%- unless handle == 'pro-red-light-hair-growth-cap' -%}
           <div class="product-trust">
             <span>Free UK Delivery</span><span>·</span>
-            <span>60-Day Money Back</span><span>·</span>
+            <span>90-Day Money Back</span><span>·</span>
             <span class="product-trust-hi">In Stock — Ships Today</span>
           </div>
         {%- endunless -%}
@@ -404,6 +404,13 @@
             assign face_thumb = face_p.featured_image | default: nil
             assign eye_thumb = eye_p.featured_image | default: nil
           -%}
+
+          {%- comment -%}
+            "Why Lumisca" benefits surfaced ABOVE the bundle picker so
+            mobile buyers see the key value props before they hit the
+            pricing tiers — no need to expand collapsible description tabs.
+          {%- endcomment -%}
+          {%- render 'cap-why-lumisca-cards' -%}
 
           <div class="pvol" data-pvol data-cap-bundle
                data-cap-variant="{{ cap_v.id }}"
@@ -516,25 +523,49 @@
         {%- endif -%}
 
         {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+          {%- comment -%}
+            Phase 2 cleanup — single unified savings narrative. Was two
+            competing numbers (£170 strikethrough + £90 code = confusing
+            "secret extra discount"). Now one £260 / 74% OFF total saved
+            line that bakes SAVE90 into the package presentation. Liquid-
+            driven so the maths follow admin pricing automatically.
+          {%- endcomment -%}
+          {%- assign cap_rrp = product.compare_at_price | default: 34999 -%}
+          {%- assign cap_price = product.price -%}
+          {%- assign cap_with_code = cap_price | minus: 9000 -%}
+          {%- assign cap_total_saved = cap_rrp | minus: cap_with_code -%}
+          {%- assign cap_saved_pct = cap_total_saved | times: 100 | divided_by: cap_rrp -%}
           <div class="cap-totalvalue">
-            <div class="cap-tv-row"><span class="cap-tv-label">Total Value:</span><span class="cap-tv-strike" data-cap-tv-strike>£349.99</span></div>
-            <div class="cap-tv-row cap-tv-today"><span class="cap-tv-label">Today:</span><span class="cap-tv-amount" data-cap-tv-amount>£179.99</span></div>
-            <div class="cap-tv-row cap-tv-save"><span class="cap-tv-label">You save:</span><span class="cap-tv-savings" data-cap-tv-savings>£170 (49% OFF)</span></div>
-            <p class="cap-tv-foot">Apply code <strong>SAVE90</strong> at checkout for an extra £90 off.</p>
+            <div class="cap-tv-row"><span class="cap-tv-label">Total Value:</span><span class="cap-tv-strike" data-cap-tv-strike>{{ cap_rrp | money }}</span></div>
+            <div class="cap-tv-row cap-tv-today"><span class="cap-tv-label">Regular Price:</span><span class="cap-tv-amount" data-cap-tv-amount>{{ cap_price | money }}</span></div>
+            <div class="cap-tv-row cap-tv-with-code"><span class="cap-tv-label">With Code SAVE90:</span><span class="cap-tv-with-code-amount" data-cap-tv-with-code>{{ cap_with_code | money }}</span></div>
+            <div class="cap-tv-row cap-tv-save"><span class="cap-tv-label">You Save:</span><span class="cap-tv-savings" data-cap-tv-savings>{{ cap_total_saved | money }} ({{ cap_saved_pct }}% OFF)</span></div>
+            <p class="cap-tv-foot">Code <strong>SAVE90</strong> auto-eligible at checkout — UK Spring Launch.</p>
           </div>
         {%- endif -%}
 
         <form data-product-form method="post" action="{{ routes.cart_add_url }}" data-unit-pence="{{ product.price }}">
           <input type="hidden" name="id" value="{{ current_variant.id }}">
 
-          <div class="product-qty-row" data-qty>
-            <span class="eyebrow" style="color: var(--mid);">{{ 'product.quantity' | t }}</span>
-            <div class="product-qty">
-              <button type="button" data-qty-step="-1" aria-label="Decrease">−</button>
-              <input type="number" name="quantity" value="1" min="1" inputmode="numeric">
-              <button type="button" data-qty-step="1" aria-label="Increase">+</button>
+          {%- comment -%}
+            Cap PDP — quantity selector hidden (single-purchase device,
+            zero data showing customers buy multiple in one transaction).
+            Bundle selector handles the 2-pack / 3-pack tiers separately.
+            Other PDPs (face/eye/bundle) keep the visible selector.
+            Hidden quantity input keeps the form valid and cart-add at qty=1.
+          {%- endcomment -%}
+          {%- if handle == 'pro-red-light-hair-growth-cap' -%}
+            <input type="hidden" name="quantity" value="1">
+          {%- else -%}
+            <div class="product-qty-row" data-qty>
+              <span class="eyebrow" style="color: var(--mid);">{{ 'product.quantity' | t }}</span>
+              <div class="product-qty">
+                <button type="button" data-qty-step="-1" aria-label="Decrease">−</button>
+                <input type="number" name="quantity" value="1" min="1" inputmode="numeric">
+                <button type="button" data-qty-step="1" aria-label="Increase">+</button>
+              </div>
             </div>
-          </div>
+          {%- endif -%}
 
           <button type="submit" class="btn btn-red btn-xl btn-block product-atc" data-atc-btn data-main-atc>
             {% if current_variant.available %}{{ 'product.add_to_cart' | t }} · <span data-atc-total>{{ product.price | money }}</span>{% else %}{{ 'product.sold_out' | t }}{% endif %}
@@ -651,7 +682,7 @@
             </li>
             <li>
               <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg></span>
-              <span class="product-trust-copy"><strong>60-Day Guarantee</strong><small>Money back, no questions</small></span>
+              <span class="product-trust-copy"><strong>90-Day Guarantee</strong><small>Money back, no questions</small></span>
             </li>
             <li>
               <span class="product-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span>
@@ -729,7 +760,7 @@
           {%- if handle == 'pro-red-light-hair-growth-cap' -%}
             <p class="muted" style="margin-top:1rem;">We also ship to Ireland, Jersey, Guernsey and the Isle of Man. 90-day returns, no questions asked. Use the cap for 90 days. If you don't see visible improvement, send it back for a full refund. No fine print, no return fees.</p>
           {%- else -%}
-            <p class="muted" style="margin-top:1rem;">We also ship to Ireland, Jersey, Guernsey and the Isle of Man. 60-day returns, no questions asked.</p>
+            <p class="muted" style="margin-top:1rem;">We also ship to Ireland, Jersey, Guernsey and the Isle of Man. 90-day returns, no questions asked.</p>
           {%- endif -%}
         </div>
       </div>
@@ -947,7 +978,11 @@
 .cap-tv-strike { font-size: 14px; color: #8A8A8A; text-decoration: line-through; }
 .cap-tv-today { padding-top: .35rem; padding-bottom: .15rem; }
 .cap-tv-today .cap-tv-label { color: #0A0A0A; font-weight: 600; }
-.cap-tv-amount { font-family: var(--display); font-size: 1.85rem; font-weight: 700; color: #C41E3A; line-height: 1; }
+.cap-tv-amount { font-family: var(--display); font-size: 1.4rem; font-weight: 600; color: #6B6B6B; line-height: 1; text-decoration: line-through; }
+.cap-tv-with-code { padding-top: .15rem; padding-bottom: .35rem; }
+.cap-tv-with-code .cap-tv-label { color: #0A0A0A; font-weight: 700; }
+.cap-tv-with-code-amount { font-family: var(--display); font-size: 1.85rem; font-weight: 700; color: #C41E3A; line-height: 1; }
+.cap-tv-save { padding-top: .25rem; border-top: 1px solid rgba(0,0,0,.08); margin-top: .15rem; }
 .cap-tv-save .cap-tv-label { color: #0A0A0A; font-weight: 600; }
 .cap-tv-savings { font-size: 14px; font-weight: 700; color: #C41E3A; }
 
@@ -1202,6 +1237,11 @@
     tick();
     interval = setInterval(tick, 1000);
   }
+  /* Render real digits IMMEDIATELY on first paint so the markup never
+     shows "00:00:00" before the IntersectionObserver fires. start() is
+     idempotent — calling it on observer-intersection too is fine, the
+     `if (interval) return;` guard prevents a double-interval. */
+  tick();
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) { if (e.isIntersecting) { start(); io.disconnect(); } });
